@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git | Create a repository</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="page">
+<div class="header">
+    <div class="header__logo">
+        <h1 class="logo">
+            <a href="index-user.html" class="logo__name">Git</a>
+        </h1>
+    </div>
+    <div class="header__search">
+        <form action="#" class="search">
+            <input name="search" placeholder="Search..." type="text" class="search__input">
+        </form>
+    </div>
+    <div class="header__menu">
+        <div class="menu">
+            <a href="./profile.html" class="menu__item">User</a>
+            <a href="./index-guest.html" class="menu__item">Sign out</a>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="section__title">
+        <h2 class="title">Create a new repository</h2>
+    </div>
+    <div class="section__main">
+        <form action="#" class="form_large">
+            <hr class="line-separator line-separator_thin">
+            <div class="form__item">
+                <label for="rep-name" class="form_large__item__label">Repository name</label>
+                <input id="rep-name" type="text" name="rep-name" class="form__item__input">
+            </div>
+            <hr class="line-separator line-separator_thin">
+            <div class="form__item">
+                <label for="rep-description" class="form_large__item__label">Description</label>
+                <input id="rep-description" type="text" name="rep-description" class="form__item__input_long">
+            </div>
+            <hr class="line-separator line-separator_thin">
+            <div class="form__item">
+                <input type="radio" name="rep-status" class="form__item__input_radio" checked> Public
+                <input type="radio" name="rep-status" class="form__item__input_radio"> Private
+            </div>
+            <hr class="line-separator line-separator_thin">
+            <div class="form__button">
+                <button onclick="window.location.href = './one-repository.html'" type="submit" name="login"
+                        class="button button-colored">Create repository
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<hr class="line-separator">
+<div class="footer">
+    <div class="footer__developer">&copy;GitBreakers</div>
+    <div class="footer_menu">
+        <div class="menu">
+            <a href="#" class="menu__item_small">something</a>
+            <a href="#" class="menu__item_small">something else</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
