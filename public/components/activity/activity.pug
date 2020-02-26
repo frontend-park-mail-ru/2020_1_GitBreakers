@@ -1,0 +1,13 @@
+div.activity
+    div
+        a Репозитории
+    div.rep-list
+    each rep in reps
+        div.rep-item
+            div.rep-name-stars
+                div.rep-name
+                    a.rep-link(href="", name=rep.name) #{rep.name}
+                div.rep-stars
+                    a(href="") stars #{rep.stars}
+            div.rep-update
+                h6 last update #{rep.update}

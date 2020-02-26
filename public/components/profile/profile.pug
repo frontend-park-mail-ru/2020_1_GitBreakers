@@ -1,0 +1,23 @@
+
+div.profile-info
+    div.profile-card
+        a.profile-avatar
+            img(src = avatar)
+        div.content
+            span() #{login}
+        div.edit-profile
+            ul
+                li
+                    span #{name}
+                    //a(href="")  #{email}
+                li
+                    span  #{bio}
+                    //a(href="")  #{registrationDate}
+                li
+                    //a(href="")  #{followers} + " Подписчики"
+                    span  "#{followers} Подписчики"
+                    //a(href="")  #{following} + " Подписки"
+                    span  "#{following} Подписки"
+            input#edit-button(type="button" value="Edit profile!")
+
+        

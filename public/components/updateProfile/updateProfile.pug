@@ -1,0 +1,17 @@
+div.profile-data
+     div
+         span Name:
+         input(type="text" name="name" value=name)
+     div
+         span Bio:
+         input(type="text" name="bio" value=bio)
+     div
+         span URL:
+         input(type="text" name="url" value=url)
+     div
+         input#updateProfileData(type="button" value="Update!")
+div.load-avatar
+     div
+        form(action="http://localhost:8080/settings/avatar" method="POST" enctype="multipart/form-data")
+            input(type="file" name="avatar")
+            input(type="submit" value="send" )
