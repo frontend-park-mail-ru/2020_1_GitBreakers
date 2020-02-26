@@ -66,15 +66,32 @@ function loadImage() {
     body: {
       data,
     },
-  })
-    .then((res) => res.json()).then((res) => {
-    createProfile();
-  })
+  }).then((res) => res.json())
+    .then((res) => {
+      createProfile();
+    })
     .catch((err) => {
       alert(err);
     });
 }
 
 function loadUpdateProfile() {
-
+  const name = document.getElementsByName('name')[0].textContent || '';
+  const bio = document.getElementsByName('bio')[0].textContent || '';
+  const url = document.getElementsByName('url')[0].textContent || '';
+  fetch('http://localhost:8080/settings/profile', {
+    method: 'POST',
+    body: {
+      name,
+      bio,
+      url,
+    },
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      createProfile();
+    })
+    .catch((err) => {
+      alert(err);
+    });
 }

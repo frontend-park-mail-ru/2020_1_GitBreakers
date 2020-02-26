@@ -2,7 +2,7 @@ div.load-avatar
     div
         form(name="image" action="http://localhost:8080/settings/avatar" method="POST" enctype="multipart/form-data")
             input#file(type="file" name="avatar")
-            button( value="send" data-section="loadImage")
+            button( value="send" data-section="loadImage") Load image
         //a#file-button add file
 div.profile-data
     div
@@ -15,4 +15,4 @@ div.profile-data
         span URL:
         input(type="text" name="url" value=url)
     div
-        button#updateProfileData(type="button" value="Update!" data-section='loadUpdateProfile')
+        button#updateProfileData(type="button" value="Update!" data-section='loadUpdateProfile') Load data

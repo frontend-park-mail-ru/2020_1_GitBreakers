@@ -8,6 +8,7 @@ const routes = {
   updateProfile: createUpdateProfile,
   profilePage: createProfilePage,
   loadImage: loadImage,
+  loadUpdateProfile: loadUpdateProfile,
 };
 
 
