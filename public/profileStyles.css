@@ -74,3 +74,16 @@ input {
     margin: 10px;
 }
 
+a#edit-button {
+    margin: 10px 30px 40px 30px;
+
+    border: 1px solid greenyellow;
+    border-radius: 10px;
+    background-color: greenyellow;
+
+}
+
+.content {
+    margin-left: 25%;
+}
+
