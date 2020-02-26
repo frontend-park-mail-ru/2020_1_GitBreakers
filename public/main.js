@@ -1,2 +1,3 @@
-let username = "AntonElagin"
+let username = "AntonElagin";
+
 drawProfilePage(username);
