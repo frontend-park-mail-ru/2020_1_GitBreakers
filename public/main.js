@@ -3,8 +3,8 @@ const login = 'AntonElagin';
 const application = document.getElementById('root');
 const headerRoot = document.getElementById('header')
 
-const header = new Header(headerRoot);
-header.render();
+// const header = new Header(headerRoot);
+// header.render();
 
 // Тут происходит магия роутинга
 const routes = {
@@ -14,13 +14,21 @@ const routes = {
   profilePage: createProfilePage,
   loadImage: loadImage,
   loadUpdateProfile: loadUpdateProfile,
+  sendLogin: sendLogin,
+  createLoginPage: createLoginPage,
+  createSignUpPage: createSignUpPage,
+  sendSignUp: sendSignUp,
+  createSignUpPage: createSignUpPage,
+  sendSignUp: sendSignUp,
+
 };
 
 // Обработчик, который вещаем на все клики по ссылкам и кнопкам внутри div#root
-application.addEventListener('click', (evt) => {
+// application.addEventListener('click', (evt) => {
+document.body.addEventListener('click', (evt) => {
   const {target} = evt;
 
-  if (typeof (target.dataset.setction) === 'function') {
+  if (typeof routes[target.dataset.section] === 'function') {
 
     // Выбираем для каких элементов применять правило
     if (target instanceof HTMLAnchorElement) {
@@ -37,11 +45,13 @@ application.addEventListener('click', (evt) => {
 });
 
 // Отрисовываем страницу профиля
-createProfilePage(login);
-
+// createProfilePage(login);
+createHeader();
+createLoginPage();
 
 
 // TODO: Андрюха, оберни это в функцию хотя бы, используй pug(шаблоны я сделаю)
+/*
 const root = document.getElementById("root");
 const newRepoLink = document.createElement("a");
 newRepoLink.innerText = "Create new repository!";
@@ -114,3 +124,4 @@ newRepoLink.addEventListener('click', function (e) {
   };
 });
 
+*/

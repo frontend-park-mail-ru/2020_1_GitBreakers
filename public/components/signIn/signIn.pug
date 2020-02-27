@@ -2,14 +2,14 @@ div.section
     div.section__title
         h2.title Sign In
     div.section__main
-        form.form(action='#' )
+        form.form#SignIn(action='#' name='signIn')
             div.form__item
                 lable.form__item__label(for='username') Username or e-mail address
                 input#username.form__item__input(type='text' name='username')
             div.form__item
                 lable.form__item__label(for='password') Password
-                input#password.form__item__input(type='password' name='password')
+                    input#password.form__item__input(type='password' name='password')
             div.form__item
-                button(name='login' type='submit') Login
+                button(name='login' type='submit' data-section='sendLogin') Login
             div.form__item
                 a.form__link(href='#') Forgot your password?
