@@ -1,5 +1,6 @@
 import {Header} from './components/header/header.js';
 import {Footer} from "./components/footer/footer.js";
+import {Repository} from "./components/repository/repository.js";
 
 const application = document.getElementById('application');
 
@@ -16,8 +17,16 @@ footer.render();
 
 //-----------------------------------------------------
 
-const page_content = document.createElement("div");
-page_content.className = "section__main";
-page_content.textContent = "Something very cool";
+const repositoryForm = new Repository(section);
 
-section.appendChild(page_content);
+const newRepoLink = document.createElement("a");
+newRepoLink.innerText = "Create new repository!";
+newRepoLink.style.color = "red";
+newRepoLink.href = "newRepoPage";
+newRepoLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    repositoryForm.render();
+
+});
+section.appendChild(newRepoLink);
+
