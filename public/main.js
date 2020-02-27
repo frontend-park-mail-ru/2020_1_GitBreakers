@@ -1,6 +1,12 @@
 const login = 'AntonElagin';
 
 const application = document.getElementById('root');
+const headerRoot = document.getElementById('header')
+
+const header = new Header(headerRoot);
+//header.userData = "smth";
+header.render();
+
 
 const routes = {
   profile: createProfile,

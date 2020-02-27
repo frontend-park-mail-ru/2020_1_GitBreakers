@@ -1,0 +1,8 @@
+.logo {
+    margin: auto 50px;
+}
+
+.logo__name{
+    text-decoration: none;
+    color: #ff9900;
+}
