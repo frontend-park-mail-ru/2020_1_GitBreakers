@@ -60,12 +60,9 @@ function createProfilePage() {
 function loadImage() {
   // const file = document.getElementById('file');
   const data = new FormData(document.forms.image);
-  // file.
   fetch('http://localhost:8080/settings/avatar', {
     method: 'POST',
-    body: {
-      data,
-    },
+    body: data,
   }).then((res) => res.json())
     .then((res) => {
       createProfile();
@@ -82,6 +79,7 @@ function loadUpdateProfile() {
   fetch('http://localhost:8080/settings/profile', {
     method: 'POST',
     body: {
+      login: 'antonelagin',
       name,
       bio,
       url,
