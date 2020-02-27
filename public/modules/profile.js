@@ -59,7 +59,7 @@ function createProfilePage() {
 
 function loadImage() {
   // const file = document.getElementById('file');
-  const data = new FormData(document.forms.image);
+  const data = new FormData(document.getElementById('image-form'));
   fetch('http://localhost:8080/settings/avatar', {
     method: 'POST',
     body: data,
@@ -73,23 +73,35 @@ function loadImage() {
 }
 
 function loadUpdateProfile() {
-  const name = document.getElementsByName('name')[0].textContent || '';
-  const bio = document.getElementsByName('bio')[0].textContent || '';
-  const url = document.getElementsByName('url')[0].textContent || '';
+  const name = document.getElementsByName('name')[0].value;
+  const bio = document.getElementsByName('bio')[0].value;
+  const url = document.getElementsByName('url')[0].value
+
+  const body = {
+    login: 'antonElagin', //TODO: убрать
+    name,
+    bio,
+    url
+  }
+
   fetch('http://localhost:8080/settings/profile', {
     method: 'POST',
-    body: {
-      login: 'antonelagin',
-      name,
-      bio,
-      url,
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
     },
+    body: body,
   })
-    .then((res) => res.json())
+    .then((res) => {res.json()
+      console.log("eeee!");
+    })
     .then((res) => {
+      console.log("ok");
       createProfile();
     })
     .catch((err) => {
+      console.log("ooops!");
       alert(err);
     });
 }
