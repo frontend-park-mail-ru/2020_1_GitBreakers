@@ -1,0 +1,22 @@
+div.section
+    div.section__title
+        h2.title Sign Up
+    div.section__main
+        form.form(action='#' )
+            div.form__item
+                lable.form__item__label(for='email') E-mail address
+                input#email.form__item__input(type='email' name='email')
+            div.form__item
+                lable.form__item__label(for='username') Username
+                input#username.form__item__input(type='text' name='username')
+            div.form__item
+                lable.form__item__label(for='password') Password
+                input#password.form__item__input(type='password' name='password')
+            div.form__item
+                lable.form__item__label(for='password2') Password again
+                input#password2.form__item__input(type='password' name='password2')
+
+            div.form__item
+                button(name='signup' type='submit') Login
+            div.form__item
+                a.form__link(href='#') SignIn
