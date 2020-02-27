@@ -1,0 +1,7 @@
+@import "../../menu_item/menu_item.css";
+
+.footer_menu {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
