@@ -1,3 +1,4 @@
+// Отрисовка компоненты обнавления профиля
 function createUpdateProfile() {
   const divProfile = document.getElementsByClassName('edit-profile')[0];
   divProfile.innerHTML = '';
@@ -12,6 +13,7 @@ function createUpdateProfile() {
     });
 }
 
+// Отрисовка компоненты профиля
 function createProfile() {
   const divProfile = document.getElementsByClassName('profile-info')[0];
 
@@ -25,6 +27,7 @@ function createProfile() {
     });
 }
 
+// Отрисовка компонеты со списком реп
 function createActivity() {
   const divActivity = document.getElementsByClassName('activity')[0];
 
@@ -38,6 +41,7 @@ function createActivity() {
     });
 }
 
+// Отрисока страницы список реп + профиль
 function createProfilePage() {
   const divElement = document.createElement('div');
   divElement.className = 'container';
@@ -57,6 +61,7 @@ function createProfilePage() {
   createActivity();
 }
 
+// Обработка нажатия загрузки фотки
 function loadImage() {
   // const file = document.getElementById('file');
   const data = new FormData(document.getElementById('image-form'));
@@ -72,6 +77,7 @@ function loadImage() {
     });
 }
 
+// Обработка нажатия загрузки обновленной инфы профиля
 function loadUpdateProfile() {
   const name = document.getElementsByName('name')[0].value;
   const bio = document.getElementsByName('bio')[0].value;
@@ -93,7 +99,8 @@ function loadUpdateProfile() {
     },
     body: body,
   })
-    .then((res) => {res.json()
+    .then((res) => {
+      res.json()
       console.log("eeee!");
     })
     .then((res) => {
