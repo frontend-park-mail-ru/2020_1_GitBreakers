@@ -42,9 +42,9 @@ function sendSignUp() {
     method: 'POST',
     credentials: 'include',
     body: {
-      login: username,
-      emai,
-      password,
+      login: username.value,
+      email: email.value,
+      password: password.value,
     },
   })
     .then((res) => res.json())

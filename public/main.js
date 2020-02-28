@@ -20,7 +20,9 @@ const routes = {
   sendSignUp: sendSignUp,
   createSignUpPage: createSignUpPage,
   sendSignUp: sendSignUp,
-
+  sendNewRepository: sendNewRepository,
+  createNewRepository: createNewRepository,
+  createRepository: createRepository,
 };
 
 // Обработчик, который вещаем на все клики по ссылкам и кнопкам внутри div#root

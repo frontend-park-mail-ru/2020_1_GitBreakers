@@ -28,8 +28,8 @@ function sendLogin() {
     method: 'POST',
     credentials: 'include',
     body: {
-      login: username,
-      password,
+      login: username.value,
+      password: password.value,
     },
   })
     .then((res) => res.json())
