@@ -9,6 +9,12 @@ export function sendNewRepository() {
   } = form;
   let isValid = true;
 
+  let boolStatus = true;
+  if (status.value === 'on') {
+    boolStatus = false;
+  }
+
+
   if (name.value.length < 6 || name.value.length > 60) {
     isValid = false;
     document.getElementById('repNameError').innerHTML = errorMessage('Неверная длина названия(длина должан быть от 6 до 60 символов)')
@@ -31,7 +37,7 @@ export function sendNewRepository() {
       JSON.stringify({
         name: name.value,
         description: description.value,
-        private: status.value,
+        private: boolStatus,
       }),
   }).then((res) => res.json())
     .then((res) => {
