@@ -1,0 +1,28 @@
+{
+  "name": "2020_1_gitbreakers",
+  "version": "1.0.0",
+  "description": "Репозиторий команды \"GitBreakers\". Технопарк@mail.ru, весна, 2020",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2020_1_GitBreakers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2020_1_GitBreakers/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2020_1_GitBreakers#readme",
+  "dependencies": {
+    "pug": "^2.0.4",
+    "pug-cli": "^1.0.0-alpha6"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}
