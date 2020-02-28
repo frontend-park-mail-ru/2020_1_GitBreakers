@@ -40,7 +40,7 @@ function sendSignUp() {
   }
 
 
-  fetch('http://localhost:8080/auth/signup', {
+  fetch('http://89.208.198.186:8080/auth/signup', {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({

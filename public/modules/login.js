@@ -25,7 +25,7 @@ function sendLogin() {
   }
 
 
-  fetch('http://localhost:8080/auth/login', {
+  fetch('http://89.208.198.186:8080/auth/login', {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({

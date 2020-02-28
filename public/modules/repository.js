@@ -1,7 +1,7 @@
 function createRepository(name) {
   const root = document.getElementById('root');
 
-  fetch(`http://localhost:8080/repository?name=${name}`, {
+  fetch(`http://89.208.198.186:8080/repository?name=${name}`, {
     credentials: 'include',
   })
     .then((res) => res.json())

@@ -11,7 +11,7 @@ function loadUpdateProfile() {
     url,
   };
 
-  fetch('http://localhost:8080/settings/profile', {
+  fetch('http://89.208.198.186:8080/settings/profile', {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify(body),
@@ -31,7 +31,7 @@ function createUpdateProfile() {
   const divProfile = document.getElementsByClassName('edit-profile')[0];
   divProfile.innerHTML = '';
 
-  fetch(`http://localhost:8080/profile/${login}`)
+  fetch(`http://89.208.198.186:8080/profile/${login}`)
     .then((res) => res.json())
     .then((res) => {
       divProfile.innerHTML = updateprofileTemplate(res.body);

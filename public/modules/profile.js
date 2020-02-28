@@ -2,7 +2,7 @@
 function createProfile() {
   const divProfile = document.getElementsByClassName('profile-info')[0];
 
-  fetch(`http://localhost:8080/profile/${login}`)
+  fetch(`http://89.208.198.186:8080/profile/${login}`)
     .then((res) => res.json())
     .then((res) => {
       divProfile.innerHTML = profileTemplate(res.body);
@@ -16,7 +16,7 @@ function createProfile() {
 function createActivity() {
   const divActivity = document.getElementsByClassName('activity')[0];
 
-  fetch(`http://localhost:8080/repository/${login}`)
+  fetch(`http://89.208.198.186:8080/repository/${login}`)
     .then((res) => res.json())
     .then((res) => {
       divActivity.innerHTML = activityTemplate(res.body);
@@ -51,7 +51,7 @@ function createProfilePage() {
 function loadImage() {
   // const file = document.getElementById('file');
   const data = new FormData(document.getElementById('image-form'));
-  fetch('http://localhost:8080/settings/avatar', {
+  fetch('http://89.208.198.186:8080/settings/avatar', {
     method: 'POST',
     body: data,
   }).then((res) => res.json())
