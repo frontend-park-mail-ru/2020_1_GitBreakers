@@ -4,7 +4,10 @@ const errorMessage = (message) => `
 
 function sendLogin() {
   const form = document.forms.signIn;
-  const {username, password} = form;
+  const {
+    username,
+    password,
+  } = form;
   let isValid = true;
 
   if (username.value.length < 6 || username.value.length > 60) {
@@ -37,8 +40,6 @@ function sendLogin() {
     })
     .catch((err) => {
       document.getElementById('respError').innerHTML = errorMessage('Что-то пошло не так!!! Проверьте введенные данные.')
-
-      alert("Что-то пошло не так, попробуйте еще раз! (Повторять инструкцию пока не заработает!!!)");
     });
 }
 

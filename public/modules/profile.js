@@ -59,6 +59,6 @@ function loadImage() {
       createProfile();
     })
     .catch((err) => {
-      alert(err);
+      document.getElementById('ImageForm').innerHTML = errorMessage('Что то пошло не так, попробуйте еще pаз позже!');
     });
 }

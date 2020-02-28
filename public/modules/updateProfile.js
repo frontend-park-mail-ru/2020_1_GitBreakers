@@ -1,4 +1,3 @@
-
 // Обработка нажатия загрузки обновленной инфы профиля
 function loadUpdateProfile() {
   const name = document.getElementsByName('name')[0].value;
@@ -6,11 +5,11 @@ function loadUpdateProfile() {
   const url = document.getElementsByName('url')[0].value
 
   const body = {
-    login: 'antonElagin', //TODO: убрать
+    login: 'antonElagin', // TODO: убрать
     name,
     bio,
     url,
-  }
+  };
 
   fetch('http://localhost:8080/settings/profile', {
     method: 'POST',
@@ -18,16 +17,13 @@ function loadUpdateProfile() {
     body: JSON.stringify(body),
   })
     .then((res) => {
-      res.json()
-      console.log("eeee!");
+      res.json();
     })
     .then((res) => {
-      console.log("ok");
       createProfile();
     })
     .catch((err) => {
-      console.log("ooops!");
-      alert(err);
+      document.getElementById('profileData').innerHTML = errorMessage('Что то пошло не так, попробуйте еще pаз позже');
     });
 }
 
@@ -41,6 +37,6 @@ function createUpdateProfile() {
       divProfile.innerHTML = updateprofileTemplate(res.body);
     })
     .catch((err) => {
-      alert('Error: ', err);
+      document.getElementById('profileData').innerHTML = '<h2> Попробуй загрузить страницу позже! </h2>';
     });
 }

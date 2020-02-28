@@ -37,7 +37,6 @@ function sendNewRepository() {
     })
     .catch((err) => {
       document.getElementById('newRepositoryError').innerHTML = errorMessage('Ошибка! Проверь данные и попробуй еще раз!');
-      // alert('Упс!!! Попробуй еще раз!!!');
     });
 }
 

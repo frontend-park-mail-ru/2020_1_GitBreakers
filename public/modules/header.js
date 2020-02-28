@@ -1,4 +1,3 @@
-
 function createHeader() {
   const root = document.getElementById('header');
 
