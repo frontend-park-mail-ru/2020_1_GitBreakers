@@ -1,8 +1,7 @@
-const errorMessage = (message) => `
-  <span style="color: red;font: bold"> ${message}</span>
-`;
+import { errorMessage } from './errorMessage.js';
+import { createProfilePage } from './profile.js';
 
-function sendLogin() {
+export function sendLogin() {
   const form = document.forms.signIn;
   const {
     username,
@@ -21,11 +20,11 @@ function sendLogin() {
   }
 
   if (!isValid) {
-    return
+    return;
   }
 
 
-  fetch('http://89.208.198.186:8080/auth/login', {
+  fetch('http://89.208.198.186:8080/auth/login'/*'http://89.208.198.186:8080/auth/login'*/, {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({
@@ -43,8 +42,7 @@ function sendLogin() {
     });
 }
 
-function createLoginPage() {
+export function createLoginPage() {
   const divLogin = document.getElementById('root');
   divLogin.innerHTML = signinTemplate({});
 }
-

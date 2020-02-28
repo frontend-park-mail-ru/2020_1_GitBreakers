@@ -50,7 +50,7 @@ export class Repository {
             //     jsonObject[key] = value
             // }
 
-            fetch('http://localhost:8080/new/repository', {
+            fetch('http://89.208.198.186:8080/new/repository', {
                 method: 'POST',
                 body:
                     JSON.stringify(formData)

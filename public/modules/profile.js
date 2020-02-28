@@ -1,7 +1,11 @@
+import { errorMessage } from './errorMessage.js';
+
+const login = 'AntonElagin';
 // Отрисовка компоненты профиля
-function createProfile() {
+export function createProfile() {
   const divProfile = document.getElementsByClassName('profile-info')[0];
 
+  // `http://89.208.198.186:8080/profile/${login}`
   fetch(`http://89.208.198.186:8080/profile/${login}`)
     .then((res) => res.json())
     .then((res) => {
@@ -13,9 +17,10 @@ function createProfile() {
 }
 
 // Отрисовка компонеты со списком реп
-function createActivity() {
+export function createActivity() {
   const divActivity = document.getElementsByClassName('activity')[0];
 
+  // `http://89.208.198.186:8080/repository/${login}`
   fetch(`http://89.208.198.186:8080/repository/${login}`)
     .then((res) => res.json())
     .then((res) => {
@@ -27,7 +32,7 @@ function createActivity() {
 }
 
 // Отрисока страницы список реп + профиль
-function createProfilePage() {
+export function createProfilePage() {
   const divElement = document.createElement('div');
   divElement.className = 'container';
 
@@ -48,9 +53,12 @@ function createProfilePage() {
 }
 
 // Обработка нажатия загрузки фотки
-function loadImage() {
+export function loadImage() {
   // const file = document.getElementById('file');
   const data = new FormData(document.getElementById('image-form'));
+
+  // 'http://89.208.198.186:8080/settings/avatar'
+  // 'http://89.208.198.186:8080/settings/avatar'
   fetch('http://89.208.198.186:8080/settings/avatar', {
     method: 'POST',
     body: data,
@@ -59,6 +67,6 @@ function loadImage() {
       createProfile();
     })
     .catch((err) => {
-      document.getElementById('ImageForm').innerHTML = errorMessage('Что то пошло не так, попробуйте еще pаз позже!');
+      document.getElementById('imageForm').innerHTML = errorMessage('Что то пошло не так, попробуйте еще pаз позже!');
     });
 }

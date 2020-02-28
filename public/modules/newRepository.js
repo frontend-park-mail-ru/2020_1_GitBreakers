@@ -1,4 +1,6 @@
-function sendNewRepository() {
+import { errorMessage } from './errorMessage.js';
+
+export function sendNewRepository() {
   const form = document.forms.newRepository;
   const {
     'rep-name': name,
@@ -21,7 +23,7 @@ function sendNewRepository() {
   if (!isValid) {
     return;
   }
-
+  // 'http://89.208.198.186:8080/new/repository'
   fetch('http://89.208.198.186:8080/new/repository', {
     method: 'POST',
     credentials: 'include',
@@ -40,7 +42,7 @@ function sendNewRepository() {
     });
 }
 
-function createNewRepository() {
+export function createNewRepository() {
   const divLogin = document.getElementById('root');
   divLogin.innerHTML = newrepositoryTemplate({});
 }

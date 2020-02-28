@@ -1,6 +1,7 @@
-function createRepository(name) {
+export function createRepository(name) {
   const root = document.getElementById('root');
 
+  // `http://89.208.198.186:8080/repository?name=${name}`
   fetch(`http://89.208.198.186:8080/repository?name=${name}`, {
     credentials: 'include',
   })

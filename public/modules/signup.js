@@ -1,12 +1,12 @@
-// const errorMessage = (message) => `
-//   <span style="color: red;font: bold"> /${message}</span>
-// `;
-function validateEmail(email) {
+import { errorMessage } from './errorMessage.js';
+import { createProfilePage } from './profile.js';
+
+export function validateEmail(email) {
   const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   return reg.test(email);
 }
 
-function sendSignUp() {
+export function sendSignUp() {
   const form = document.forms.signUp;
   const {
     email,
@@ -40,6 +40,7 @@ function sendSignUp() {
   }
 
 
+  // 'http://89.208.198.186:8080/auth/signup'
   fetch('http://89.208.198.186:8080/auth/signup', {
     method: 'POST',
     credentials: 'include',
@@ -58,7 +59,7 @@ function sendSignUp() {
     });
 }
 
-function createSignUpPage() {
+export function createSignUpPage() {
   const divLogin = document.getElementById('root');
 
   divLogin.innerHTML = signupTemplate({});
