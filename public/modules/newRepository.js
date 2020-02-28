@@ -9,10 +9,12 @@ function sendNewRepository() {
 
   if (name.value.length < 6 || name.value.length > 60) {
     isValid = false;
-    alert('неверная длина названия');
+    document.getElementById('repNameError').innerHTML = errorMessage('Неверная длина названия(длина должан быть от 6 до 60 символов)')
+    // alert('неверная длина названия');
   }
   if (description.value.length > 1000) {
-    alert('слишком длинное описание');
+    document.getElementById('repDescriptionError').innerHTML = errorMessage('Неверная длина описания(длина должан быть от 0 до 300 символов)')
+    // alert('слишком длинное описание');
     isValid = false;
   }
 
@@ -24,17 +26,18 @@ function sendNewRepository() {
     method: 'POST',
     credentials: 'include',
     body:
-      {
+      JSON.stringify({
         name: name.value,
         description: description.value,
         private: status.value,
-      },
+      }),
   }).then((res) => res.json())
     .then((res) => {
       // TODO: открытие созданного репозитория
     })
     .catch((err) => {
-      alert('Упс!!! Попробуй еще раз!!!');
+      document.getElementById('newRepositoryError').innerHTML = errorMessage('Ошибка! Проверь данные и попробуй еще раз!');
+      // alert('Упс!!! Попробуй еще раз!!!');
     });
 }
 

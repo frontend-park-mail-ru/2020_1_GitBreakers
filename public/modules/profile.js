@@ -40,6 +40,7 @@ function createProfilePage() {
 
   divElement.appendChild(divActivity);
   const root = document.getElementById('root');
+  root.innerHTML = '';
   root.appendChild(divElement);
 
   createProfile();

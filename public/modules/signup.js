@@ -2,57 +2,59 @@
 //   <span style="color: red;font: bold"> /${message}</span>
 // `;
 function validateEmail(email) {
-  var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  var address = document.forms[form_id].elements[email].value;
-  return reg.test(address);
+  const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  return reg.test(email);
 }
 
-
 function sendSignUp() {
-  const form = document.forms.signIn;
-  const {email, username, password, password2} = form;
+  const form = document.forms.signUp;
+  const {
+    email,
+    username,
+    password,
+    password2,
+  } = form;
   let isValid = true;
 
-  if (validateEmail()) {
+  if (!validateEmail(email.value)) {
     // TODO : error message
-    alert('Неверный email');
+    document.getElementById('emailError').innerHTML = errorMessage('Это не email! Кого ты пытаешься обмануть?');
     isValid = false;
   }
 
   if (username.value.length < 6 || username.value.length > 60) {
-    // username.parantElement.appendChild(document.createElement('div').innerHTML = errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
-    username.before(errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
+    document.getElementById('usernameError').innerHTML = errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)');
     isValid = false;
   }
 
   if (password.value.length < 6 || password.value.length > 60) {
-    // password.parantElement.appendChild(document.createElement('div').innerHTML = errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
-    password.before(errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
+    document.getElementById('passwordError').innerHTML = errorMessage('Неверная длина пароля(длина должан быть от 6 до 60 символов)');
     isValid = false;
-  } else if (password.value != password2.value) {
-    alert("Пароли не совпадают!");
+  } else if (password.value !== password2.value) {
+    document.getElementById('password2Error').innerHTML = errorMessage('Уже успел забыть пароль? Пароли не совпадают!');
+    isValid = false;
   }
 
   if (!isValid) {
-    return
+    return;
   }
 
 
   fetch('http://localhost:8080/auth/signup', {
     method: 'POST',
     credentials: 'include',
-    body: {
+    body: JSON.stringify({
       login: username.value,
       email: email.value,
       password: password.value,
-    },
+    }),
   })
     .then((res) => res.json())
     .then((res) => {
       createProfilePage();
     })
     .catch((err) => {
-      alert("Что-то пошло не так, попробуйте еще раз! (Повторять инструкцию пока не заработает!!!)");
+      document.getElementById('signUp').innerHTML = errorMessage('Так!!! Все пошло не по плану, проверь данные и повтори отправку!');
     });
 }
 

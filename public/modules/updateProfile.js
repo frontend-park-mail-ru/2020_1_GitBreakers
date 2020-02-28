@@ -14,12 +14,8 @@ function loadUpdateProfile() {
 
   fetch('http://localhost:8080/settings/profile', {
     method: 'POST',
-    mode: 'cors',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: body,
+    body: JSON.stringify(body),
   })
     .then((res) => {
       res.json()

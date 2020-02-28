@@ -36,6 +36,10 @@ document.body.addEventListener('click', (evt) => {
     if (target instanceof HTMLAnchorElement) {
       evt.preventDefault();
       // испольщуем роутер, чтоб вызвать нужную функцию обработчик
+      if (target.dataset.rep) {
+        routes[target.dataset.section](target.dataset.rep);
+        return
+      }
       routes[target.dataset.section]();
     }
     if (target instanceof HTMLButtonElement) {

@@ -3,17 +3,22 @@ div.section
         h2.title Sign Up
     div.section__main
         form.form(action='#' name="signUp")
+            div#signUp
             div.form__item
                 lable.form__item__label(for='email') E-mail address
+                div#emailError
                 input#email.form__item__input(type='email' name='email')
             div.form__item
                 lable.form__item__label(for='username') Username
+                div#usernameError
                 input#username.form__item__input(type='text' name='username')
             div.form__item
                 lable.form__item__label(for='password') Password
+                div#passwordError
                 input#password.form__item__input(type='password' name='password')
             div.form__item
                 lable.form__item__label(for='password2') Password again
+                div#password2Error
                 input#password2.form__item__input(type='password' name='password2')
 
             div.form__item

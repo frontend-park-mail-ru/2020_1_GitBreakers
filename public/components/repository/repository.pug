@@ -1,7 +1,14 @@
 div.section
     div.section__title
-        h2.title User #{username}/#{repName}
+        h2.title Repository: #{name}
     div.section__main
+        div.rep-menu__item
+            h3 Description: #{description}
+        div.rep-menu__item
+           if private
+               h2 Private
+           else
+               h2 Public
         div.rep-menu__item
             button.button(type='submit') Code
         div.rep-menu__item

@@ -1,5 +1,5 @@
 const errorMessage = (message) => `
-  <span style="color: red;font: bold"> /${message}</span>
+  <span style="color: red;font: bold"> ${message}</span>
 `;
 
 function sendLogin() {
@@ -8,14 +8,12 @@ function sendLogin() {
   let isValid = true;
 
   if (username.value.length < 6 || username.value.length > 60) {
-    // username.parantElement.appendChild(document.createElement('div').innerHTML = errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
-    username.before(errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
+    document.getElementById('usernameError').innerHTML = errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)')
     isValid = false;
   }
 
   if (password.value.length < 6 || password.value.length > 60) {
-    // password.parantElement.appendChild(document.createElement('div').innerHTML = errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
-    password.before(errorMessage('Неверная длина логина(длина должан быть от 6 до 60 символов)'));
+    document.getElementById('passwordError').innerHTML = errorMessage('Неверная длина пароля(длина должан быть от 6 до 60 символов)')
     isValid = false;
   }
 
@@ -27,10 +25,10 @@ function sendLogin() {
   fetch('http://localhost:8080/auth/login', {
     method: 'POST',
     credentials: 'include',
-    body: {
+    body: JSON.stringify({
       login: username.value,
       password: password.value,
-    },
+    }),
   })
     .then((res) => res.json())
     .then((res) => {
@@ -38,6 +36,8 @@ function sendLogin() {
       createProfilePage();
     })
     .catch((err) => {
+      document.getElementById('respError').innerHTML = errorMessage('Что-то пошло не так!!! Проверьте введенные данные.')
+
       alert("Что-то пошло не так, попробуйте еще раз! (Повторять инструкцию пока не заработает!!!)");
     });
 }

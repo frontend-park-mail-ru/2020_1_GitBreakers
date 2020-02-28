@@ -2,7 +2,7 @@ div.profile-card
     a.profile-avatar
         img(src = avatar)
     div.content
-        span() #{login}
+        span() User login: #{login}
     div.edit-profile
         ul
             li
@@ -12,8 +12,10 @@ div.profile-card
                 span  <b>Bio:</b> #{bio}
                 //a(href="")  #{registrationDate}
             li
+                a(href=url) My Web Site #{url}
+            li
                 //a(href="")  #{followers} + " Подписчики"
                 span  #{followers} Подписчики
                 //a(href="")  #{following} + " Подписки"
                 span  #{following} Подписки
-        a#edit-button(href="#" type="button" data-section="updateProfile") Edit profile!
+        button#edit-button(href="#" data-section="updateProfile") Edit profile!

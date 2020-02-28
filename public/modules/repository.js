@@ -6,10 +6,13 @@ function createRepository(name) {
   })
     .then((res) => res.json())
     .then((res) => {
-      // eslint-disable-next-line no-undef
-      root.innerHTML = repositoryTemplate(res.body);
+      root.innerHTML = repositoryTemplate(res);
     })
     .catch((err) => {
-      alert(err);
+      const error = document.createElement('H1');
+      error.innerHTML = 'Упс!!! Возвращайся позже, и оно точно будет работать';
+      root.innerHTML = '';
+      root.appendChild(error);
+      // alert(err);
     });
 }
