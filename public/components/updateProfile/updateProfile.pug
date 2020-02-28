@@ -1,10 +1,12 @@
 div.load-avatar
     div
-        form(name="image" action="http://localhost:8080/settings/avatar" method="POST" enctype="multipart/form-data")
+        form#image-form(name="image" action="http://89.208.198.186:8080/settings/avatar" method="POST" enctype="multipart/form-data")
+            div#imageForm
             input#file(type="file" name="avatar")
             button( value="send" data-section="loadImage") Load image
         //a#file-button add file
 div.profile-data
+    div#profileData
     div
         span Name:
         input(type="text" name="name" value=name)
