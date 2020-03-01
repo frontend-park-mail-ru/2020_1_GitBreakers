@@ -1,5 +1,6 @@
 import { errorMessage } from './errorMessage.js';
 import { createProfilePage } from './profile.js';
+import { constans } from "./constants.js";
 
 export function sendLogin() {
   const form = document.forms.signIn;
@@ -24,7 +25,7 @@ export function sendLogin() {
   }
 
 
-  fetch('http://89.208.198.186:8080/auth/login'/*'http://89.208.198.186:8080/auth/login'*/, {
+  fetch(`${constans.HOST}/auth/login`, {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({

@@ -1,4 +1,5 @@
 import { errorMessage } from './errorMessage.js';
+import { constans } from './constants.js';
 
 export function sendNewRepository() {
   const form = document.forms.newRepository;
@@ -29,8 +30,7 @@ export function sendNewRepository() {
   if (!isValid) {
     return;
   }
-  // 'http://89.208.198.186:8080/new/repository'
-  fetch('http://89.208.198.186:8080/new/repository', {
+  fetch(`${constans.HOST}/new/repository`, {
     method: 'POST',
     credentials: 'include',
     body:

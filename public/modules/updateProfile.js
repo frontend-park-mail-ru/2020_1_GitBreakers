@@ -1,5 +1,6 @@
 import { errorMessage } from './errorMessage.js';
 import { createProfile } from "./profile.js";
+import { constans } from './constants.js';
 
 const login = 'AntonElagin';
 // Обработка нажатия загрузки обновленной инфы профиля
@@ -16,7 +17,7 @@ export function loadUpdateProfile() {
   };
 
   // 'http://89.208.198.186:8080/settings/profile'
-  fetch('http://89.208.198.186:8080/settings/profile', {
+  fetch(`${constans.HOST}/settings/profile`, {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify(body),
@@ -37,7 +38,7 @@ export function createUpdateProfile() {
   divProfile.innerHTML = '';
 
   // `http://89.208.198.186:8080/profile/${login}`
-  fetch(`http://89.208.198.186:8080/profile/${login}`)
+  fetch(`${constans.HOST}/profile/${login}`)
     .then((res) => res.json())
     .then((res) => {
       divProfile.innerHTML = updateprofileTemplate(res.body);

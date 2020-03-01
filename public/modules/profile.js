@@ -1,12 +1,13 @@
 import { errorMessage } from './errorMessage.js';
+import { constans } from './constants.js';
 
 const login = 'AntonElagin';
+
 // Отрисовка компоненты профиля
 export function createProfile() {
   const divProfile = document.getElementsByClassName('profile-info')[0];
 
-  // `http://89.208.198.186:8080/profile/${login}`
-  fetch(`http://89.208.198.186:8080/profile/${login}`)
+  fetch(`${constans.HOST}/profile/${login}`)
     .then((res) => res.json())
     .then((res) => {
       divProfile.innerHTML = profileTemplate(res.body);
@@ -21,7 +22,7 @@ export function createActivity() {
   const divActivity = document.getElementsByClassName('activity')[0];
 
   // `http://89.208.198.186:8080/repository/${login}`
-  fetch(`http://89.208.198.186:8080/repository/${login}`)
+  fetch(`${constans.HOST}/repository/${login}`)
     .then((res) => res.json())
     .then((res) => {
       divActivity.innerHTML = activityTemplate(res.body);
@@ -57,12 +58,11 @@ export function loadImage() {
   // const file = document.getElementById('file');
   const data = new FormData(document.getElementById('image-form'));
 
-  // 'http://89.208.198.186:8080/settings/avatar'
-  // 'http://89.208.198.186:8080/settings/avatar'
-  fetch('http://89.208.198.186:8080/settings/avatar', {
+  fetch(`${constans.HOST}/settings/avatar`, {
     method: 'POST',
     body: data,
-  }).then((res) => res.json())
+  })
+    .then((res) => res.json())
     .then((res) => {
       createProfile();
     })

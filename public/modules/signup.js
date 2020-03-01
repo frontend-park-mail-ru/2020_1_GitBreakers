@@ -1,5 +1,6 @@
 import { errorMessage } from './errorMessage.js';
 import { createProfilePage } from './profile.js';
+import { constans } from './constants.js';
 
 export function validateEmail(email) {
   const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -41,7 +42,7 @@ export function sendSignUp() {
 
 
   // 'http://89.208.198.186:8080/auth/signup'
-  fetch('http://89.208.198.186:8080/auth/signup', {
+  fetch(`${constans.HOST}/auth/signup`, {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({
