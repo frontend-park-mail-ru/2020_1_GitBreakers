@@ -1,4 +1,4 @@
-import { constans } from './constants';
+import { constans } from './constants.js';
 
 export function createRepository(name) {
   const root = document.getElementById('root');

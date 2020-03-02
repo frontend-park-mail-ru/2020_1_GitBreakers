@@ -1,22 +1,23 @@
 import { errorMessage } from './errorMessage.js';
-import { createProfile } from "./profile.js";
+import { createProfile } from './profile.js';
 import { constans } from './constants.js';
 
+
 const login = 'AntonElagin';
+
 // Обработка нажатия загрузки обновленной инфы профиля
 export function loadUpdateProfile() {
   const name = document.getElementsByName('name')[0].value;
   const bio = document.getElementsByName('bio')[0].value;
-  const url = document.getElementsByName('url')[0].value
+  const url = document.getElementsByName('url')[0].value;
 
   const body = {
-    login: 'antonElagin', // TODO: убрать
     name,
     bio,
     url,
   };
 
-  // 'http://89.208.198.186:8080/settings/profile'
+
   fetch(`${constans.HOST}/settings/profile`, {
     method: 'POST',
     credentials: 'include',
@@ -37,7 +38,6 @@ export function createUpdateProfile() {
   const divProfile = document.getElementsByClassName('edit-profile')[0];
   divProfile.innerHTML = '';
 
-  // `http://89.208.198.186:8080/profile/${login}`
   fetch(`${constans.HOST}/profile/${login}`)
     .then((res) => res.json())
     .then((res) => {
