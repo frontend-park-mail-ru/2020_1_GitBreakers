@@ -1,0 +1,6 @@
+function createHeader() {
+  const root = document.getElementById('header');
+  root.innerHTML = headertemplateTemplate({});
+};
+
+export default createHeader;

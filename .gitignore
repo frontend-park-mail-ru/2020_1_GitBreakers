@@ -4,3 +4,4 @@ components/*.js
 components/*.html
 components/**/*.js
 components/**/*.html
+.vscode
