@@ -4,28 +4,28 @@ export default class Api {
       method,
       headers: header,
       credentials: 'include',
-      mode: 'cors',
+      // mode: 'cors',
       body: JSON.stringify(body),
     });
   }
 
   static get(path, body) {
     const header = { 'Content-Type': 'application/json; charset=UTF-8' };
-    this.request(path, 'GET', header, body);
+    return this.request(path, 'GET', header, body);
   }
 
   static post(path, body) {
     const header = { 'Content-Type': 'application/json; charset=UTF-8' };
-    this.request(path, 'POST', header, body);
+    return this.request(path, 'POST', header, body);
   }
 
   static delete(path, body) {
     const header = { 'Content-Type': 'application/json; charset=UTF-8' };
-    this.request(path, 'DELETE', header, body);
+    return this.request(path, 'DELETE', header, body);
   }
 
   static put(path, body) {
     const header = { 'Content-Type': 'application/json; charset=UTF-8' };
-    this.request(path, 'PUT', header, body);
+    return this.request(path, 'PUT', header, body);
   }
 }

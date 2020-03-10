@@ -14,31 +14,49 @@ export default class SignUpController {
       password,
       password2,
     } = data;
-    let flag;
     const result = { data: [] };
 
-    flag = this.validateEmail(email);
+
+    let flag = this.validateEmail(email.value);
     if (flag) {
       result.data.push(flag);
+      flag = undefined;
+    } else {
+      document.getElementById('emailError').innerHTML = '';
     }
 
-    flag = this.validateUsername(username);
-    if (flag) {
-      result.data.push(this.validateUsername(flag));
-    }
-
-    flag = this.validatePassword(password);
+    flag = this.validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
+      flag = undefined;
+    } else {
+      document.getElementById('usernameError').innerHTML = '';
     }
 
-    flag = this.validatePassword2(password, password2);
+    flag = this.validatePassword(password.value);
     if (flag) {
       result.data.push(flag);
+      flag = undefined;
+    } else {
+      document.getElementById('passwordError').innerHTML = '';
+      document.getElementById('password2Error').innerHTML = '';
     }
+
+    flag = this.validatePassword2(password.value, password2.value);
+    if (flag) {
+      result.data.push(flag);
+      flag = undefined;
+    } else {
+      document.getElementById('password2Error').innerHTML = '';
+    }
+
 
     if (result.data.length === 0) {
-      this.eventBus.emit(SIGNUP.valid, {});
+      return this.eventBus.emit(SIGNUP.valid, {
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      });
     }
     this.eventBus.emit(SIGNUP.fail, result);
   }
@@ -60,19 +78,20 @@ export default class SignUpController {
       };
     }
 
-    if (email.length > 6) {
+    if (email.length < 6) {
       return {
         item,
-        message: 'Слишком короткий mail!!!(Меньше 7 символов)',
+        message: 'Слишком короткий mail!!!(Меньше 6 символов)',
       };
     }
 
-    if (email.length < 50) {
+    if (email.length > 50) {
       return {
         item,
-        message: 'Слишком длинный mail!!!(Больше 51 символа)',
+        message: 'Слишком длинный mail!!!(Больше 50 символа)',
       };
     }
+    return false;
   }
 
   validatePassword(password = '') {
@@ -84,29 +103,31 @@ export default class SignUpController {
       };
     }
 
-    if (password.length > 6) {
+    if (password.length < 6) {
       return {
         item,
-        message: 'Слишком короткий password!!!(Меньше 7 символов)',
+        message: 'Слишком короткий password!!!(Меньше 6 символов)',
       };
     }
 
-    if (password.length < 50) {
+    if (password.length > 50) {
       return {
         item,
-        message: 'Слишком длинный password!!!(Больше 51 символа)',
+        message: 'Слишком длинный password!!!(Больше 50 символа)',
       };
     }
+    return false;
   }
 
   validatePassword2(password, password2) {
     const item = 'password2';
-    if (password === password2) {
+    if (password !== password2) {
       return {
         item,
         message: 'Пароли не совпадают!',
       };
     }
+    return false;
   }
 
   validateUsername(username) {
@@ -118,18 +139,19 @@ export default class SignUpController {
       };
     }
 
-    if (username.length > 6) {
+    if (username.length < 6) {
       return {
         item,
-        message: 'Слишком короткий username!!!(Меньше 7 символов)',
+        message: 'Слишком короткий username!!!(Меньше 6 символов)',
       };
     }
 
-    if (username.length < 50) {
+    if (username.length > 50) {
       return {
         item,
-        message: 'Слишком длинный username!!!(Больше 51 символа)',
+        message: 'Слишком длинный username!!!(Больше 50 символа)',
       };
     }
+    return false;
   }
 }

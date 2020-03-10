@@ -9,23 +9,23 @@ export default class SignUpModel extends Model {
   constructor(root, eventBus) {
     super(eventBus);
 
-    this.eventBus.on(SIGNUP.valid, this.signupValid);
+    this.eventBus.on(SIGNUP.valid, this.signupValid.bind(this));
   }
 
   signupValid(data = {}) {
     alert('Sending!!!!', data);
+
     // TODO: магия fetch`а !!!!!!
-    Api.post(`${constants.HOST}/auth`)
+    Api.post(`${constants.HOST}/auth/signup`, data)
       .then((res) => res.json())
       .then((res) => {
         if (res.statusCode === 200) {
-          res.body
+          alert(res.body.toString());
+          this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
         }
+      })
+      .catch((err) => {
+        alert('catch trigger!');
       });
-    if (data) {
-      this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
-    } else {
-      this.eventBus.emit(SIGNUP.fail, { message: 'Popa!!!' });
-    }
   }
 }

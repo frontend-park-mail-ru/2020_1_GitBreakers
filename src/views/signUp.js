@@ -1,5 +1,6 @@
 import { SIGNUP } from '../modules/events.js';
 import View from '../modules/view.js';
+import errorMessage from '../modules/errorMessage.js';
 
 export default class SignUpView extends View {
   constructor(root, eventBus) {
@@ -30,16 +31,25 @@ export default class SignUpView extends View {
   }
 
   signupFail(data = {}) {
-    if (data === {}) {
-      alert('Error!!!');
-    }
-    alert(`Okey!!!${data}`);
+    data.data.forEach((item) => {
+      console.log('kek');
+      document.getElementById(`${item.item}Error`).innerHTML = errorMessage(item.message);
+    });
+    // if (data === {}) {
+    //   alert('Error!!!');
+    // }
+    // if (data.data.length > 0) {
+    //   data.data.forEach((item) => {
+    //     console.log('Error: ', item);
+    //   });
+    // }
+    // alert(`OkeyFail!!!${data}`);
   }
 
   signupSuccess(data = {}) {
     if (data === {}) {
       alert('Error!!!');
     }
-    alert(`Okey!!!${data}`);
+    alert(`OkeySuccess!!!${data}`);
   }
 }
