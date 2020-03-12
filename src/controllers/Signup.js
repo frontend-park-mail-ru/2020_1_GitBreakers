@@ -1,6 +1,8 @@
-import { SIGNUP } from '../modules/events.js';
+import { SIGNUP } from '../modules/events';
+import eventBus from '../modules/eventBus';
+import SignUpView from '../views/signUp';
 
-export default class SignUpController {
+export class SignUpController {
   constructor(eventBus) {
     this.eventBus = eventBus;
 
@@ -154,4 +156,15 @@ export default class SignUpController {
     }
     return false;
   }
+}
+
+
+/*контроллер, который дёргается для создания страницы*/
+export function createSignUpPage() {
+  const root = document.getElementById('root');
+  // divLogin.innerHTML = signupTemplate({});
+
+  console.log('показываем страницу SignUp');
+  const signUpView = new SignUpView(root, eventBus);
+  signUpView.render();
 }

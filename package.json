@@ -4,6 +4,7 @@
   "description": "Репозиторий команды \"GitBreakers\". Технопарк@mail.ru, весна, 2020",
   "main": "index.js",
   "scripts": {
+    "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +24,7 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.1"
+    "eslint-plugin-import": "^2.20.1",
+    "express-history-api-fallback": "^2.2.1"
   }
 }
