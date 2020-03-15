@@ -1,4 +1,4 @@
-import createHeader from './modules/header.js';
+/*import createHeader from './modules/header.js';
 import {
   createProfilePage,
   createProfile,
@@ -18,15 +18,28 @@ import {
 } from './modules/updateProfile.js';
 import SignUpView from './views/signUp.js';
 import SignUpController from './controllers/Signup.js';
+
+
+import SignUpModel from './models/SignUp.js';
+import eventBus from './modules/eventBus.js';*/
 import SignUpModel from './models/signUpModel.js';
 import eventBus from './modules/eventBus.js';
 import SignInView from './views/signIn.js';
 import SignInModel from './models/signInModel.js';
 import SignInController from './controllers/singInController.js';
 
-const application = document.getElementById('root');
+
+import Router from './modules/router';
+
+/*const application = document.getElementById('root');
 const header = document.createElement('div');
 header.className = 'header';
+document.body.appendChild(header);*/
+
+
+
+const router = new Router();
+router.start();
 
 document.body.appendChild(header);
 
@@ -87,3 +100,4 @@ const signInController = new SignInController(eventBus);
 
 // signUpView.render();
 signInView.render();
+
