@@ -1,31 +1,23 @@
-import { SIGNUP } from '../modules/events.js';
+import { SIGNIN } from '../modules/events.js';
 
-export default class SignUpController {
+export default class SignInController {
   constructor(eventBus) {
     this.eventBus = eventBus;
 
-    this.eventBus.on(SIGNUP.submit, this.signUpSubmit.bind(this));
+    this.eventBus.on(SIGNIN.submit, this.signupSubmit.bind(this));
   }
 
-  signUpSubmit(data = {}) {
+  signupSubmit(data = {}) {
     const {
       username,
-      email,
       password,
-      password2,
     } = data;
     const result = { data: [] };
 
 
-    let flag = this.validateEmail(email.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = undefined;
-    } else {
-      document.getElementById('emailError').innerHTML = '';
-    }
 
-    flag = this.validateUsername(username.value);
+
+    let flag = this.validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -39,27 +31,15 @@ export default class SignUpController {
       flag = undefined;
     } else {
       document.getElementById('passwordError').innerHTML = '';
-      document.getElementById('password2Error').innerHTML = '';
     }
-
-    flag = this.validatePassword2(password.value, password2.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = undefined;
-    } else {
-      document.getElementById('password2Error').innerHTML = '';
-    }
-
 
     if (result.data.length === 0) {
-      this.eventBus.emit(SIGNUP.valid, {
+      return this.eventBus.emit(SIGNIN.valid, {
         username: username.value,
-        email: email.value,
         password: password.value,
       });
-      return;
     }
-    this.eventBus.emit(SIGNUP.fail, result);
+    this.eventBus.emit(SIGNIN.fail, result);
   }
 
   validateEmail(email = '') {

@@ -18,8 +18,11 @@ import {
 } from './modules/updateProfile.js';
 import SignUpView from './views/signUp.js';
 import SignUpController from './controllers/Signup.js';
-import SignUpModel from './models/SignUp.js';
+import SignUpModel from './models/signUpModel.js';
 import eventBus from './modules/eventBus.js';
+import SignInView from './views/signIn.js';
+import SignInModel from './models/signInModel.js';
+import SignInController from './controllers/singInController.js';
 
 const application = document.getElementById('root');
 const header = document.createElement('div');
@@ -68,13 +71,19 @@ document.body.addEventListener('click', (evt) => {
       routes[target.dataset.section]();
     }
   }
-});*/
+}); */
 
-/*createHeader();
-createLoginPage();*/
+/* createHeader();
+createLoginPage(); */
 
 const signUpView = new SignUpView(application, eventBus);
-const signUpModel = new SignUpModel(application, eventBus);
-const signUpController = new SignUpController(eventBus);
+const signInView = new SignInView(application, eventBus);
 
-signUpView.render();
+const signUpModel = new SignUpModel(application, eventBus);
+const signInModel = new SignInModel(application, eventBus);
+
+const signUpController = new SignUpController(eventBus);
+const signInController = new SignInController(eventBus);
+
+// signUpView.render();
+signInView.render();
