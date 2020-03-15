@@ -6,9 +6,9 @@ export const SIGNUP = {
   fail: 'Fail : SignUp',
 };
 
-export const SINGIN = {
-  submit: 'SubmitSignIn',
-  valide: 'ValidSignIn',
-  success: 'SignInSuccess',
-  fail: 'SignInFail',
+export const SIGNIN = {
+  submit: 'Submit : SignIn',
+  valid: 'Valid : SignIn',
+  success: 'Success : SignIn',
+  fail: 'Fail : SignIn',
 };

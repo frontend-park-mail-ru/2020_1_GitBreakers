@@ -1,6 +1,7 @@
 import { SIGNUP } from '../modules/events.js';
 import Model from '../modules/model.js';
 import Api from '../modules/api.js';
+// eslint-disable-next-line import/extensions
 import constants from '../modules/constants.js';
 
 // import constans from '../modules/constants.js';
@@ -9,10 +10,10 @@ export default class SignUpModel extends Model {
   constructor(root, eventBus) {
     super(eventBus);
 
-    this.eventBus.on(SIGNUP.valid, this.signupValid.bind(this));
+    this.eventBus.on(SIGNUP.valid, this._send.bind(this));
   }
 
-  signupValid(data = {}) {
+  _send(data = {}) {
     alert('Sending!!!!', data);
 
     // TODO: магия fetch`а !!!!!!
