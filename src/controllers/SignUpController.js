@@ -1,8 +1,6 @@
 import { SIGNUP } from '../modules/events';
-import eventBus from '../modules/eventBus';
-import SignUpView from '../views/signUp';
 
-export class SignUpController {
+export default class SignUpController {
   constructor(eventBus) {
     this.eventBus = eventBus;
 
@@ -19,7 +17,7 @@ export class SignUpController {
     const result = { data: [] };
 
 
-    let flag = this.validateEmail(email.value);
+    let flag = SignUpController.validateEmail(email.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -27,7 +25,7 @@ export class SignUpController {
       document.getElementById('emailError').innerHTML = '';
     }
 
-    flag = this.validateUsername(username.value);
+    flag = SignUpController.validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -35,7 +33,7 @@ export class SignUpController {
       document.getElementById('usernameError').innerHTML = '';
     }
 
-    flag = this.validatePassword(password.value);
+    flag = SignUpController.validatePassword(password.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -44,14 +42,13 @@ export class SignUpController {
       document.getElementById('password2Error').innerHTML = '';
     }
 
-    flag = this.validatePassword2(password.value, password2.value);
+    flag = SignUpController.validatePassword2(password.value, password2.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
     } else {
       document.getElementById('password2Error').innerHTML = '';
     }
-
 
     if (result.data.length === 0) {
       this.eventBus.emit(SIGNUP.valid, {
@@ -64,7 +61,7 @@ export class SignUpController {
     this.eventBus.emit(SIGNUP.fail, result);
   }
 
-  validateEmail(email = '') {
+  static validateEmail(email = '') {
     const item = 'email';
     if (!email) {
       return {
@@ -73,7 +70,7 @@ export class SignUpController {
       };
     }
 
-    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
     if (!reg.test(email)) {
       return {
         item,
@@ -97,7 +94,7 @@ export class SignUpController {
     return false;
   }
 
-  validatePassword(password = '') {
+  static validatePassword(password = '') {
     const item = 'password';
     if (!password) {
       return {
@@ -122,7 +119,7 @@ export class SignUpController {
     return false;
   }
 
-  validatePassword2(password = '', password2 = {}) {
+  static validatePassword2(password = '', password2 = {}) {
     const item = 'password2';
     if (password !== password2) {
       return {
@@ -133,7 +130,7 @@ export class SignUpController {
     return false;
   }
 
-  validateUsername(username) {
+  static validateUsername(username) {
     const item = 'username';
     if (!username) {
       return {
@@ -158,14 +155,12 @@ export class SignUpController {
     return false;
   }
 }
+// /* контроллер, который дёргается для создания страницы */
+// export function createSignUpPage() {
+//   const root = document.getElementById('root');
+//   // divLogin.innerHTML = signupTemplate({});
 
-
-/*контроллер, который дёргается для создания страницы*/
-export function createSignUpPage() {
-  const root = document.getElementById('root');
-  // divLogin.innerHTML = signupTemplate({});
-
-  console.log('показываем страницу SignUp');
-  const signUpView = new SignUpView(root, eventBus);
-  signUpView.render();
-}
+//   console.log('показываем страницу SignUp');
+//   const signUpView = new SignUpView(root, eventBus);
+//   signUpView.render();
+// }

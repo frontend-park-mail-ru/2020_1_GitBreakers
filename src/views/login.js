@@ -1,8 +1,9 @@
 import View from '../modules/view';
+import template from '../components/signUp/signUp.pug';
 
 export default class LoginView extends View {
   constructor(root, eventBus) {
-    super(root, signupTemplate, eventBus); //loginTemplate
+    super(root, template, eventBus); // loginTemplate
   }
 
   render() {

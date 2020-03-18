@@ -1,4 +1,4 @@
-import { SIGNIN } from '../modules/events.js';
+import { SIGNIN } from '../modules/events';
 
 export default class SignInController {
   constructor(eventBus) {
@@ -15,9 +15,7 @@ export default class SignInController {
     const result = { data: [] };
 
 
-
-
-    let flag = this.validateUsername(username.value);
+    let flag = SignInController.validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -25,7 +23,7 @@ export default class SignInController {
       document.getElementById('usernameError').innerHTML = '';
     }
 
-    flag = this.validatePassword(password.value);
+    flag = SignInController.validatePassword(password.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -34,15 +32,16 @@ export default class SignInController {
     }
 
     if (result.data.length === 0) {
-      return this.eventBus.emit(SIGNIN.valid, {
+      this.eventBus.emit(SIGNIN.valid, {
         username: username.value,
         password: password.value,
       });
+      return;
     }
     this.eventBus.emit(SIGNIN.fail, result);
   }
 
-  validateEmail(email = '') {
+  static validateEmail(email = '') {
     const item = 'email';
     if (!email) {
       return {
@@ -51,7 +50,7 @@ export default class SignInController {
       };
     }
 
-    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/;
     if (!reg.test(email)) {
       return {
         item,
@@ -75,7 +74,7 @@ export default class SignInController {
     return false;
   }
 
-  validatePassword(password = '') {
+  static validatePassword(password = '') {
     const item = 'password';
     if (!password) {
       return {
@@ -100,7 +99,7 @@ export default class SignInController {
     return false;
   }
 
-  validatePassword2(password = '', password2 = {}) {
+  static validatePassword2(password = '', password2 = {}) {
     const item = 'password2';
     if (password !== password2) {
       return {
@@ -111,7 +110,7 @@ export default class SignInController {
     return false;
   }
 
-  validateUsername(username) {
+  static validateUsername(username) {
     const item = 'username';
     if (!username) {
       return {

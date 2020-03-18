@@ -1,9 +1,9 @@
-import errorMessage from './errorMessage.js';
-import { createProfilePage } from './profile.js';
-import constants from './constants.js';
+import errorMessage from './errorMessage';
+import { createProfilePage } from './profile';
+import constants from './constants';
 
 export function validateEmail(email) {
-  const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
   return reg.test(email);
 }
 
@@ -64,5 +64,6 @@ export function sendSignUp() {
 export function createSignUpPage() {
   const divLogin = document.getElementById('root');
 
+  // eslint-disable-next-line no-undef
   divLogin.innerHTML = signupTemplate({});
 }

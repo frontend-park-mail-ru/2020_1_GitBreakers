@@ -5,3 +5,4 @@ components/*.html
 components/**/*.js
 components/**/*.html
 .vscode
+dist

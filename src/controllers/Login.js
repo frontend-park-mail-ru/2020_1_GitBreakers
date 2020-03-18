@@ -2,7 +2,7 @@
 import LoginView from '../views/login';
 import eventBus from '../modules/eventBus';
 
-export function createLoginPage() {
+export default function createLoginPage() {
   console.log('показываем страницу LogIn');
 
   const root = document.getElementById('root');

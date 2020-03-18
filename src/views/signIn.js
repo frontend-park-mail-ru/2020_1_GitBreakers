@@ -1,10 +1,12 @@
-import { SIGNIN } from '../modules/events.js';
-import View from '../modules/view.js';
-import errorMessage from '../modules/errorMessage.js';
+import { SIGNIN } from '../modules/events';
+import View from '../modules/view';
+import errorMessage from '../modules/errorMessage';
+import template from '../components/signIn/signIn.pug';
+
 
 export default class SignInView extends View {
   constructor(root, eventBus) {
-    super(root, signinTemplate, eventBus);
+    super(root, template, eventBus);
 
     this.eventBus.on(SIGNIN.fail, SignInView._fail);
     this.eventBus.on(SIGNIN.success, SignInView._success);

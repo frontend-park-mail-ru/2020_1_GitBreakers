@@ -1,7 +1,7 @@
-import Model from '../modules/model.js';
-import Api from '../modules/api.js';
-import constants from '../modules/constants.js';
-import { SIGNIN } from '../modules/events.js';
+import Model from '../modules/model';
+import Api from '../modules/api';
+import constants from '../modules/constants';
+import { SIGNIN } from '../modules/events';
 
 
 export default class SignInModel extends Model {
