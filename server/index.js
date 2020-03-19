@@ -1,4 +1,3 @@
-'use strict';
 
 const express = require('express');
 const fallback = require('express-history-api-fallback');
@@ -9,7 +8,7 @@ const path = require('path');
 const opn = require('opn');
 
 const app = express();
-const rootPath = path.resolve(__dirname, '..', 'public');
+const rootPath = path.resolve(__dirname, '..', 'src');
 
 app.use(morgan('dev'));
 app.use(express.static(rootPath));
@@ -18,15 +17,13 @@ app.use(body.json());
 app.use(cookie());
 
 
-app.use (fallback('index.html', {root: rootPath}));
-
-
-
+app.use(fallback('index.html', { root: rootPath }));
 
 
 const port = process.env.PORT || 3009;
 
-app.listen(port, function () {
+app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server listening port ${port}`);
   opn('http://localhost:3009/index.html');
 });

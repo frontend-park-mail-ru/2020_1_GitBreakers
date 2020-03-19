@@ -1,30 +1,27 @@
-// import { createSignUpPage } from '../controllers/Signup';
-import createLoginPage from '../controllers/Login';
-// import { createMainPage } from '../controllers/Main';
-import paths from './paths';
 import eventBus from './eventBus';
 
 export default class Router {
   constructor() {
     this.routes = [];
-    // this.register(paths.main, createMainPage);
-    // this.register(paths.signup, createSignUpPage);
-    this.register(paths.login, createLoginPage);
 
     // this.register(new RegExp('^'+paths.repository+'/\\w+'), createRepository);
   }
 
-  go(newUrl = '/') {
+  go(newUrl = '/', data = {}) {
     this.controller = this.getController(newUrl);
-    // if (!this.controller) {
-    //   console.log('newUrl =', newUrl, 'Контроллер не найден');
-    //   newUrl = '/'; // либо переход на главную, либо показать NotFound
-    //   this.controller = this.getController(newUrl);
-    // }
+    if (!this.controller) {
+      console.log('newUrl =', newUrl, 'Контроллер не найден');
+      newUrl = '/'; // либо переход на главную, либо показать NotFound
+      this.controller = this.getController(newUrl);
+    }
     if (window.location.pathname !== newUrl) {
       window.history.pushState(null, null, newUrl);
     }
-    this.controller();
+    if (this.controller) {
+      this.controller.open(data);
+    } else {
+      console.log('Router error!');
+    }
   }
 
 

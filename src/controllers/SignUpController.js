@@ -1,10 +1,17 @@
 import { SIGNUP } from '../modules/events';
+import Controller from '../modules/controller';
+import SignUp from '../views/signUp';
 
-export default class SignUpController {
-  constructor(eventBus) {
-    this.eventBus = eventBus;
+export default class SignUpController extends Controller {
+  constructor(root, eventBus, router) {
+    super(root, eventBus, router);
 
+    this.view = new SignUp(root, eventBus);
     this.eventBus.on(SIGNUP.submit, this.signUpSubmit.bind(this));
+  }
+
+  open(data) {
+    super.open(data);
   }
 
   signUpSubmit(data = {}) {

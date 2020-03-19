@@ -12,8 +12,8 @@ export default class SignInView extends View {
     this.eventBus.on(SIGNIN.success, SignInView._success);
   }
 
-  render() {
-    super.render({});
+  render(data) {
+    super.render(data);
 
     document.forms.SignIn.login.addEventListener('click', (event) => {
       // const { target } = event;
