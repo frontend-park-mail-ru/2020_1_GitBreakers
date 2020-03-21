@@ -11,7 +11,7 @@ export default class Router {
     this.controller = this.getController(newUrl);
     if (!this.controller) {
       console.log('newUrl =', newUrl, 'Контроллер не найден');
-      newUrl = '/'; // либо переход на главную, либо показать NotFound
+      // newUrl = '/'; // либо переход на главную, либо показать NotFound
       this.controller = this.getController(newUrl);
     }
     if (window.location.pathname !== newUrl) {
@@ -27,7 +27,7 @@ export default class Router {
 
   start() {
     const currentUrl = window.location.pathname;
-    this.go(currentUrl);
+    this.go(currentUrl, { data: 'antonelagin' });
 
     window.addEventListener('click', (evt) => {
       const { target } = evt;
@@ -44,27 +44,26 @@ export default class Router {
           return;
         }
         const url = target.dataset.section;
-        this.go(url);
+        this.go(url, { data: 'antonelagin' });
       }
     });
 
     window.addEventListener('popstate', () => {
       const url = window.location.pathname;
-      this.go(url);
+      this.go(url, { data: 'antonelagin' });
     });
   }
-
 
   getController(url) {
-    let controller = null;
-    this.routes.forEach((route) => {
-      if (route.url === url) { // if url.match(route.pattern)
-        controller = route.controller;
-      }
-    });
-    return controller;
+    // let controller = null;
+    // this.routes.forEach((route) => {
+    //   if (route.url === url) { // if url.match(route.pattern)
+    //     controller = route.controller;
+    //   }
+    // });
+    const { controller } = this.routes.find((value) => value.url === url);
+    return controller || null;
   }
-
 
   register(url, controller) {
     this.routes.push({

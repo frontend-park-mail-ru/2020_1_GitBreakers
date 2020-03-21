@@ -28,6 +28,18 @@ export default class SignInView extends View {
 
       console.log('SEND : ', SIGNIN.submit, '(', 'emit', ')');
     });
+
+    document.getElementById('forgot').addEventListener('click', (event) => {
+      event.preventDefault();
+
+      alert('forgot password!');
+    });
+
+    document.getElementById('regist').addEventListener('click', (event) => {
+      event.preventDefault();
+
+      alert('Registration');
+    });
   }
 
   static _succes(data = {}) {

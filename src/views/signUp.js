@@ -12,7 +12,7 @@ export default class SignUpView extends View {
   }
 
   render(data) {
-    super.render(data);
+    super.render({});
 
     document.forms.signUp.signup.addEventListener('click', (event) => {
       // const { target } = event;

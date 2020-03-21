@@ -18,7 +18,7 @@ export default class SignInModel extends Model {
     Api.post(`${constants.HOST}/auth/login`, data)
       .then((res) => res.json())
       .then((res) => {
-        if (res.statusCode === 200) {
+        if (res.ok) {
           alert(res.body.toString());
           this.eventBus.emit(SIGNIN.success, { message: 'Oppa!!!' });
         }

@@ -10,10 +10,6 @@ export default class SignInController extends Controller {
     this.eventBus.on(SIGNIN.submit, this.signupSubmit.bind(this));
   }
 
-  open(data) {
-    super.open(data);
-  }
-
   signupSubmit(data = {}) {
     const {
       username,
