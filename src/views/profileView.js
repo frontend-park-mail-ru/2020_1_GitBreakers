@@ -21,7 +21,7 @@ export default class ProfileView extends View {
       event.preventDefault();
 
       const { target } = event;
-
+      alert('click click');
       this.eventBus.emit(PROFILE.nextPage, { data: target.data.section });
     });
   }

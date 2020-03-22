@@ -11,6 +11,7 @@ export const SIGNIN = {
   valid: 'Valid : SignIn',
   success: 'Success : SignIn',
   fail: 'Fail : SignIn',
+  nextPage: 'nextPage : SignIn',
 };
 
 export const PROFILE = {

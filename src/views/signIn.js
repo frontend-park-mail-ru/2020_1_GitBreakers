@@ -37,7 +37,7 @@ export default class SignInView extends View {
 
     document.getElementById('regist').addEventListener('click', (event) => {
       event.preventDefault();
-
+      this.eventBus.emit(SIGNIN.nextPage, { path: '/signup' });
       alert('Registration');
     });
   }

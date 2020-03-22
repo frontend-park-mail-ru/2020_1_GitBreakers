@@ -7,10 +7,15 @@ export default class SignInController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SignIn(root, eventBus);
-    this.eventBus.on(SIGNIN.submit, this.signupSubmit.bind(this));
+    this.eventBus.on(SIGNIN.submit, this._signupSubmit.bind(this));
+    this.eventBus.on(SIGNIN.nextPage, this._nextPage.bind(this));
   }
 
-  signupSubmit(data = {}) {
+  _nextPage({ path = '/' } = {}) {
+    this.router.go(path);
+  }
+
+  _signupSubmit(data = {}) {
     const {
       username,
       password,
@@ -18,7 +23,7 @@ export default class SignInController extends Controller {
     const result = { data: [] };
 
 
-    let flag = SignInController.validateUsername(username.value);
+    let flag = SignInController._validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -26,7 +31,7 @@ export default class SignInController extends Controller {
       document.getElementById('usernameError').innerHTML = '';
     }
 
-    flag = SignInController.validatePassword(password.value);
+    flag = SignInController._validatePassword(password.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -44,7 +49,7 @@ export default class SignInController extends Controller {
     this.eventBus.emit(SIGNIN.fail, result);
   }
 
-  static validateEmail(email = '') {
+  static _validateEmail(email = '') {
     const item = 'email';
     if (!email) {
       return {
@@ -77,7 +82,7 @@ export default class SignInController extends Controller {
     return false;
   }
 
-  static validatePassword(password = '') {
+  static _validatePassword(password = '') {
     const item = 'password';
     if (!password) {
       return {
@@ -102,7 +107,7 @@ export default class SignInController extends Controller {
     return false;
   }
 
-  static validatePassword2(password = '', password2 = {}) {
+  static _validatePassword2(password = '', password2 = {}) {
     const item = 'password2';
     if (password !== password2) {
       return {
@@ -113,7 +118,7 @@ export default class SignInController extends Controller {
     return false;
   }
 
-  static validateUsername(username) {
+  static _validateUsername(username) {
     const item = 'username';
     if (!username) {
       return {

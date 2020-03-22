@@ -7,10 +7,10 @@ export default class SignUpController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SignUp(root, eventBus);
-    this.eventBus.on(SIGNUP.submit, this.signUpSubmit.bind(this));
+    this.eventBus.on(SIGNUP.submit, this._signUpSubmit.bind(this));
   }
 
-  signUpSubmit(data = {}) {
+  _signUpSubmit(data = {}) {
     const {
       username,
       email,
@@ -20,7 +20,7 @@ export default class SignUpController extends Controller {
     const result = { data: [] };
 
 
-    let flag = SignUpController.validateEmail(email.value);
+    let flag = SignUpController._validateEmail(email.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -28,7 +28,7 @@ export default class SignUpController extends Controller {
       document.getElementById('emailError').innerHTML = '';
     }
 
-    flag = SignUpController.validateUsername(username.value);
+    flag = SignUpController._validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -36,7 +36,7 @@ export default class SignUpController extends Controller {
       document.getElementById('usernameError').innerHTML = '';
     }
 
-    flag = SignUpController.validatePassword(password.value);
+    flag = SignUpController._validatePassword(password.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -45,7 +45,7 @@ export default class SignUpController extends Controller {
       document.getElementById('password2Error').innerHTML = '';
     }
 
-    flag = SignUpController.validatePassword2(password.value, password2.value);
+    flag = SignUpController._validatePassword2(password.value, password2.value);
     if (flag) {
       result.data.push(flag);
       flag = undefined;
@@ -64,7 +64,7 @@ export default class SignUpController extends Controller {
     this.eventBus.emit(SIGNUP.fail, result);
   }
 
-  static validateEmail(email = '') {
+  static _validateEmail(email = '') {
     const item = 'email';
     if (!email) {
       return {
@@ -97,7 +97,7 @@ export default class SignUpController extends Controller {
     return false;
   }
 
-  static validatePassword(password = '') {
+  static _validatePassword(password = '') {
     const item = 'password';
     if (!password) {
       return {
@@ -122,7 +122,7 @@ export default class SignUpController extends Controller {
     return false;
   }
 
-  static validatePassword2(password = '', password2 = {}) {
+  static _validatePassword2(password = '', password2 = {}) {
     const item = 'password2';
     if (password !== password2) {
       return {
@@ -133,7 +133,7 @@ export default class SignUpController extends Controller {
     return false;
   }
 
-  static validateUsername(username) {
+  static _validateUsername(username) {
     const item = 'username';
     if (!username) {
       return {
@@ -158,12 +158,3 @@ export default class SignUpController extends Controller {
     return false;
   }
 }
-// /* контроллер, который дёргается для создания страницы */
-// export function createSignUpPage() {
-//   const root = document.getElementById('root');
-//   // divLogin.innerHTML = signupTemplate({});
-
-//   console.log('показываем страницу SignUp');
-//   const signUpView = new SignUpView(root, eventBus);
-//   signUpView.render();
-// }
