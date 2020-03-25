@@ -11,12 +11,4 @@ export const SIGNIN = {
   valid: 'Valid : SignIn',
   success: 'Success : SignIn',
   fail: 'Fail : SignIn',
-  nextPage: 'nextPage : SignIn',
-};
-
-export const PROFILE = {
-  load: 'load: Profile',
-  loadSuccess: 'loadSuccess : Profile',
-  loadFail: 'loadFail : Profile',
-  nextPage: 'nextPage : Profile',
 };

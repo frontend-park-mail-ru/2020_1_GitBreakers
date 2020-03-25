@@ -10,8 +10,4 @@ export default class View {
     const inputData = { ...data };
     this.root.innerHTML = this.template(inputData);
   }
-
-  hide() {
-    this.root.innerHTML = '';
-  }
 }
