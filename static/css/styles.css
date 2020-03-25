@@ -184,6 +184,10 @@
     color: black;
 }
 
+.button-small {
+    height: 30px;
+}
+
 .form__link {
     color: #ffcf22;
 }
@@ -308,4 +312,44 @@
 
 .rep-menu__item {
     margin: 0 20px 10px 20px;
+}
+
+
+
+
+
+.repository {
+    margin: 20px 15px;
+}
+
+.repository__list__item {
+    display: flex;
+    margin: 40px 0;
+}
+
+.repository_list__item_title {
+    font-weight: bold;
+    margin: auto 30px auto 0;
+}
+
+.repository_list__item_info {
+    font-size: 85%;
+    margin: auto 20px auto 0;
+}
+
+.repository__list__item_button {
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.repository__list__group {
+    margin: 45px 0 60px 10px;
+}
+
+.repository__list__group_title {
+    margin: 0 0 -20px 0;
+}
+
+.repository__list__group_content {
+    padding: 0 10px;
 }
