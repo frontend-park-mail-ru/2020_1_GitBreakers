@@ -1,7 +1,7 @@
-import { SIGNUP } from '../modules/events';
-import Model from '../modules/model';
-import Api from '../modules/api';
-import constants from '../modules/constants';
+import { SIGNUP } from '../modules/events.js';
+import Model from '../modules/model.js';
+import Api from '../modules/api.js';
+import constants from '../modules/constants.js';
 
 export default class SignUpModel extends Model {
   constructor(root, eventBus) {
@@ -17,7 +17,7 @@ export default class SignUpModel extends Model {
     Api.post(`${constants.HOST}/auth/signup`, data)
       .then((res) => res.json())
       .then((res) => {
-        if (res.ok) {
+        if (res.statusCode === 200) {
           alert(res.body.toString());
           this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
         }

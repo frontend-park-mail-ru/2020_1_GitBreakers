@@ -1,7 +1,8 @@
-import { SIGNUP } from '../modules/events';
-import View from '../modules/view';
-import errorMessage from '../modules/errorMessage';
-import template from '../components/signUp/signUp.pug';
+import { SIGNUP } from '../modules/events.js';
+import View from '../modules/view.js';
+import errorMessage from '../modules/errorMessage.js';
+import {signupTemplate} from '../components/signUp/signUp.js';
+const template = signupTemplate;
 
 export default class SignUpView extends View {
   constructor(root, eventBus) {
@@ -11,7 +12,7 @@ export default class SignUpView extends View {
     this.eventBus.on(SIGNUP.success, SignUpView._success);
   }
 
-  render(data) {
+  render() {
     super.render({});
 
     document.forms.signUp.signup.addEventListener('click', (event) => {

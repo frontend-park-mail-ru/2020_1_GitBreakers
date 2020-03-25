@@ -1,7 +1,7 @@
-import Model from '../modules/model';
-import Api from '../modules/api';
-import constants from '../modules/constants';
-import { SIGNIN } from '../modules/events';
+import Model from '../modules/model.js';
+import Api from '../modules/api.js';
+import constants from '../modules/constants.js';
+import { SIGNIN } from '../modules/events.js';
 
 
 export default class SignInModel extends Model {
@@ -18,7 +18,7 @@ export default class SignInModel extends Model {
     Api.post(`${constants.HOST}/auth/login`, data)
       .then((res) => res.json())
       .then((res) => {
-        if (res.ok) {
+        if (res.statusCode === 200) {
           alert(res.body.toString());
           this.eventBus.emit(SIGNIN.success, { message: 'Oppa!!!' });
         }

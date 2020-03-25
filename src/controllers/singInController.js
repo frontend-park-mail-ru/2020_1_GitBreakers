@@ -1,145 +1,145 @@
-import { SIGNIN } from '../modules/events';
-import Controller from '../modules/controller';
-import SignIn from '../views/signIn';
+import { SIGNIN } from '../modules/events.js';
+import Controller from '../modules/controller.js';
+import SignIn from '../views/signIn.js';
+
 
 export default class SignInController extends Controller {
-  constructor(root, eventBus, router) {
-    super(root, eventBus, router);
+    constructor(root, eventBus, router) {
+        super(root, eventBus, router);
 
-    this.view = new SignIn(root, eventBus);
-    this.eventBus.on(SIGNIN.submit, this._signupSubmit.bind(this));
-    this.eventBus.on(SIGNIN.nextPage, this._nextPage.bind(this));
-  }
-
-  _nextPage({ path = '/' } = {}) {
-    this.router.go(path);
-  }
-
-  _signupSubmit(data = {}) {
-    const {
-      username,
-      password,
-    } = data;
-    const result = { data: [] };
-
-
-    let flag = SignInController._validateUsername(username.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = undefined;
-    } else {
-      document.getElementById('usernameError').innerHTML = '';
+        this.view = new SignIn(root, eventBus);
+        this.eventBus.on(SIGNIN.submit, this.signupSubmit.bind(this));
     }
 
-    flag = SignInController._validatePassword(password.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = undefined;
-    } else {
-      document.getElementById('passwordError').innerHTML = '';
+    open(data) {
+        super.open(data);
     }
 
-    if (result.data.length === 0) {
-      this.eventBus.emit(SIGNIN.valid, {
-        username: username.value,
-        password: password.value,
-      });
-      return;
-    }
-    this.eventBus.emit(SIGNIN.fail, result);
-  }
+    signupSubmit(data = {}) {
+        const {
+            username,
+            password,
+        } = data;
+        const result = { data: [] };
 
-  static _validateEmail(email = '') {
-    const item = 'email';
-    if (!email) {
-      return {
-        item,
-        message: 'Пустой поле с mail`ом!',
-      };
-    }
 
-    const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/;
-    if (!reg.test(email)) {
-      return {
-        item,
-        message: 'Невалидный email!',
-      };
-    }
+        let flag = SignInController.validateUsername(username.value);
+        if (flag) {
+            result.data.push(flag);
+            flag = undefined;
+        } else {
+            document.getElementById('usernameError').innerHTML = '';
+        }
 
-    if (email.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий mail!!!(Меньше 6 символов)',
-      };
-    }
+        flag = SignInController.validatePassword(password.value);
+        if (flag) {
+            result.data.push(flag);
+            flag = undefined;
+        } else {
+            document.getElementById('passwordError').innerHTML = '';
+        }
 
-    if (email.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный mail!!!(Больше 50 символа)',
-      };
-    }
-    return false;
-  }
-
-  static _validatePassword(password = '') {
-    const item = 'password';
-    if (!password) {
-      return {
-        item,
-        message: 'Пустой поле с password`ом!',
-      };
+        if (result.data.length === 0) {
+            this.eventBus.emit(SIGNIN.valid, {
+                username: username.value,
+                password: password.value,
+            });
+            return;
+        }
+        this.eventBus.emit(SIGNIN.fail, result);
     }
 
-    if (password.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий password!!!(Меньше 6 символов)',
-      };
+    static validateEmail(email = '') {
+        const item = 'email';
+        if (!email) {
+            return {
+                item,
+                message: 'Пустой поле с mail`ом!',
+            };
+        }
+
+        const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/;
+        if (!reg.test(email)) {
+            return {
+                item,
+                message: 'Невалидный email!',
+            };
+        }
+
+        if (email.length < 6) {
+            return {
+                item,
+                message: 'Слишком короткий mail!!!(Меньше 6 символов)',
+            };
+        }
+
+        if (email.length > 50) {
+            return {
+                item,
+                message: 'Слишком длинный mail!!!(Больше 50 символа)',
+            };
+        }
+        return false;
     }
 
-    if (password.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный password!!!(Больше 50 символа)',
-      };
-    }
-    return false;
-  }
+    static validatePassword(password = '') {
+        const item = 'password';
+        if (!password) {
+            return {
+                item,
+                message: 'Пустой поле с password`ом!',
+            };
+        }
 
-  static _validatePassword2(password = '', password2 = {}) {
-    const item = 'password2';
-    if (password !== password2) {
-      return {
-        item,
-        message: 'Пароли не совпадают!',
-      };
-    }
-    return false;
-  }
+        if (password.length < 6) {
+            return {
+                item,
+                message: 'Слишком короткий password!!!(Меньше 6 символов)',
+            };
+        }
 
-  static _validateUsername(username) {
-    const item = 'username';
-    if (!username) {
-      return {
-        item,
-        message: 'Пустой поле с username`ом!',
-      };
+        if (password.length > 50) {
+            return {
+                item,
+                message: 'Слишком длинный password!!!(Больше 50 символа)',
+            };
+        }
+        return false;
     }
 
-    if (username.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий username!!!(Меньше 6 символов)',
-      };
+    static validatePassword2(password = '', password2 = {}) {
+        const item = 'password2';
+        if (password !== password2) {
+            return {
+                item,
+                message: 'Пароли не совпадают!',
+            };
+        }
+        return false;
     }
 
-    if (username.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный username!!!(Больше 50 символа)',
-      };
+    static validateUsername(username) {
+        const item = 'username';
+        if (!username) {
+            return {
+                item,
+                message: 'Пустой поле с username`ом!',
+            };
+        }
+
+        if (username.length < 6) {
+            return {
+                item,
+                message: 'Слишком короткий username!!!(Меньше 6 символов)',
+            };
+        }
+
+        if (username.length > 50) {
+            return {
+                item,
+                message: 'Слишком длинный username!!!(Больше 50 символа)',
+            };
+        }
+        return false;
     }
-    return false;
-  }
 }
