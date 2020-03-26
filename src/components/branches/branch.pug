@@ -1,9 +1,0 @@
-extends ../repository/repository.pug
-block content
-    div.repository__list
-        each branch in branchList
-            div.repository__list__item
-                div.repository_list__item_title #{branch.branchName}
-                div.repository_list__item_info updated: #{branch.updateDate}
-                div.repository__list__item_button
-                    button.button.button-colored.button-small(type='submit') *

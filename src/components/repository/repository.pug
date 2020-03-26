@@ -1,17 +1,18 @@
 div.section
     div.section__title
-        h2.title Repository: #{repName}
+        h2.title Repository: #{name}
     div.section__main
-        div.rep-menu
-            div.rep-menu__item
-                button#code.button(name='code', type='submit') Code
-            div.rep-menu__item
-                button#branches.button(type='submit') Branches
-            div.rep-menu__item
-                button#commits.button(type='submit') Commits
-            div.rep-menu__item
-                button#settings.button(type='submit') Settings
+        div.rep-menu__item
+            h3 Description: #{description}
+        div.rep-menu__item
+           if private
+               h2 Private
+           else
+               h2 Public
+        div.rep-menu__item
+            button.button(type='submit') Code
+        div.rep-menu__item
+            button.button(type='submit') Settings
     hr.line-separator.line-separator_thin
     div.repository
-        block content
     hr.line-separator.line-separator_thin
