@@ -1,21 +1,20 @@
-class Search {
+export default class Search {
+  constructor(parent) {
+    this.parent = parent;
+  }
 
-    constructor(parent) {
-        this.parent = parent;
-    }
+  render() {
+    const search = document.createElement('form');
+    search.className = 'search';
+    search.action = '#';
 
-    render() {
-        const search = document.createElement("form");
-        search.className = "search";
-        search.action = "#";
+    const searchInput = document.createElement('input');
+    searchInput.className = 'search__input';
+    searchInput.name = 'search';
+    searchInput.placeholder = 'Search...';
+    searchInput.type = 'text';
 
-        const search__input = document.createElement("input");
-        search__input.className = "search__input";
-        search__input.name = "search";
-        search__input.placeholder = "Search...";
-        search__input.type = "text";
-
-        search.appendChild(search__input);
-        this.parent.appendChild(search);
-    }
+    search.appendChild(searchInput);
+    this.parent.appendChild(search);
+  }
 }

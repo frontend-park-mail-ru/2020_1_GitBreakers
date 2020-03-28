@@ -1,40 +1,44 @@
- class Header {
-    _userData;
+import Logo from '../logo/logo';
+import Search from '../search/search';
+import MainMenu from './main_menu/main_menu';
 
-    get userData() {
-        return this._userData;
-    }
-    set userData(userData) {
-        this._userData = userData;
-    }
+export default class Header {
+  get userData() {
+    return this._userData;
+  }
 
-    constructor(parent = document.body) {
-        this.parent = parent;
-    }
+  set userData(userData) {
+    this._userData = userData;
+  }
 
-    render() {
-        const header = document.createElement('div');
-        header.className = "header";
+  constructor(parent = document.body) {
+    this.parent = parent;
+    this._userData = null;
+  }
 
-        const header__logo = document.createElement("div");
-        header__logo.className = "header__logo";
-        const logo = new Logo(header__logo);
-        logo.render();
+  render() {
+    const header = document.createElement('div');
+    header.className = 'header';
 
-        const header__search = document.createElement("div");
-        header__search.className = "header__search";
-        const search = new Search(header__search);
-        search.render();
+    const headerLogo = document.createElement('div');
+    headerLogo.className = 'header__logo';
+    const logo = new Logo(headerLogo);
+    logo.render();
 
-        const header__menu = document.createElement("div");
-        header__menu.className = "header__menu";
-        const menu = new Main_menu(header__menu, this.userData);
-        menu.render();
+    const headerSearch = document.createElement('div');
+    headerSearch.className = 'header__search';
+    const search = new Search(headerSearch);
+    search.render();
 
-        header.appendChild(header__logo);
-        header.appendChild(header__search);
-        header.appendChild(header__menu);
+    const headerMenu = document.createElement('div');
+    headerMenu.className = 'header__menu';
+    const menu = new MainMenu(headerMenu, this.userData);
+    menu.render();
 
-        this.parent.appendChild(header);
-    }
+    header.appendChild(headerLogo);
+    header.appendChild(headerSearch);
+    header.appendChild(headerMenu);
+
+    this.parent.appendChild(header);
+  }
 }

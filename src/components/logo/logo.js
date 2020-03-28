@@ -1,4 +1,4 @@
-class Logo {
+export default class Logo {
   constructor(parent) {
     this.parent = parent;
   }
@@ -7,12 +7,12 @@ class Logo {
     const logo = document.createElement('h1');
     logo.className = 'logo';
 
-    const logo__name = document.createElement('a');
-    logo__name.className = 'logo__name'; //classList?
-    logo__name.href = '/';
-    logo__name.textContent = 'Git';
+    const logoName = document.createElement('a');
+    logoName.className = 'logo__name'; // classList?
+    logoName.href = '/';
+    logoName.textContent = 'Git';
 
-    logo.appendChild(logo__name);
+    logo.appendChild(logoName);
     this.parent.appendChild(logo);
   }
 }

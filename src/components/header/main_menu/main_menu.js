@@ -1,32 +1,37 @@
-class Main_menu {
+import MenuItem from '../../menu_item/menu_item';
 
-    _guestMenuItems = {
-        signup: "Sign up",
-        login: "Log in",
-    };
+export default class MainMenu {
+  constructor(parent, user) {
+    this.parent = parent;
+    this.menuItems = this._guestMenuItems;
 
-    _userMenuItems = {
-        user: "UserName",
-        signout: "Sign out",
-    };
-
-    constructor(parent, user) {
-        this.parent = parent;
-        this.menuItems = this._guestMenuItems;
-
-        if (user) {
-            this.menuItems = this._userMenuItems
-        }
+    if (user) {
+      this.menuItems = this._userMenuItems;
     }
 
-    render() {
-        const menu = document.createElement("div");
-        menu.className = "menu";
+    this._guestMenuItems = {
+      signup: 'Sign up',
+      login: 'Log in',
+    };
 
-        for (let key in this.menuItems) {
-            const menu__item = new Menu_Item(menu, `/${key}`, this.menuItems[key], "menu__item");
-            menu__item.render();
-         }
-        this.parent.appendChild(menu);
-    }
+    this._userMenuItems = {
+      user: 'UserName',
+      signout: 'Sign out',
+    };
+  }
+
+  render() {
+    const menu = document.createElement('div');
+    menu.className = 'menu';
+
+    Object.keys(this.menuItems, (key) => {
+      const menuItem = new MenuItem(menu, `/${key}`, this.menuItems[key], 'menu__item');
+      menuItem.render();
+    });
+    // for (const key in this.menuItems) {
+    //   const menu__item = new Menu_Item(menu, `/${key}`, this.menuItems[key], 'menu__item');
+    //   menu__item.render();
+    // }
+    this.parent.appendChild(menu);
+  }
 }

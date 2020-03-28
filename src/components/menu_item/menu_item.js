@@ -1,19 +1,17 @@
-class Menu_Item {
+export default class MenuItem {
+  constructor(parent, href = '#', text = 'NoName', className = 'menu__item') {
+    this.parent = parent;
+    this.href = href;
+    this.text = text;
+    this.className = className;
+  }
 
-    constructor(parent, href = "#", text = "NoName", className = "menu__item") {
-        this.parent = parent;
-        this.href = href;
-        this.text = text;
-        this.className = className;
-    }
+  render() {
+    const menuitem = document.createElement('a');
+    menuitem.className = this.className;
+    menuitem.href = this.href;
+    menuitem.textContent = this.text;
 
-    render() {
-        const menu__item = document.createElement("a");
-        menu__item.className = this.className;
-        menu__item.href = this.href;
-        menu__item.textContent = this.text;
-
-        this.parent.appendChild(menu__item);
-    }
-
+    this.parent.appendChild(menuitem);
+  }
 }

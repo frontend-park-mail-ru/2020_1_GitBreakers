@@ -1,7 +1,7 @@
-import { SIGNUP } from '../modules/events.js';
-import Model from '../modules/model.js';
-import Api from '../modules/api.js';
-import constants from '../modules/constants.js';
+import { SIGNUP } from '../modules/events';
+import Model from '../modules/model';
+import Api from '../modules/api';
+import constants from '../modules/constants';
 
 export default class SignUpModel extends Model {
   constructor(root, eventBus) {
