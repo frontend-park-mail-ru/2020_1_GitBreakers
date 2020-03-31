@@ -1,76 +1,64 @@
-import eventBus from './eventBus.js';
+import eventBus from './eventBus';
+import { UPLOAD } from './events';
 
 export default class Router {
-    constructor() {
-        this.routes = [];
+  constructor() {
+    this.routes = [];
+  }
+
+  go(newUrl = '/', data = {}) {
+    this.controller = this.getController(newUrl);
+    if (!this.controller) {
+      console.log('newUrl =', newUrl, 'Контроллер не найден');
+      newUrl = '/'; // либо переход на главную, либо показать NotFound
+      this.controller = this.getController(newUrl);
     }
-
-    go(newUrl = '/', data = {}) {
-        this.controller = this.getController(newUrl);
-        if (!this.controller) {
-            console.log('newUrl =', newUrl, 'Контроллер не найден');
-            newUrl = '/'; // либо переход на главную, либо показать NotFound
-            this.controller = this.getController(newUrl);
-        }
-        if (window.location.pathname !== newUrl) {
-            window.history.pushState(null, null, newUrl);
-        }
-        if (this.controller) {
-            this.controller.open(data);
-        } else {
-            console.log('Router error!');
-        }
+    if (window.location.pathname !== newUrl) {
+      window.history.pushState(null, null, newUrl);
     }
-
-
-    start() {
-        const currentUrl = window.location.pathname;
-        this.go(currentUrl);
-
-        window.addEventListener('click', (evt) => {
-            const { target } = evt;
-            if (target instanceof HTMLButtonElement) {
-                evt.preventDefault();
-                const url = target.dataset.section;
-                this.go(url);
-            }
-            if (target instanceof HTMLAnchorElement) {
-                evt.preventDefault();
-                if (target.dataset.rep) {
-                    const url = `${target.dataset.section}/${target.dataset.rep}`;
-                    this.go(url);
-                    return;
-                }
-                const url = target.dataset.section;
-                this.go(url);
-            }
-        });
-
-        window.addEventListener('popstate', () => {
-            const url = window.location.pathname;
-            this.go(url);
-        });
+    if (this.controller) {
+      this.controller.open(data);
+    } else {
+      console.log('Router error!');
     }
+  }
 
+  start() {
+    const currentUrl = window.location.pathname;
+    this.go(currentUrl);
 
-    getController(url) {
-        let controller = null;
-        this.routes.forEach((route) => {
-          //  if (route.url === url) {
-              if (url.match(route.url)) {
-                controller = route.controller;
-            }
-        });
-        return controller;
+    window.addEventListener('click', (evt) => {
+      const { target } = evt;
+      if (target.classList[0] === 'route') {
+        evt.preventDefault();
+        const url = target.dataset.section;
+        const data = target.dataset;
+        this.go(url, data);
+      }
+    });
+
+    window.addEventListener('popstate', () => {
+      const url = window.location.pathname;
+      this.go(url);
+    });
+  }
+
+  getController(url) {
+    const result = this.routes.find((route) => url.match(route.url));
+    if (result) {
+      return result.controller;
     }
+    return null;
+  }
 
-    register(url, controller) {
-        this.routes.push({
-            url,
-            controller,
-        });
-        eventBus.on("Change path", (newUrl) => {
-            this.go(newUrl);
-        });
-    }
+
+  register(url, controller) {
+    this.routes.push({
+      url,
+      controller,
+    });
+    eventBus.on(UPLOAD.changePath, (newUrl) => {
+      this.go(newUrl);
+    });
+  }
 }

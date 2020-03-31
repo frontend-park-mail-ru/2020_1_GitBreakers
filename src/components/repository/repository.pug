@@ -1,17 +1,20 @@
 div.section
     div.section__title
-        h2.title Repository: #{repName}
+        h2.title Repository: #{author}/#{repName}
     div.section__main
         div.rep-menu
             div.rep-menu__item
-                button#code.button(name='code', type='submit') Code
+                button.route.code.button(name='code', type='submit') Code
             div.rep-menu__item
-                button#branches.button(type='submit') Branches
+                button.route.branches.button(type='submit') Branches
             div.rep-menu__item
-                button#commits.button(type='submit') Commits
+                button.route.commits.button(type='submit') Commits
             div.rep-menu__item
-                button#settings.button(type='submit') Settings
+                button.route.settings.button(type='submit') Settings
+            block button
     hr.line-separator.line-separator_thin
+    if formShow==="true"
+        include ../branches/newBranch/newBranch.pug
     div.repository
         block content
     hr.line-separator.line-separator_thin

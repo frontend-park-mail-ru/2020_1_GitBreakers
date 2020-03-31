@@ -51,15 +51,6 @@ const branchCommits = {
   },
 };
 
-const repositories = {
-  IvanProba_11111: {
-    title: 'Название репы 11111',
-  },
-  User2_22222: {
-    title: 'Название репы 22222',
-  },
-};
-
 const branches = {
   IvanProba_11111: {
     master: {
@@ -90,23 +81,105 @@ app.use(body.json());
 app.use(cookie());
 
 
-app.get('/IvanProba_Repa1', (req, res) => { // получить информацию по репозиторию
-  res.json(repositories.IvanProba_11111);
-});
-app.get('/User2_Repa2', (req, res) => {
-  res.json(repositories.User2_22222);
-});//-----------------------------------------------------
-
 app.get('/IvanProba_Repa1_branches', (req, res) => {
-  res.json(branches.IvanProba_11111); // вернёт ветки указанной репы
+  res.json(branches.IvanProba_11111);
 });
-//--------------------------------------------------------
+
 app.get('/IvanProba_Repa1_branch_master', (req, res) => {
-  res.json('инфа по ветке ивана Мастер');
+  const data = {
+    folders: {
+      folder: {
+        title: 'folder',
+        commit: 'Add something',
+        update: 'today',
+      },
+      fff2: {
+        title: 'fff2',
+        commit: 'Delete something',
+        update: 'yesterday',
+      },
+    },
+    files: {
+      faaa: {
+        title: 'faaa',
+        commit: 'Add something',
+        update: '1 minute ago',
+      },
+      fbbb: {
+        title: 'fbbb',
+        commit: 'Delete something',
+        update: 'yesterday',
+      },
+    },
+    info: 'info about master Ivan',
+  };
+  res.json(data);
 });
+
+app.get('/IvanProba_Repa1_branch_dev', (req, res) => {
+  const data = {
+    folders: {
+      ffaa: {
+        title: 'ffaa',
+        commit: 'Add something',
+        update: 'today',
+      },
+      ffbb: {
+        title: 'ffbb',
+        commit: 'Delete something',
+        update: 'yesterday',
+      },
+    },
+    files: {},
+    info: 'info about dev Ivan',
+  };
+  res.json(data);
+});
+
+app.get('/IvanProba_Repa1_branch_master_folder', (req, res) => {
+  const data = {
+    folders: {
+      aaaaaaa: {
+        title: 'aaaaaaa',
+        commit: 'Add something',
+        update: 'today',
+      },
+    },
+    files: {
+      f1: {
+        title: 'f1',
+        commit: 'Add something',
+        update: '1 minute ago',
+      },
+      f2: {
+        title: 'f2',
+        commit: 'Delete something',
+        update: 'yesterday',
+      },
+      f3: {
+        title: 'f3',
+        commit: 'Delete something',
+        update: 'now',
+      },
+    },
+    info: 'info about master/folder Ivan',
+  };
+  res.json(data);
+});
+
+app.get('/IvanProba_Repa1_branch_master_folder-aaaaaaa', (req, res) => {
+  const data = {
+    folders: {},
+    files: {},
+    info: {},
+  };
+  res.json(data);
+});
+
 app.get('/IvanProba_Repa1_commits_master', (req, res) => {
   res.json(branchCommits.iv_master);
 });
+
 app.get('/User2_Repa2_commits_master', (req, res) => {
   res.json(branchCommits.sh_master);
 });
