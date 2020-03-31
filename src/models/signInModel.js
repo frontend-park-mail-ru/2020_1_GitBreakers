@@ -13,7 +13,6 @@ export default class SignInModel extends Model {
 
   _send(data = {}) {
     alert('Sending!!!!', data);
-
     // TODO: магия fetch`а !!!!!!
     Api.post(`${constants.HOST}/auth/login`, data)
       .then((res) => res.json())

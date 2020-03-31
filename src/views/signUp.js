@@ -1,9 +1,8 @@
 import { SIGNUP } from '../modules/events';
 import View from '../modules/view';
 import errorMessage from '../modules/errorMessage';
-import { signupTemplate } from '../components/signUp/signUp';
+import template from '../components/signUp/signUp.pug';
 
-const template = signupTemplate;
 
 export default class SignUpView extends View {
   constructor(root, eventBus) {

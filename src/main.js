@@ -4,6 +4,7 @@ import eventBus from './modules/eventBus';
 // import SignInModel from './models/signInModel';
 import SignInController from './controllers/singInController';
 import Router from './modules/router';
+import createHeader from './modules/header';
 
 import BranchesController from './controllers/BranchesController';
 import FileTreeController from './controllers/FileTreeController';
@@ -15,10 +16,13 @@ import paths from './modules/paths';
 
 const application = document.getElementById('root');
 const header = document.createElement('div');
-header.className = 'header';
+// header.className = 'header';
+header.id = 'header';
 document.body.prepend(header);
 
 const router = new Router();
+createHeader(router);
+
 
 const signUpController = new SignUpController(application, eventBus, router);
 const signInController = new SignInController(application, eventBus, router);

@@ -12,10 +12,10 @@ const paths = {
   branch: /^\/[\w_]+-[\w_]+-branch-[\w_]+$/i,
   repository_branches: /^\/[\w_]+-[\w_]+-branches$/i,
 
-    // repository: /^\/[\w-_]+\/[\w-_]+$/,
-    // branch: /^\/[\w-_]+\/[\w-_]+\/branch\/[\w-_]+$/i,
-    //repository_branches: /^\/[\w-_]+\/[\w-_]+\/branches$/i,
-    //commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
+  // repository: /^\/[\w-_]+\/[\w-_]+$/,
+  // branch: /^\/[\w-_]+\/[\w-_]+\/branch\/[\w-_]+$/i,
+  // repository_branches: /^\/[\w-_]+\/[\w-_]+\/branches$/i,
+  // commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
 };
 
 export default paths;
