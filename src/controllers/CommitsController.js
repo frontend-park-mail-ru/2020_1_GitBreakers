@@ -1,28 +1,30 @@
 import RepositoryController from './RepositoryController';
 import RepCommitsView from '../views/repCommits';
+import { COMMITSPAGE } from '../modules/events';
+
 
 export default class CommitsController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepCommitsView(root, eventBus);
+
+    this.eventBus.on(COMMITSPAGE.setData, this.loadCommitList.bind(this));
   }
 
-  open(data) {
+  loadCommitList(res) {
+    this.data.branchName = this.branchName;
+    this.data.commitList = res.commits;
+
+    this._open();
+  }
+
+  open() {
     this.setRepositoryName();
     this.setBranchName();
-    this.loadCommitList().then((res) => {
-      if (!res) { return; }
-      this.commitList = res;
 
-      console.log(data);
-
-      const data1 = {
-        author: this.author,
-        repName: this.repository,
-        branchName: this.branchName,
-        commitList: this.commitList.commits,
-      };
-      super.open(data1);
+    this.eventBus.emit(COMMITSPAGE.getFiles, {
+      repName: this.repositoryName,
+      branchName: this.branchName,
     });
   }
 }
