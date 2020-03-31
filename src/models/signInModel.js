@@ -14,19 +14,22 @@ export default class SignInModel extends Model {
   _send(data = {}) {
     alert('Sending!!!!', data);
     // TODO: магия fetch`а !!!!!!
-    Api.post(`${constants.HOST}/auth/login`, data)
-      .then((res) => res.json())
+    Api.post(`${constants.HOST}/login`, data)
       .then((res) => {
         if (res.statusCode === 200) {
-          alert(res.body.toString());
-          this.eventBus.emit(SIGNIN.success, { message: 'Oppa!!!' });
+          return res.json();
         }
-        this.eventBus.emit(SIGNIN.fail, {
-          data: [{
-            item: 'resp',
-            message: res.body,
-          }],
-        });
+        throw new Error('Ошибка сети');
+      })
+      .then((res) => {
+        alert(res.body.toString());
+        this.eventBus.emit(SIGNIN.success /* , { message: 'Oppa!!!' } */);
+        // this.eventBus.emit(SIGNIN.fail, {
+        //   data: [{
+        //     item: 'resp',
+        //     message: res.body,
+        //   }],
+        // });
       })
       .catch((err) => {
         alert('catch trigger!');

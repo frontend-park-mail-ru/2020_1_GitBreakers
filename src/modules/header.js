@@ -2,7 +2,7 @@ import template from '../components/header/headerTemplate.pug';
 
 function createHeader(router) {
   const root = document.getElementById('header');
-  root.innerHTML = template({});
+  root.innerHTML = template();
 
   document.getElementsByClassName('header__menu')[0].addEventListener('click', (event) => {
     event.preventDefault();

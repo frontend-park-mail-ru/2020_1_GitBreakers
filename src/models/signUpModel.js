@@ -15,14 +15,18 @@ export default class SignUpModel extends Model {
 
     // TODO: магия fetch`а !!!!!!
     Api.post(`${constants.HOST}/auth/signup`, data)
-      .then((res) => res.json())
       .then((res) => {
         if (res.statusCode === 200) {
-          alert(res.body.toString());
-          this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
-        } else if (res.statusCode === 409) {
-          this.eventBus.emit(SIGNUP.success, { message: '409' });
+          return res.json();
         }
+        if (res.statusCode === 409) {
+          return this.eventBus.emit(SIGNUP.success, { message: '409' });
+        }
+        throw new Error('Ошибка сети');
+      })
+      .then((res) => {
+        alert(res.body.toString());
+        this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
       })
       .catch((err) => {
         alert('catch trigger!', err);

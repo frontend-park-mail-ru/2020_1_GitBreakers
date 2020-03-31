@@ -21,7 +21,8 @@ const header = document.createElement('div');
 const signInModel = new SignInModel(application, eventBus);
 const repositoryModel = new RepositoryModel(application, eventBus);
 
-header.className = 'header';
+// header.className = 'header';
+header.id = 'header';
 document.body.prepend(header);
 
 
