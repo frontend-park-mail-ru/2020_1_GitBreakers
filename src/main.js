@@ -3,6 +3,7 @@ import eventBus from './modules/eventBus';
 import SignInController from './controllers/singInController';
 import Router from './modules/router';
 import paths from './modules/paths';
+import createHeader from './modules/header';
 
 import BranchesController from './controllers/BranchesController';
 import FileTreeController from './controllers/FileTreeController';
@@ -25,6 +26,8 @@ document.body.prepend(header);
 
 
 const router = new Router();
+createHeader(router);
+
 
 const signUpController = new SignUpController(application, eventBus, router);
 const signInController = new SignInController(application, eventBus, router);

@@ -20,6 +20,8 @@ export default class SignUpModel extends Model {
         if (res.statusCode === 200) {
           alert(res.body.toString());
           this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
+        } else if (res.statusCode === 409) {
+          this.eventBus.emit(SIGNUP.success, { message: '409' });
         }
       })
       .catch((err) => {

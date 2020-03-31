@@ -2,7 +2,6 @@ export default class Api {
   static request(path = '/', method = 'GET', header = {}, body = {}) {
     if (method !== 'GET') {
       return fetch(path, {
-        method,
         headers: header,
         credentials: 'include',
         // mode: 'cors',
@@ -11,11 +10,8 @@ export default class Api {
     }
     return fetch(path, {
       method,
-      headers: header,
-      // credentials: 'include',
       credentials: 'include',
       // mode: 'cors',
-      body: JSON.stringify(body),
     });
   }
 
