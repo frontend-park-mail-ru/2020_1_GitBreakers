@@ -116,6 +116,10 @@
     opacity: 60%;
 }
 
+.line-separator_extra-thin {
+    opacity: 30%;
+}
+
 .footer {
     display: flex;
     flex-wrap: wrap;
@@ -158,12 +162,36 @@
     padding: 15px 20px;
 }
 
+.form-horizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.form-horizontal__item {
+    margin:  auto 20px auto 10px;
+}
+
+.form-horizontal__item__label {
+    margin: 0 20px 0 0;
+}
+
+.form-horizontal__button {
+    margin: 30px 60px;
+}
+
 .form__item {
     margin: 10px 0;
 }
 
 .form__item__input {
     margin: 5px 0;
+}
+
+.form__item__input-small {
+    margin: 5px 0;
+    width: 150px;
 }
 
 .form__button {
@@ -186,6 +214,12 @@
 
 .button-small {
     height: 30px;
+}
+
+.button-extra-small {
+    height: 30px;
+    font-size: 90%;
+    padding: 0 10px;
 }
 
 .form__link {
@@ -325,6 +359,8 @@
 .repository__list__item {
     display: flex;
     margin: 40px 0;
+    text-decoration: none;
+    color: #ffcf22;
 }
 
 .repository_list__item_title {
@@ -354,11 +390,79 @@
     padding: 0 10px;
 }
 
+.repository__top {
+    margin: -10px 0 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.repository__top_path {
+    font-size: 90%;
+    font-weight: bold;
+    margin: auto 0;
+}
+
+.repository__top_button {
+    margin-left: auto;
+}
 
 
 
 
 
+
+
+table {
+    width: 100%;
+}
+
+.repository__tree__item {
+    margin: 10px 0;
+}
+
+.repository__tree__item_icon{
+    height: 12px;
+    width: 12px;
+    margin: auto 5px;
+}
+
+.repository__tree__item_title {
+    text-decoration: none;
+    color: #ffcf22;
+}
+
+.repository__tree__item_commit {
+    font-size: 85%;
+    margin: auto 0;
+}
+
+.repository__tree__item_info {
+    font-size: 95%;
+}
+
+td {
+    border-bottom: 1px solid #372a1b;
+    height: 40px;
+}
+
+.column-thin {
+    width: 25%;
+}
+.column-thick {
+    width: 65%;
+}
+.column-very-thin {
+    width: 10%;
+    text-align: right;
+}
+
+.repository__file-field {
+    padding: 20px;
+    font-size: 105%;
+    font-family: monospace;
+    background-color: #0c0c1c;
+    color: #e6c882;
+}
 
 
 
