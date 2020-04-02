@@ -14,7 +14,21 @@
   },
   "rules": {
     "no-underscore-dangle": "off",
-    "no-console": "off",
-    "no-alert": "off"
+    "no-console": "off"
+
+    // "no-alert": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["Views", "./src/views"],
+          ["Controllers", "./src/controllers"],
+          ["Components", "./src/components"],
+          ["Models", "./src/models"],
+          ["Modules", "./src/modules"]
+        ]
+      }
+    }
   }
 }

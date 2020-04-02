@@ -9,6 +9,11 @@ export default class SignInController extends Controller {
 
     this.view = new SignIn(root, eventBus);
     this.eventBus.on(SIGNIN.submit, this.signupSubmit.bind(this));
+    this.eventBus.on(SIGNIN.nextPage, this.nextPage.bind(this));
+  }
+
+  nextPage(route) {
+    this.router.go(route.path);
   }
 
   open(data) {
@@ -26,7 +31,7 @@ export default class SignInController extends Controller {
     let flag = SignInController.validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
-      flag = undefined;
+      flag = null;
     } else {
       document.getElementById('usernameError').innerHTML = '';
     }
@@ -34,14 +39,14 @@ export default class SignInController extends Controller {
     flag = SignInController.validatePassword(password.value);
     if (flag) {
       result.data.push(flag);
-      flag = undefined;
+      flag = null;
     } else {
       document.getElementById('passwordError').innerHTML = '';
     }
 
     if (result.data.length === 0) {
       this.eventBus.emit(SIGNIN.valid, {
-        username: username.value,
+        login: username.value,
         password: password.value,
       });
       return;

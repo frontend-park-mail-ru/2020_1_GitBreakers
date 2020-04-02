@@ -1,7 +1,7 @@
-import { SIGNIN } from '../modules/events';
-import View from '../modules/view';
-import errorMessage from '../modules/errorMessage';
-import template from '../components/signIn/signIn.pug';
+import { SIGNIN } from 'Modules/events';
+import View from 'Modules/view';
+import errorMessage from 'Modules/errorMessage';
+import template from 'Components/signIn/signIn.pug';
 
 
 export default class SignInView extends View {
@@ -31,13 +31,12 @@ export default class SignInView extends View {
     document.getElementById('forgot').addEventListener('click', (event) => {
       event.preventDefault();
 
-      alert('forgot password!');
+      alert('Упс... Это пока заглушка!');
     });
 
     document.getElementById('regist').addEventListener('click', (event) => {
       event.preventDefault();
       this.eventBus.emit(SIGNIN.nextPage, { path: '/signup' });
-      alert('Registration');
     });
   }
 

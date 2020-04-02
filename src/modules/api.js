@@ -5,33 +5,43 @@ export default class Api {
         method,
         headers: header,
         credentials: 'include',
-        // mode: 'cors',
+        mode: 'cors',
         body: JSON.stringify(body),
       });
     }
     return fetch(path, {
       credentials: 'include',
-      // mode: 'cors',
+      mode: 'cors',
     });
   }
 
   static get(path) {
-    // const header = { 'Content-Type': 'application/json; charset=UTF-8' };
     return this.request(path);
   }
 
   static post(path, body) {
-    const header = { 'Content-Type': 'application/json; charset=UTF-8' };
-    return this.request(path, 'POST', header, body);
+    const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
+    return this.request(path, 'POST', headers, body);
   }
 
   static delete(path, body) {
-    const header = { 'Content-Type': 'application/json; charset=UTF-8' };
-    return this.request(path, 'DELETE', header, body);
+    const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
+    return this.request(path, 'DELETE', headers, body);
   }
 
   static put(path, body) {
-    const header = { 'Content-Type': 'application/json; charset=UTF-8' };
-    return this.request(path, 'PUT', header, body);
+    const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
+    return this.request(path, 'PUT', headers, body);
+  }
+
+  static setAvatar(path = '/', body = {}) {
+    const headers = { 'Content-Type': 'multipart/form-data' };
+    return fetch(path, {
+      method: 'PUT',
+      headers,
+      body,
+      credentials: 'include',
+      mode: 'cors',
+    });
   }
 }

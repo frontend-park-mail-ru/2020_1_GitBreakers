@@ -20,6 +20,7 @@ export default class RepositoryController extends Controller {
 
     this.author = path.match(reg)[0];
     this.repository = path.match(reg)[1];
+    // ({ 0: this.author, 1: this.repository } = path.match(reg)); Может лучше так?
     this.repositoryName = `${this.author}_${this.repository}`;
   }
 

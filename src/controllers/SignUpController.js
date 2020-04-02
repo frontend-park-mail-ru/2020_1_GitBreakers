@@ -8,6 +8,11 @@ export default class SignUpController extends Controller {
 
     this.view = new SignUp(root, eventBus);
     this.eventBus.on(SIGNUP.submit, this.signUpSubmit.bind(this));
+    this.eventBus.on(SIGNUP.nextPage, this.nextPage.bind(this));
+  }
+
+  nextPage(route) {
+    this.router.go(route.path);
   }
 
   open(data) {
@@ -59,8 +64,9 @@ export default class SignUpController extends Controller {
 
     if (result.data.length === 0) {
       this.eventBus.emit(SIGNUP.valid, {
-        username: username.value,
+        login: username.value,
         email: email.value,
+        name: 'Lol kek',
         password: password.value,
       });
       return;

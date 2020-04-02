@@ -26,4 +26,36 @@ export default class ProfileModel extends Model {
         alert('Error!!!', err);
       });
   }
+
+  _setAvatar(data) {
+    Api.put(`${constants.HOST}/avatar`, data)
+      .then((res) => {
+        if (res.ok) {
+          this.eventBus.emit(PROFILE.setAvatarSuccess, {});
+        }
+        if (res.status === 401) {
+          this.eventBus.emit();
+        }
+        throw new Error();
+      })
+      .catch((err) => {
+        alert('SetAvatar Error! ', err.toString());
+      });
+  }
+
+  _updateProfile(data) {
+    Api.put(`${constants}/profile`, data)
+      .then((res) => {
+        if (res.ok) {
+          this.eventBus.emit(PROFILE.updateProfileSuccess);
+        }
+        if (res.status === 401) {
+          this.eventBus.emit();
+        }
+        throw new Error();
+      })
+      .catch((err) => {
+        alert('UpdateProfile Error! ', err.toString());
+      });
+  }
 }

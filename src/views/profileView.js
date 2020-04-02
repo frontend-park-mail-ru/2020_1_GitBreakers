@@ -10,7 +10,7 @@ export default class ProfileView extends View {
     this.eventBus.on(PROFILE.loadSuccess, this.loadSuccess.bind(this));
   }
 
-  render(data = {}) {
+  render(data) {
     this.eventBus.emit(PROFILE.load, data);
   }
 

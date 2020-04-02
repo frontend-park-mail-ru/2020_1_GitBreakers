@@ -1,7 +1,7 @@
-import { SIGNUP } from '../modules/events';
-import View from '../modules/view';
-import errorMessage from '../modules/errorMessage';
-import template from '../components/signUp/signUp.pug';
+import { SIGNUP } from 'Modules/events';
+import View from 'Modules/view';
+import errorMessage from 'Modules/errorMessage';
+import template from 'Components/signUp/signUp.pug';
 
 
 export default class SignUpView extends View {
@@ -30,6 +30,11 @@ export default class SignUpView extends View {
 
       console.log('SEND : ', SIGNUP.submit, '(', 'emit', ')');
     });
+
+    // document.getElementById('login').addEventListener('click', (event) => {
+    //   event.preventDefault();
+    //   this.eventBus.emit(SIGNUP.nextPage, { path: '/signin' });
+    // });
   }
 
   static _fail(data = {}) {

@@ -12,18 +12,15 @@ export default class SignInModel extends Model {
   }
 
   _send(data = {}) {
-    alert('Sending!!!!', data);
     // TODO: магия fetch`а !!!!!!
     Api.post(`${constants.HOST}/login`, data)
       .then((res) => {
         if (res.statusCode === 200) {
-          return res.json();
+          this.eventBus.emit(SIGNIN.success /* , { message: 'Oppa!!!' } */);
         }
         throw new Error('Ошибка сети');
       })
-      .then((res) => {
-        alert(res.body.toString());
-        this.eventBus.emit(SIGNIN.success /* , { message: 'Oppa!!!' } */);
+      .then(() => {
         // this.eventBus.emit(SIGNIN.fail, {
         //   data: [{
         //     item: 'resp',
@@ -32,7 +29,7 @@ export default class SignInModel extends Model {
         // });
       })
       .catch((err) => {
-        alert('catch trigger!');
+        // alert('catch trigger!');
         this.eventBus.emit(SIGNIN.fail, {
           data: [{
             item: 'resp',

@@ -11,22 +11,16 @@ export default class SignUpModel extends Model {
   }
 
   _send(data = {}) {
-    alert('Sending!!!!', data);
-
     // TODO: магия fetch`а !!!!!!
-    Api.post(`${constants.HOST}/auth/signup`, data)
+    Api.post(`${constants.HOST}/signup`, data)
       .then((res) => {
         if (res.statusCode === 200) {
-          return res.json();
+          this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
         }
         if (res.statusCode === 409) {
-          return this.eventBus.emit(SIGNUP.success, { message: '409' });
+          return this.eventBus.emit(SIGNUP.fail, { message: '409' });
         }
         throw new Error('Ошибка сети');
-      })
-      .then((res) => {
-        alert(res.body.toString());
-        this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
       })
       .catch((err) => {
         alert('catch trigger!', err);
