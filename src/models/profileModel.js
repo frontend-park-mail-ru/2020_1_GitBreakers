@@ -1,7 +1,7 @@
-import { PROFILE } from '../modules/events';
-import Model from '../modules/model';
-import Api from '../modules/api';
-import constants from '../modules/constants';
+import { PROFILE } from 'Modules/events';
+import Model from 'Modules/model';
+import Api from 'Modules/api';
+import constants from 'Modules/constants';
 
 
 export default class ProfileModel extends Model {
@@ -12,7 +12,7 @@ export default class ProfileModel extends Model {
   }
 
   _load(data) {
-    Api.get(`${constants.HOST}/profile/${data.data}`)
+    Api.get(`${constants.HOST}/profile/${data.profile}`)
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -20,10 +20,10 @@ export default class ProfileModel extends Model {
         this.eventBus.emit(PROFILE.loadFail, res.status);
         throw new Error(res.status);
       })
-      .then((res) => this.eventBus.emit(PROFILE.loadSuccess, res.body))
+      .then((res) => this.eventBus.emit(PROFILE.loadSuccess, res))
       .catch((err) => {
         console.log(err);
-        alert('Error!!!', err);
+        alert('Model: Load Profile Error!', err);
       });
   }
 
@@ -31,15 +31,15 @@ export default class ProfileModel extends Model {
     Api.put(`${constants.HOST}/avatar`, data)
       .then((res) => {
         if (res.ok) {
-          this.eventBus.emit(PROFILE.setAvatarSuccess, {});
+          return this.eventBus.emit(PROFILE.setAvatarSuccess, {});
         }
         if (res.status === 401) {
-          this.eventBus.emit();
+          return this.eventBus.emit();
         }
         throw new Error();
       })
       .catch((err) => {
-        alert('SetAvatar Error! ', err.toString());
+        alert('Model: SetAvatar Error! ', err.toString());
       });
   }
 
@@ -47,15 +47,15 @@ export default class ProfileModel extends Model {
     Api.put(`${constants}/profile`, data)
       .then((res) => {
         if (res.ok) {
-          this.eventBus.emit(PROFILE.updateProfileSuccess);
+          return this.eventBus.emit(PROFILE.updateProfileSuccess);
         }
         if (res.status === 401) {
-          this.eventBus.emit();
+          return this.eventBus.emit();
         }
         throw new Error();
       })
       .catch((err) => {
-        alert('UpdateProfile Error! ', err.toString());
+        alert('Model: Update Profile Error! ', err.toString());
       });
   }
 }

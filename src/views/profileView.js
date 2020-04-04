@@ -1,6 +1,6 @@
-import View from '../modules/view';
-import template from '../components/profile/profile.pug';
-import { PROFILE } from '../modules/events';
+import View from 'Modules/view';
+import template from 'Components/profile/profile2.pug';
+import { PROFILE } from 'Modules/events';
 
 
 export default class ProfileView extends View {
@@ -11,18 +11,21 @@ export default class ProfileView extends View {
   }
 
   render(data) {
-    this.eventBus.emit(PROFILE.load, data);
+    const path = window.location.pathname;
+    const profile = path.split('/')[path.split('/').length - 1];
+
+    this.eventBus.emit(PROFILE.load, { profile });
   }
 
   loadSuccess(data) {
     super.render(data);
 
-    document.getElementById('edit-button').addEventListener('click', (event) => {
-      event.preventDefault();
+    // document.getElementById('edit-button').addEventListener('click', (event) => {
+    //   event.preventDefault();
 
-      const { target } = event;
-      alert('click click');
-      this.eventBus.emit(PROFILE.nextPage, { data: target.data.section });
-    });
+    //   const { target } = event;
+    //   alert('click click');
+    //   this.eventBus.emit(PROFILE.nextPage, { data: target.data.section });
+    // });
   }
 }
