@@ -1,0 +1,23 @@
+div.section
+  div.section__title
+    h2.title Edit profile
+  div.section__main
+    div.section__main__columns
+      div.section__column1
+        div.profile-info
+          img.profile__avatar(alt='avatar' src='#{avatar}')
+          form.form.form_large(enctype='multipart/form-data')
+            div.profile__image-input
+              input(type='file' name='avatar')
+            div.profile__button
+              button.button.button_long(type='submit' name='image') Change avatar
+    div.section__column2
+      form.form.form_large
+        div.form__item
+          label.form_large__item_label(for='name') Name
+          input.form__item__input_long(type='text' name='name' value='#{name}')
+        div.form__item
+          label.form_large__item_label(for='email') 
+          input.form__item__input_long(type='email' name='email' value='#{}')
+
+
