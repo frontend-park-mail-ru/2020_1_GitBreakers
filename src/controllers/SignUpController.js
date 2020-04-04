@@ -1,6 +1,7 @@
-import { SIGNUP } from '../modules/events';
-import Controller from '../modules/controller';
-import SignUp from '../views/signUp';
+import authUser from 'Modules/authUser';
+import Controller from 'Modules/controller';
+import { SIGNUP } from 'Modules/events';
+import SignUp from 'Views/signUp';
 
 export default class SignUpController extends Controller {
   constructor(root, eventBus, router) {
@@ -8,15 +9,21 @@ export default class SignUpController extends Controller {
 
     this.view = new SignUp(root, eventBus);
     this.eventBus.on(SIGNUP.submit, this.signUpSubmit.bind(this));
-    this.eventBus.on(SIGNUP.nextPage, this.nextPage.bind(this));
+    // this.eventBus.on(SIGNUP.success, this.submitSuccess.bind(this));
   }
 
-  nextPage(route) {
-    this.router.go(route.path);
-  }
+  // submitSuccess() {
+  //   authUser.loadUser();
+  //   this.router.go(`/profile/${authUser.getUser()}`);
+  // }
 
   open(data) {
-    super.open(data);
+    if (!authUser.isAuth) {
+      super.open(data);
+    } else {
+      // window.location.pathname = `/profile/${authUser.getUser()}`;
+      this.router.go(`/profile/${authUser.getUser()}`);
+    }
   }
 
   signUpSubmit(data = {}) {
@@ -32,7 +39,7 @@ export default class SignUpController extends Controller {
     let flag = SignUpController.validateEmail(email.value);
     if (flag) {
       result.data.push(flag);
-      flag = undefined;
+      flag = null;
     } else {
       document.getElementById('emailError').innerHTML = '';
     }
@@ -40,7 +47,7 @@ export default class SignUpController extends Controller {
     flag = SignUpController.validateUsername(username.value);
     if (flag) {
       result.data.push(flag);
-      flag = undefined;
+      flag = null;
     } else {
       document.getElementById('usernameError').innerHTML = '';
     }
@@ -48,7 +55,7 @@ export default class SignUpController extends Controller {
     flag = SignUpController.validatePassword(password.value);
     if (flag) {
       result.data.push(flag);
-      flag = undefined;
+      flag = null;
     } else {
       document.getElementById('passwordError').innerHTML = '';
       document.getElementById('password2Error').innerHTML = '';
@@ -57,7 +64,7 @@ export default class SignUpController extends Controller {
     flag = SignUpController.validatePassword2(password.value, password2.value);
     if (flag) {
       result.data.push(flag);
-      flag = undefined;
+      flag = null;
     } else {
       document.getElementById('password2Error').innerHTML = '';
     }
@@ -66,7 +73,7 @@ export default class SignUpController extends Controller {
       this.eventBus.emit(SIGNUP.valid, {
         login: username.value,
         email: email.value,
-        name: 'Lol kek',
+        name: '',
         password: password.value,
       });
       return;

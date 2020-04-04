@@ -1,3 +1,7 @@
+export const ACTIONS = {
+  redirect: 'redirect',
+  loadWhoAmI: 'loadWhoAmI',
+};
 
 export const SIGNUP = {
   submit: 'Submit : SignUp',
@@ -19,6 +23,13 @@ export const PROFILE = {
   loadSuccess: 'loadSuccess : Profile',
   loadFail: 'loadFail : Profile',
   nextPage: 'nextPage : Profile',
+};
+
+export const NEWREPOSITORY = {
+  send: 'send: NewRepository',
+  sendFail: 'sendFail: NewRepository',
+  sendSuccess: 'sendSuccess: NewRepository',
+  sendValid: 'sendValid: NewRepository',
 };
 
 

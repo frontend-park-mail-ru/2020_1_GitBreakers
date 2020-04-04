@@ -1,3 +1,4 @@
+import authUser from 'Modules/authUser';
 import { SIGNIN } from '../modules/events';
 import Controller from '../modules/controller';
 import SignIn from '../views/signIn';
@@ -8,19 +9,26 @@ export default class SignInController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SignIn(root, eventBus);
-    this.eventBus.on(SIGNIN.submit, this.signupSubmit.bind(this));
-    this.eventBus.on(SIGNIN.nextPage, this.nextPage.bind(this));
+    this.eventBus.on(SIGNIN.submit, this.signInSubmit.bind(this));
+    this.eventBus.on(SIGNIN.success, this.submitSuccess.bind(this));
   }
 
-  nextPage(route) {
-    this.router.go(route.path);
+  submitSuccess() {
+    // authUser.loadUser();
+    this.router.go(`/profile/${authUser.getUser()}`);
   }
+
 
   open(data) {
-    super.open(data);
+    if (!authUser.isAuth) {
+      super.open(data);
+    } else {
+      // window.location.pathname = `/profile/${authUser.getUser()}`;
+      this.router.go(`/profile/${authUser.getUser()}`);
+    }
   }
 
-  signupSubmit(data = {}) {
+  signInSubmit(data = {}) {
     const {
       username,
       password,
@@ -54,38 +62,6 @@ export default class SignInController extends Controller {
     this.eventBus.emit(SIGNIN.fail, result);
   }
 
-  static validateEmail(email = '') {
-    const item = 'email';
-    if (!email) {
-      return {
-        item,
-        message: 'Пустой поле с mail`ом!',
-      };
-    }
-
-    const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/;
-    if (!reg.test(email)) {
-      return {
-        item,
-        message: 'Невалидный email!',
-      };
-    }
-
-    if (email.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий mail!!!(Меньше 6 символов)',
-      };
-    }
-
-    if (email.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный mail!!!(Больше 50 символа)',
-      };
-    }
-    return false;
-  }
 
   static validatePassword(password = '') {
     const item = 'password';
@@ -107,17 +83,6 @@ export default class SignInController extends Controller {
       return {
         item,
         message: 'Слишком длинный password!!!(Больше 50 символа)',
-      };
-    }
-    return false;
-  }
-
-  static validatePassword2(password = '', password2 = {}) {
-    const item = 'password2';
-    if (password !== password2) {
-      return {
-        item,
-        message: 'Пароли не совпадают!',
       };
     }
     return false;

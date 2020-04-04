@@ -27,27 +27,19 @@ export default class SignUpView extends View {
         password: signUpForm.password,
         password2: signUpForm.password2,
       });
-
-      console.log('SEND : ', SIGNUP.submit, '(', 'emit', ')');
     });
-
-    // document.getElementById('login').addEventListener('click', (event) => {
-    //   event.preventDefault();
-    //   this.eventBus.emit(SIGNUP.nextPage, { path: '/signin' });
-    // });
   }
 
   static _fail(data = {}) {
     data.data.forEach((item) => {
-      console.log('kek');
       document.getElementById(`${item.item}Error`).innerHTML = errorMessage(item.message);
     });
   }
 
-  static _success(data = {}) {
-    if (data === {}) {
-      alert('Error!!!');
-    }
-    alert(`OkeySuccess!!!${data}`);
-  }
+  // static _success(data = {}) {
+  //   if (data === {}) {
+  //     alert('Error!!!');
+  //   }
+  //   alert(`OkeySuccess!!!${data}`);
+  // }
 }

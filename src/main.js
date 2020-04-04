@@ -11,10 +11,11 @@ import FileTreeController from 'Controllers/FileTreeController';
 import CommitsController from 'Controllers/CommitsController';
 import Create404Page from 'Controllers/404';
 
-import SignInModel from 'Models/signInModel';
+import AuthModel from 'Models/authModel';
 import RepositoryModel from 'Models/repositoryModel';
-import SignUpModel from 'Models/signUpModel';
 import ProfileModel from 'Models/profileModel';
+import ProfileController from './controllers/profileController';
+import NewRepositoryController from './controllers/newRepositoryController';
 
 
 const application = document.getElementById('root');
@@ -22,8 +23,7 @@ const header = document.createElement('div');
 
 // TODO: Решить проблему с unused-vars
 /* eslint-disable no-unused-vars */
-const signInModel = new SignInModel(application, eventBus);
-const signUpModel = new SignUpModel(application, eventBus);
+const authModel = new AuthModel(application, eventBus);
 const repositoryModel = new RepositoryModel(application, eventBus);
 const profileModel = new ProfileModel(application, eventBus);
 
@@ -35,7 +35,8 @@ document.body.prepend(header);
 const router = new Router();
 createHeader(router);
 
-
+const newRepositoryController = new NewRepositoryController(application, eventBus, router);
+const profileController = new ProfileController(application, eventBus, router);
 const signUpController = new SignUpController(application, eventBus, router);
 const signInController = new SignInController(application, eventBus, router);
 
@@ -45,6 +46,8 @@ const commitsController = new CommitsController(application, eventBus, router);
 
 const create404Page = new Create404Page();
 
+router.register(paths.newRepository, newRepositoryController);
+router.register(paths.profile, profileController);
 router.register(paths.signup, signUpController);
 router.register(paths.signin, signInController);
 router.register(paths.repository, fileTreeController); // открыта ветка Мастер

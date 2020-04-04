@@ -1,9 +1,10 @@
 const paths = {
+  mewRepository: '/new',
   main: /^\/$/,
   signup: /^\/signup$/i,
   signin: /^\/signin$/i,
   newRepository: /^\/new$/i,
-  profile: /^\/[\w-_]+$/,
+  profile: /^\/profile\/[\w-_]+$/,
   userRepositories: /^\/[\w-_]+\?tab=repositories$/i,
   userSettings: /^\/[\w-_]+\?tab=settings$/i,
   repositorySettings: /^\/[\w-_]+\/[\w-_]+\/settings$/i,

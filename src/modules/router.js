@@ -17,6 +17,7 @@ export default class Router {
       window.history.pushState(null, null, newUrl);
     }
     if (this.controller) {
+      // window.location.pathname = newUrl;
       this.controller.open(data);
     } else {
       console.log('Router error!');
