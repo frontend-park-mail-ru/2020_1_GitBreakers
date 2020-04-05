@@ -1,0 +1,35 @@
+//- - let reps = [ {name: '123', stars: 1, update: 'kek'}, {name: '123', stars: 1, update: 'kek'}, {name: '123', stars: 1, update: 'kek'}]
+
+mixin repCard(rep)
+  div.rep-list__item
+    div.rep-list__item__top
+      h3 <a href="#" class="rep-list__item__top__title"> #{name} </a>
+      div.rep-list__item__top__stars *5
+      div.rep-list__item__info updated #{date}
+  hr.line-separator.line-separator_extra-thin
+
+
+div.section
+  div.section__main
+    div.profile
+      div.profile-info
+        img.profile__avatar(src=image alt='avatar')
+        h3.profile-info__login Login: #{login}
+        h3.profile-info__email Email: #{email}
+        div.profile-info__button
+            button.button.button_long(type='submit' name='settings') Edit profile
+    div.profile__data
+      div.profile__data__top
+        div.profile__data__top_menu
+          div.profile__data__top__menu_item
+            button.button(type='submit') Profile
+          div.profile__data__top__menu_item
+            button.button(type='submit') New
+  hr.line-separator.line-separator_thin
+  div.profile__data__main
+    div.rep-list
+      if reps
+        each rep in reps
+          +repCard(rep)
+      else
+          h3 Create repositories!

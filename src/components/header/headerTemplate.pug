@@ -1,0 +1,14 @@
+div.header
+  div.header__logo
+      h1.logo
+        if auth
+          a.route.logo__name(href="#" data-section='/profile/#{login}') Git
+        else
+          a.route.logo__name(href="#" data-section='/signin') Git
+  div.header__search
+    form.search(action='#')
+      input.search__input(name='search' placeholder="Search..." type='text')
+  div.header__menu
+    div.menu
+      a.menu__item(href="#" data-section='/signup') SignUp
+      a.menu__item(href="#" data-section='/signin')  SignIn

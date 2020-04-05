@@ -1,0 +1,22 @@
+@import "constants";
+
+.fileField {
+    background-color: $file-field-background-color;
+    min-height: 100px;
+    border: 1px solid $file-field-small-border-color;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    display: flex;
+
+    box-shadow: inset 40px 5px 0 0 $file-field-borger-color, inset 41px 6px 0 0 $file-field-small-border-color;
+
+
+    .fileField__link {
+        align-self: center;
+        margin: 0 auto;
+        color: $font-light-color;
+    }
+}
+
+
+

@@ -1,0 +1,18 @@
+form.form-horizontal(action='#' name='newBranch')
+    div.form-horizontal__item
+        label.form-horizontal__item__label(for="branchName") Create branch
+        input#branchName.form__item__input.form__item__input-small(type="text" name="branchName")
+    div.form-horizontal__item
+        label.form-horizontal__item__label(for="parentBranch") from
+        select#parentBranch.form__item__input(name="parentBranch")
+            each branch in branchList
+                if branch.branchName==="master"
+                    option(selected value=master) master
+                else
+                    option(value=branch.branchName) #{branch.branchName}
+
+    div.form-horizontal__button
+        button.createBranch.button.button-colored(type="submit" name="createBranch") Create branch
+    div#branchNameError
+    div#respError
+hr.line-separator.line-separator

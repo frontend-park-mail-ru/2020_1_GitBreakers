@@ -1,0 +1,28 @@
+extends ../repository/repository.pug
+block content
+    div.repository__top
+        div.repository__top_path #{repName}/#{branchName}/#{repPath}
+        div.repository__top_button
+            button.add.button.button-extra-small.button-colored(type='submit') Add
+
+    table.repository__tree
+        hr.line-separator.line-separator_extra-thin
+        each folder in folderList
+            tr.repository__tree__item
+                td.column-thin
+                    img.repository__tree__item_icon(src="styles/img/folder.png")
+                    a.route.repository__tree__item_title.folder(name=folder.title) #{folder.title}
+                td.column-thick
+                    div.repository__tree__item_commit #{folder.commit}
+                td.column-very-thin
+                    div.repository__tree__item_info #{folder.update}
+
+        each file in fileList
+            tr.repository__tree__item
+                td.column-thin
+                    img.repository__tree__item_icon(src="styles/img/file.png")
+                    a.route.repository__tree__item_title.file(name=file.title) #{file.title}
+                td.column-thick
+                    div.repository__tree__item_commit #{file.commit}
+                td.column-very-thin
+                    div.repository__tree__item_info #{file.update}
