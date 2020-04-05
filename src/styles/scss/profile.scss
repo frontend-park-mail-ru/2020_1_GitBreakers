@@ -1,0 +1,90 @@
+@import "constants";
+
+.profile {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+
+    &-info {
+        grid-column: 1/2;
+        margin-right: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &__login {
+            margin: 10px auto;
+        }
+
+        &__button {
+            margin: 10px 0;
+        }
+    }
+
+    &-avatar {
+        width: 260px;
+        height: 300px;
+    }
+
+
+    &__data {
+        grid-column: 2/3;
+
+        &__top {
+            display: grid;
+            grid-template-columns: auto max-content;
+            align-items: baseline;
+
+            &__menu {
+                grid-column: 1/2;
+                display: flex;
+                flex-direction: row;
+                justify-content: left;
+
+                &_item {
+                    margin: 0 20px 10px 20px;
+                }
+            }
+        }
+
+        &__main {
+            margin: 0 10px;
+
+            &__item {
+                margin: 20px 0;
+
+                &_label {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
+
+
+.rep-list {
+
+    &__item {
+        margin: 0 5px 15px 10px;
+
+        &__top {
+            display: grid;
+            grid-template-columns: auto max-content;
+            align-items: baseline;
+
+
+            &__title {
+                grid-column: 1/2;
+                color: $font-light-color;
+                text-decoration: none;
+            }
+
+            &__stars {
+                grid-column: 2/3;
+            }
+        }
+
+        &__info {
+            font-size: 90%;
+        }
+    }
+}

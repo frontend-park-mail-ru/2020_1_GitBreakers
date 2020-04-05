@@ -1,0 +1,29 @@
+@import "constants";
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    height: 100%;
+    background-color: $footer-color;
+
+    &__developer {
+        font-size: 90%;
+        color: $font-light-color;
+        margin: auto auto auto 20px;
+    }
+
+    &_menu {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+
+        &_item-small {
+            text-decoration: none;
+            color: $font-color;
+            font-size: 80%;
+            padding: 0 50px;
+        }
+    }
+}

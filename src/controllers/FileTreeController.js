@@ -16,12 +16,14 @@ export default class FileTreeController extends RepositoryController {
     this.data.branchName = this.branchName;
     this.data.repPath = this.repPath;
 
+    console.log(this.data);
     this._open();
   }
 
   open() {
     this.setRepositoryName();
     this.setBranchName();
+    this.setRepPath();
 
     this.eventBus.emit(TREEPAGE.getFiles, {
       repName: this.repositoryName,

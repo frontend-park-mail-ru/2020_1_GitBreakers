@@ -1,0 +1,70 @@
+@import "constants";
+
+pre {
+    font-family: $font-code;
+    color: #333;
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 30px 0 !important;
+    font-size: 13px;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+
+    &.prettyprint {
+        margin-bottom: 20px;
+    }
+
+    &-scrollable {
+        max-height: 340px;
+        overflow-y: scroll;
+    }
+}
+
+.prettyprint {
+    padding: 10px 15px;
+    background-color: $file-field-background-color;
+    border: 1px solid $file-field-small-border-color;
+
+    &.linenums {
+        box-shadow: inset 40px 5px 0 0 $file-field-borger-color, inset 41px 6px 0 0 $file-field-small-border-color;
+        /*box-shadow: inset 40px 0 0 #171c21, inset 41px 0 0 #372a1b;*/
+    }
+}
+
+ol.linenums {
+    margin: 10px 0 0 -12px;
+
+    & li {
+        padding-left: 12px;
+        color: #93a1a1;
+        line-height: 20px;
+        list-style: decimal;
+    }
+}
+
+.com {
+    color: #655f6d;
+}
+.lit {
+    color: #ee9b2c;
+}
+.pun, .opn, .clo {
+    color: #93a1a1;
+}
+.str, .atv, .fun {
+    color: #ffda5c;
+}
+.kwd, .prettyprint .tag {
+    color: #66a0e7;
+}
+.typ, .atn, .dec, .var {
+    color: #5e58db;
+}
+.pln {
+    color: #93a1a1;
+}
