@@ -1,0 +1,47 @@
+@import "constants";
+
+.header {
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: max-content auto max-content;
+    background-color: $header-color;
+
+    &__logo {
+        grid-column: 1/2;
+        align-self: center;
+
+        &_name {
+            margin: auto 20px auto 80px;
+            text-decoration: none;
+            color: $font-color;
+        }
+    }
+
+    &__search {
+        grid-column: 2/3;
+        justify-self: end;
+        align-self: center;
+
+        &_input {
+            height: 30px;
+            border-radius: 5px;
+            background-color: $input-color;
+            color: $input-search-text-color;
+            border-width: 0;
+            padding-left: 10px;
+            margin-right: 20px;
+        }
+    }
+
+    &__menu {
+        grid-column: 3/4;
+        display: flex;
+        margin: auto 20px;
+
+        &_item {
+            text-decoration: none;
+            color: $font-color;
+            padding: 0 10px;
+        }
+    }
+}

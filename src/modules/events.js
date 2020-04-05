@@ -65,3 +65,9 @@ export const DELETEBRANCH = {
   success: 'Success : DeleteBranch',
   fail: 'Fail : DeleteBranch',
 };
+
+export const FILEVIEW = {
+  loadFile: 'FileView : LoadFile',
+  loadFail: 'FileView : LoadFail',
+  loadSuccess: 'FileView : LoadSuccess',
+};

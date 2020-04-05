@@ -3,7 +3,6 @@ import template from 'Components/newRepository/newRepository.pug';
 import { NEWREPOSITORY } from 'Modules/events';
 import errorMessage from 'Modules/errorMessage';
 
-
 export default class newRepositoryView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);

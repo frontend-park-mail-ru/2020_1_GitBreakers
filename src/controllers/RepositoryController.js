@@ -20,20 +20,23 @@ export default class RepositoryController extends Controller {
 
     this.author = path.match(reg)[0];
     this.repository = path.match(reg)[1];
-    // ({ 0: this.author, 1: this.repository } = path.match(reg)); Может лучше так?
-    this.repositoryName = `${this.author}_${this.repository}`;
+    this.repositoryName = `${this.author}/${this.repository}`;
   }
 
 
   setBranchName() {
     const path = window.location.pathname;
-    this.repPath = null;
-
     if (path.match(/^\/[\w_]+-[\w_]+$/)) {
       this.branchName = 'master';
       return;
     }
-    this.branchName = path.match(/(?<=-(branch|commits)-)[\w_]+/)[0];
+    this.branchName = path.match(/(?<=-(branch|commits|file)-)[\w_]+/)[0];
+  }
+
+
+  setRepPath() {
+    const path = window.location.pathname;
+    this.repPath = null;
 
     const branchPath = `${this.author}-${this.repository}-branch-${this.branchName}-`;
     const res = path.match(`(?<=${branchPath})[\\w_-]+`);
@@ -42,9 +45,27 @@ export default class RepositoryController extends Controller {
     }
   }
 
+  setFilePath() {
+    const path = window.location.pathname;
+    this.filePath = null;
+
+    let res = path.match(/(?<=-)[\w_.]+$/);
+    if (res) {
+      [this.filePath] = res;
+    }
+
+    const filePath = `${this.author}-${this.repository}-file-${this.branchName}-`;
+    res = path.match(`(?<=${filePath})[\\w_.-]+`);
+    if (res) {
+      [this.filePath] = res;
+    }
+  }
+
   _open() {
     this.data.author = this.author;
     this.data.repName = this.repository;
+
+    // this.data.user = gerUser();
 
     super.open(this.data);
   }

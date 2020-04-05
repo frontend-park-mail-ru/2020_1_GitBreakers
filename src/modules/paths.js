@@ -15,7 +15,7 @@ const paths = {
   repositoryBranches: /^\/[\w_]+-[\w_]+-branches$/i,
 
   upload: /^\/[\w_]+-[\w_]+-upload-[\w_]+$/i,
-  fileView: /^\/[\w_]+-[\w_]+-file(-([\w_]+))+$/i,
+  fileView: /^\/[\w_]+-[\w_]+-file(-([\w_.]+))+$/i,
 
   // repository: /^\/[\w-_]+\/[\w-_]+$/,
   // branch: /^\/[\w-_]+\/[\w-_]+\/branch\/[\w-_]+$/i,

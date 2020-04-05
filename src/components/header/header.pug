@@ -1,0 +1,14 @@
+div.header
+    div.header__logo
+        h1
+            a.route.header__logo_name(data-section='') Git
+    div.header__search
+        form.search(action='#')
+            input.header__search_input(name='search' placeholder="Search..." type='text')
+    div.header__menu
+        if user
+            a.route.header__menu_item(data-section=`/profile/${user}`) #{user}
+            a.header__menu_item(data-section='signout')  SignOut
+        else
+            a.route.header__menu_item(data-section='/signup') SignUp
+            a.route.header__menu_item(data-section='/signin')  SignIn

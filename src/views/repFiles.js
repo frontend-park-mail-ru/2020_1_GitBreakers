@@ -10,7 +10,7 @@ export default class RepBranchesView extends RepositoryBaseView {
     super.render(data);
 
     const folderLinkList = document.getElementsByClassName('folder');
-    for (let i = 0; i < folderLinkList.length; i++) {
+    for (let i = 0; i < folderLinkList.length; i = +1) {
       folderLinkList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
@@ -26,8 +26,9 @@ export default class RepBranchesView extends RepositoryBaseView {
       });
     }
 
+
     const fileLinkList = document.getElementsByClassName('file');
-    for (let i = 0; i < fileLinkList.length; i++) {
+    for (let i = 0; i < fileLinkList.length; i = +1) {
       fileLinkList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
@@ -40,7 +41,6 @@ export default class RepBranchesView extends RepositoryBaseView {
           filePath += `-${fileName}`;
         }
         fileLinkList[i].dataset.section = filePath;
-        console.log('File-path = ', filePath);
       });
     }
   }
