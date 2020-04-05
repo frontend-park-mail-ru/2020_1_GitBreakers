@@ -35,7 +35,7 @@ export default class NewRepositoryController extends Controller {
 
 
     if (errors.length === 0) {
-      this.eventBus.emit(NEWREPOSITORY.valid, data);
+      this.eventBus.emit(NEWREPOSITORY.sendValid, data);
       return;
     }
     this.eventBus.emit(NEWREPOSITORY.sendFail, errors);

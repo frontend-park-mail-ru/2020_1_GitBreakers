@@ -1,5 +1,5 @@
 import authUser from 'Modules/authUser';
-import { SIGNIN } from '../modules/events';
+import { SIGNIN, ACTIONS } from '../modules/events';
 import Controller from '../modules/controller';
 import SignIn from '../views/signIn';
 
@@ -7,14 +7,24 @@ import SignIn from '../views/signIn';
 export default class SignInController extends Controller {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
-
+    this.redirectPath = null;
     this.view = new SignIn(root, eventBus);
     this.eventBus.on(SIGNIN.submit, this.signInSubmit.bind(this));
     this.eventBus.on(SIGNIN.success, this.submitSuccess.bind(this));
+    this.eventBus.on(ACTIONS.redirect, this._redirect.bind(this));
+  }
+
+  _redirect({ redirect = '' } = {}) {
+    this.router.go('/signin');
+    this.redirectPath = redirect;
   }
 
   submitSuccess() {
     // authUser.loadUser();
+    if (this.redirectPath) {
+      this.router.go(this.redirect);
+      return;
+    }
     this.router.go(`/profile/${authUser.getUser()}`);
   }
 

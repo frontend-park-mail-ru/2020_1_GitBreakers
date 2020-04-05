@@ -1,4 +1,5 @@
 const paths = {
+  profileSettings: '/settings',
   mewRepository: '/new',
   main: /^\/$/,
   signup: /^\/signup$/i,

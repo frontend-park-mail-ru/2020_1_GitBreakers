@@ -35,11 +35,11 @@ export default class Api {
   }
 
   static setAvatar(path = '/', body = {}) {
-    const headers = { 'Content-Type': 'multipart/form-data' };
+    // const headers = { 'Content-Type': 'multipart/form-data' };
     return fetch(path, {
       method: 'PUT',
-      headers,
-      body,
+      // headers,
+      body: new FormData(body),
       credentials: 'include',
       mode: 'cors',
     });

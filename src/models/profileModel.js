@@ -1,4 +1,4 @@
-import { PROFILE } from 'Modules/events';
+import { PROFILE, SETTINGS, ACTIONS } from 'Modules/events';
 import Model from 'Modules/model';
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
@@ -9,6 +9,29 @@ export default class ProfileModel extends Model {
     super(eventBus);
 
     this.eventBus.on(PROFILE.load, this._load.bind(this));
+    this.eventBus.on(SETTINGS.sendPassword, this._updateProfile.bind(this));
+    this.eventBus.on(SETTINGS.sendProfile, this._updateProfile.bind(this));
+    this.eventBus.on(SETTINGS.sendAvatar, this._setAvatar.bind(this));
+    this.eventBus.on(SETTINGS.loadWhoAmI, this._getWhoAmI.bind(this));
+  }
+
+  _getWhoAmI() {
+    Api.get(`${constants.HOST}/whoami`)
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        if (res.status === 401) {
+          this.eventBus.emit(ACTIONS.redirect, { redirect: '/settings' });
+        }
+        throw new Error('Somthing go wrong!');
+      })
+      .then((res) => {
+        this.eventBus.emit(SETTINGS.loadWhoAmISuccess, res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   _load(data) {
@@ -28,10 +51,10 @@ export default class ProfileModel extends Model {
   }
 
   _setAvatar(data) {
-    Api.put(`${constants.HOST}/avatar`, data)
+    Api.setAvatar(`${constants.HOST}/avatar`, data)
       .then((res) => {
         if (res.ok) {
-          return this.eventBus.emit(PROFILE.setAvatarSuccess, {});
+          return this.eventBus.emit(SETTINGS.sendAvatarSuccess, {});
         }
         if (res.status === 401) {
           return this.eventBus.emit();
@@ -44,10 +67,10 @@ export default class ProfileModel extends Model {
   }
 
   _updateProfile(data) {
-    Api.put(`${constants}/profile`, data)
+    Api.put(`${constants.HOST}/profile`, data)
       .then((res) => {
         if (res.ok) {
-          return this.eventBus.emit(PROFILE.updateProfileSuccess);
+          return this.eventBus.emit(SETTINGS.sendProfileSuccess, {});
         }
         if (res.status === 401) {
           return this.eventBus.emit();
