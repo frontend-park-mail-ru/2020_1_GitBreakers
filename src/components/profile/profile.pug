@@ -1,0 +1,23 @@
+div.profile-card
+    a.profile-avatar
+        img(src = avatar)
+    div.content
+        span() User login: #{login}
+    div.edit-profile
+        ul
+            li.li
+                span #{name}
+                //a(href="")  #{email}
+            li.li
+                span  <b>Bio:</b> #{bio}
+                //a(href="")  #{registrationDate}
+            li.li
+                a(href=url) My Web Site #{url}
+            li.li
+                //a(href="")  #{followers} + " Подписчики"
+                span  #{followers} Подписчики
+                //a(href="")  #{following} + " Подписки"
+                span  #{following} Подписки
+        button#edit-button(href="#" data-section="updateProfile") Edit profile!
+
+

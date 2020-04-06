@@ -1,0 +1,40 @@
+extends ../page/page.pug
+block main_section
+  div.section
+    div.section__title
+      h2.title Edit profile
+
+    div.section__main
+      div.profile
+        div.profile-info
+          img.profile__avatar(src=image alt='avatar')
+          form(enctype='multipart/form-data' update='setAvatar')
+            div.profile__image-input
+              input(type='file' name='avatar')
+            div.profile-info__button
+              button.button.button_long(type='submit' name='image') Change avatar
+        div.profile__data
+          div.form.form_large
+            form(name='setProfile')
+              div.form__item
+                label.form_large__item__label(for='name') Name
+                input#name.form__item__input.form__item__input_long(type='text' name='name' value=name)
+              div.form__item
+                label.form_large__item__label(for='email') Email
+                input#email.form__item__input.form__item__input_long(type='email' name='email' value=email)
+              div.form__button
+                button.button.button-colored(type='submit' name='submit') Save changes
+              table.repository__tree
+                hr.line-separator.line-separator_thin
+            form(name='setPassword')
+              div.form__item
+                label.form__item_label(for='oldPassword') old password
+                input#oldPassword.form__item__input(type='password' name='oldPassword' )
+              div.form__item
+                label.form__item_label(for='newPassword') new password
+                input#newPassword.form__item__input(type='password' name='newPassword' )
+              div.form__item
+                label.form__item_label(for='newPassword2') new password again
+                input#newPassword2.form__item__input(type='password' name='newPassword2' )
+              div.form__button
+                button.button.button-colored(type='submit' name='submit') Save changes

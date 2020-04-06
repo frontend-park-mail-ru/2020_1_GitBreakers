@@ -1,0 +1,26 @@
+extends ../repository/repository.pug
+block content
+
+    form.form-horizontal(action='#' name="selectBranch")
+        div.form-horizontal__item
+            label.form-horizontal__item__label(for="branchName") branch
+            select#branchName.form__item__input(name="branchName")
+                each branch in branchList
+                    if branch.name === "master"
+                        option(selected value=master) master
+                    else
+                        option(value=branch.name) #{branch.name}
+
+    hr.line-separator.line-separator_thin
+    div.repository__list
+        div.repository__list__group
+            each commit in commitList
+                div.repository__list__group_title updated: #{commit.update}
+                div.repository__list__group_content
+                    div.repository__list__item
+                        div.repository__list__item_title #{commit.commit_hash}
+                        div.repository__list__item_info author: #{commit.commit_author_name}
+
+                        div.repository__list__item_button
+                            button.button.button-colored.button-small(type='submit') *
+

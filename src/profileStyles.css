@@ -1,0 +1,101 @@
+.container,
+.section__main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.container > div {
+  margin: 20px;
+}
+.profile-info {
+  width: 28%;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.activity {
+  width: 42%;
+}
+
+.rep-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.rep-item {
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  width: 100%;
+  border-radius: 10px;
+  /*max-width: 60%;*/
+}
+
+.profile-avatar {
+  display: inherit;
+  width: inherit;
+}
+
+.rep-item {
+  border-radius: 10px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(40, 40, 40, 0.91);
+  /*justify-content: flex-start;*/
+}
+
+/*.rep-item:link {*/
+/*}*/
+
+.rep-item:hover {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(40, 40, 40, 0.91);
+  border-radius: 10px;
+  background: azure;
+  margin: 5px;
+  /*justify-content: flex-start;*/
+}
+
+.rep-name-stars {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.rep-name-stars,
+.rep-update {
+  margin: 1% 5%;
+}
+
+input {
+  margin: 10px;
+}
+
+a#edit-button {
+  margin: 10px 30px 40px 30px;
+
+  border: 1px solid greenyellow;
+  border-radius: 10px;
+  background-color: greenyellow;
+}
+
+.content {
+  margin-left: 25%;
+}
+
+form {
+  border-bottom: 1px solid gray;
+}
+
+button {
+  margin-left: 25%;
+  margin-bottom: 2%;
+}
+
+.li {
+  margin-top: 15px;
+}

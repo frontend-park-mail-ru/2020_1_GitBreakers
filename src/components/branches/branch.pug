@@ -1,0 +1,14 @@
+extends ../repository/repository.pug
+block content
+    div.repository__list
+        each branch in branchList
+            hr.line-separator.line-separator_extra-thin
+            div.repository__list__item
+                div.route.branchLink.repository__list__item_title(data-name=branch.name data-hash=branch.commit.commit_hash) #{branch.name}
+                div.repository__list__item_info updated: #{branch.commit.update} by #{branch.commit.commit_author_name}
+                div.repository__list__item_button
+                    input.route.deleteBranch.button.button-colored.button-small(name=branch.name type='button' value="Delete")
+        hr.line-separator.line-separator_extra-thin
+block button
+    div.repository__top_button
+        button.route.private.newBranch.button.button-small(type="submit") New branch
