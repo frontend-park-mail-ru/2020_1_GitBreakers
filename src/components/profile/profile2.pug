@@ -1,12 +1,12 @@
 extends ../page/page.pug
 block main_section
-  mixin repCard(rep)
+  mixin repCard(rep, login)
     div.rep-list__item
       div.rep-list__item__top
-        h3
-          a.rep-list__item__top__title(href="#") #{name}
+        h3 <a href="#" class="route rep-list__item__top__title" data-section='/!{login}-!{rep.name}'> !{rep.name} </a>
+        //- a.rep-list__item__top__title(href='#') !{name}
         div.rep-list__item__top__stars *5
-        div.rep-list__item__info updated #{date}
+        div.rep-list__item__info updated !{rep.created_at}
     hr.line-separator.line-separator_extra-thin
 
 
