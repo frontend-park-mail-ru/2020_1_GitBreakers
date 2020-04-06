@@ -53,7 +53,7 @@ router.register(paths.newRepository, newRepositoryController);
 router.register(paths.profile, profileController);
 router.register(paths.signup, signUpController);
 router.register(paths.signin, signInController);
-router.register(paths.repository, fileTreeController); // открыта ветка Мастер
+// router.register(paths.repository, fileTreeController); // открыта ветка Мастер
 router.register(paths.branch, fileTreeController); // открыта любая другая ветка
 router.register(paths.repositoryBranches, branchesController); // все ветки
 router.register(paths.commits, commitsController); // все коммиты ветки

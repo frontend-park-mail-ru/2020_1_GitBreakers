@@ -1,6 +1,6 @@
-import RepositoryController from './RepositoryController';
-import RepBranchesView from '../views/repBranches';
-import { NEWBRANCH, BRANCHESPAGE } from '../modules/events';
+import RepBranchesView from 'Views/repBranches';
+import { NEWBRANCH, BRANCHESPAGE } from 'Modules/events';
+import RepositoryController from 'Controllers/RepositoryController';
 
 
 export default class BranchesController extends RepositoryController {
@@ -12,8 +12,12 @@ export default class BranchesController extends RepositoryController {
     this.eventBus.on(BRANCHESPAGE.setData, this.loadBranchList.bind(this));
   }
 
-  loadBranchList(res) {
-    this.data.branchList = res;
+  loadBranchList(branchList) {
+    branchList.forEach((item) => {
+      item.commit.update = item.commit.commit_author_when.substr(0, 10);
+    });
+
+    this.data.branchList = branchList;
     this._open();
   }
 
@@ -23,6 +27,7 @@ export default class BranchesController extends RepositoryController {
     this.data.formShow = data.active;
     this.eventBus.emit(BRANCHESPAGE.getFiles, {
       repName: this.repositoryName,
+      page: 'branchPage',
     });
   }
 
@@ -63,7 +68,7 @@ export default class BranchesController extends RepositoryController {
         message: 'Имя ветки не должно превышать 30 символов!',
       };
     }
-    const reg = /^[\w_]+$/;
+    const reg = /^[\w_-]+$/;
     if (!reg.test(branchName)) {
       return {
         item,

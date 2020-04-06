@@ -1,7 +1,7 @@
-import RepositoryController from './RepositoryController';
-import FileView from '../views/fileView';
-import { FILEVIEW } from '../modules/events';
-import constants from '../modules/constants';
+import RepositoryController from 'Controllers/RepositoryController';
+import FileView from 'Views/fileView';
+import { FILEVIEW } from 'Modules/events';
+import constants from 'Modules/constants';
 
 
 export default class FileController extends RepositoryController {
@@ -18,27 +18,24 @@ export default class FileController extends RepositoryController {
     this.data.filePath = this.filePath;
     this.data.fileName = this.fileName;
 
-    /* const reader = new FileReader();
-        reader.onerror = (event) => {
-            console.error("Не удалось получить содержимое файла" + event.target.error.code);
-        }; */
+    const reader = new FileReader();
+    reader.onerror = (event) => {
+      console.error(`Не удалось получить содержимое файла${event.target.error.code}`);
+    };
 
     if (constants.CODELANG.find((item) => res.type === item)) {
       this.data.fileType = 'code';
-
-      /*    reader.readAsText(res.file);
-            reader.onload = (event) => {
-                this.data.fileContent = event.target.result;
-            };  */
-
-      this.data.fileContent = res.file; // кыш
+      reader.readAsText(res.file);
+      reader.onload = (event) => {
+        this.data.fileContent = event.target.result;
+      };
+      this.data.fileContent = res.file;
     } else {
       this.data.fileType = 'fileForLoad';
-
-      /* reader.readAsDataURL(res.file);
-            reader.onload = function(event) {
-                this.data.fileUrl = event.target.result;
-            }; */
+      reader.readAsDataURL(res.file);
+      reader.onload = function (event) {
+        this.data.fileUrl = event.target.result;
+      };
     }
     this._open();
   }

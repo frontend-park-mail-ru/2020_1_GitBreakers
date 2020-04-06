@@ -1,8 +1,9 @@
-import Model from '../modules/model';
-import Api from '../modules/api';
+import constants from 'Modules/constants';
+import Model from 'Modules/model';
+import Api from 'Modules/api';
 import {
   NEWBRANCH, UPLOAD, TREEPAGE, BRANCHESPAGE, COMMITSPAGE, DELETEBRANCH, FILEVIEW,
-} from '../modules/events';
+} from 'Modules/events';
 
 export default class RepositoryModel extends Model {
   constructor(root, eventBus) {
@@ -10,7 +11,7 @@ export default class RepositoryModel extends Model {
 
     this.eventBus.on(TREEPAGE.getFiles, this._getBranch.bind(this));
     this.eventBus.on(BRANCHESPAGE.getFiles, this._getBranchList.bind(this));
-    this.eventBus.on(COMMITSPAGE.getFiles, this._getCommitList.bind(this));
+    this.eventBus.on(COMMITSPAGE.getCommits, this._getCommitList.bind(this));
 
     this.eventBus.on(NEWBRANCH.valid, this._createBranch.bind(this));
     this.eventBus.on(DELETEBRANCH.delete, this._deleteBranch.bind(this));
@@ -18,69 +19,68 @@ export default class RepositoryModel extends Model {
   }
 
   _getBranch(data) {
-    let path = `/${data.repName}/branch/${data.branchName}`;
+    let path = `${constants.HOST}/${data.repName}/files/${data.branchName}`;
     if (data.repPath) {
-      path += `/${data.repPath}`;
+      path += `?path=${data.repPath}`;
     }
     Api.get(path)
-      .then((res) => res.json())
       .then((res) => {
-        if (res.error) {
-          console.log(res.error);
-          return;
+        if (res.status === 200) {
+          return res.json();
         }
-        this.eventBus.emit(TREEPAGE.setData, res);
-      }).catch(() => {
-        console.log('something wrong with json');
-      })
-      .catch(() => {
         this.eventBus.emit(UPLOAD.notFound, 'such branch or repository not found');
+      })
+      .then((res) => {
+        this.eventBus.emit(TREEPAGE.setData, res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
   _getBranchList(data) {
-    Api.get(`/${data.repName}/branches`)
-      .then((res) => res.json())
+    Api.get(`${constants.HOST}/${data.repName}/branches`)
       .then((res) => {
-        if (res.error) {
-          console.log(res.error);
-          return;
+        if (res.status === 200) {
+          return res.json();
         }
-        this.eventBus.emit(BRANCHESPAGE.setData, res);
-      }).catch(() => {
-        console.log('something wrong with json');
-      })
-      .catch(() => {
         this.eventBus.emit(UPLOAD.notFound, 'branchlist not found');
+      })
+      .then((res) => {
+        if (data.page === 'branchPage') {
+          this.eventBus.emit(BRANCHESPAGE.setData, res);
+        } else this.eventBus.emit(COMMITSPAGE.setBranches, res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
   _getCommitList(data) {
-    const path = `/${data.repName}/commits/${data.branchName}`;
+    const path = `${constants.HOST}/${data.repName}/${data.branchName}/commits`;
     Api.get(path)
-      .then((res) => res.json())
       .then((res) => {
-        if (res.error) {
-          console.log(res.error);
-          return;
+        if (res.status === 200) {
+          return res.json();
         }
-        this.eventBus.emit(COMMITSPAGE.setData, res);
-      }).catch(() => {
-        console.log('something wrong with json');
-      })
-      .catch(() => {
         this.eventBus.emit(UPLOAD.notFound, 'commits not found');
+      })
+      .then((res) => {
+        this.eventBus.emit(COMMITSPAGE.setCommits, res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
 
   _createBranch(data) {
-    const path = `/${data.repName}`;
+    const path = `${constants.HOST}/${data.repName}`;
     Api.post(path, data.data)
       .then((res) => res.json())
       .then((res) => {
         if (res.statusCode === 200) {
-          const newPath = `${path}-${data.data.branchName}`;
+          const newPath = `${path}/${data.data.branchName}`;
           this.eventBus.emit(NEWBRANCH.success, {
             message: 'sent successfully',
             path: newPath,
@@ -104,7 +104,7 @@ export default class RepositoryModel extends Model {
   }
 
   _deleteBranch(data) {
-    const path = data.branchPath;
+    const path = `${constants.HOST}/${data.branchPath}`;
     Api.delete(path)
       .then((res) => res.json())
       .then((res) => {
@@ -116,9 +116,10 @@ export default class RepositoryModel extends Model {
 
 
   _getFile(data) {
-    const path = `/${data.repName}/file/${data.branchName}/${data.filePath}`;
+    const path = `${constants.HOST}/${data.repName}/files/${data.branchName}?path=${data.filePath}`;
     Api.get(path)
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
           return res.json();
         }
@@ -127,6 +128,7 @@ export default class RepositoryModel extends Model {
         throw new Error(res.status);
       })
       .then((res) => {
+        console.log(res);
         this.eventBus.emit(FILEVIEW.loadSuccess, res.body);
       })
       .catch((err) => {

@@ -1,6 +1,6 @@
-import RepositoryController from './RepositoryController';
-import RepCommitsView from '../views/repCommits';
-import { COMMITSPAGE } from '../modules/events';
+import RepositoryController from 'Controllers/RepositoryController';
+import RepCommitsView from 'Views/repCommits';
+import { COMMITSPAGE, BRANCHESPAGE } from 'Modules/events';
 
 
 export default class CommitsController extends RepositoryController {
@@ -8,13 +8,27 @@ export default class CommitsController extends RepositoryController {
     super(root, eventBus, router);
     this.view = new RepCommitsView(root, eventBus);
 
-    this.eventBus.on(COMMITSPAGE.setData, this.loadCommitList.bind(this));
+    this.eventBus.on(COMMITSPAGE.setCommits, this.loadCommitList.bind(this));
+    this.eventBus.on(COMMITSPAGE.setBranches, this.loadBranch.bind(this));
+  }
+
+  loadBranch(branchList) {
+    this.data.branchList = branchList;
+
+    this.eventBus.emit(COMMITSPAGE.getCommits, {
+      repName: this.repositoryName,
+      branchName: this.branchName,
+    });
   }
 
   loadCommitList(res) {
     this.data.branchName = this.branchName;
-    this.data.commitList = res.commits;
 
+    const commitList = res.slice([0], [9]);
+    commitList.forEach((item) => {
+      item.update = item.commit_author_when.substr(0, 10);
+    });
+    this.data.commitList = commitList;
     this._open();
   }
 
@@ -22,9 +36,9 @@ export default class CommitsController extends RepositoryController {
     this.setRepositoryName();
     this.setBranchName();
 
-    this.eventBus.emit(COMMITSPAGE.getFiles, {
+    this.eventBus.emit(BRANCHESPAGE.getFiles, {
       repName: this.repositoryName,
-      branchName: this.branchName,
+      page: 'commitsPage',
     });
   }
 }

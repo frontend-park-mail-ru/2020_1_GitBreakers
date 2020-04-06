@@ -10,18 +10,13 @@ const paths = {
   userSettings: /^\/[\w-_]+\?tab=settings$/i,
   repositorySettings: /^\/[\w-_]+\/[\w-_]+\/settings$/i,
 
-  commits: /^\/[\w_]+-[\w_]+-commits-[\w_]+$/i,
-  repository: /^\/[\w_]+-[\w_]+$/,
-  branch: /^\/[\w_]+-[\w_]+-branch(-([\w_]+))+$/i,
-  repositoryBranches: /^\/[\w_]+-[\w_]+-branches$/i,
+  commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
+  repository: /^\/[\w-_]+\/[\w-_]+$/,
+  branch: /^\/[\w-_]+\/[\w-_]+\/branch(\/([\w-_]+))+$/i,
+  repositoryBranches: /^\/[\w-_]+\/[\w-_]+\/branches$/i,
+  fileView: /^\/[\w-_]+\/[\w-_]+\/file(\/([\w-_.]+))+$/i,
 
-  upload: /^\/[\w_]+-[\w_]+-upload-[\w_]+$/i,
-  fileView: /^\/[\w_]+-[\w_]+-file(-([\w_.]+))+$/i,
-
-  // repository: /^\/[\w-_]+\/[\w-_]+$/,
-  // branch: /^\/[\w-_]+\/[\w-_]+\/branch\/[\w-_]+$/i,
-  // repositoryBranches: /^\/[\w-_]+\/[\w-_]+\/branches$/i,
-  // commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
+  upload: /^\/[\w-_]+\/[\w-_]+\/upload\/[\w-_]+$/i,
 };
 
 export default paths;

@@ -4,10 +4,10 @@ block content
         each branch in branchList
             hr.line-separator.line-separator_extra-thin
             div.repository__list__item
-                div.route.branchLink.repository_list__item_title(data-name=branch.branchName) #{branch.branchName}
-                div.repository_list__item_info updated: #{branch.updateDate}
+                div.route.branchLink.repository__list__item_title(data-name=branch.name data-hash=branch.commit.commit_hash) #{branch.name}
+                div.repository__list__item_info updated: #{branch.commit.update} by #{branch.commit.commit_author_name}
                 div.repository__list__item_button
-                    input.route.deleteBranch.button.button-colored.button-small(name=branch.branchName type='button' value="Delete")
+                    input.route.deleteBranch.button.button-colored.button-small(name=branch.name type='button' value="Delete")
         hr.line-separator.line-separator_extra-thin
 block button
     div.repository__top_button
