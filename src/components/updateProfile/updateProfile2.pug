@@ -1,42 +1,42 @@
-div.section
-  div.section__title
-    h2.title Edit profile
-  div.section__main
-    div.section__main__columns
-      div.section__column1
-        div.profile-info
-          img.profile__avatar(src=image method='PUT' alt='avatar' )
-          form.form.form_large(enctype='multipart/form-data' name='setAvatar')
-            div.profile__image-input
-              input#avatar(type='file' name='avatar' accept='image/*')
-            div.profile__button
-              button.button.button_long(type='submit' name='submit') Change avatar
-    div.section__column2
-      form.form.form_large(name='setProfile')
-        h3 Update Profile
-        div.form__item
-          label.form_large__item_label(for='name') Name
-          input.form__item__input_long(type='text' name='name' value=name)
-        div.form__item
-          label.form_large__item_label(for='email') Email
-          input.form__item__input_long(type='email' name='email' value=email)
-        div.form__button
-          button.button.button-colored(type='submit' name='submit') Save changes
-      form.form.form_large(name='setPassword')
-        h3 Update Password
-        div.form__item
-          label.form_large__item_label(for='oldPassword') Old Password
-          div#oldPasswordError
-          input.form__item__input_long(type='password' name='oldPassword' )
-        div.form__item
-          label.form_large__item_label(for='newPassword') New Password
-          div#newPasswordError
-          input.form__item__input_long(type='password' name='newPassword' )
-        div.form__itemError
-          label.form_large__item_label(for='newPassword2') New Password Again
-          div#newPassword2Error
-          input.form__item__input_long(type='password' name='newPassword2' )
-        div.form__button
-          button.button.button-colored(type='submit' name='submit') Save changes
-
-
+extends ../page/page.pug
+block main_section
+  div.section
+    div.section__title
+      h2.title Edit profile
+    div.section__main
+      div.section__main__columns
+        div.section__column1
+          div.profile-info
+            img.profile__avatar(src=image method='PUT' alt='avatar' )
+            form.form.form_large(enctype='multipart/form-data' name='setAvatar')
+              div.profile__image-input
+                input#avatar(type='file' name='avatar' accept='image/*')
+              div.profile__button
+                button.button.button_long(type='submit' name='submit') Change avatar
+      div.section__column2
+        form.form.form_large(name='setProfile')
+          h3 Update Profile
+          div.form__item
+            label.form_large__item_label(for='name') Name
+            input.form__item__input_long(type='text' name='name' value=name)
+          div.form__item
+            label.form_large__item_label(for='email') Email
+            input.form__item__input_long(type='email' name='email' value=email)
+          div.form__button
+            button.button.button-colored(type='submit' name='submit') Save changes
+        form.form.form_large(name='setPassword')
+          h3 Update Password
+          div.form__item
+            label.form_large__item_label(for='oldPassword') Old Password
+            div#oldPasswordError
+            input.form__item__input_long(type='password' name='oldPassword' )
+          div.form__item
+            label.form_large__item_label(for='newPassword') New Password
+            div#newPasswordError
+            input.form__item__input_long(type='password' name='newPassword' )
+          div.form__itemError
+            label.form_large__item_label(for='newPassword2') New Password Again
+            div#newPassword2Error
+            input.form__item__input_long(type='password' name='newPassword2' )
+          div.form__button
+            button.button.button-colored(type='submit' name='submit') Save changes

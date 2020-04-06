@@ -23,6 +23,8 @@ export const PROFILE = {
   loadSuccess: 'loadSuccess : Profile',
   loadFail: 'loadFail : Profile',
   nextPage: 'nextPage : Profile',
+  // getRepositories: 'getRepositories : Profile',
+  // getRepositoriesSuccess: 'getRepositories Success: Profile',
 };
 
 export const SETTINGS = {

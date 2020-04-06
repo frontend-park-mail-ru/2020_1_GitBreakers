@@ -172,6 +172,14 @@ export default class SignUpController extends Controller {
         message: 'Слишком длинный username!!!(Больше 50 символа)',
       };
     }
+
+    const reg = /^[a-zA-Z0-9]+$/;
+    if (!reg.test(username)) {
+      return {
+        item,
+        message: 'Используются неправильные символы!!! (разрешены цифры и буквы латинского алфавита)',
+      };
+    }
     return false;
   }
 }

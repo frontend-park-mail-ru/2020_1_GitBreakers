@@ -34,6 +34,22 @@ export default class ProfileModel extends Model {
       });
   }
 
+  _loadRepositories({ resp = {}, profile = '' } = {}) {
+    Api.get((`${constants.HOST}/${profile}`))
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        this.eventBus.emit(PROFILE.loadFail, res.status);
+        throw new Error(res.status);
+      })
+      .then((res) => this.eventBus.emit(PROFILE.loadSuccess, { reps: res, ...resp }))
+      .catch((err) => {
+        console.log(err);
+        alert('Model: LoadRepository Profile Error!', err);
+      });
+  }
+
   _load(data) {
     Api.get(`${constants.HOST}/profile/${data.profile}`)
       .then((res) => {
@@ -43,7 +59,11 @@ export default class ProfileModel extends Model {
         this.eventBus.emit(PROFILE.loadFail, res.status);
         throw new Error(res.status);
       })
-      .then((res) => this.eventBus.emit(PROFILE.loadSuccess, res))
+      // .then((res) => this.eventBus.emit(PROFILE.loadSuccess, res))
+      .then((res) => this._loadRepositories({
+        resp: res,
+        profile: data.profile,
+      }))
       .catch((err) => {
         console.log(err);
         alert('Model: Load Profile Error!', err);

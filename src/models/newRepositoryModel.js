@@ -14,7 +14,7 @@ export default class NewRepositoryModel extends Model {
   createNewRepository(body) {
     Api.post(`${constants.HOST}/repo`, body)
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           this.eventBus.emit(NEWREPOSITORY.sendSuccess, { name: body.name });
           return;
         }
@@ -24,7 +24,7 @@ export default class NewRepositoryModel extends Model {
         }
         throw new Error('Somthing go wrong');
       }).catch((err) => {
-        alert('Model: New Repository Eroro!', err);
+        alert('Model: New Repository Erorr!', err);
       });
   }
 }

@@ -47,6 +47,15 @@ export default class AuthModel extends Model {
           this.getWhoAmI();
           return;
         }
+        if (res.status === 400) {
+          this.eventBus.emit(SIGNIN.fail, {
+            data: [{
+              item: 'resp',
+              message: 'Такой логин/email уже зарегистрирован!',
+            }],
+          });
+          return;
+        }
         if (res.status === 409) {
           this.eventBus.emit(SIGNUP.fail, { message: '409' });
           return;
@@ -65,6 +74,15 @@ export default class AuthModel extends Model {
         if (res.status === 200) {
           // this.eventBus.emit(SIGNIN.success, {});
           this.getWhoAmI();
+          return;
+        }
+        if (res.status === 401) {
+          this.eventBus.emit(SIGNIN.fail, {
+            data: [{
+              item: 'resp',
+              message: 'Неверные данные',
+            }],
+          });
           return;
         }
         throw new Error('Ошибка сети');

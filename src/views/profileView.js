@@ -1,6 +1,7 @@
 import View from 'Modules/view';
 import template from 'Components/profile/profile2.pug';
 import { PROFILE } from 'Modules/events';
+import authUser from 'Modules/authUser';
 
 
 export default class ProfileView extends View {
@@ -18,7 +19,10 @@ export default class ProfileView extends View {
   }
 
   loadSuccess(data) {
-    super.render(data);
+    super.render({
+      auth: (authUser.isAuth) ? authUser.getUser() : null,
+      ...data,
+    });
 
     // document.getElementById('edit-button').addEventListener('click', (event) => {
     //   event.preventDefault();
