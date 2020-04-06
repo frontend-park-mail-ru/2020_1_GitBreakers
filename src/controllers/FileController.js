@@ -30,14 +30,15 @@ export default class FileController extends RepositoryController {
         this.data.fileContent = event.target.result;
       };
       this.data.fileContent = res.file;
+      this._open();
     } else {
       this.data.fileType = 'fileForLoad';
       reader.readAsDataURL(res.file);
       reader.onload = function (event) {
         this.data.fileUrl = event.target.result;
+        this._open();
       };
     }
-    this._open();
   }
 
 
