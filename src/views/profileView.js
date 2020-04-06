@@ -11,7 +11,7 @@ export default class ProfileView extends View {
     this.eventBus.on(PROFILE.loadSuccess, this.loadSuccess.bind(this));
   }
 
-  render(data) {
+  render() {
     const path = window.location.pathname;
     const profile = path.split('/')[path.split('/').length - 1];
 
