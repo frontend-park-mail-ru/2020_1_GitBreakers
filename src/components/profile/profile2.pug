@@ -1,12 +1,12 @@
 extends ../page/page.pug
 block main_section
-  mixin repCard(rep, login)
+  mixin repCard(rep)
     div.rep-list__item
       div.rep-list__item__top
-        h3 <a href="#" class="route rep-list__item__top__title" data-section='/!{login}-!{rep.name}'> !{rep.name} </a>
-        //- a.rep-list__item__top__title(href='#') !{name}
+        h3
+          a.rep-list__item__top__title(href="#") #{name}
         div.rep-list__item__top__stars *5
-        div.rep-list__item__info updated !{rep.created_at}
+        div.rep-list__item__info updated #{date}
     hr.line-separator.line-separator_extra-thin
 
 
@@ -18,20 +18,19 @@ block main_section
           h3.profile-info__login Login: #{login}
           h3.profile-info__email Email: #{email}
           div.profile-info__button
-            if auth === login
-              button.route.button.button_long(type='submit' name='settings' data-section='/settings') Edit profile
-      div.profile__data
-        div.profile__data__top
-          div.profile__data__top_menu
-            div.profile__data__top__menu_item
-              button.button(type='submit') Profile
-            div.profile__data__top__menu_item
-              button.route.button(type='submit' data-section='/new') New
-    hr.line-separator.line-separator_thin
-    div.profile__data__main
-      div.rep-list
-        if reps
-          each rep in reps
-            +repCard(rep, login)
-        else
-            h3 Create repositories!
+            button.button.button_long(type='submit' name='settings') Edit profile
+        div.profile__data
+          div.profile__data__top
+            div.profile__data__top__menu
+              div.profile__data__top__menu_item
+                button.button(type='submit') Profile
+              div.profile__data__top__menu_item
+                button.button(type='submit') New
+          hr.line-separator.line-separator_thin
+          div.profile__data__main
+            div.rep-list
+              if reps
+                each rep in reps
+                  +repCard(rep)
+              else
+                h3 Create repositories!
