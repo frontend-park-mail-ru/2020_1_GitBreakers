@@ -1,5 +1,5 @@
-import View from '../modules/view';
-import template from '../components/page/page.pug';
+import View from 'Modules/view';
+import template from 'Components/page/page.pug';
 
 export default class mainPageView extends View {
   constructor(root, eventBus) {
