@@ -1,5 +1,3 @@
-import Api from 'Modules/api';
-import constants from 'Modules/constants';
 import { ACTIONS } from 'Modules/events';
 import eventBus from 'Modules/eventBus';
 

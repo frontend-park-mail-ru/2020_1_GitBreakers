@@ -1,5 +1,5 @@
-import Controller from '../modules/controller';
-import ProfileView from '../views/profileView';
+import Controller from 'Modules/controller';
+import ProfileView from 'Views/profileView';
 
 export default class ProfileController extends Controller {
   constructor(root, eventBus, router) {

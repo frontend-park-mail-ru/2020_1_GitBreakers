@@ -1,7 +1,7 @@
 import authUser from 'Modules/authUser';
-import { SIGNIN, ACTIONS } from '../modules/events';
-import Controller from '../modules/controller';
-import SignIn from '../views/signIn';
+import { SIGNIN, ACTIONS } from 'Modules/events';
+import Controller from 'Modules/controller';
+import SignIn from 'Views/signIn';
 
 
 export default class SignInController extends Controller {

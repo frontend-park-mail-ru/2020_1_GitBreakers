@@ -13,7 +13,8 @@ export default class NewRepositoryController extends Controller {
     this.eventBus.on(NEWREPOSITORY.sendSuccess, this.success.bind(this));
   }
 
-  success({ name = '' } = {}) {
+  // success({ name = '' } = {}) {
+  success() {
     // this.router.go(`/${authUser.getUser()}/${name}/branches`);
     this.router.go(`/profile/${authUser.getUser()}`);
   }

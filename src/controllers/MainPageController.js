@@ -1,5 +1,5 @@
-import Controller from '../modules/controller';
-import MainPageView from '../views/mainPage';
+import Controller from 'Modules/controller';
+import MainPageView from 'Views/mainPage';
 
 export default class MainPageController extends Controller {
   constructor(root, eventBus, router) {

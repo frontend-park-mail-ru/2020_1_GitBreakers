@@ -1,6 +1,6 @@
 import Controller from 'Modules/controller';
 import SettingsView from 'Views/settings';
-import { SETTINGS } from '../modules/events';
+import { SETTINGS } from 'Modules/events';
 
 
 export default class SettingsController extends Controller {
