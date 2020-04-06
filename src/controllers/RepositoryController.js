@@ -1,5 +1,5 @@
-import Controller from '../modules/controller';
-import { UPLOAD } from '../modules/events';
+import Controller from 'Modules/controller';
+import { UPLOAD } from 'Modules/events';
 
 
 export default class RepositoryController extends Controller {
@@ -26,11 +26,11 @@ export default class RepositoryController extends Controller {
 
   setBranchName() {
     const path = window.location.pathname;
-    if (path.match(/^\/[\w_]+-[\w_]+$/)) {
+    if (path.match(/^\/[\w_-]+\/[\w_-]+$/)) {
       this.branchName = 'master';
       return;
     }
-    this.branchName = path.match(/(?<=-(branch|commits|file)-)[\w_]+/)[0];
+    this.branchName = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/)[0];
   }
 
 
@@ -38,7 +38,7 @@ export default class RepositoryController extends Controller {
     const path = window.location.pathname;
     this.repPath = null;
 
-    const branchPath = `${this.author}-${this.repository}-branch-${this.branchName}-`;
+    const branchPath = `${this.author}/${this.repository}/branch/${this.branchName}/`;
     const res = path.match(`(?<=${branchPath})[\\w_-]+`);
     if (res) {
       this.repPath = res[0];
@@ -49,13 +49,13 @@ export default class RepositoryController extends Controller {
     const path = window.location.pathname;
     this.filePath = null;
 
-    let res = path.match(/(?<=-)[\w_.]+$/);
+    let res = path.match(/(?<=\/)[\w-_.]+$/);
     if (res) {
       [this.filePath] = res;
     }
 
-    const filePath = `${this.author}-${this.repository}-file-${this.branchName}-`;
-    res = path.match(`(?<=${filePath})[\\w_.-]+`);
+    const filePath = `${this.author}/${this.repository}/file/${this.branchName}/`;
+    res = path.match(`(?<=${filePath})[\\w-_.]+`);
     if (res) {
       [this.filePath] = res;
     }
@@ -65,8 +65,7 @@ export default class RepositoryController extends Controller {
     this.data.author = this.author;
     this.data.repName = this.repository;
 
-    // this.data.user = gerUser();
-
+    //this.data.user = gerUser(); //who am I
     super.open(this.data);
   }
 }

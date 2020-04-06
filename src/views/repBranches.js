@@ -1,7 +1,7 @@
-import RepositoryBaseView from './repositoryBaseView';
-import template from '../components/branches/branch.pug';
-import { NEWBRANCH, UPLOAD, DELETEBRANCH } from '../modules/events';
-import errorMessage from '../modules/errorMessage';
+import RepositoryBaseView from 'Views/repositoryBaseView';
+import template from 'Components/branches/branch.pug';
+import { NEWBRANCH, UPLOAD, DELETEBRANCH } from 'Modules/events';
+import errorMessage from 'Modules/errorMessage';
 
 
 export default class RepBranchesView extends RepositoryBaseView {
@@ -17,7 +17,7 @@ export default class RepBranchesView extends RepositoryBaseView {
     super.render(data);
 
     const newBranchBottomList = document.getElementsByClassName('newBranch');
-    for (let i = 0; i < newBranchBottomList.length; i = +1) {
+    for (let i = 0; i < newBranchBottomList.length; i++) {
       newBranchBottomList[i].addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -32,7 +32,7 @@ export default class RepBranchesView extends RepositoryBaseView {
     }
 
     const createBranchList = document.getElementsByClassName('createBranch');
-    for (let i = 0; i < createBranchList.length; i = +1) {
+    for (let i = 0; i < createBranchList.length; i++) {
       createBranchList[i].addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -50,32 +50,30 @@ export default class RepBranchesView extends RepositoryBaseView {
 
 
     const deleteBranchList = document.getElementsByClassName('deleteBranch');
-    for (let i = 0; i < deleteBranchList.length; i = +1) {
+    for (let i = 0; i < deleteBranchList.length; i++) {
       deleteBranchList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
 
         const branchName = target.name;
-        const branchPath = `/${data.author}_${data.repository}_branch_${branchName}`;
+        const branchPath = `/${data.author}/${data.repository}/branch/${branchName}`;
 
         this.eventBus.emit(DELETEBRANCH.delete, {
-          branchPath,
+          branchPath: branchPath,
         });
         deleteBranchList[i].dataset.section = window.location.pathname;
       });
     }
 
     const branchLinkList = document.getElementsByClassName('branchLink');
-    for (let i = 0; i < branchLinkList.length; i = +1) {
+    for (let i = 0; i < branchLinkList.length; i++) {
       branchLinkList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
-        const branchName = target.dataset.name;
+        const branchHash = target.dataset.hash;
 
-        let branchPath = `/${data.author}-${data.repName}`;
-        if (branchName !== 'master') {
-          branchPath += `-branch-${branchName}`;
-        }
+        const branchPath = `/${data.author}/${data.repName}/branch/${branchHash}`;
+        console.log('path = ', branchPath);
         branchLinkList[i].dataset.section = branchPath;
       });
     }

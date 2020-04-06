@@ -1,6 +1,7 @@
-import RepositoryController from './RepositoryController';
-import RepFilesView from '../views/repFiles';
-import { TREEPAGE } from '../modules/events';
+import RepositoryController from 'Controllers/RepositoryController';
+import RepFilesView from 'Views/repFiles';
+import { TREEPAGE } from 'Modules/events';
+
 
 export default class FileTreeController extends RepositoryController {
   constructor(root, eventBus, router) {
@@ -10,13 +11,22 @@ export default class FileTreeController extends RepositoryController {
     this.eventBus.on(TREEPAGE.setData, this.loadBranch.bind(this));
   }
 
-  loadBranch(res) {
-    this.data.folderList = res.folders;
-    this.data.fileList = res.files;
+  loadBranch(list) {
+    const folders = [];
+    const files = [];
+    list.forEach((item) => {
+      if (item.FileMode === 'dir') {
+        folders.push(item);
+      } else {
+        files.push(item);
+      }
+    });
+
+    this.data.folderList = folders;
+    this.data.fileList = files;
     this.data.branchName = this.branchName;
     this.data.repPath = this.repPath;
 
-    console.log(this.data);
     this._open();
   }
 

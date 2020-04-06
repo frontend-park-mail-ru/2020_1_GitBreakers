@@ -69,8 +69,9 @@ export const BRANCHESPAGE = {
 };
 
 export const COMMITSPAGE = {
-  getFiles: 'Commits : Get files',
-  setData: 'Commits : Set data',
+  setBranches: 'Commits : Set branches',
+  getCommits: 'Commits : Get commits',
+  setCommits: 'Commits : Set commits',
 };
 
 export const NEWBRANCH = {
