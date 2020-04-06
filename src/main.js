@@ -1,4 +1,5 @@
 
+import './main.scss';
 import SignUpController from 'Controllers/SignUpController';
 import eventBus from 'Modules/eventBus';
 import SignInController from 'Controllers/singInController';

@@ -1,7 +1,7 @@
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   context: __dirname,
   devtool: 'source-map',
   // mode: 'deve',
@@ -21,20 +21,32 @@ module.exports = {
       Controllers: path.resolve(__dirname, 'src/controllers/'),
       Models: path.resolve(__dirname, 'src/models/'),
       Modules: path.resolve(__dirname, 'src/modules'),
+      SCSS: path.resolve(__dirname, 'src/styles/scss'),
     },
   },
   module: {
     rules: [
       {
+        test: /\.scss$/,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
+      {
         test: /\.pug/,
         use: 'pug-loader',
       },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /node_modules/,
-      // },
       {
-        test: /\.m?js$/,
+        test: /\.js$/,
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
