@@ -1,4 +1,4 @@
-import View from './view';
+import View from 'Modules/view';
 
 export default class Controller {
   constructor(root, eventBus, router) {

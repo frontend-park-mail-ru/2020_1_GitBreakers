@@ -18,14 +18,15 @@ block main_section
           h3.profile-info__login Login: #{login}
           h3.profile-info__email Email: #{email}
           div.profile-info__button
-            button.button.button_long(type='submit' name='settings') Edit profile
+            if (auth === login)
+              button.route.button.button_long(type='submit' name='settings' data-section='/settings') Edit profile
         div.profile__data
           div.profile__data__top
             div.profile__data__top__menu
               div.profile__data__top__menu_item
                 button.button(type='submit') Profile
               div.profile__data__top__menu_item
-                button.button(type='submit') New
+                button.route.button(type='submit' data-section='/new') New
           hr.line-separator.line-separator_thin
           div.profile__data__main
             div.rep-list

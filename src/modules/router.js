@@ -1,5 +1,5 @@
-import eventBus from './eventBus';
-import { UPLOAD } from './events';
+import eventBus from 'Modules/eventBus';
+import { UPLOAD } from 'Modules/events';
 
 export default class Router {
   constructor() {
