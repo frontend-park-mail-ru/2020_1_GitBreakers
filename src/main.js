@@ -2,7 +2,7 @@
 import './main.scss';
 import SignUpController from 'Controllers/SignUpController';
 import eventBus from 'Modules/eventBus';
-import SignInController from 'Controllers/singInController';
+import SignInController from 'Controllers/signInController';
 import Router from 'Modules/router';
 import paths from 'Modules/paths';
 
@@ -27,10 +27,10 @@ const application = document.getElementById('root');
 
 // TODO: Решить проблему с unused-vars
 /* eslint-disable no-unused-vars */
-const newRepositoryModel = new NewRepositoryModel(application, eventBus);
-const authModel = new AuthModel(application, eventBus);
-const repositoryModel = new RepositoryModel(application, eventBus);
-const profileModel = new ProfileModel(application, eventBus);
+const newRepositoryModel = new NewRepositoryModel(eventBus);
+const authModel = new AuthModel(eventBus);
+const repositoryModel = new RepositoryModel(eventBus);
+const profileModel = new ProfileModel(eventBus);
 
 
 const router = new Router();

@@ -6,8 +6,7 @@ export default class View {
     this.eventBus = eventBus;
   }
 
-  render(data) {
-    const inputData = { ...data };
-    this.root.innerHTML = this.template(inputData);
+  render(data = {}) {
+    this.root.innerHTML = this.template(data);
   }
 }

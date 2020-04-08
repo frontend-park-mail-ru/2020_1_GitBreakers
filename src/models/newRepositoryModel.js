@@ -5,7 +5,7 @@ import constants from 'Modules/constants';
 
 
 export default class NewRepositoryModel extends Model {
-  constructor(root, eventBus) {
+  constructor(eventBus) {
     super(eventBus);
 
     this.eventBus.on(NEWREPOSITORY.sendValid, this.createNewRepository.bind(this));
@@ -14,7 +14,7 @@ export default class NewRepositoryModel extends Model {
   createNewRepository(body) {
     Api.post(`${constants.HOST}/repo`, body)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.ok) {
           this.eventBus.emit(NEWREPOSITORY.sendSuccess, { name: body.name });
           return;
         }

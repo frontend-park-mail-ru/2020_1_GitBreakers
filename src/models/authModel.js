@@ -1,108 +1,80 @@
-import { SIGNIN, SIGNUP, ACTIONS } from 'Modules/events';
-import Model from 'Modules/model';
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
 
 
-export default class AuthModel extends Model {
-  constructor(root, eventBus) {
-    super(eventBus);
-
-    this.eventBus.on(SIGNIN.valid, this._sendSignIn.bind(this));
-    this.eventBus.on(SIGNUP.valid, this._sendSignUp.bind(this));
-  }
-
-  getWhoAmI() {
+export default class AuthModel {
+  static getWhoAmI() {
     Api.get(`${constants.HOST}/whoami`)
       .then((res) => {
-        if (res.status === 200) {
+        if (res.ok) {
           return res.json();
         }
-        if (res.status === 401) {
-          this.eventBus.emit(ACTIONS.loadWhoAmI, {
-            auth: false,
-            user: res.login,
-          });
-        }
-        throw new Error('Somthing go wrong!');
+        return {
+          success: false,
+          errorCode: res.status,
+        };
       })
-      .then((res) => {
-        this.eventBus.emit(ACTIONS.loadWhoAmI, {
-          auth: true,
-          user: res.login,
-        });
-        this.eventBus.emit(SIGNIN.success, {});
-      })
+      .then((res) => ({
+        success: true,
+        body: res,
+      }))
       .catch((err) => {
-        console.log(err);
+        console.log('Model: who am i Error!', err.toString());
       });
   }
 
-  _sendSignUp(data = {}) {
-    // TODO: магия fetch`а !!!!!!
-    Api.post(`${constants.HOST}/signup`, data)
+  static signUp({ body = {} } = {}) {
+    Api.post(`${constants.HOST}/signup`, body)
       .then((res) => {
-        if (res.status === 200) {
-          // this.eventBus.emit(SIGNUP.success, { message: 'Oppa!!!' });
-          this.getWhoAmI();
-          return;
+        if (res.ok) {
+          return {
+            success: true,
+          };
         }
-        if (res.status === 400) {
-          this.eventBus.emit(SIGNIN.fail, {
-            data: [{
-              item: 'resp',
-              message: 'Такой логин/email уже зарегистрирован!',
-            }],
-          });
-          return;
-        }
-        if (res.status === 409) {
-          this.eventBus.emit(SIGNUP.fail, { message: '409' });
-          return;
-        }
-        throw new Error('Ошибка сети');
+        return {
+          success: false,
+          errorCode: res.status,
+        };
       })
       .catch((err) => {
-        alert('Model: Sign Up Error', err);
+        console.log('Model: Sign Up Error!', err.toString());
       });
   }
 
-  _sendSignIn(data = {}) {
-    // TODO: магия fetch`а !!!!!!
-    Api.post(`${constants.HOST}/login`, data)
+  static signIn({ body = {} } = {}) {
+    Api.post(`${constants.HOST}/login`, body)
       .then((res) => {
-        if (res.status === 200) {
-          // this.eventBus.emit(SIGNIN.success, {});
-          this.getWhoAmI();
-          return;
+        if (res.ok) {
+          return {
+            success: true,
+          };
         }
-        if (res.status === 401) {
-          this.eventBus.emit(SIGNIN.fail, {
-            data: [{
-              item: 'resp',
-              message: 'Неверные данные',
-            }],
-          });
-          return;
-        }
-        throw new Error('Ошибка сети');
-      })
-      .then(() => {
-        // this.eventBus.emit(SIGNIN.fail, {
-        //   data: [{
-        //     item: 'resp',
-        //     message: res.body,
-        //   }],
-        // });
+        return {
+          success: false,
+          errorCode: res.status,
+        };
       })
       .catch((err) => {
-        alert('Model: Sign In Error!', err);
-        this.eventBus.emit(SIGNIN.fail, {
-          data: [{
-            item: 'resp',
-            message: err,
-          }],
-        });
+        console.log('Model: Sign In Error!', err.toString());
+      });
+  }
+
+
+  static logout() {
+    Api.get(`${constants.HOST}/logout`)
+      .then((res) => {
+        if (res.ok) {
+          return {
+            success: true,
+          };
+        }
+        return {
+          success: false,
+          errorCode: res.status,
+        };
+      })
+      .catch((err) => {
+        console.log('Model: Logout Error!', err.toString());
       });
   }
 }

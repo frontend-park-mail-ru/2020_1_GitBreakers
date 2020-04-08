@@ -6,7 +6,7 @@ import {
 } from 'Modules/events';
 
 export default class RepositoryModel extends Model {
-  constructor(root, eventBus) {
+  constructor(eventBus) {
     super(eventBus);
 
     this.eventBus.on(TREEPAGE.getFiles, this._getBranch.bind(this));

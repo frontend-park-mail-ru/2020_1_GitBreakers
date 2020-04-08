@@ -5,7 +5,7 @@ import constants from 'Modules/constants';
 
 
 export default class ProfileModel extends Model {
-  constructor(root, eventBus) {
+  constructor(eventBus) {
     super(eventBus);
 
     this.eventBus.on(PROFILE.load, this._load.bind(this));

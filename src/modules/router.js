@@ -1,7 +1,7 @@
 import eventBus from 'Modules/eventBus';
 import { UPLOAD } from 'Modules/events';
 
-export default class Router {
+class Router {
   constructor() {
     this.routes = [];
   }
@@ -63,3 +63,6 @@ export default class Router {
     });
   }
 }
+
+// const router = new Router();
+export default Router;
