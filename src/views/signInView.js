@@ -34,12 +34,12 @@ export default class SignInView extends View {
     const inputs = this.root.querySelectorAll('input:not( [name="search"] )');
 
     function validate() {
-      for (let i = 0; i < inputs.length; i++) {
-        inputs[i].CustomValidation.checkInput();
-      }
-      // inputs.forEach((input) => {
-      //   input.CustomValidation.checkInput();
-      // });
+      // for (let i = 0; i < inputs.length; i++) {
+      //   inputs[i].CustomValidation.checkInput();
+      // }
+      inputs.forEach((input) => {
+        input.CustomValidation.checkInput();
+      });
     }
 
     document.querySelectorAll('button[type="submit"]')[0].addEventListener('click', validate, false);
