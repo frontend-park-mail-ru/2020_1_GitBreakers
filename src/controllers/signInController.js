@@ -13,8 +13,8 @@ export default class SignInController extends Controller {
     this.eventBus.on(SIGNIN.submit, this._submitSignIn.bind(this));
   }
 
-  _submitSignIn({ body = {} } = {}) {
-    const result = AuthModel.SignIn({ body });
+  _submitSignIn(body = {}) {
+    const result = AuthModel.signIn({ body });
     if (result.success) {
       authUser.loadWhoAmI();
       super.redirect(`/profile${authUser.getUser()}`);

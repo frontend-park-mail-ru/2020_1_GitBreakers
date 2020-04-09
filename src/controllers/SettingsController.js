@@ -1,6 +1,9 @@
 import Controller from 'Modules/controller';
 import SettingsView from 'Views/settings';
 import { SETTINGS } from 'Modules/events';
+import ProfileModel from 'Models/profileModel';
+import authUser from '../modules/authUser';
+import AuthModel from '../models/authModel';
 
 
 export default class SettingsController extends Controller {
@@ -8,100 +11,62 @@ export default class SettingsController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SettingsView(root, eventBus);
-    this.eventBus.on(SETTINGS.submitAvatar, this.validateImage.bind(this));
-    this.eventBus.on(SETTINGS.submitProfile, this.validateProfile.bind(this));
-    this.eventBus.on(SETTINGS.submitPassword, this.validatePasswordForm.bind(this));
-    this.eventBus.on(SETTINGS.sendAvatarSuccess, this.sendAvatarSuccess.bind(this));
+    this.eventBus.on(SETTINGS.load, this.loadProfile.bind(this));
+    this.eventBus.on(SETTINGS.submitProfile, this._updateProfile.bind(this));
+    this.eventBus.on(SETTINGS.submitPassword, this._updatePassword.bind(this));
+    this.eventBus.on(SETTINGS.submitSuccess, this._updateAvatar.bind(this));
   }
 
-  sendAvatarSuccess() {
-    this.router.go('/settings');
+
+  _updateAvatar(body = {}) {
+    const result = ProfileModel.setAvatar(body);
+    if (result.success) {
+      const newProfielImageUrl = ProfileModel.getProfile({ profile: authUser.getUser() }).body.image;
+      this.eventBus.emit(SETTINGS.changeAvatar, { url: newProfielImageUrl });
+    }
+    switch (result.status) {
+      case 401:
+        this.redirect('/signin');
+        break;
+      default:
+        alert('Неизвестная ошибка!');
+    }
   }
 
-  validateImage(data) {
-    this.eventBus.emit(SETTINGS.sendAvatar, data);
+  _updateProfile(body = {}) {
+    const result = ProfileModel.updateProfile(body);
+    if (result.success) {
+      alert('Success Update!');
+    }
+    switch (result.status) {
+      case 401:
+        this.redirect('/signin');
+        break;
+      default:
+        alert('Неизвестная ошибка!');
+    }
   }
 
-  validateProfile(data) {
-    this.eventBus.emit(SETTINGS.sendProfile, data);
+  _updatePassword(body = {}) {
+    const result = ProfileModel.updateProfile(body);
+    if (result.success) {
+      alert('Success Update!');
+    }
+    switch (result.status) {
+      case 401:
+        this.redirect('/signin');
+        break;
+      default:
+        alert('Неизвестная ошибка!');
+    }
   }
 
-  validatePasswordForm(data) {
-    // this.eventBus.emit(SETTINGS.sendPassword, data);
-    const {
-      oldPassword,
-      newPassword,
-      newPassword2,
-    } = data;
-    const result = { data: [] };
-
-    let flag = SettingsController.validatePassword(oldPassword, 'oldPasswordError');
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('oldPasswordError').innerHTML = '';
+  loadProfile() {
+    // const result = ProfileModel.getProfile({ profile: authUser.getUser() });
+    const result = AuthModel.getWhoAmI();
+    console.log('stop');
+    if (result.success) {
+      this.eventBus.emit(SETTINGS.render, result.body);
     }
-
-    flag = SettingsController.validatePassword(newPassword, 'newPasswordError');
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('newPasswordError').innerHTML = '';
-      document.getElementById('newPassword2Error').innerHTML = '';
-    }
-
-    flag = SettingsController.validatePassword2(newPassword, newPassword2);
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('newPassword2Error').innerHTML = '';
-    }
-
-
-    if (result.data.length === 0) {
-      this.eventBus.emit(SETTINGS.sendPasswordSuccess, {
-        password: newPassword,
-      });
-      return;
-    }
-    this.eventBus.emit(SETTINGS.sendPasswordFail, result);
-  }
-
-  static validatePassword(password = '', item = '') {
-    if (!password) {
-      return {
-        item,
-        message: 'Пустой поле с password`ом!',
-      };
-    }
-
-    if (password.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий password!!!(Меньше 6 символов)',
-      };
-    }
-
-    if (password.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный password!!!(Больше 50 символа)',
-      };
-    }
-    return false;
-  }
-
-  static validatePassword2(password = '', password2 = {}) {
-    const item = 'newPassword2';
-    if (password !== password2) {
-      return {
-        item,
-        message: 'Пароли не совпадают!',
-      };
-    }
-    return false;
   }
 }

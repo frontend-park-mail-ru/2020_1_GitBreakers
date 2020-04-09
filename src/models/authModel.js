@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
 
@@ -22,9 +23,23 @@ export default class AuthModel {
         console.log('Model: who am i Error!', err.toString());
         return {};
       });
+
+    // const res = Api.get(`${constants.HOST}/whoami`);
+    // if (res.ok) {
+    //   const body = await res.json();
+    //   return {
+    //     success: true,
+    //     body,
+    //   };
+    // }
+    // return {
+    //   success: false,
+    //   errorCode: res.status,
+    // };
   }
 
-  static signUp({ body = {} } = {}) {
+
+  static signUp(body) {
     return Api.post(`${constants.HOST}/signup`, body)
       .then((res) => {
         if (res.ok) {

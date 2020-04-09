@@ -32,18 +32,9 @@ export const SETTINGS = {
   submitAvatar: 'submitAvatar: Settings',
   submitProfile: 'submitProfile: Setting',
   submitPassword: 'submitPassword: Settings',
-  sendAvatar: 'sendAvatar: Settings',
-  sendProfile: 'sendProfile: Setting',
-  sendPassword: 'sendPassword: Settings',
-  sendAvatarSuccess: 'sendAvatar Success: Settings',
-  sendAvatarFail: 'sendAvatar Fail: Settings',
-  sendProfileSuccess: 'sendProfile Success: Settings',
-  sendProfileFail: 'sendProfile Fail: Settings',
-  sendPasswordSuccess: 'sendPassword Success: Settings',
-  sendPasswordFail: 'sendPassword Fail: Settings',
-  loadWhoAmI: 'loadWhoAmI: Settings',
-  loadWhoAmISuccess: 'loadWhoAmISuccess: Settings',
-  loadWhoAmIFail: 'loadWhoAmIFail: Settings',
+  changeAvatar: 'ChangeAvatar: Settings',
+  render: 'Render: Settings',
+  load: 'loadProfile : Settings',
 };
 
 export const NEWREPOSITORY = {

@@ -27,6 +27,25 @@ export const emailValidityChecks = [
   },
 ];
 
+export const oldPasswordValidityChecks = [
+  {
+    isInvalid(input) {
+      return input.value.length < 8 || input.value.length > 100;
+    },
+    invalidityMessage: 'Пароль должен содержать от 8 до 100 символов',
+    // element: document.querySelector('label[for="password"] .input-requirements li:nth-child( 1 )'),
+    selector: 'label[for="password"] .input-requirements li:nth-child( 1 )',
+  },
+  {
+    isInvalid(input) {
+      return !input.value.match(/[0-9]/g);
+    },
+    invalidityMessage: 'Должна присутствовать минимум 1 цифра',
+    // element: document.querySelector('label[for="password"] .input-requirements li:nth-child( 2 )'),
+    selector: 'label[for="password"] .input-requirements li:nth-child( 2 )',
+  },
+];
+
 export const passwordValidityChecks = [
   {
     isInvalid(input) {

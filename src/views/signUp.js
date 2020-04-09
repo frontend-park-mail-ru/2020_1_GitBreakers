@@ -55,8 +55,8 @@ export default class SignUpView extends View {
       e.preventDefault();
       this.eventBus.emit(SIGNUP.submit, {
         email: emailInput.value,
-        login: loginInput,
-        password: passwordInput,
+        login: loginInput.value,
+        password: passwordInput.value,
       });
     }, false);
   }

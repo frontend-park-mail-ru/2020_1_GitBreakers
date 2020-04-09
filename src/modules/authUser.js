@@ -1,11 +1,11 @@
 import { ACTIONS } from 'Modules/events';
 import eventBus from 'Modules/eventBus';
-import AuthModel from 'Models/AuthModel';
+import AuthModel from 'Models/authModel';
 
 class AuthUser {
   constructor(_eventBus) {
     this.eventBus = _eventBus;
-    // this.loadWhoAmI();
+    this.loadWhoAmI();
 
     // this.eventBus.on(ACTIONS.loadWhoAmI, this.loadUser.bind(this));
   }

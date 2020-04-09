@@ -9,11 +9,11 @@ export default class SignUpController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SignUp(root, eventBus);
-    this.eventBus.on(SIGNUP.submit, this.signIn.bind(this));
+    this.eventBus.on(SIGNUP.submit, this.signUp.bind(this));
     // this.eventBus.on(SIGNUP.success, this.submitSuccess.bind(this));
   }
 
-  signIn(body = {}) {
+  signUp(body) {
     const result = AuthModel.signUp(body);
     if (result.success) {
       authUser.loadWhoAmI();
@@ -22,6 +22,9 @@ export default class SignUpController extends Controller {
     switch (result.status) {
       case 409:
         this.eventBus.emit(SIGNUP.fail, { message: 'Такой пользователь уже существует!' });
+        break;
+      case 406:
+        this.eventBus.emit(SIGNUP.fail, { message: 'Уже авторизован!' });
         break;
       default:
         this.eventBus.emit(SIGNUP.fail, { message: 'Неизвестная ошибка!' });
