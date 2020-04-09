@@ -34,7 +34,7 @@ export const oldPasswordValidityChecks = [
     },
     invalidityMessage: 'Пароль должен содержать от 8 до 100 символов',
     // element: document.querySelector('label[for="password"] .input-requirements li:nth-child( 1 )'),
-    selector: 'label[for="password"] .input-requirements li:nth-child( 1 )',
+    selector: 'label[for="oldPassword"] .input-requirements li:nth-child( 1 )',
   },
   {
     isInvalid(input) {
@@ -42,7 +42,7 @@ export const oldPasswordValidityChecks = [
     },
     invalidityMessage: 'Должна присутствовать минимум 1 цифра',
     // element: document.querySelector('label[for="password"] .input-requirements li:nth-child( 2 )'),
-    selector: 'label[for="password"] .input-requirements li:nth-child( 2 )',
+    selector: 'label[for="oldPassword"] .input-requirements li:nth-child( 2 )',
   },
 ];
 

@@ -1,7 +1,7 @@
 import authUser from 'Modules/authUser';
 import Controller from 'Modules/controller';
 import { SIGNUP } from 'Modules/events';
-import SignUp from 'Views/signUp';
+import SignUp from 'Views/signUpView';
 import AuthModel from 'Models/authModel';
 
 export default class SignUpController extends Controller {

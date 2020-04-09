@@ -6,6 +6,7 @@ import SignInController from 'Controllers/signInController';
 import Router from 'Modules/router';
 import paths from 'Modules/paths';
 
+import HeaderController from 'Controllers/headerController';
 import BranchesController from 'Controllers/BranchesController';
 import FileTreeController from 'Controllers/FileTreeController';
 import CommitsController from 'Controllers/CommitsController';
@@ -21,6 +22,10 @@ import SettingsController from 'Controllers/SettingsController';
 
 
 const application = document.getElementById('root');
+const header = document.createElement('div');
+header.id = 'header';
+application.before(header);
+
 
 // TODO: Решить проблему с unused-vars
 /* eslint-disable no-unused-vars */
@@ -29,6 +34,9 @@ const repositoryModel = new RepositoryModel(eventBus);
 
 
 const router = new Router();
+
+const headerController = new HeaderController(header, eventBus, router);
+headerController.open();
 
 const settingsController = new SettingsController(application, eventBus, router);
 const newRepositoryController = new NewRepositoryController(application, eventBus, router);

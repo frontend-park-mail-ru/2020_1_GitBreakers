@@ -28,7 +28,7 @@ export default class SettingsView extends View {
 
     this._setAvatarForm();
     this._setProfileForm();
-    this._setPasswordFrom();
+    this._setPasswordForm();
   }
 
   static _onChangeAvatar({ url = '' } = {}) {
@@ -92,7 +92,7 @@ export default class SettingsView extends View {
 
     document.querySelector('button[type="submit"]').addEventListener('click', validate, false);
 
-    document.forms.signUp.addEventListener('submit', (e) => {
+    document.forms.setPassword.addEventListener('submit', (e) => {
       validate();
       e.preventDefault();
       this.eventBus.emit(SETTINGS.submitPassword, {

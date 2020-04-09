@@ -17,7 +17,7 @@ export default class NewRepositoryModel {
           status: res.status,
         };
       }).catch((err) => {
-        alert('Model: New Repository Erorr!', err);
+        console.log('Model: New Repository Erorr!', err);
         return {};
       });
   }

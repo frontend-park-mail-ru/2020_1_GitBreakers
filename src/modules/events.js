@@ -18,6 +18,11 @@ export const SIGNIN = {
   nextPage: 'nextPage : SignIn',
 };
 
+export const HEADER = {
+  render: 'Render: Header',
+  load: 'Load: Header',
+};
+
 export const PROFILE = {
   load: 'load: Profile',
   render: 'render: Profile',

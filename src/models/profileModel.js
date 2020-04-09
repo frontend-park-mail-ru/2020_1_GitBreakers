@@ -7,17 +7,16 @@ export default class ProfileModel {
     return Api.get((`${constants.HOST}/${profile}`))
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return {
+            success: false,
+            body: res.json(),
+          };
         }
         return {
           success: false,
           status: res.status,
         };
       })
-      .then((res) => ({
-        success: true,
-        body: res,
-      }))
       .catch(() => {
         console.log('Model: LoadRepository Profile Error!');
         return {};
@@ -28,17 +27,16 @@ export default class ProfileModel {
     return Api.get(`${constants.HOST}/profile/${profile}`)
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return {
+            success: false,
+            body: res.json(),
+          };
         }
         return {
           success: false,
           status: res.status,
         };
       })
-      .then((res) => ({
-        success: true,
-        body: res,
-      }))
       .catch(() => {
         console.log('Model: Load Profile Error!');
         return {};

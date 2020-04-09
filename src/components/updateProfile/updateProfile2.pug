@@ -8,7 +8,7 @@ block main_section
       div.profile
         div.profile-info
           img.profile__avatar(src=image alt='avatar')
-          form(enctype='multipart/form-data' update='setAvatar')
+          form(enctype='multipart/form-data' name='setAvatar')
             div.profile__image-input
               input(type='file' name='avatar' required)
             div.profile-info__button

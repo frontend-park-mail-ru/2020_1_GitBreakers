@@ -1,9 +1,14 @@
 export default class Api {
   static request(path, method, header, body) {
+    const headers = header;
     if (method !== 'GET') {
+      const csrf = localStorage.getItem('csrf_token');
+      if (csrf) {
+        headers['X-Csrf-Token'] = csrf;
+      }
       return fetch(path, {
         method,
-        headers: header || {},
+        headers,
         credentials: 'include',
         mode: 'cors',
         body: JSON.stringify(body),
@@ -36,9 +41,11 @@ export default class Api {
 
   static setAvatar(path = '/', body) {
     // const headers = { 'Content-Type': 'multipart/form-data' };
+    const csrf = localStorage.getItem('csrf_token');
+    const headers = { 'X-Csrf-Token': csrf };
     return fetch(path, {
       method: 'PUT',
-      // headers,
+      headers,
       body: new FormData(body),
       credentials: 'include',
       mode: 'cors',

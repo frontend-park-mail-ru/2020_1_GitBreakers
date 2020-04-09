@@ -1,9 +1,9 @@
 import Controller from 'Modules/controller';
-import SettingsView from 'Views/settings';
+import SettingsView from 'Views/settingsView';
 import { SETTINGS } from 'Modules/events';
 import ProfileModel from 'Models/profileModel';
-import authUser from '../modules/authUser';
-import AuthModel from '../models/authModel';
+import authUser from 'Modules/authUser';
+import AuthModel from 'Models/authModel';
 
 
 export default class SettingsController extends Controller {
@@ -14,14 +14,14 @@ export default class SettingsController extends Controller {
     this.eventBus.on(SETTINGS.load, this.loadProfile.bind(this));
     this.eventBus.on(SETTINGS.submitProfile, this._updateProfile.bind(this));
     this.eventBus.on(SETTINGS.submitPassword, this._updatePassword.bind(this));
-    this.eventBus.on(SETTINGS.submitSuccess, this._updateAvatar.bind(this));
+    this.eventBus.on(SETTINGS.submitAvatar, this._updateAvatar.bind(this));
   }
 
 
-  _updateAvatar(body = {}) {
-    const result = ProfileModel.setAvatar(body);
+  async _updateAvatar(body = {}) {
+    const result = await ProfileModel.setAvatar(body);
     if (result.success) {
-      const newProfielImageUrl = ProfileModel.getProfile({ profile: authUser.getUser() }).body.image;
+      const newProfielImageUrl = await ProfileModel.getProfile({ profile: authUser.getUser() }).body.image;
       this.eventBus.emit(SETTINGS.changeAvatar, { url: newProfielImageUrl });
     }
     switch (result.status) {
@@ -33,8 +33,8 @@ export default class SettingsController extends Controller {
     }
   }
 
-  _updateProfile(body = {}) {
-    const result = ProfileModel.updateProfile(body);
+  async _updateProfile(body = {}) {
+    const result = await ProfileModel.updateProfile(body);
     if (result.success) {
       alert('Success Update!');
     }
@@ -47,8 +47,8 @@ export default class SettingsController extends Controller {
     }
   }
 
-  _updatePassword(body = {}) {
-    const result = ProfileModel.updateProfile(body);
+  async _updatePassword(body = {}) {
+    const result = await ProfileModel.updateProfile(body);
     if (result.success) {
       alert('Success Update!');
     }
@@ -61,12 +61,12 @@ export default class SettingsController extends Controller {
     }
   }
 
-  loadProfile() {
+  async loadProfile() {
     // const result = ProfileModel.getProfile({ profile: authUser.getUser() });
-    const result = AuthModel.getWhoAmI();
+    const result = await AuthModel.getWhoAmI();
     console.log('stop');
     if (result.success) {
-      this.eventBus.emit(SETTINGS.render, result.body);
+      this.eventBus.emit(SETTINGS.render, await result.body);
     }
   }
 }

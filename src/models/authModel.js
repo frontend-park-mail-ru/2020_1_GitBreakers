@@ -8,34 +8,19 @@ export default class AuthModel {
     return Api.get(`${constants.HOST}/whoami`)
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return {
+            success: true,
+            body: res.json(),
+          };
         }
         return {
           success: false,
           errorCode: res.status,
         };
       })
-      .then((res) => ({
-        success: true,
-        body: res,
-      }))
       .catch((err) => {
         console.log('Model: who am i Error!', err.toString());
-        return {};
       });
-
-    // const res = Api.get(`${constants.HOST}/whoami`);
-    // if (res.ok) {
-    //   const body = await res.json();
-    //   return {
-    //     success: true,
-    //     body,
-    //   };
-    // }
-    // return {
-    //   success: false,
-    //   errorCode: res.status,
-    // };
   }
 
 
@@ -82,6 +67,7 @@ export default class AuthModel {
     return Api.get(`${constants.HOST}/logout`)
       .then((res) => {
         if (res.ok) {
+          localStorage.clear();
           return {
             success: true,
           };

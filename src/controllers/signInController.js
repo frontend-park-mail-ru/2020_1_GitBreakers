@@ -3,7 +3,7 @@ import Controller from 'Modules/controller';
 // import SignInView from 'Views/signInView';
 import AuthModel from 'Models/authModel';
 import { SIGNIN } from 'Modules/events';
-import SignInView from '../views/signInView';
+import SignInView from 'Views/signInView';
 
 
 export default class SignInController extends Controller {
