@@ -20,6 +20,7 @@ export const SIGNIN = {
 
 export const PROFILE = {
   load: 'load: Profile',
+  render: 'render: Profile',
   loadSuccess: 'loadSuccess : Profile',
   loadFail: 'loadFail : Profile',
   nextPage: 'nextPage : Profile',
