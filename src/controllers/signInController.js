@@ -8,7 +8,7 @@ import SignInView from '../views/signInView';
 
 export default class SignInController extends Controller {
   constructor(root, eventBus, router) {
-    super(root, eventBus, router, SignInView);
+    super(root, eventBus, router);
     this.view = new SignInView(root, eventBus);
     this.eventBus.on(SIGNIN.submit, this._submitSignIn.bind(this));
   }

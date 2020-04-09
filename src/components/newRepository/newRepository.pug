@@ -8,14 +8,16 @@ block main_section
                 div#newRepositoryError
                 hr.line-separator.line-separator_thin
                 div.form__item
-                    label.form_large__item__label(for="rep-name") Repository name
-                    div#repNameError
-                    input.form__item__input#rep-name(type="text" name="rep-name")
+                    label.form_large__item__label(for="rep-name")
+                        span Repository name
+                        input.form__item__input#rep-name(type="text" name="rep-name" required)
+                        ul.input-requirements
+                            li Длина должна быть от 3 до 100 символов
                 hr.line-separator.line-separator_thin
                 div.form__item
                     label.form_large__item__label(for="rep-description") Repository description
                     div#repDescriptionError
-                    input.form__item__input#rep-description(type="text" name="rep-description")
+                    input.form__item__input#rep-description(type="text" name="rep-description" optional)
                 hr.line-separator.line-separator_thin
                 div.form__item
                     div#repStatusError

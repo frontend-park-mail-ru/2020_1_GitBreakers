@@ -20,7 +20,6 @@ export default class SignInView extends View {
 
     const usernameInput = document.forms.signIn.username;
     const passwordInput = document.forms.signIn.password;
-    // const passwordRepeatInput = document.getElementById('password_repeat');
 
     usernameInput.CustomValidation = new CustomValidation(usernameInput);
     usernameInput.CustomValidation.validityChecks = loginValidityChecks;
@@ -28,19 +27,13 @@ export default class SignInView extends View {
     passwordInput.CustomValidation = new CustomValidation(passwordInput);
     passwordInput.CustomValidation.validityChecks = passwordValidityChecks;
 
-    // passwordRepeatInput.CustomValidation = new CustomValidation(passwordRepeatInput);
-    // passwordRepeatInput.CustomValidation.validityChecks = passwordRepeatValidityChecks;
-
     const inputs = this.root.querySelectorAll('input:not( [name="search"] )');
 
-    function validate() {
-      // for (let i = 0; i < inputs.length; i++) {
-      //   inputs[i].CustomValidation.checkInput();
-      // }
+    const validate = () => {
       inputs.forEach((input) => {
         input.CustomValidation.checkInput();
       });
-    }
+    };
 
     document.querySelectorAll('button[type="submit"]')[0].addEventListener('click', validate, false);
 

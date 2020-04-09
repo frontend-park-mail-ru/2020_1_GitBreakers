@@ -7,7 +7,7 @@ class AuthUser {
     this.eventBus = _eventBus;
     // this.loadWhoAmI();
 
-    this.eventBus.on(ACTIONS.loadWhoAmI, this.loadUser.bind(this));
+    // this.eventBus.on(ACTIONS.loadWhoAmI, this.loadUser.bind(this));
   }
 
   get isAuth() {
@@ -18,12 +18,12 @@ class AuthUser {
     return this.user;
   }
 
-  loadUser({ auth = false, user = null } = {}) {
-    if (auth) {
-      localStorage.setItem('user', user);
-      this.auth = true;
-    }
-  }
+  // loadUser({ auth = false, user = null } = {}) {
+  //   if (auth) {
+  //     localStorage.setItem('user', user);
+  //     this.auth = true;
+  //   }
+  // }
 
   loadWhoAmI() {
     const result = AuthModel.getWhoAmI();

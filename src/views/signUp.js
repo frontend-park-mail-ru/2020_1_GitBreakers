@@ -2,7 +2,8 @@ import { SIGNUP } from 'Modules/events';
 import View from 'Modules/view';
 import errorMessage from 'Modules/errorMessage';
 import template from 'Components/signUp/signUp.pug';
-
+import CustomValidation from 'Modules/validation/customValidation';
+import { loginValidityChecks, passwordValidityChecks } from 'Modules/validation/validationParams';
 
 export default class SignUpView extends View {
   constructor(root, eventBus) {
@@ -12,34 +13,55 @@ export default class SignUpView extends View {
     this.eventBus.on(SIGNUP.success, SignUpView._success);
   }
 
-  render(data) {
-    super.render(data);
+  render() {
+    super.render();
 
-    document.forms.signUp.signup.addEventListener('click', (event) => {
-      // const { target } = event;
+    const form = document.forms.signUp;
 
-      const signUpForm = document.forms.signUp;
-      event.preventDefault();
+    const emailInput = form.email;
+    const loginInput = form.username;
+    const passwordInput = form.password;
+    const passwordRepeatInput = form.passwordRepeat;
 
-      this.eventBus.emit(SIGNUP.submit, {
-        email: signUpForm.email,
-        username: signUpForm.username,
-        password: signUpForm.password,
-        password2: signUpForm.password2,
+    loginInput.CustomValidation = new CustomValidation(loginInput);
+    loginInput.CustomValidation.validityChecks = loginValidityChecks;
+
+    passwordInput.CustomValidation = new CustomValidation(passwordInput);
+    passwordInput.CustomValidation.validityChecks = passwordValidityChecks;
+
+    passwordRepeatInput.CustomValidation = new CustomValidation(passwordRepeatInput);
+    passwordRepeatInput.CustomValidation.validityChecks = [
+      {
+        isInvalid() {
+          return passwordRepeatInput.value !== passwordInput.value;
+        },
+        invalidityMessage: 'Пароли должны совпадать',
+        selector: 'label[for="passwordRepeat"] .input-requirements li:nth-child( 1 )',
+      },
+    ];
+
+    const inputs = this.root.querySelectorAll('form[name="signUp"] input:not([type="email"])');
+
+    const validate = () => {
+      inputs.forEach((input) => {
+        input.CustomValidation.checkInput();
       });
-    });
+    };
+
+    document.querySelector('button[type="submit"]').addEventListener('click', validate, false);
+
+    document.forms.signUp.addEventListener('submit', (e) => {
+      validate();
+      e.preventDefault();
+      this.eventBus.emit(SIGNUP.submit, {
+        email: emailInput.value,
+        login: loginInput,
+        password: passwordInput,
+      });
+    }, false);
   }
 
-  static _fail(data = {}) {
-    data.data.forEach((item) => {
-      document.getElementById(`${item.item}Error`).innerHTML = errorMessage(item.message);
-    });
+  static _fail({ message = '' } = {}) {
+    document.getElementById('respError').innerHTML = errorMessage(message);
   }
-
-  // static _success(data = {}) {
-  //   if (data === {}) {
-  //     alert('Error!!!');
-  //   }
-  //   alert(`OkeySuccess!!!${data}`);
-  // }
 }

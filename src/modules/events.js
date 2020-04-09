@@ -46,10 +46,8 @@ export const SETTINGS = {
 };
 
 export const NEWREPOSITORY = {
-  send: 'send: NewRepository',
-  sendFail: 'sendFail: NewRepository',
-  sendSuccess: 'sendSuccess: NewRepository',
-  sendValid: 'sendValid: NewRepository',
+  submit: 'submit: NewRepository',
+  fail: 'fail: NewRepository',
 };
 
 

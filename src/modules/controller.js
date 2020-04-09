@@ -1,7 +1,7 @@
 // import View from 'Modules/view';
 
 export default class Controller {
-  constructor(root, eventBus, router, View) {
+  constructor(root, eventBus, router) {
     // this.root = root;
     this.eventBus = eventBus;
     this.router = router;
