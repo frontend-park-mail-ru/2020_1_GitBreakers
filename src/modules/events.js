@@ -21,6 +21,7 @@ export const SIGNIN = {
 export const HEADER = {
   render: 'Render: Header',
   load: 'Load: Header',
+  logout: 'Logout: Header',
 };
 
 export const PROFILE = {

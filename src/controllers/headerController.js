@@ -10,24 +10,38 @@ export default class HeadetController extends Controller {
 
     this.view = new HeaderView(root, eventBus);
     this.eventBus.on(HEADER.load, this._loadStatus.bind(this));
+    this.eventBus.on(HEADER.logout, this._logout.bind(this));
   }
 
   async _logout() {
     const result = await AuthModel.logout();
     if (result.success) {
-      this.redirect('/signin');
+      this.redirect({ path: '/signin' });
+      super.open();
     }
   }
 
   async _loadStatus() {
-    const result = await AuthModel.getWhoAmI();
-    let resp = { auth: false };
-    if (result.success) {
-      resp = {
-        auth: true,
-        ...(await result.body),
-      };
-    }
-    this.eventBus.emit(HEADER.render, resp);
+    await authUser.loadWhoAmI();
+    // this.eventBus.emit(HEADER.render, {
+    //   auth: kek.auth,
+    //   login: kek.login,
+    //   image: kek.image,
+    // });
+    this.eventBus.emit(HEADER.render, {
+      auth: authUser.isAuth,
+      login: authUser.getUser(),
+      image: authUser.getImage(),
+    });
+
+    // const result = await AuthModel.getWhoAmI();
+    // let resp = { auth: false };
+    // if (result.success) {
+    //   resp = {
+    //     auth: true,
+    //     ...(await result.body),
+    //   };
+    // }
+    // this.eventBus.emit(HEADER.render, resp);
   }
 }

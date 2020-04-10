@@ -15,5 +15,12 @@ export default class HeaderView extends View {
 
   _onRender(data = {}) {
     super.render(data);
+
+    if (data.auth) {
+      document.getElementById('logout').addEventListener('click', (event) => {
+        event.preventDefault();
+        this.eventBus.emit(HEADER.logout);
+      });
+    }
   }
 }

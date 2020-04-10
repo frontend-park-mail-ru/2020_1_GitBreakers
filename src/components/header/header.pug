@@ -12,8 +12,8 @@ div.header
         if auth
             a.route.header__menu_item(data-section=`/profile/${user}`) My profile
             a#logout.route.header__menu_item  Logout
-            image.header__menu_item(width='32' hight='32' src=image)
+            image.header__menu_item(width='32' hight='32' src=image alt='avatar')
         else
             a.route.header__menu_item(data-section='/signup') SignUp
             a.route.header__menu_item(data-section='/signin')  SignIn
-            
+

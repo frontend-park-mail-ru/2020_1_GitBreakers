@@ -1,13 +1,13 @@
-import { ACTIONS } from 'Modules/events';
+// import { ACTIONS } from 'Modules/events';
 import eventBus from 'Modules/eventBus';
 import AuthModel from 'Models/authModel';
 
 class AuthUser {
   constructor(_eventBus) {
     this.eventBus = _eventBus;
-    this.loadWhoAmI();
-
-    // this.eventBus.on(ACTIONS.loadWhoAmI, this.loadUser.bind(this));
+    this.auth = false;
+    this.user = null;
+    this.image = null;
   }
 
   get isAuth() {
@@ -18,22 +18,27 @@ class AuthUser {
     return this.user;
   }
 
-  // loadUser({ auth = false, user = null } = {}) {
-  //   if (auth) {
-  //     localStorage.setItem('user', user);
-  //     this.auth = true;
-  //   }
-  // }
+  getImage() {
+    return this.image;
+  }
 
-  loadWhoAmI() {
-    const result = AuthModel.getWhoAmI();
+  async loadWhoAmI() {
+    const result = await AuthModel.getWhoAmI();
     if (result.success) {
-      this.user = result.body.login;
+      const body = await result.body;
+      this.user = body.login;
+      this.avatar = body.image;
       this.auth = !!this.user;
     } else {
       this.auth = false;
       this.user = null;
+      this.avatar = null;
     }
+    return {
+      auth: this.auth,
+      login: this.avatar,
+      image: this.image,
+    };
   }
 }
 
