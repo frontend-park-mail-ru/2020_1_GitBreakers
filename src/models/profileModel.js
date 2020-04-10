@@ -4,11 +4,11 @@ import constants from 'Modules/constants';
 
 export default class ProfileModel {
   static getRepositories({ profile = '' } = {}) {
-    return Api.get((`${constants.HOST}/${profile}`))
+    return Api.get((`${constants.HOST}/profile/${profile}`))
       .then((res) => {
         if (res.ok) {
           return {
-            success: false,
+            success: true,
             body: res.json(),
           };
         }
@@ -28,7 +28,7 @@ export default class ProfileModel {
       .then((res) => {
         if (res.ok) {
           return {
-            success: false,
+            success: true,
             body: res.json(),
           };
         }

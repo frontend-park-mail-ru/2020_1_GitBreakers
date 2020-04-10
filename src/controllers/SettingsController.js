@@ -21,7 +21,8 @@ export default class SettingsController extends Controller {
   async _updateAvatar(body = {}) {
     const result = await ProfileModel.setAvatar(body);
     if (result.success) {
-      const newProfielImageUrl = await ProfileModel.getProfile({ profile: authUser.getUser() }).body.image;
+      const newProfielImageUrl = await ProfileModel
+        .getProfile({ profile: authUser.getUser() }).body.image;
       this.eventBus.emit(SETTINGS.changeAvatar, { url: newProfielImageUrl });
     }
     switch (result.status) {

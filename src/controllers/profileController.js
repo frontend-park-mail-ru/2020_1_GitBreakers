@@ -11,20 +11,19 @@ export default class ProfileController extends Controller {
     this.eventBus.on(PROFILE.load, this.loadPage.bind(this));
   }
 
-  loadPage() {
+  async loadPage() {
     const path = window.location.pathname;
     const profile = path.split('/')[path.split('/').length - 1];
 
-    const profileRes = ProfileModel.getProfile({ profile });
-    const repositoreisRes = ProfileModel.getRepositories({ profile });
+    const profileRes = await ProfileModel.getProfile({ profile });
+    const repositoreisRes = await ProfileModel.getRepositories({ profile });
 
     if (profileRes.success && repositoreisRes.success) {
       this.eventBus.emit(PROFILE.render, {
-        reps: repositoreisRes.body,
-        ...profileRes,
+        reps: await repositoreisRes.body,
+        ...(await profileRes.body),
       });
-    } else {
-      alert('kek');
     }
+    console.log('spit');
   }
 }

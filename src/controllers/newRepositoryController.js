@@ -13,8 +13,8 @@ export default class NewRepositoryController extends Controller {
     this.eventBus.on(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
   }
 
-  createNewRepository(body = {}) {
-    const result = NewRepositoryModel.createNewRepository({ body });
+  async createNewRepository(body = {}) {
+    const result = await NewRepositoryModel.createNewRepository({ body });
     if (result.success) {
       this.redirect(`/${authUser.getUser()}/${result.repName}`);
       return;
