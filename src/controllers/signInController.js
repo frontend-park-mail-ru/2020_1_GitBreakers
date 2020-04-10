@@ -13,10 +13,11 @@ export default class SignInController extends Controller {
     this.eventBus.on(SIGNIN.submit, this._submitSignIn.bind(this));
   }
 
-  _submitSignIn(body = {}) {
-    const result = AuthModel.signIn({ body });
+  async _submitSignIn(body = {}) {
+    const result = await AuthModel.signIn({ body });
     if (result.success) {
-      authUser.loadWhoAmI();
+      await authUser.loadWhoAmI();
+      AuthModel.csrf();
       super.redirect(`/profile${authUser.getUser()}`);
     }
   }

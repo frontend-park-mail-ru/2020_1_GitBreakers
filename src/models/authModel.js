@@ -4,6 +4,16 @@ import constants from 'Modules/constants';
 
 
 export default class AuthModel {
+  static csrf() {
+    Api.get(`${constants.HOST}/api/v1/csrftoken `).then((res) => {
+      if (res.ok) {
+        const csrfToken = res.headers.get('X-Csrf-Token');
+        localStorage.setItem('csrf_token', csrfToken);
+      }
+    });
+  }
+
+
   static getWhoAmI() {
     return Api.get(`${constants.HOST}/whoami`)
       .then((res) => {
@@ -64,7 +74,7 @@ export default class AuthModel {
 
 
   static logout() {
-    return Api.get(`${constants.HOST}/logout`)
+    return Api.post(`${constants.HOST}/logout`, {})
       .then((res) => {
         if (res.ok) {
           localStorage.clear();

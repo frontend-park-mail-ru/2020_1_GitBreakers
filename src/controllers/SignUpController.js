@@ -13,10 +13,11 @@ export default class SignUpController extends Controller {
     // this.eventBus.on(SIGNUP.success, this.submitSuccess.bind(this));
   }
 
-  signUp(body) {
-    const result = AuthModel.signUp(body);
+  async signUp(body) {
+    const result = await AuthModel.signUp(body);
     if (result.success) {
-      authUser.loadWhoAmI();
+      await authUser.loadWhoAmI();
+      AuthModel.csrf();
       this.redirect({ path: `/profile/${authUser.getUser()}` });
     }
     switch (result.status) {
