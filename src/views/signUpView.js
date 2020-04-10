@@ -62,6 +62,6 @@ export default class SignUpView extends View {
   }
 
   static _fail({ message = '' } = {}) {
-    document.getElementById('respError').innerHTML = errorMessage(message);
+    document.getElementById('signUpMessage').innerHTML = errorMessage(message);
   }
 }

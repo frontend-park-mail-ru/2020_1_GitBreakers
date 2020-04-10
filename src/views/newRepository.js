@@ -10,7 +10,7 @@ export default class newRepositoryView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
 
-    this.eventBus.on(NEWREPOSITORY.fail, newRepositoryView.fail);
+    this.eventBus.on(NEWREPOSITORY.fail, newRepositoryView._fail);
   }
 
   render() {
@@ -20,7 +20,7 @@ export default class newRepositoryView extends View {
 
     const nameInput = form['rep-name'];
     const descriptionInputValue = form['rep-description'].value;
-    const isPublicInputValue = form['rep-status'].value;
+
 
     nameInput.CustomValidation = new CustomValidation(nameInput);
     nameInput.CustomValidation.validityChecks = repNameValidityChecks;
@@ -38,15 +38,16 @@ export default class newRepositoryView extends View {
     document.forms.newRepository.addEventListener('submit', (e) => {
       validate();
       e.preventDefault();
+      const isPublicInputValue = form['rep-status'].value;
       this.eventBus.emit(NEWREPOSITORY.submit, {
         name: nameInput.value,
         description: descriptionInputValue,
-        is_public: isPublicInputValue,
+        is_public: (isPublicInputValue === 'public'),
       });
     }, false);
   }
 
-  static fail({ message = '' }) {
-    document.getElementById('newRepositoryError').innerHTML = errorMessage(message);
+  static _fail({ message = '' }) {
+    document.getElementById('newRepositoryMessage').innerHTML = errorMessage(message);
   }
 }

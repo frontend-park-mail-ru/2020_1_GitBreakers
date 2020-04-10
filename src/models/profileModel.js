@@ -4,7 +4,7 @@ import constants from 'Modules/constants';
 
 export default class ProfileModel {
   static getRepositories({ profile = '' } = {}) {
-    return Api.get((`${constants.HOST}/profile/${profile}`))
+    return Api.get((`${constants.HOST}/${profile}`))
       .then((res) => {
         if (res.ok) {
           return {
@@ -44,7 +44,7 @@ export default class ProfileModel {
   }
 
   static setAvatar({ body = {} } = {}) {
-    Api.setAvatar(`${constants.HOST}/avatar`, body)
+    return Api.setAvatar(`${constants.HOST}/avatar`, body)
       .then((res) => {
         if (res.ok) {
           return {
@@ -63,7 +63,7 @@ export default class ProfileModel {
   }
 
   static updateProfile({ body = {} } = {}) {
-    Api.put(`${constants.HOST}/profile`, body)
+    return Api.put(`${constants.HOST}/profile`, body)
       .then((res) => {
         if (res.ok) {
           return {

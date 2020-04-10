@@ -39,6 +39,9 @@ export const SETTINGS = {
   submitProfile: 'submitProfile: Setting',
   submitPassword: 'submitPassword: Settings',
   changeAvatar: 'ChangeAvatar: Settings',
+  passwordFail: 'passwordFail: settings',
+  avatarFail: 'avatarFail: Settings',
+  profileFail: 'profileFail: Settings',
   render: 'Render: Settings',
   load: 'loadProfile : Settings',
 };

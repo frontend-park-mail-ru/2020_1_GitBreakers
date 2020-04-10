@@ -47,9 +47,7 @@ export default class SignInView extends View {
     }, false);
   }
 
-  static _fail(data = {}) {
-    data.data.forEach((item) => {
-      document.getElementById(`${item.item}Error`).innerHTML = errorMessage(item.message);
-    });
+  static _fail({ message = {} } = {}) {
+    document.getElementById('signInMessage').innerHTML = errorMessage(message);
   }
 }

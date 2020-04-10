@@ -1,49 +1,50 @@
-extends ../page/page.pug
-block main_section
-  div.section
-    div.section__title
-      h2.title Edit profile
 
-    div.section__main
-      div.profile
-        div.profile-info
-          img.profile__avatar(src=image alt='avatar')
-          form(enctype='multipart/form-data' name='setAvatar')
-            div.profile__image-input
-              input(type='file' name='avatar' required)
-            div.profile-info__button
-              button.button.button_long(type='submit') Change avatar
-        div.profile__data
-          div.form.form_large
-            form(name='setProfile')
-              div.form__item
-                label.form_large__item__label(for='name') Name
-                input#name.form__item__input.form__item__input_long(type='text' name='name' value=name optional)
-              div.form__item
-                label.form_large__item__label(for='email') Email
-                input#email.form__item__input.form__item__input_long(type='email' name='email' value=email required)
-              div.form__button
-                button.button.button-colored(type='submit') Save changes
-              table.repository__tree
-                hr.line-separator.line-separator_thin
-            form(name='setPassword')
-              div.form__item
-                label.form__item_label(for='oldPassword') old password
-                  input#oldPassword.form__item__input(type='password' name='oldPassword' required)
-                  lu.input-requirements
-                    li Пароль должен содержать от 8 до 100 символов
-                    li Должна присутствовать минимум 1 цифра
-              div.form__item
-                label.form__item_label(for='password') new password
-                  input#newPassword.form__item__input(type='password' name='password' required)
-                  lu.input-requirements
-                    li Пароль должен содержать от 8 до 100 символов
-                    li Должна присутствовать минимум 1 цифра
-              div.form__item
-                label.form__item_label(for='passwordRepeat') new password again
-                  input#newPassword2.form__item__input(type='password' name='passwordRepeat' required)
-                  lu.input-requirements
-                    li Пароли должны совпадать
+div.section
+  div.section__title
+    h2.title Edit profile
+  div.section__main
+    div.profile
+      div.profile-info
+        img.profile__avatar(src=image alt='avatar')
+        form(enctype='multipart/form-data' name='setAvatar')
+          div#avatarMessage
+          div.profile__image-input
+            input(type='file' name='avatar' required)
+          div.profile-info__button
+            button.button.button_long(type='submit') Change avatar
+      div.profile__data
+        div.form.form_large
+          form(name='setProfile')
+            div#profileMessage
+            div.form__item
+              label.form_large__item__label(for='name') Name
+              input#name.form__item__input.form__item__input_long(type='text' name='name' value=name optional)
+            div.form__item
+              label.form_large__item__label(for='email') Email
+              input#email.form__item__input.form__item__input_long(type='email' name='email' value=email required)
+            div.form__button
+              button.button.button-colored(type='submit') Save changes
+            table.repository__tree
+              hr.line-separator.line-separator_thin
+          form(name='setPassword')
+            div#passwordMessage
+            div.form__item
+              label.form__item_label(for='oldPassword') old password
+                input#oldPassword.form__item__input(type='password' name='oldPassword' required)
+                lu.input-requirements
+                  li Пароль должен содержать от 8 до 100 символов
+                  li Должна присутствовать минимум 1 цифра
+            div.form__item
+              label.form__item_label(for='password') new password
+                input#newPassword.form__item__input(type='password' name='password' required)
+                lu.input-requirements
+                  li Пароль должен содержать от 8 до 100 символов
+                  li Должна присутствовать минимум 1 цифра
+            div.form__item
+              label.form__item_label(for='passwordRepeat') new password again
+                input#newPassword2.form__item__input(type='password' name='passwordRepeat' required)
+                lu.input-requirements
+                  li Пароли должны совпадать
 
-              div.form__button
-                button.button.button-colored(type='submit' name='submit') Save changes
+            div.form__button
+              button.button.button-colored(type='submit' name='submit') Save changes

@@ -2,7 +2,7 @@ import authUser from 'Modules/authUser';
 import Controller from 'Modules/controller';
 // import SignInView from 'Views/signInView';
 import AuthModel from 'Models/authModel';
-import { SIGNIN } from 'Modules/events';
+import { SIGNIN, HEADER } from 'Modules/events';
 import SignInView from 'Views/signInView';
 
 
@@ -16,9 +16,26 @@ export default class SignInController extends Controller {
   async _submitSignIn(body = {}) {
     const result = await AuthModel.signIn({ body });
     if (result.success) {
-      await authUser.loadWhoAmI();
       AuthModel.csrf();
+      await authUser.loadWhoAmI();
+      this.eventBus.emit(HEADER.rerender, {});
       super.redirect(`/profile${authUser.getUser()}`);
+    }
+    switch (result.status) {
+      case 409:
+        this.eventBus.emit(SIGNIN.fail, { message: 'Такой пользователь уже существует!' });
+        break;
+      case 406:
+        this.eventBus.emit(SIGNIN.fail, { message: 'Уже авторизован!' });
+        break;
+      case 401:
+        this.eventBus.emit(SIGNIN.fail, { message: 'Неверный пароль!' });
+        break;
+      case 404:
+        this.eventBus.emit(SIGNIN.fail, { message: 'Неверный логин!' });
+        break;
+      default:
+        this.eventBus.emit(SIGNIN.fail, { message: 'Неизвестная ошибка!' });
     }
   }
 }
