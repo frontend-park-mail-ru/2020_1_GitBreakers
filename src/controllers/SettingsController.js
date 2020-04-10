@@ -88,4 +88,12 @@ export default class SettingsController extends Controller {
       this.eventBus.emit(SETTINGS.render, await result.body);
     }
   }
+
+  open() {
+    if (authUser.isAuth) {
+      super.open();
+      return;
+    }
+    this.redirect({ path: '/signin' });
+  }
 }

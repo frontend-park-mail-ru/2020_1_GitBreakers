@@ -35,4 +35,12 @@ export default class SignUpController extends Controller {
         this.eventBus.emit(SIGNUP.fail, { message: 'Неизвестная ошибка!' });
     }
   }
+
+  open() {
+    if (authUser.isAuth) {
+      this.redirect({ path: `/profile/${authUser.getUser()}` });
+      return;
+    }
+    super.open();
+  }
 }

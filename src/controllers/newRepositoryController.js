@@ -34,4 +34,12 @@ export default class NewRepositoryController extends Controller {
     }
     // this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Ошибка сети!' });
   }
+
+  open() {
+    if (authUser.isAuth) {
+      super.open();
+      return;
+    }
+    this.redirect({ path: '/signin' });
+  }
 }
