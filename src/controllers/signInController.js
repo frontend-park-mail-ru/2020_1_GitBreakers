@@ -20,10 +20,14 @@ export default class SignInController extends Controller {
       await authUser.loadWhoAmI();
       this.eventBus.emit(HEADER.rerender, {});
       super.redirect(`/profile${authUser.getUser()}`);
+      return;
     }
     switch (result.status) {
       case 409:
         this.eventBus.emit(SIGNIN.fail, { message: 'Такой пользователь уже существует!' });
+        break;
+      case 400:
+        this.eventBus.emit(SIGNIN.fail, { message: 'Неверные данные!' });
         break;
       case 406:
         this.eventBus.emit(SIGNIN.fail, { message: 'Уже авторизован!' });

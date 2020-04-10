@@ -21,24 +21,8 @@ export default class SignInView extends View {
     const usernameInput = document.forms.signIn.username;
     const passwordInput = document.forms.signIn.password;
 
-    usernameInput.CustomValidation = new CustomValidation(usernameInput);
-    usernameInput.CustomValidation.validityChecks = loginValidityChecks;
-
-    passwordInput.CustomValidation = new CustomValidation(passwordInput);
-    passwordInput.CustomValidation.validityChecks = passwordValidityChecks;
-
-    const inputs = this.root.querySelectorAll('input:not( [name="search"] )');
-
-    const validate = () => {
-      inputs.forEach((input) => {
-        input.CustomValidation.checkInput();
-      });
-    };
-
-    document.querySelectorAll('button[type="submit"]')[0].addEventListener('click', validate, false);
 
     document.forms.SignIn.addEventListener('submit', (e) => {
-      validate();
       e.preventDefault();
       this.eventBus.emit(SIGNIN.submit, {
         login: usernameInput.value,

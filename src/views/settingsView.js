@@ -41,7 +41,7 @@ export default class SettingsView extends View {
   }
 
   static _onChangeAvatar({ url = '' } = {}) {
-    const imageTags = document.querySelectorAll('input[alt="avatar"]');
+    const imageTags = document.querySelectorAll('img[alt="avatar"]');
 
     for (let i = 0; i < imageTags.length; i += 1) {
       imageTags[i].src = url;

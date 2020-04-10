@@ -29,7 +29,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {
@@ -48,7 +48,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {
@@ -67,7 +67,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {
@@ -88,7 +88,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {
