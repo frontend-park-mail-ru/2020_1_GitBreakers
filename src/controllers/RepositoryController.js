@@ -1,7 +1,6 @@
 import Controller from 'Modules/controller';
 import { UPLOAD } from 'Modules/events';
 
-
 export default class RepositoryController extends Controller {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
@@ -59,13 +58,5 @@ export default class RepositoryController extends Controller {
     if (res) {
       [this.filePath] = res;
     }
-  }
-
-  _open() {
-    this.data.author = this.author;
-    this.data.repName = this.repository;
-
-    //this.data.user = gerUser(); //who am I
-    super.open(this.data);
   }
 }

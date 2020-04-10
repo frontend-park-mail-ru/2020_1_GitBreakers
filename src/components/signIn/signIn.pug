@@ -1,28 +1,26 @@
-extends ../page/page.pug
-block main_section
-    div.section
-        div.section__title
-            h2.title Sign In
-        div.section__main
-            form.form#SignIn(action='#' name='signIn')
-                div#respError
-                div.form__item
-                    label.form__item__label(for='username') 
-                        span Username or e-mail address
-                        input.form__item__input(type='text' name='username' autofocus required)
-                        ul.input-requirements(hidden)
-                            li Должен сожержать более 2 симовлов
-                            li Должен содержать только буквы и цифры
-                div.form__item
-                    label.form__item__label(for='password') 
-                        span Password
-                        input.form__item__input(type='password' name='password' required)
-                        ul.input-requirements
-                            li Пароль должен содержать от 8 до 100 символов
-                            li Должна присутствовать минимум 1 цифра
-                div.form__button
-                    button.button#login( type='submit' ) Login
-                div.form__item
-                    a#forgot.form__link(href='#') Forgot your password?
-                div.form__item
-                    a.route.form__link(href='#' data-section='/signup') SignUp!
+div.section
+    div.section__title
+        h2.title Sign In
+    div.section__main
+        form.form#SignIn(action='#' name='signIn')
+            div#respError
+            div.form__item
+                label.form__item__label(for='username')
+                    span Username or e-mail address
+                    input.form__item__input(type='text' name='username' autofocus required)
+                    ul.input-requirements(hidden)
+                        li Должен сожержать более 2 симовлов
+                        li Должен содержать только буквы и цифры
+            div.form__item
+                label.form__item__label(for='password')
+                    span Password
+                    input.form__item__input(type='password' name='password' required)
+                    ul.input-requirements
+                        li Пароль должен содержать от 8 до 100 символов
+                        li Должна присутствовать минимум 1 цифра
+            div.form__button
+                button.button#login( type='submit' ) Login
+            div.form__item
+                a#forgot.form__link(href='#') Forgot your password?
+            div.form__item
+                a.route.form__link(href='#' data-section='/signup') SignUp!

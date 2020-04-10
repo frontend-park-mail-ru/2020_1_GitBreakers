@@ -1,24 +1,22 @@
-extends ../page/page.pug
-block main_section
-    div.section
-        div.section__title
-            h2.title Repository: #{author}/#{repName}
-        div.section__main
-            div.rep-menu
-                div.rep-menu-main
-                    div.rep-menu__item
-                        button.route.code.button(name='code', type='submit') Code
-                    div.rep-menu__item
-                        button.route.branches.button(type='submit') Branches
-                    div.rep-menu__item
-                        button.route.commits.button(type='submit') Commits
-                    div.rep-menu__item
-                        button.route.settings.button(type='submit') Settings
-                div.rep-menu-additional
-                    block button
-            hr.line-separator.line-separator_thin
-            if formShow==="true"
-                include ../branches/newBranch/newBranch.pug
-            div.repository
-                block content
-            hr.line-separator.line-separator_thin
+div.section
+    div.section__title
+        h2.title Repository: #{author}/#{repName}
+    div.section__main
+        div.rep-menu
+            div.rep-menu-main
+                div.rep-menu__item
+                    button.route.code.button(name='code', type='submit') Code
+                div.rep-menu__item
+                    button.route.branches.button(type='submit') Branches
+                div.rep-menu__item
+                    button.route.commits.button(type='submit') Commits
+                div.rep-menu__item
+                    button.route.settings.button(type='submit') Settings
+            div.rep-menu-additional
+                block button
+        hr.line-separator.line-separator_thin
+        if formShow === "true"
+            include ../branches/newBranch/newBranch.pug
+        div.repository
+            block content
+        hr.line-separator.line-separator_thin

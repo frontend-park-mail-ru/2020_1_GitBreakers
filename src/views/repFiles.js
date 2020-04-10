@@ -1,16 +1,23 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
 import template from 'Components/fileTree/fileTree.pug';
+import { TREEPAGE } from 'Modules/events';
 
 export default class RepBranchesView extends RepositoryBaseView {
   constructor(root, eventBus) {
     super(root, template, eventBus);
+
+    this.eventBus.on(TREEPAGE.render, this._onRender.bind(this));
   }
 
-  render(data) {
+  render() {
+    this.eventBus.emit(TREEPAGE.getBranchList, {});
+  }
+
+  _onRender(data) {
     super.render(data);
 
     const folderLinkList = document.getElementsByClassName('folder');
-    for (let i = 0; i < folderLinkList.length; i++) {
+    for (let i = 0; i < folderLinkList.length; i += 1) {
       folderLinkList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
@@ -28,7 +35,7 @@ export default class RepBranchesView extends RepositoryBaseView {
 
 
     const fileLinkList = document.getElementsByClassName('file');
-    for (let i = 0; i < fileLinkList.length; i++) {
+    for (let i = 0; i < fileLinkList.length; i += 1) {
       fileLinkList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
@@ -40,7 +47,6 @@ export default class RepBranchesView extends RepositoryBaseView {
         } else {
           filePath += `/${fileName}`;
         }
-        console.log(filePath);
         fileLinkList[i].dataset.section = filePath;
       });
     }

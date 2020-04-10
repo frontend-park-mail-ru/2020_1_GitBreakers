@@ -49,3 +49,9 @@ td {
         text-align: right;
     }
 }
+
+.bright__link {
+    text-decoration: none;
+    font-weight: bold;
+    color: $font-color;
+}
