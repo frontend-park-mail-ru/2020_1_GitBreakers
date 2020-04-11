@@ -15,7 +15,6 @@ import MainPageController from 'Controllers/MainPageController';
 
 import Create404Page from 'Controllers/404';
 
-import RepositoryModel from 'Models/repositoryModel';
 import NewRepositoryController from 'Controllers/newRepositoryController';
 import ProfileController from 'Controllers/profileController';
 import SettingsController from 'Controllers/SettingsController';
@@ -25,13 +24,6 @@ const application = document.getElementById('root');
 const header = document.createElement('div');
 header.id = 'header';
 application.before(header);
-
-
-// TODO: Решить проблему с unused-vars
-/* eslint-disable no-unused-vars */
-
-const repositoryModel = new RepositoryModel(eventBus);
-
 
 const router = new Router();
 

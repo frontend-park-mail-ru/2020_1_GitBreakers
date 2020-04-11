@@ -58,19 +58,20 @@ export const UPLOAD = {
 };
 
 export const TREEPAGE = {
+  getBranchList: 'FileTree : Get branch list',
   getFiles: 'FileTree : Get files',
-  setData: 'FileTree : Set data',
+  render: 'FileTree : Render',
 };
 
 export const BRANCHESPAGE = {
-  getFiles: 'Branches : Get files',
-  setData: 'Branches : Set data',
+  getBranchList: 'Branches : Get branch list',
+  render: 'Branches : Render',
 };
 
 export const COMMITSPAGE = {
-  setBranches: 'Commits : Set branches',
-  getCommits: 'Commits : Get commits',
-  setCommits: 'Commits : Set commits',
+  getBranchList: 'Commits : Get branch list',
+  getCommitList: 'Commits : Set commits',
+  render: 'Commits : Render',
 };
 
 export const NEWBRANCH = {
@@ -88,6 +89,6 @@ export const DELETEBRANCH = {
 
 export const FILEVIEW = {
   loadFile: 'FileView : LoadFile',
-  loadFail: 'FileView : LoadFail',
   loadSuccess: 'FileView : LoadSuccess',
+  render: 'FileView : Render',
 };

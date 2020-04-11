@@ -5,7 +5,7 @@ block content
         div.repository__top_button
             button.route.deleteFile.button.button-extra-small.button-colored(type='submit') Delete file
     if fileType === "code"
-        pre.prettyprint.linenums(class="lang-с") #{fileContent}
+        pre.prettyprint.linenums #{fileContent}
     else
         div.fileField
             a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName)

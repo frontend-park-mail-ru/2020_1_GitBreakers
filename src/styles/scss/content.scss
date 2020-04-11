@@ -43,6 +43,14 @@
     }
 }
 
+a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.button:hover {
+    cursor: pointer;
+}
+
 
 .error-msg {
     color: $font-light-color;

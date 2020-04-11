@@ -1,6 +1,8 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
 import template from 'Components/branches/branch.pug';
-import { NEWBRANCH, UPLOAD, DELETEBRANCH } from 'Modules/events';
+import {
+  NEWBRANCH, UPLOAD, DELETEBRANCH, BRANCHESPAGE,
+} from 'Modules/events';
 import errorMessage from 'Modules/errorMessage';
 
 
@@ -8,16 +10,22 @@ export default class RepBranchesView extends RepositoryBaseView {
   constructor(root, eventBus) {
     super(root, template, eventBus);
 
+    this.eventBus.on(BRANCHESPAGE.render, this._onRender.bind(this));
     this.eventBus.on(NEWBRANCH.fail, RepBranchesView._fail);
     this.eventBus.on(NEWBRANCH.success, RepBranchesView._success.bind(this));
   }
 
 
-  render(data) {
+  render() {
+    this.eventBus.emit(BRANCHESPAGE.getBranchList, {});
+  }
+
+
+  _onRender(data) {
     super.render(data);
 
     const newBranchBottomList = document.getElementsByClassName('newBranch');
-    for (let i = 0; i < newBranchBottomList.length; i++) {
+    for (let i = 0; i < newBranchBottomList.length; i += 1) {
       newBranchBottomList[i].addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -32,7 +40,7 @@ export default class RepBranchesView extends RepositoryBaseView {
     }
 
     const createBranchList = document.getElementsByClassName('createBranch');
-    for (let i = 0; i < createBranchList.length; i++) {
+    for (let i = 0; i < createBranchList.length; i += 1) {
       createBranchList[i].addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -50,7 +58,7 @@ export default class RepBranchesView extends RepositoryBaseView {
 
 
     const deleteBranchList = document.getElementsByClassName('deleteBranch');
-    for (let i = 0; i < deleteBranchList.length; i++) {
+    for (let i = 0; i < deleteBranchList.length; i += 1) {
       deleteBranchList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
@@ -66,7 +74,7 @@ export default class RepBranchesView extends RepositoryBaseView {
     }
 
     const branchLinkList = document.getElementsByClassName('branchLink');
-    for (let i = 0; i < branchLinkList.length; i++) {
+    for (let i = 0; i < branchLinkList.length; i += 1) {
       branchLinkList[i].addEventListener('click', (event) => {
         event.preventDefault();
         const { target } = event;
@@ -82,7 +90,7 @@ export default class RepBranchesView extends RepositoryBaseView {
 
   static _success(data) {
     console.log(data.message);
-    this.eventBus.emit(UPLOAD.changePath, data.path);
+    this.eventBus.emit (UPLOAD.changePath, data.path);
   }
 
   static _fail(errors = {}) {

@@ -3,28 +3,32 @@ block content
     div.repository__top
         div.repository__top_path #{repName}/#{branchName}/#{repPath}
         div.repository__top_button
-            button.add.button.button-extra-small.button-colored(type='submit') Add
+            button.add.button.button-extra-small.button-colored(type='submit') Add file
 
-    table.repository__tree
-        hr.line-separator.line-separator_extra-thin
-        each folder in folderList
-            tr.repository__tree__item
-                td.column-thin
-                    img.repository__tree__item_icon(src="styles/img/folder.png")
-                    a.route.repository__tree__item_title.folder(name=folder.Name hash=folder.EntryHash) #{folder.Name}
-                td.column-thick
-                    //div.repository__tree__item_commit #{folder.commit}
-                    div.repository__tree__item_commit #{folder.EntryHash}
-                td.column-very-thin
-                    div.repository__tree__item_info #{folder.update}
+    if branchList
+        table.repository__tree
+            hr.line-separator.line-separator_extra-thin
+            each folder in folderList
+                tr.repository__tree__item
+                    td.column-thin
+                        img.repository__tree__item_icon(src="styles/img/folder.png")
+                        a.route.repository__tree__item_title.folder(name=folder.name) #{folder.name}
+                    td.column-thick
+                        div.repository__tree__item_commit #{folder.commit} commit_info
+                    td.column-very-thin
+                        div.repository__tree__item_info #{folder.update} yesterday
 
-        each file in fileList
-            tr.repository__tree__item
-                td.column-thin
-                    img.repository__tree__item_icon(src="styles/img/file.png")
-                    a.route.repository__tree__item_title.file(name=file.Name hash=file.EntryHash) #{file.Name}
-                td.column-thick
-                    //div.repository__tree__item_commit #{file.commit}
-                    div.repository__tree__item_commit #{file.EntryHash}
-                td.column-very-thin
-                    div.repository__tree__item_info #{file.update}
+            each file in fileList
+                tr.repository__tree__item
+                    td.column-thin
+                        img.repository__tree__item_icon(src="styles/img/file.png")
+                        a.route.repository__tree__item_title.file(name=file.name) #{file.name}
+                    td.column-thick
+                        div.repository__tree__item_commit #{file.commit} commit_info
+                    td.column-very-thin
+                        div.repository__tree__item_info #{file.update} yesterday
+
+    else
+        div
+            span There are no branches in this repository yet. You can create a new branch &nbsp
+            a.bright__link(href = '/'+author+'/'+repName+'/branches') here

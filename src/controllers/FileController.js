@@ -1,7 +1,8 @@
 import RepositoryController from 'Controllers/RepositoryController';
 import FileView from 'Views/fileView';
-import { FILEVIEW } from 'Modules/events';
+import { FILEVIEW, UPLOAD } from 'Modules/events';
 import constants from 'Modules/constants';
+import RepositoryModel from 'Models/repositoryModel';
 
 
 export default class FileController extends RepositoryController {
@@ -9,48 +10,53 @@ export default class FileController extends RepositoryController {
     super(root, eventBus, router);
 
     this.view = new FileView(root, eventBus);
-    this.eventBus.on(FILEVIEW.loadSuccess, this.loadFileContent.bind(this));
+    this.eventBus.on(FILEVIEW.loadFile, this._getFileContent.bind(this));
   }
 
 
-  loadFileContent(res) {
-    this.data.branchName = this.branchName;
-    this.data.filePath = this.filePath;
-    this.data.fileName = this.fileName;
-
-    const reader = new FileReader();
-    reader.onerror = (event) => {
-      console.error(`Не удалось получить содержимое файла${event.target.error.code}`);
-    };
-
-    if (constants.CODELANG.find((item) => res.type === item)) {
-      this.data.fileType = 'code';
-      reader.readAsText(res.file);
-      reader.onload = (event) => {
-        this.data.fileContent = event.target.result;
-      };
-      this.data.fileContent = res.file;
-      this._open();
-    } else {
-      this.data.fileType = 'fileForLoad';
-      reader.readAsDataURL(res.file);
-      reader.onload = function (event) {
-        this.data.fileUrl = event.target.result;
-        this._open();
-      };
-    }
-  }
-
-
-  open() {
+  async _getFileContent() {
     this.setRepositoryName();
     this.setBranchName();
     this.setFilePath();
 
-    this.eventBus.emit(FILEVIEW.loadFile, {
+    const data = {
       repName: this.repositoryName,
       branchName: this.branchName,
       filePath: this.filePath,
-    });
+    };
+    const result = await RepositoryModel.loadFile(data);
+
+    if (result.success) {
+      await this._loadFileContent(await result.body);
+      this.eventBus.emit(FILEVIEW.render, this.data);
+    } else {
+      console.log(result.status);
+      this.eventBus.emit(UPLOAD.changePath, '/404');
+    }
+  }
+
+
+  _loadFileContent(res) {
+    this.data.author = this.author;
+    this.data.repName = this.repository;
+    this.data.branchName = this.branchName;
+    this.data.filePath = this.filePath;
+    this.data.fileName = res.file_info.name;
+
+    const regRes = this.data.fileName.match('(?<=.)[\\w_-]+$');
+    if (regRes) {
+      this.data.type = regRes[0];
+    }
+    const { content } = res;
+
+    if (constants.CODELANG.find((item) => this.data.type === item)) {
+      this.data.fileType = 'code';
+      this.data.fileContent = content;
+    } else {
+      this.data.fileType = 'fileForLoad';
+      const blob = new Blob([content]);
+      this.data.fileUrl = URL.createObjectURL(blob);
+      // я в бесконечном шоке, что это сработало.
+    }
   }
 }

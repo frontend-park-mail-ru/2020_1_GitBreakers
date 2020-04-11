@@ -13,7 +13,7 @@ class Router {
       newUrl = '/'; // либо переход на главную, либо показать NotFound
       this.controller = this.getController(newUrl);
     }
-    if (window.location.pathname !== newUrl) {
+    if ((window.location.pathname !== newUrl) && (newUrl !== '/404')) {
       window.history.pushState(null, null, newUrl);
     }
     if (this.controller) {

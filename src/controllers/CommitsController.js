@@ -1,6 +1,7 @@
 import RepositoryController from 'Controllers/RepositoryController';
 import RepCommitsView from 'Views/repCommits';
-import { COMMITSPAGE, BRANCHESPAGE } from 'Modules/events';
+import { COMMITSPAGE, UPLOAD } from 'Modules/events';
+import RepositoryModel from 'Models/repositoryModel';
 
 
 export default class CommitsController extends RepositoryController {
@@ -8,37 +9,63 @@ export default class CommitsController extends RepositoryController {
     super(root, eventBus, router);
     this.view = new RepCommitsView(root, eventBus);
 
-    this.eventBus.on(COMMITSPAGE.setCommits, this.loadCommitList.bind(this));
-    this.eventBus.on(COMMITSPAGE.setBranches, this.loadBranch.bind(this));
+    this.eventBus.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBus.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
   }
 
-  loadBranch(branchList) {
-    this.data.branchList = branchList;
 
-    this.eventBus.emit(COMMITSPAGE.getCommits, {
+  async _getBranchList() {
+    this.setRepositoryName();
+    this.data.author = this.author;
+    this.data.repName = this.repository;
+
+    const data = {
+      repName: this.repositoryName,
+    };
+
+    const result = await RepositoryModel.loadBranchList(data);
+
+    if (result.success) {
+      this.data.branchList = await result.body;
+
+      if (Object.keys(this.data.branchList).length === 0) {
+        this.data.branchList = null;
+        this.eventBus.emit(COMMITSPAGE.render, this.data);
+      } else {
+        this.eventBus.emit(COMMITSPAGE.getCommitList, {});
+      }
+    } else {
+      console.log(result.status);
+      this.eventBus.emit(UPLOAD.changePath, '/404');
+    }
+  }
+
+
+  async _getCommitList() {
+    this.setBranchName();
+
+    const data = {
       repName: this.repositoryName,
       branchName: this.branchName,
-    });
+    };
+    const result = await RepositoryModel.loadCommitList(data);
+
+    if (result.success) {
+      await this._loadCommitList(await result.body);
+      this.eventBus.emit(COMMITSPAGE.render, this.data);
+    } else {
+      console.log(result.status);
+      this.eventBus.emit(UPLOAD.changePath, '/404');
+    }
   }
 
-  loadCommitList(res) {
-    this.data.branchName = this.branchName;
 
+  _loadCommitList(res) {
     const commitList = res.slice([0], [9]);
     commitList.forEach((item) => {
       item.update = item.commit_author_when.substr(0, 10);
     });
     this.data.commitList = commitList;
-    this._open();
-  }
-
-  open() {
-    this.setRepositoryName();
-    this.setBranchName();
-
-    this.eventBus.emit(BRANCHESPAGE.getFiles, {
-      repName: this.repositoryName,
-      page: 'commitsPage',
-    });
+    this.data.branchName = this.branchName;
   }
 }

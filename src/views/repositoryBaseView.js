@@ -1,5 +1,6 @@
 import View from 'Modules/view';
 
+
 export default class RepositoryBaseView extends View {
   render(data) {
     super.render(data);
@@ -9,13 +10,13 @@ export default class RepositoryBaseView extends View {
       buttonCodeList[i].addEventListener('click', (event) => {
         event.preventDefault();
 
-        // let codePath = "";
-        // if (data.branchName === 'master') {
-        //   codePath = `/${data.author}/${data.repName}`;
-        // } else {
-        //   codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;
-        // }
-        buttonCodeList[i].dataset.section = '/'; // codePath;
+        let codePath = '/';
+        if (data.branchName === 'master') {
+          codePath = `/${data.author}/${data.repName}`;
+        } else {
+          codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;
+        }
+        buttonCodeList[i].dataset.section = codePath;
       });
     }
 
