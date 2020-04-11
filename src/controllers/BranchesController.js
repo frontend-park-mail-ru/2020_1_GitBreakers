@@ -38,6 +38,10 @@ export default class BranchesController extends RepositoryController {
 
 
   _loadBranchList(branchList) {
+    
+    if (!branchList) { 
+      branchList = [];
+    }
     branchList.forEach((item) => {
       item.commit.update = item.commit.commit_author_when.substr(0, 10);
     });
