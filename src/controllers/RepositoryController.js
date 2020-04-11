@@ -38,7 +38,7 @@ export default class RepositoryController extends Controller {
     this.repPath = null;
 
     const branchPath = `${this.author}/${this.repository}/branch/${this.branchName}/`;
-    const res = path.match(`(?<=${branchPath})[\\w_-]+`);
+    const res = path.match(`(?<=${branchPath})[\\w/_-]+`);
     if (res) {
       this.repPath = res[0];
     }
@@ -54,7 +54,7 @@ export default class RepositoryController extends Controller {
     }
 
     const filePath = `${this.author}/${this.repository}/file/${this.branchName}/`;
-    res = path.match(`(?<=${filePath})[\\w-_.]+`);
+    res = path.match(`(?<=${filePath})[\\w/-_.]+`);
     if (res) {
       [this.filePath] = res;
     }
