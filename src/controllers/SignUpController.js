@@ -33,11 +33,11 @@ export default class SignUpController extends Controller {
     }
   }
 
-  open() {
-    if (authUser.isAuth) {
-      this.redirect({ path: `/profile/${authUser.getUser()}` });
-      return;
-    }
-    super.open();
-  }
+  // open() {
+  //   if (authUser.isAuth) {
+  //     this.redirect({ path: `/profile/${authUser.getUser()}` });
+  //     return;
+  //   }
+  //   super.open();
+  // }
 }

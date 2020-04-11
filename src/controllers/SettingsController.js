@@ -89,11 +89,11 @@ export default class SettingsController extends Controller {
     }
   }
 
-  open() {
-    if (authUser.isAuth) {
-      super.open();
-      return;
-    }
-    this.redirect({ path: '/signin' });
-  }
+  // open() {
+  //   if (authUser.isAuth) {
+  //     super.open();
+  //     return;
+  //   }
+  //   this.redirect({ path: '/signin' });
+  // }
 }
