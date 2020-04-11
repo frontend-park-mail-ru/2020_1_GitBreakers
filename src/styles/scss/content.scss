@@ -1,60 +1,56 @@
 @import "constants";
 
 .content {
-    grid-row: 2/3;
-    min-width: 400px;
-    min-height: calc(100vh - 160px);
+  grid-row: 2/3;
+  min-width: 400px;
+  min-height: calc(100vh - 160px);
 }
 
 .section {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: $font-light-color;
+  margin: 40px 5%;
+
+  &__title {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: flex-start;
-    color: $font-light-color;
-    margin: 40px 5%;
+  }
 
-    &__title {
-        display: flex;
-    }
-
-    &__main {
-        margin: 10px 0;
-    }
+  &__main {
+    margin: 10px 0;
+  }
 }
 
 .title {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
-
-
 .line-separator {
-    margin: 0;
-    color: $font-color;
-    border-color: $line-color;
+  margin: 0;
+  color: $font-color;
+  border-color: $line-color;
 
-    &_thin {
-        opacity: 60%;
-    }
+  &_thin {
+    opacity: 60%;
+  }
 
-    &_extra-thin {
-        opacity: 30%;
-    }
+  &_extra-thin {
+    opacity: 30%;
+  }
 }
 
 a:hover {
-    cursor: pointer;
-    text-decoration: underline;
+  cursor: pointer;
+  text-decoration: underline;
 }
 .button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 
 .error-msg {
-    color: $font-light-color;
-    font-weight: bold;
-    font-size: 90%;
+  color: $font-light-color;
+  font-weight: bold;
+  font-size: 90%;
 }
-

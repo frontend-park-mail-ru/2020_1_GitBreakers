@@ -28,7 +28,7 @@ export default class SettingsController extends Controller {
     }
     switch (result.status) {
       case 401:
-        this.redirect('/signin');
+        this.redirect({ path: '/signin' });
         break;
       case 400:
         this.eventBus.emit(SETTINGS.avatarFail, { message: 'Файл неподходящего формата или больше 6MB!' });
@@ -46,7 +46,7 @@ export default class SettingsController extends Controller {
     }
     switch (result.status) {
       case 401:
-        this.redirect('/signin');
+        this.redirect({ path: '/signin' });
         break;
       case 400:
         this.eventBus.emit(SETTINGS.profileFail, { message: 'Неверные данные!' });
@@ -67,7 +67,7 @@ export default class SettingsController extends Controller {
     }
     switch (result.status) {
       case 401:
-        this.redirect('/signin');
+        this.redirect({ path: '/signin' });
         break;
       case 400:
         this.eventBus.emit(SETTINGS.passwordFail, { message: 'Неверные данные!' });

@@ -25,9 +25,6 @@ export default class SignUpController extends Controller {
       case 409:
         this.eventBus.emit(SIGNUP.fail, { message: 'Такой пользователь уже существует!' });
         break;
-      // case 406:
-      //   this.eventBus.emit(SIGNUP.fail, { message: 'Уже авторизован!' });
-      //   break;
       case 400:
         this.eventBus.emit(SIGNUP.fail, { message: 'Проверьте данные!' });
         break;

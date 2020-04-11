@@ -1,30 +1,40 @@
 @import "constants";
 
+a:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.button:hover {
+  color: grey;
+}
+
 .button {
-    height: 38px;
-    border-color: $button-border-color;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0);
-    color: $font-color;
-    padding: 0 20px;
-    font-size: 95%;
+  cursor: pointer;
+  height: 38px;
+  border-color: $button-border-color;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  color: $font-color;
+  padding: 0 20px;
+  font-size: 95%;
 
-    &-colored {
-        background-color: $font-color;
-        color: black;
-    }
+  &-colored {
+    background-color: $font-color;
+    color: black;
+  }
 
-    &_long {
-        width: 260px;
-    }
+  &_long {
+    width: 260px;
+  }
 
-    &-small {
-        height: 30px;
-    }
+  &-small {
+    height: 30px;
+  }
 
-    &-extra-small {
-        height: 30px;
-        font-size: 90%;
-        padding: 0 10px;
-    }
+  &-extra-small {
+    height: 30px;
+    font-size: 90%;
+    padding: 0 10px;
+  }
 }
