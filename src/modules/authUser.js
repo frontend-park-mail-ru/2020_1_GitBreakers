@@ -27,18 +27,18 @@ class AuthUser {
     if (result.success) {
       const body = await result.body;
       this.user = body.login;
-      this.avatar = body.image;
+      this.image = body.image;
       this.auth = !!this.user;
     } else {
       this.auth = false;
       this.user = null;
       this.avatar = null;
     }
-    return {
-      auth: this.auth,
-      login: this.avatar,
-      image: this.image,
-    };
+    // return {
+    //   auth: this.auth,
+    //   login: this.avatar,
+    //   image: this.image,
+    // };
   }
 }
 

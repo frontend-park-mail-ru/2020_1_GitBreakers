@@ -11,6 +11,7 @@ export default class HeadetController extends Controller {
     this.view = new HeaderView(root, eventBus);
     this.eventBus.on(HEADER.load, this._loadStatus.bind(this));
     this.eventBus.on(HEADER.logout, this._logout.bind(this));
+    this.eventBus.on(HEADER.rerender, this.open.bind(this));
   }
 
   async _logout() {
@@ -30,7 +31,7 @@ export default class HeadetController extends Controller {
     // });
     this.eventBus.emit(HEADER.render, {
       auth: authUser.isAuth,
-      login: authUser.getUser(),
+      user: authUser.getUser(),
       image: authUser.getImage(),
     });
 

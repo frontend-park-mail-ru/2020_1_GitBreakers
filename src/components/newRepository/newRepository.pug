@@ -1,9 +1,10 @@
+
 div.section
     div.section__title
         h2.title Create a new repository
     div.section__main
         form.form_large(action='#' name="newRepository")
-            div#newRepositoryError
+            div#newRepositoryMessage
             hr.line-separator.line-separator_thin
             div.form__item
                 label.form_large__item__label(for="rep-name")
@@ -18,10 +19,9 @@ div.section
                 input.form__item__input#rep-description(type="text" name="rep-description" optional)
             hr.line-separator.line-separator_thin
             div.form__item
-                div#repStatusError
-                input.form__item__input_radio(type="radio" name="rep-status" value=false checked)
+                input.form__item__input_radio(type="radio" name="rep-status" value='public' checked)
                 span Public
-                input.form__item__input_radio(type="radio" name="rep-status" value=true)
+                input.form__item__input_radio(type="radio" name="rep-status" value='private')
                 span Private
             hr.line-separator.line-separator_thin
             div.form__button

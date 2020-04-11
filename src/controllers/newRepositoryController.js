@@ -14,7 +14,7 @@ export default class NewRepositoryController extends Controller {
   }
 
   async createNewRepository(body = {}) {
-    const result = await NewRepositoryModel.createNewRepository({ body });
+    const result = await NewRepositoryModel.createNewRepository(body);
     if (result.success) {
       this.redirect(`/${authUser.getUser()}/${result.repName}`);
       return;
@@ -23,12 +23,23 @@ export default class NewRepositoryController extends Controller {
       case 401:
         this.redirect('/signin');
         break;
+      case 400:
+        this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неверные данные!' });
+        break;
       case 409:
         this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Такое название уже занято!' });
         break;
       default:
         this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неизвестная ошибка!' });
     }
-    this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Ошибка сети!' });
+    // this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Ошибка сети!' });
+  }
+
+  open() {
+    if (authUser.isAuth) {
+      super.open();
+      return;
+    }
+    this.redirect({ path: '/signin' });
   }
 }

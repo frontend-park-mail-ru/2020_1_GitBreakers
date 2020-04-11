@@ -5,12 +5,16 @@ import constants from 'Modules/constants';
 
 export default class AuthModel {
   static csrf() {
-    Api.get(`${constants.HOST}/api/v1/csrftoken `).then((res) => {
+    return Api.get(`${constants.HOST}/api/v1/csrftoken `).then((res) => {
+      console.log('1');
       if (res.ok) {
         const csrfToken = res.headers.get('X-Csrf-Token');
         localStorage.setItem('csrf_token', csrfToken);
       }
-    });
+    })
+      .catch((err) => {
+        console.log('csrf Error!', err.toString());
+      });
   }
 
 
@@ -25,7 +29,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {
@@ -44,7 +48,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {
@@ -63,7 +67,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {
@@ -84,7 +88,7 @@ export default class AuthModel {
         }
         return {
           success: false,
-          errorCode: res.status,
+          status: res.status,
         };
       })
       .catch((err) => {

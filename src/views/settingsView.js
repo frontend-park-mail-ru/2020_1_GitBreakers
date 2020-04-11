@@ -11,12 +11,21 @@ export default class SettingsView extends View {
     super(root, template, eventBus);
     this.eventBus.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
     this.eventBus.on(SETTINGS.render, this._onRender.bind(this));
+    this.eventBus.on(SETTINGS.passwordFail, SettingsView._passwordFail);
+    this.eventBus.on(SETTINGS.avatarFail, SettingsView._avatarFail);
+    this.eventBus.on(SETTINGS.profileFail, SettingsView._profileFail);
   }
 
-  static sendPasswordFail(data) {
-    data.data.forEach((item) => {
-      document.getElementById(item.item).innerHTML = errorMessage(item.message);
-    });
+  static _passwordFail({ message = '' } = {}) {
+    document.getElementById('passwordMessage').innerHTML = errorMessage(message);
+  }
+
+  static _avatarFail({ message = '' } = {}) {
+    document.getElementById('avatarMessage').innerHTML = errorMessage(message);
+  }
+
+  static _profileFail({ message = '' } = {}) {
+    document.getElementById('profileMessage').innerHTML = errorMessage(message);
   }
 
   render() {
@@ -32,9 +41,11 @@ export default class SettingsView extends View {
   }
 
   static _onChangeAvatar({ url = '' } = {}) {
-    const imageTag = document.querySelector('input[alt="avatar"]');
+    const imageTags = document.querySelectorAll('img[alt="avatar"]');
 
-    imageTag.src = url;
+    for (let i = 0; i < imageTags.length; i += 1) {
+      imageTags[i].src = url;
+    }
   }
 
   _setAvatarForm() {
@@ -42,7 +53,7 @@ export default class SettingsView extends View {
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      this.eventBus.emit(SETTINGS.submitAvatar, { body: form });
+      this.eventBus.emit(SETTINGS.submitAvatar, { form });
     });
   }
 

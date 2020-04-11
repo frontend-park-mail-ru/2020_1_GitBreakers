@@ -11,7 +11,7 @@ export default class SettingsController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SettingsView(root, eventBus);
-    this.eventBus.on(SETTINGS.load, this.loadProfile.bind(this));
+    this.eventBus.on(SETTINGS.load, this._loadProfile.bind(this));
     this.eventBus.on(SETTINGS.submitProfile, this._updateProfile.bind(this));
     this.eventBus.on(SETTINGS.submitPassword, this._updatePassword.bind(this));
     this.eventBus.on(SETTINGS.submitAvatar, this._updateAvatar.bind(this));
@@ -19,15 +19,19 @@ export default class SettingsController extends Controller {
 
 
   async _updateAvatar(body = {}) {
-    const result = await ProfileModel.setAvatar(body);
+    const result = await ProfileModel.setAvatar({ body: body.form });
     if (result.success) {
-      const newProfielImageUrl = await ProfileModel
-        .getProfile({ profile: authUser.getUser() }).body.image;
-      this.eventBus.emit(SETTINGS.changeAvatar, { url: newProfielImageUrl });
+      const newProfielImageUrl = await ProfileModel.getProfile({ profile: authUser.getUser() });
+      const profileBody = await newProfielImageUrl.body;
+      this.eventBus.emit(SETTINGS.changeAvatar, { url: profileBody.image });
+      return;
     }
     switch (result.status) {
       case 401:
         this.redirect('/signin');
+        break;
+      case 400:
+        this.eventBus.emit(SETTINGS.avatarFail, { message: 'Файл неподходящего формата или больше 6MB!' });
         break;
       default:
         alert('Неизвестная ошибка!');
@@ -35,39 +39,61 @@ export default class SettingsController extends Controller {
   }
 
   async _updateProfile(body = {}) {
-    const result = await ProfileModel.updateProfile(body);
+    const result = await ProfileModel.updateProfile({ body });
     if (result.success) {
-      alert('Success Update!');
+      this.eventBus.emit(SETTINGS.profileFail, { message: 'Данные обновились!' });
+      return;
     }
     switch (result.status) {
       case 401:
         this.redirect('/signin');
         break;
+      case 400:
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Неверные данные!' });
+        break;
+      case 409:
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким имененм уже существует!' });
+        break;
       default:
-        alert('Неизвестная ошибка!');
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Неизвестная ошибка!' });
     }
   }
 
   async _updatePassword(body = {}) {
-    const result = await ProfileModel.updateProfile(body);
+    const result = await ProfileModel.updateProfile({ body });
     if (result.success) {
-      alert('Success Update!');
+      this.eventBus.emit(SETTINGS.passwordFail, { message: 'Данные обновились!' });
+      return;
     }
     switch (result.status) {
       case 401:
         this.redirect('/signin');
         break;
+      case 400:
+        this.eventBus.emit(SETTINGS.passwordFail, { message: 'Неверные данные!' });
+        break;
+      case 409:
+        this.eventBus.emit(SETTINGS.passwordFail, { message: 'Пользователь с таким имененм уже существует!' });
+        break;
       default:
-        alert('Неизвестная ошибка!');
+        this.eventBus.emit(SETTINGS.passwordFail, { message: 'Неизвестная ошибка!' });
     }
   }
 
-  async loadProfile() {
+  async _loadProfile() {
     // const result = ProfileModel.getProfile({ profile: authUser.getUser() });
     const result = await AuthModel.getWhoAmI();
     console.log('stop');
     if (result.success) {
       this.eventBus.emit(SETTINGS.render, await result.body);
     }
+  }
+
+  open() {
+    if (authUser.isAuth) {
+      super.open();
+      return;
+    }
+    this.redirect({ path: '/signin' });
   }
 }
