@@ -3,15 +3,23 @@
 .form {
   display: flex;
   flex-direction: column;
-  max-width: 35%;
-  border: 1px solid;
-  border-color: $form-border-color;
-  border-radius: 10px;
+  max-width: 350px;
+  // border-color: $form-border-color;
+  // border: 1px solid;
+  // border-color: #000000;
+
+  // border-radius: 10px;
+  // background-color: white;
+  // box-shadow: 3px 6px #e4e4e4;
   padding: 15px 20px;
 
   &__item {
-    margin: 5% 0;
+    margin: 5% 10px;
     font-size: 110%;
+
+    &__span {
+      display: block;
+    }
 
     &__input {
       margin: 5px 0;
@@ -60,7 +68,7 @@
   }
 
   &__button {
-    margin: 20px 0;
+    margin: 20px 10px;
   }
 
   &-horizontal {
@@ -147,7 +155,7 @@ input:optional {
   margin: 10px auto;
   list-style: disc;
   text-align: left;
-  max-width: 400px;
+  max-width: 250px;
 }
 
 .input-requirements li.invalid {

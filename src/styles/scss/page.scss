@@ -2,14 +2,16 @@
 
 body {
   margin: 0;
-  background-image: $background-color;
+  // background-image: $background-color;
+  background-color: $background-color;
   min-height: 100vh;
   font-family: $font-main;
 }
 
 #root {
   display: grid;
-  grid-template-rows: 90px auto 70px;
+  // grid-template-rows: 90px auto 70px;
+  margin-top: 10px;
 }
 
 @media (max-width: 400px) {

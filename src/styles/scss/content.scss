@@ -1,18 +1,32 @@
 @import "constants";
 
+.card {
+  border: 1px solid;
+  border-color: #000000;
+  background-color: white;
+  box-shadow: 3px 6px #e4e4e4;
+
+  margin: 40px 5%;
+  padding: 15px 20px;
+}
+
 .content {
   grid-row: 2/3;
   min-width: 400px;
   min-height: calc(100vh - 160px);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section {
+  grid-row: 2/3;
+  color: $font-light-color;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: flex-start;
-  color: $font-light-color;
-  margin: 40px 5%;
+  // margin: 40px 5%;
+  // padding: 15px 20px;
 
   &__title {
     display: flex;
