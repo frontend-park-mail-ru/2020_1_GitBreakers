@@ -1,30 +1,29 @@
 
-.content
-    div.section
-        .section__card
-            div.section__title
-                h2.title Create a new repository
-            div.section__main
-                form.form_large(action='#' name="newRepository")
-                    div#newRepositoryMessage
-                    //- hr.line-separator.line-separator_thin
-                    div.form__item
-                        label.form_large__item__label(for="rep-name")
-                            span.form__item__span Repository name
-                            input.form__item__input#rep-name(type="text" name="rep-name" required)
-                            ul.input-requirements
-                                li Длина должна быть от 3 до 100 символов
-                    //- hr.line-separator.line-separator_thin
-                    div.form__item
-                        label.form_large__item__label(for="rep-description") Repository description
-                        div#repDescriptionError
-                        input.form__item__input#rep-description(type="text" name="rep-description" optional)
-                    //- hr.line-separator.line-separator_thin
-                    div.form__item
-                        input.form__item__input_radio(type="radio" name="rep-status" value='public' checked)
-                        span Public
-                        input.form__item__input_radio(type="radio" name="rep-status" value='private')
-                        span Private
-                    //- hr.line-separator.line-separator_thin
-                    div.form__button
-                        button.button.button-colored(type="submit" name="create" ) Create repository
+
+div.section.card
+    div.section__title
+        h2.title Создать новый репозиторий
+    div.section__main
+        form.form_large(action='#' name="newRepository")
+            div#newRepositoryMessage
+            //- hr.line-separator.line-separator_thin
+            div.form__item
+                label.form_large__item__label(for="rep-name")
+                    span.form__item__span Название
+                    input.form__item__input#rep-name(type="text" name="rep-name" required)
+                    ul.input-requirements
+                        li Длина должна быть от 3 до 100 символов
+            //- hr.line-separator.line-separator_thin
+            div.form__item
+                label.form_large__item__label(for="rep-description") Описание
+                div#repDescriptionError
+                input.form__item__input#rep-description(type="text" name="rep-description" optional)
+            //- hr.line-separator.line-separator_thin
+            div.form__item
+                input.form__item__input_radio(type="radio" name="rep-status" value='public' checked)
+                span Публичный
+                input.form__item__input_radio(type="radio" name="rep-status" value='private')
+                span Приватный
+            //- hr.line-separator.line-separator_thin
+            div.form__button
+                button.button(type="submit" name="create" ) Создать

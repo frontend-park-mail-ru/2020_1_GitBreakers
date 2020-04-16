@@ -38,8 +38,7 @@ export default class BranchesController extends RepositoryController {
 
 
   _loadBranchList(branchList) {
-    
-    if (!branchList) { 
+    if (!branchList) {
       branchList = [];
     }
     branchList.forEach((item) => {

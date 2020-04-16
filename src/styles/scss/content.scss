@@ -1,25 +1,39 @@
 @import "constants";
 
+#root {
+  display: grid;
+  margin-top: 10px;
+}
+
 .card {
   border: 1px solid;
-  border-color: #000000;
-  background-color: white;
-  box-shadow: 3px 6px #e4e4e4;
+  border-color: $form-border-color;
+  background-color: $card-background-color;
+  box-shadow: 3px 6px $shadow-color;
 
   margin: 40px 5%;
   padding: 15px 20px;
 }
 
+.card-small {
+  border: 1px solid;
+  border-color: $form-border-color;
+  background-color: $card-background-color;
+  box-shadow: 3px 6px $shadow-color;
+  // margin: 40px 5%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 15px 20px;
+}
+
 .content {
-  grid-row: 2/3;
   min-width: 400px;
   min-height: calc(100vh - 160px);
-  margin-left: auto;
   margin-right: auto;
+  margin-left: auto;
 }
 
 .section {
-  grid-row: 2/3;
   color: $font-light-color;
   display: flex;
   flex-wrap: wrap;
@@ -27,6 +41,8 @@
   justify-content: flex-start;
   // margin: 40px 5%;
   // padding: 15px 20px;
+  margin-left: auto;
+  margin-right: auto;
 
   &__title {
     display: flex;

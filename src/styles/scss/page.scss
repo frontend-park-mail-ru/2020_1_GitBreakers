@@ -8,12 +8,6 @@ body {
   font-family: $font-main;
 }
 
-#root {
-  display: grid;
-  // grid-template-rows: 90px auto 70px;
-  margin-top: 10px;
-}
-
 @media (max-width: 400px) {
   .header__search {
     display: none;
