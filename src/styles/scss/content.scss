@@ -31,6 +31,9 @@
   min-height: calc(100vh - 160px);
   margin-right: auto;
   margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .section {
@@ -41,8 +44,8 @@
   justify-content: flex-start;
   // margin: 40px 5%;
   // padding: 15px 20px;
-  margin-left: auto;
-  margin-right: auto;
+  // margin-left: auto;
+  // margin-right: auto;
 
   &__title {
     display: flex;

@@ -4,6 +4,8 @@
   "description": "Репозиторий команды \"GitBreakers\". Технопарк@mail.ru, весна, 2020",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint --debug src/",
+    "lint:write": "eslint --debug src/ --fix",
     "start": "node server",
     "build": "webpack --config webpack.config.js",
     "watchBuild": "webpack -w --config webpack.config.js"

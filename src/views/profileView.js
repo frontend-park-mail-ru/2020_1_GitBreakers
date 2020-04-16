@@ -17,7 +17,7 @@ export default class ProfileView extends View {
 
   _onRender(data = {}) {
     super.render({
-      auth: (authUser.isAuth) ? authUser.getUser() : null,
+      auth: (authUser.isAuth) ? authUser.getUser : null,
       ...data,
     });
   }

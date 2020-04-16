@@ -2,7 +2,7 @@ import authUser from 'Modules/authUser';
 import Controller from 'Modules/controller';
 // import SignInView from 'Views/signInView';
 import AuthModel from 'Models/authModel';
-import { SIGNIN, HEADER } from 'Modules/events';
+import { SIGNIN, HEADER, ACTIONS } from 'Modules/events';
 import SignInView from 'Views/signInView';
 
 
@@ -19,7 +19,7 @@ export default class SignInController extends Controller {
       AuthModel.csrf();
       await authUser.loadWhoAmI();
       this.eventBus.emit(HEADER.rerender, {});
-      super.redirect({ path: `/profile/${authUser.getUser()}` });
+      super.redirect({ path: `/profile/${authUser.getUser}` });
       return;
     }
     switch (result.status) {
@@ -40,12 +40,21 @@ export default class SignInController extends Controller {
     }
   }
 
+  onFinishLoadWhoAmI() {
+    if (authUser.isAuth) {
+      this.redirect({ path: `/profile/${authUser.getUser}` });
+    } else {
+      super.open();
+    }
+    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+  }
 
-  // open() {
-  //   if (authUser.isAuth) {
-  //     this.redirect({ path: `/profile/${authUser.getUser()}` });
-  //     return;
-  //   }
-  //   super.open();
-  // }
+  open() {
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import Controller from 'Modules/controller';
 import SettingsView from 'Views/settingsView';
-import { SETTINGS } from 'Modules/events';
+import { SETTINGS, ACTIONS } from 'Modules/events';
 import ProfileModel from 'Models/profileModel';
 import authUser from 'Modules/authUser';
 import AuthModel from 'Models/authModel';
@@ -21,7 +21,7 @@ export default class SettingsController extends Controller {
   async _updateAvatar(body = {}) {
     const result = await ProfileModel.setAvatar({ body: body.form });
     if (result.success) {
-      const newProfielImageUrl = await ProfileModel.getProfile({ profile: authUser.getUser() });
+      const newProfielImageUrl = await ProfileModel.getProfile({ profile: authUser.getUser });
       const profileBody = await newProfielImageUrl.body;
       this.eventBus.emit(SETTINGS.changeAvatar, { url: profileBody.image });
       return;
@@ -81,7 +81,7 @@ export default class SettingsController extends Controller {
   }
 
   async _loadProfile() {
-    // const result = ProfileModel.getProfile({ profile: authUser.getUser() });
+    // const result = ProfileModel.getProfile({ profile: authUser.getUser });
     const result = await AuthModel.getWhoAmI();
     console.log('stop');
     if (result.success) {
@@ -89,11 +89,21 @@ export default class SettingsController extends Controller {
     }
   }
 
-  // open() {
-  //   if (authUser.isAuth) {
-  //     super.open();
-  //     return;
-  //   }
-  //   this.redirect({ path: '/signin' });
-  // }
+  onFinishLoadWhoAmI() {
+    if (!authUser.isAuth) {
+      this.redirect({ path: '/signin' });
+    } else {
+      super.open();
+    }
+    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+  }
+
+  open() {
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    }
+  }
 }

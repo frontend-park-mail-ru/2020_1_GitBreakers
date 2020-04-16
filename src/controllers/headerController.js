@@ -24,25 +24,10 @@ export default class HeadetController extends Controller {
 
   async _loadStatus() {
     await authUser.loadWhoAmI();
-    // this.eventBus.emit(HEADER.render, {
-    //   auth: kek.auth,
-    //   login: kek.login,
-    //   image: kek.image,
-    // });
     this.eventBus.emit(HEADER.render, {
       auth: authUser.isAuth,
-      user: authUser.getUser(),
-      image: authUser.getImage(),
+      user: authUser.getUser,
+      image: authUser.getImage,
     });
-
-    // const result = await AuthModel.getWhoAmI();
-    // let resp = { auth: false };
-    // if (result.success) {
-    //   resp = {
-    //     auth: true,
-    //     ...(await result.body),
-    //   };
-    // }
-    // this.eventBus.emit(HEADER.render, resp);
   }
 }

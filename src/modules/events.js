@@ -1,6 +1,7 @@
 export const ACTIONS = {
   redirect: 'redirect',
   loadWhoAmI: 'loadWhoAmI',
+  loadWhoAmIFinish: 'load Who am I finish',
 };
 
 export const SIGNUP = {
