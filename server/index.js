@@ -8,7 +8,7 @@ const path = require('path');
 const opn = require('opn');
 
 const app = express();
-const rootPath = path.resolve(__dirname, '..', 'src');
+const rootPath = path.resolve(__dirname, '..', 'dist');
 
 //= ===========================================================
 

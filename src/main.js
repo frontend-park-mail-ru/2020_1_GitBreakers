@@ -19,6 +19,18 @@ import NewRepositoryController from 'Controllers/newRepositoryController';
 import ProfileController from 'Controllers/profileController';
 import SettingsController from 'Controllers/SettingsController';
 
+/** Регистрация сервис воркера */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js', {
+    scope: '/',
+  })
+    .then((registration) => {
+      console.log('ServiceWorker registration', registration);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
 
 const application = document.getElementById('root');
 const header = document.createElement('div');

@@ -1,18 +1,31 @@
 const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+
+// const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
   mode: 'development',
-  context: __dirname,
+  // context: path.resolve(__dirname, 'src'),
   devtool: 'source-map',
-  // mode: 'deve',
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, 'src/dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    // path: path.resolve(__dirname, 'public/dist/static'),
-    // publicPath: '/static/',
-    // filename: '[name].js',
+    publicPath: '/',
   },
+  plugins: [
+    new HTMLWebpackPlugin({
+      template: path.resolve(__dirname, 'src/index.html'),
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, '/src/sw.js'),
+    }),
+  ],
   resolve: {
     extensions: ['.js'],
     alias: {
@@ -29,8 +42,15 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: true,
+
+            },
+          },
           // Creates `style` nodes from JS strings
-          'style-loader',
+          // 'style-loader',
           // Translates CSS into CommonJS
           'css-loader',
           // Compiles Sass to CSS
@@ -44,20 +64,22 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-      },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
             plugins: [
-              ['@babel/plugin-transform-runtime'],
+              '@babel/plugin-transform-runtime',
             ],
           },
         },
       },
     ],
+  },
+  devServer: {
+    hot: true,
+    port: 3000,
+    contentBase: path.join(__dirname, 'dist'),
+    historyApiFallback: true,
   },
 };
