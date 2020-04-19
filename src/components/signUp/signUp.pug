@@ -1,35 +1,35 @@
 
-div.section
+div.section.card-small
     div.section__title
-        h2.title Sign Up
+        h2.title Регистрация
     div.section__main
         form.form(action='#' name="signUp")
-            div#signUpError
+            div#signUpMessage
             div.form__item
                 label.form__item__label(for='email')
-                    span E-mail address
+                    span.form__item__span Email
                     input.form__item__input(type='email' name='email' required)
             div.form__item
                 label.form__item__label(for='username')
-                    span Username
+                    span.form__item__span Логин
                     input.form__item__input(type='text' name='username' required)
-                    lu.input-requirements
+                    ul.input-requirements
                         li Должен содержать от 3 до 100 сиволов
                         li Должен содержать только буквы и цифры
             div.form__item
                 label.form__item__label(for='password')
-                    span Password
+                    span.form__item__span Пароль
                     input.form__item__input(type='password' name='password' required)
-                    lu.input-requirements
+                    ul.input-requirements
                         li Пароль должен содержать от 8 до 100 символов
                         li Должна присутствовать минимум 1 цифра
             div.form__item
                 label.form__item__label(for='passwordRepeat')
-                    span Password again
+                    span.form__item__span Повторите пароль
                     input.form__item__input(type='password' name='passwordRepeat' required)
-                    lu.input-requirements
+                    ul.input-requirements
                         li Пароли должны совпадать
             div.form__button
-                button.button(type='submit' ) SignUp!
-            div.form__item
-                a#login.route.form__link(href='#' data-section='/signin') SignIn!
+                button.button(type='submit' ) Отправить
+            div
+                a#login.route.form__link(href='#' data-section='/signin') Войти

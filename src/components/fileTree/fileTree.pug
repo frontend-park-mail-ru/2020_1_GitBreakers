@@ -3,7 +3,7 @@ block content
     div.repository__top
         div.repository__top_path #{repName}/#{branchName}/#{repPath}
         div.repository__top_button
-            button.add.button.button-extra-small.button-colored(type='submit') Add file
+            //button.add.button.button-extra-small.button-colored(type='submit') Add file
 
     if branchList
         table.repository__tree
@@ -11,22 +11,22 @@ block content
             each folder in folderList
                 tr.repository__tree__item
                     td.column-thin
-                        img.repository__tree__item_icon(src="styles/img/folder.png")
+                        //img.repository__tree__item_icon(src="styles/img/folder.png")
                         a.route.repository__tree__item_title.folder(name=folder.name) #{folder.name}
                     td.column-thick
                         div.repository__tree__item_commit #{folder.commit} commit_info
                     td.column-very-thin
-                        div.repository__tree__item_info #{folder.update} yesterday
+                        //div.repository__tree__item_info #{folder.update} yesterday
 
             each file in fileList
                 tr.repository__tree__item
                     td.column-thin
-                        img.repository__tree__item_icon(src="styles/img/file.png")
+                        //img.repository__tree__item_icon(src="styles/img/file.png")
                         a.route.repository__tree__item_title.file(name=file.name) #{file.name}
                     td.column-thick
                         div.repository__tree__item_commit #{file.commit} commit_info
                     td.column-very-thin
-                        div.repository__tree__item_info #{file.update} yesterday
+                        //div.repository__tree__item_info #{file.update} yesterday
 
     else
         div

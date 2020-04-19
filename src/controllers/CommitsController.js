@@ -15,9 +15,10 @@ export default class CommitsController extends RepositoryController {
 
 
   async _getBranchList() {
-    this.setRepositoryName();
+    this.setRepository();
     this.data.author = this.author;
     this.data.repName = this.repository;
+    this.data.defaultBranch = this.defaultBranch;
 
     const data = {
       repName: this.repositoryName,
@@ -35,8 +36,17 @@ export default class CommitsController extends RepositoryController {
         this.eventBus.emit(COMMITSPAGE.getCommitList, {});
       }
     } else {
-      console.log(result.status);
-      this.eventBus.emit(UPLOAD.changePath, '/404');
+      switch (result.status) {
+        case 404:
+          this.eventBus.emit(UPLOAD.changePath, '/404');
+          break;
+        case 403:
+          alert('This is a private repository');
+          break;
+        default:
+          console.log('Something bad happend! ', result.status);
+          break;
+      }
     }
   }
 
@@ -48,6 +58,7 @@ export default class CommitsController extends RepositoryController {
       repName: this.repositoryName,
       branchName: this.branchName,
     };
+    console.log("brancha = ", this.branchName, this.defaultBranch);
     const result = await RepositoryModel.loadCommitList(data);
 
     if (result.success) {
@@ -60,7 +71,7 @@ export default class CommitsController extends RepositoryController {
   }
 
 
-  _loadCommitList(res) {
+  _loadCommitList(res = []) {
     const commitList = res.slice([0], [9]);
     commitList.forEach((item) => {
       item.update = item.commit_author_when.substr(0, 10);

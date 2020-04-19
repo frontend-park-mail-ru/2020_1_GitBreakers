@@ -1,5 +1,5 @@
-
 import './main.scss';
+
 import SignUpController from 'Controllers/SignUpController';
 import eventBus from 'Modules/eventBus';
 import SignInController from 'Controllers/signInController';
@@ -19,6 +19,18 @@ import NewRepositoryController from 'Controllers/newRepositoryController';
 import ProfileController from 'Controllers/profileController';
 import SettingsController from 'Controllers/SettingsController';
 
+/** Регистрация сервис воркера */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js', {
+    scope: '/',
+  })
+    .then((registration) => {
+      console.log('ServiceWorker registration', registration);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
 
 const application = document.getElementById('root');
 const header = document.createElement('div');
@@ -49,7 +61,7 @@ router.register(paths.newRepository, newRepositoryController);
 router.register(paths.profile, profileController);
 router.register(paths.signup, signUpController);
 router.register(paths.signin, signInController);
-// router.register(paths.repository, fileTreeController); // открыта ветка Мастер
+// router.register(paths.repository, fileTreeController); // открыта дефолтная ветка
 router.register(paths.branch, fileTreeController); // открыта любая другая ветка
 router.register(paths.repositoryBranches, branchesController); // все ветки
 router.register(paths.commits, commitsController); // все коммиты ветки

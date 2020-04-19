@@ -15,7 +15,7 @@ export default class BranchesController extends RepositoryController {
 
 
   async _getBranchList() {
-    this.setRepositoryName();
+    this.setRepository();
     const data = {
       repName: this.repositoryName,
     };
@@ -23,10 +23,21 @@ export default class BranchesController extends RepositoryController {
 
     if (result.success) {
       await this._loadBranchList(await result.body);
+
+      this.data.defaultBranch = this.defaultBranch;
       this.eventBus.emit(BRANCHESPAGE.render, this.data);
-    } else {
-      console.log(result.status);
-      this.eventBus.emit(UPLOAD.changePath, '/404');
+      return;
+    }
+    switch (result.status) {
+      case 404:
+        this.eventBus.emit(UPLOAD.changePath, '/404');
+        break;
+      case 403:
+        alert('This is a private repository');
+        break;
+      default:
+        console.log('Something bad happend! ', result.status);
+        break;
     }
   }
 
@@ -37,7 +48,7 @@ export default class BranchesController extends RepositoryController {
   }
 
 
-  _loadBranchList(branchList) {
+  _loadBranchList(branchList = []) {
     branchList.forEach((item) => {
       item.commit.update = item.commit.commit_author_when.substr(0, 10);
     });

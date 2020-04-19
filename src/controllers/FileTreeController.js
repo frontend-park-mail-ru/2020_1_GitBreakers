@@ -15,12 +15,13 @@ export default class FileTreeController extends RepositoryController {
 
 
   async _getBranchList() {
-    this.setRepositoryName();
+    this.setRepository();
 
     this.data.folderList = [];
     this.data.fileList = [];
     this.data.author = this.author;
     this.data.repName = this.repository;
+    this.data.defaultBranch = this.defaultBranch;
 
     const data = {
       repName: this.repositoryName,
@@ -37,8 +38,17 @@ export default class FileTreeController extends RepositoryController {
         this.eventBus.emit(TREEPAGE.getFiles, {});
       }
     } else {
-      console.log(result.status);
-      this.eventBus.emit(UPLOAD.changePath, '/404');
+      switch (result.status) {
+        case 404:
+          this.eventBus.emit(UPLOAD.changePath, '/404');
+          break;
+        case 403:
+          alert('This is a private repository');
+          break;
+        default:
+          console.log('Something bad happend! ', result.status);
+          break;
+      }
     }
   }
 

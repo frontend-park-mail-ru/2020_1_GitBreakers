@@ -24,6 +24,8 @@ export default class ProfileController extends Controller {
         ...(await profileRes.body),
       });
     }
-    console.log('spit');
+    if (profileRes.status === 404) {
+      this.redirect({ path: '/404' });
+    }
   }
 }

@@ -1,5 +1,5 @@
 import NewRepositoryView from 'Views/newRepository';
-import { NEWREPOSITORY } from 'Modules/events';
+import { NEWREPOSITORY, ACTIONS } from 'Modules/events';
 import Controller from 'Modules/controller';
 import authUser from 'Modules/authUser';
 import NewRepositoryModel from '../models/newRepositoryModel';
@@ -16,7 +16,7 @@ export default class NewRepositoryController extends Controller {
   async createNewRepository(body = {}) {
     const result = await NewRepositoryModel.createNewRepository(body);
     if (result.success) {
-      this.redirect(`/${authUser.getUser()}/${result.repName}`);
+      this.redirect({ path: `/profile/${authUser.getUser}` });
       return;
     }
     switch (result.status) {
@@ -32,14 +32,23 @@ export default class NewRepositoryController extends Controller {
       default:
         this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неизвестная ошибка!' });
     }
-    // this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Ошибка сети!' });
+  }
+
+  onFinishLoadWhoAmI() {
+    if (!authUser.isAuth) {
+      this.redirect({ path: '/signin' });
+    } else {
+      super.open();
+    }
+    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
   }
 
   open() {
-    if (authUser.isAuth) {
-      super.open();
-      return;
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
-    this.redirect({ path: '/signin' });
   }
 }

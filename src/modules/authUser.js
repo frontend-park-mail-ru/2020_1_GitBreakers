@@ -1,28 +1,34 @@
-// import { ACTIONS } from 'Modules/events';
+import { ACTIONS } from 'Modules/events';
 import eventBus from 'Modules/eventBus';
 import AuthModel from 'Models/authModel';
 
 class AuthUser {
   constructor(_eventBus) {
     this.eventBus = _eventBus;
+    this.loadStatus = false;
     this.auth = false;
     this.user = null;
     this.image = null;
+  }
+
+  get getLoadStatus() {
+    return this.loadStatus;
   }
 
   get isAuth() {
     return this.auth;
   }
 
-  getUser() {
+  get getUser() {
     return this.user;
   }
 
-  getImage() {
+  get getImage() {
     return this.image;
   }
 
   async loadWhoAmI() {
+    this.loadStatus = false;
     const result = await AuthModel.getWhoAmI();
     if (result.success) {
       const body = await result.body;
@@ -34,11 +40,8 @@ class AuthUser {
       this.user = null;
       this.avatar = null;
     }
-    // return {
-    //   auth: this.auth,
-    //   login: this.avatar,
-    //   image: this.image,
-    // };
+    this.loadStatus = true;
+    this.eventBus.emit(ACTIONS.loadWhoAmIFinish, {});
   }
 }
 

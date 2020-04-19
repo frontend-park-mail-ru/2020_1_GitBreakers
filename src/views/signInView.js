@@ -2,8 +2,6 @@ import { SIGNIN } from 'Modules/events';
 import View from 'Modules/view';
 import errorMessage from 'Modules/errorMessage';
 import template from 'Components/signIn/signIn.pug';
-import CustomValidation from 'Modules/validation/customValidation';
-import { passwordValidityChecks, loginValidityChecks } from 'Modules/validation/validationParams';
 
 
 export default class SignInView extends View {

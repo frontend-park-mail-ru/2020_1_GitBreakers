@@ -1,21 +1,21 @@
 
-div.section
+div.section.card-small
     div.section__title
-        h2.title Sign In
+        h2.title Авторизация
     div.section__main
         form.form#SignIn(action='#' name='signIn')
             div#signInMessage
             div.form__item
                 label.form__item__label(for='username')
-                    span Username or e-mail address
+                    span.form__item__span Логин или email
                     input.form__item__input(type='text' name='username' autofocus required)
             div.form__item
                 label.form__item__label(for='password')
-                    span Password
+                    span.form__item__span Пароль
                     input.form__item__input(type='password' name='password' minlength='8' maxlength='100' required)
             div.form__button
-                button.button#login( type='submit' ) Login
+                button.button#login( type='submit' ) Войти
+            //- div.form__item
+            //-     a#forgot.form__link(href='#') Forgot your password?
             div.form__item
-                a#forgot.form__link(href='#') Forgot your password?
-            div.form__item
-                a.route.form__link(href='#' data-section='/signup') SignUp!
+                a.route.form__link(href='#' data-section='/signup') Зарегистрироваться!

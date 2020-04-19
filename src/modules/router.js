@@ -10,7 +10,6 @@ class Router {
     this.controller = this.getController(newUrl);
     if (!this.controller) {
       console.log('newUrl =', newUrl, 'Контроллер не найден');
-      newUrl = '/'; // либо переход на главную, либо показать NotFound
       this.controller = this.getController(newUrl);
     }
     if ((window.location.pathname !== newUrl) && (newUrl !== '/404')) {

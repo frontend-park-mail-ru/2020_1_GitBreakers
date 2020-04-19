@@ -11,7 +11,7 @@ export default class RepositoryBaseView extends View {
         event.preventDefault();
 
         let codePath = '/';
-        if (data.branchName === 'master') {
+        if (data.branchName === data.defaultBranch) {
           codePath = `/${data.author}/${data.repName}`;
         } else {
           codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;

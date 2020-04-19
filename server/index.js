@@ -1,4 +1,3 @@
-
 const express = require('express');
 const fallback = require('express-history-api-fallback');
 const body = require('body-parser');
@@ -8,7 +7,7 @@ const path = require('path');
 const opn = require('opn');
 
 const app = express();
-const rootPath = path.resolve(__dirname, '..', 'src');
+const rootPath = path.resolve(__dirname, '..', 'dist');
 
 //= ===========================================================
 
@@ -186,7 +185,7 @@ app.get('/User2_Repa2_commits_master', (req, res) => {
 
 
 app.use(fallback('index.html', { root: rootPath }));
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3010;
 
 app.listen(port, () => {
   console.log(`Server listening port ${port}`);

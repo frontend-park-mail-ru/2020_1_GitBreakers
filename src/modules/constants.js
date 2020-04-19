@@ -4,7 +4,7 @@ const constants = {
   // HOST: 'http://localhost:3000', // * dev
   CODELANG: [
     'bsh', 'c', 'cc', 'cpp', 'cs',
-    'csh', 'cyc', 'cv', 'htm', 'html',
+    'csh', 'cyc', 'cv', 'go', 'htm', 'html',
     'java', 'js', 'm', 'mxml', 'perl',
     'pl', 'pm', 'py', 'rb', 'sh',
     'xhtml', 'xml', 'xsl',

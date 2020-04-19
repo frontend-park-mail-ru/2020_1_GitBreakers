@@ -118,7 +118,7 @@ export default class RepositoryModel extends Model {
   }
 
 
-  static deleteBranch(data) {
+  static deleteBranch() {
     const path = `${constants.HOST}/data.branchPath`;
     Api.delete(path)
       .then((res) => res.json())

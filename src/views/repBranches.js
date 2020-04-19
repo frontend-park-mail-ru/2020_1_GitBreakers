@@ -67,7 +67,7 @@ export default class RepBranchesView extends RepositoryBaseView {
         const branchPath = `/${data.author}/${data.repository}/branch/${branchName}`;
 
         this.eventBus.emit(DELETEBRANCH.delete, {
-          branchPath: branchPath,
+          branchPath,
         });
         deleteBranchList[i].dataset.section = window.location.pathname;
       });
@@ -81,7 +81,6 @@ export default class RepBranchesView extends RepositoryBaseView {
         const branchHash = target.dataset.hash;
 
         const branchPath = `/${data.author}/${data.repName}/branch/${branchHash}`;
-        console.log('path = ', branchPath);
         branchLinkList[i].dataset.section = branchPath;
       });
     }
@@ -90,7 +89,7 @@ export default class RepBranchesView extends RepositoryBaseView {
 
   static _success(data) {
     console.log(data.message);
-    this.eventBus.emit (UPLOAD.changePath, data.path);
+    this.eventBus.emit(UPLOAD.changePath, data.path);
   }
 
   static _fail(errors = {}) {
