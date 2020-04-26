@@ -21,7 +21,7 @@ import SettingsController from 'Controllers/SettingsController';
 
 /** Регистрация сервис воркера */
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js', {
+  navigator.serviceWorker.register('/sw.js', {
     scope: '/',
   })
     .then((registration) => {

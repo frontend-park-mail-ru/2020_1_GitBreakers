@@ -6,23 +6,27 @@
 }
 
 .card {
-  border: 1px solid;
-  border-color: $form-border-color;
-  background-color: $card-background-color;
-  box-shadow: 3px 6px $shadow-color;
-
   margin: 40px 5%;
-  padding: 15px 20px;
 }
 
 .card-small {
+  // border: 1px solid;
+  // border-color: $form-border-color;
+  // background-color: $card-background-color;
+  // box-shadow: 3px 6px $shadow-color;
+  // margin: 40px 5%;
+  margin-right: auto;
+  margin-left: auto;
+  // padding: 15px 20px;
+}
+
+.card,
+.card-small {
+  border-radius: 4px;
   border: 1px solid;
   border-color: $form-border-color;
   background-color: $card-background-color;
   box-shadow: 3px 6px $shadow-color;
-  // margin: 40px 5%;
-  margin-right: auto;
-  margin-left: auto;
   padding: 15px 20px;
 }
 

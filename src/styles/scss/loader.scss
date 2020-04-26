@@ -1,37 +1,43 @@
-$hollowBoxSize: 3em;
-$hollowLight: #ECECEC;
-$hollowDark: #34495e;
-$hollowTiming: 1.25s;
-
-.hollowLoader {
-  width: $hollowBoxSize;
-  height: $hollowBoxSize;
-  animation: loaderAnim $hollowTiming infinite ease-in-out;
-  outline: 1px solid transparent;
-  .largeBox {
-    height: $hollowBoxSize;
-    width: $hollowBoxSize;
-    background-color: $hollowLight;
-    outline: 1px solid transparent;
-    position: fixed;
-  }
-  .smallBox {
-    height: $hollowBoxSize;
-    width: $hollowBoxSize;
-    background-color: $hollowDark;
-    position: fixed;
-    z-index: 1;
-    outline: 1px solid transparent;
-    animation: smallBoxAnim $hollowTiming alternate infinite ease-in-out;
-  }
+.preloader {
+  display: block;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 30px auto;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #337ab7;
+  animation: preloader-spin 2s linear infinite;
 }
-
-@keyframes smallBoxAnim {
-  0% {transform: scale(0.2);}
-  100% {transform: scale(0.75);}
+.preloader:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #bfe2ff;
+  animation: preloader-spin 3s linear infinite;
 }
-
-@keyframes loaderAnim {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(90deg);}
+.preloader:after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #337ab7;
+  animation: preloader-spin 1.5s linear infinite;
+}
+@keyframes preloader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
