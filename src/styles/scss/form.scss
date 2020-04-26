@@ -163,3 +163,21 @@ input:optional {
   padding-left: 10px;
   content: "\2713";
 }
+
+
+.issueForm {
+  width: 40vw;
+  font-size: 90%;
+  margin-bottom: 30px;
+
+  &_input {
+    height: 20px;
+    border-radius: 5px;
+    width: 34vw;
+
+    &-text {
+      height: 10em;
+      align-content: start;
+    }
+  }
+}

@@ -33,10 +33,15 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-const application = document.getElementById('root');
 const header = document.createElement('div');
 header.id = 'header';
-application.before(header);
+
+window.onload = function () {
+  const application = document.getElementById('content');
+  application.before(header);
+};
+const application = document.getElementById('content');
+
 
 const router = new Router();
 

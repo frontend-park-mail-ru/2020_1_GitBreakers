@@ -8,10 +8,10 @@ block content
                 hr.line-separator.line-separator_extra-thin
                 div.repository__list__item
                     a.route.branchLink.repository__list__item_title(data-name=branch.name data-hash=branch.commit.commit_hash) #{branch.name}
-                    div.repository__list__item_info обнолено: #{branch.commit.update} - #{branch.commit.commit_author_name}
+                    div.repository__list__item_info обновлено: #{branch.commit.update} - #{branch.commit.commit_author_name}
                     div.repository__list__item_button
                         //input.route.deleteBranch.button.button-colored.button-small(name=branch.name type='button' value="Delete")
         hr.line-separator.line-separator_extra-thin
 block button
     div.repository__top_button
-       // button.route.private.newBranch.button.button-small(type="submit") New branch
+       // button.route.private.newBranch.button.button-small(type="submit") Новая ветка
