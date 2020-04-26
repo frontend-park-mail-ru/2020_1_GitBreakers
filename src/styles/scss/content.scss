@@ -2,7 +2,6 @@
 
 #root {
   display: grid;
-  margin-top: 10px;
 }
 
 .card {
@@ -30,29 +29,38 @@
   padding: 15px 20px;
 }
 
+
 .content {
+  clear: both;
   min-width: 400px;
+  max-width: 100vw;
   min-height: calc(100vh - 160px);
   margin-right: auto;
   margin-left: auto;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  //align-items: center;
 }
 
+
 .section {
+  width: 85vw;
   color: $font-light-color;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: flex-start;
+  padding-top: 20px;
   // margin: 40px 5%;
   // padding: 15px 20px;
   // margin-left: auto;
   // margin-right: auto;
 
+
   &__title {
     display: flex;
+    word-break: break-all;
   }
 
   &__main {

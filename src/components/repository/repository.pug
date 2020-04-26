@@ -1,23 +1,24 @@
 
-div.section.card
-    div.section__title
-        h2.title Repository: #{author}/#{repName}
-    div.section__main
-        div.rep-menu
-            div.rep-menu-main
-                div.rep-menu__item
-                    button.route.code.button(name='code', type='submit') Code
-                div.rep-menu__item
-                    button.route.branches.button(type='submit') Branches
-                div.rep-menu__item
-                    button.route.commits.button(type='submit') Commits
-                div.rep-menu__item
-                    button.route.settings.button(type='submit') Settings
-            div.rep-menu-additional
-                block button
-        hr.line-separator.line-separator_thin
-        if formShow === "true"
-            include ../branches/newBranch/newBranch.pug
-        div.repository
-            block content
-        hr.line-separator.line-separator_thin
+div.section
+    div.card
+        div.section__title
+            h2.title Репозиторий: #{author}/#{repName}
+        div.section__main
+            div.rep-menu
+                div.rep-menu-main
+                    div.rep-menu__item
+                        button.route.code.button(name='code', type='submit') Код
+                    div.rep-menu__item
+                        button.route.branches.button(type='submit') Ветки
+                    div.rep-menu__item
+                        button.route.commits.button(type='submit') Коммиты
+                    div.rep-menu__item
+                        button.route.issues.button(type='submit') Задачи
+                div.rep-menu-additional
+                    block button
+            hr.line-separator.line-separator_thin
+            if formShow === "true"
+                include ../branches/newBranch/newBranch.pug
+            div.repository
+                block content
+            hr.line-separator.line-separator_thin

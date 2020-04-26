@@ -23,6 +23,10 @@ class AuthUser {
     return this.user;
   }
 
+  get getUserId() {
+    return this.id;
+  }
+
   get getImage() {
     return this.image;
   }
@@ -35,10 +39,12 @@ class AuthUser {
       this.user = body.login;
       this.image = body.image;
       this.auth = !!this.user;
+      this.id = body.id;
     } else {
       this.auth = false;
       this.user = null;
       this.avatar = null;
+      this.id = null;
     }
     this.loadStatus = true;
     this.eventBus.emit(ACTIONS.loadWhoAmIFinish, {});

@@ -36,7 +36,7 @@ export default class FileController extends RepositoryController {
           this.eventBus.emit(UPLOAD.changePath, '/404');
           break;
         default:
-          console.log('Something bad happend! ', result.status);
+          console.log('Неизвестная ошибка! ', result.status);
           break;
       }
     }
@@ -60,13 +60,12 @@ export default class FileController extends RepositoryController {
     const maxSize = 10000;
     if (res.file_info.file_size > maxSize) {
       this.data.fileType = 'fileForLoad';
-      this.data.message = 'This file is too large to show it';
-      console.log('too large!');
+      this.data.message = 'Файл слишком большой для отображения';
       return;
     }
     if (res.file_info.is_binary) {
       this.data.fileType = 'fileForLoad';
-      this.data.message = "This file can't be previewed";
+      this.data.message = "Файл недоступен для предпросмотра";
       console.log('binary');
       return;
     }
@@ -80,10 +79,8 @@ export default class FileController extends RepositoryController {
 
     if (constants.CODELANG.find((item) => this.data.type === item)) {
       this.data.fileType = 'code';
-      console.log('code');
       return;
     }
     this.data.fileType = 'text';
-    console.log('text to show');
   }
 }

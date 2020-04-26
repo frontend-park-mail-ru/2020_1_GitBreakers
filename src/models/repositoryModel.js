@@ -10,6 +10,31 @@ export default class RepositoryModel extends Model {
   }
 
 
+  static loadRepository(data) {
+    const path = `${constants.HOST}/${data.repName}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getRepository: something goes wrong');
+        return {};
+      });
+  }
+
+
   static loadFileList(data) {
     let path = `${constants.HOST}/${data.repName}/files/${data.branchName}`;
     if (data.repPath) {
@@ -152,5 +177,68 @@ export default class RepositoryModel extends Model {
         console.log('Model: getFile: something goes wrong');
         return {};
       });
+  }
+
+
+  static loadIssueList(data) {
+    // const path = `${constants.HOST}/repo/${data.repId}/issues`;
+    /* return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getIssueList: something goes wrong');
+        return {};
+      }); */
+    return {
+      success: true,
+      body:
+        [
+          {
+            id: 1,
+            author_id: 46,
+            repo_id: 11,
+            title: 'iss1',
+            message: '1aaaaaaaaaaaaaaaaa',
+            label: 'resolved',
+            is_closed: true,
+            created_at: '2020-04022T27',
+          },
+          {
+            id: 3,
+            author_id: 55,
+            repo_id: 11,
+            title: 'iss1',
+            message: '333333aaaaaaaaaaaaaaaaa',
+            label: 'resolved',
+            is_closed: true,
+            created_at: '2020-04022T27',
+          },
+
+          {
+            id: 2,
+            author_id: 46,
+            repo_id: 11,
+            title: 'iss2',
+            message: '2222bbbbbbbbbbbbbbbbbbbb',
+            label: 'resolved',
+            is_closed: false,
+            created_at: '2020-04022T27',
+          },
+        ],
+
+    };
   }
 }

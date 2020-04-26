@@ -29,7 +29,7 @@ export default class CommitsController extends RepositoryController {
     if (result.success) {
       this.data.branchList = await result.body;
 
-      if (Object.keys(this.data.branchList).length === 0) {
+      if (!this.data.branchList || Object.keys(this.data.branchList).length === 0) {
         this.data.branchList = null;
         this.eventBus.emit(COMMITSPAGE.render, this.data);
       } else {
@@ -41,10 +41,10 @@ export default class CommitsController extends RepositoryController {
           this.eventBus.emit(UPLOAD.changePath, '/404');
           break;
         case 403:
-          alert('This is a private repository');
+          alert('Это приватный репозиторий!');
           break;
         default:
-          console.log('Something bad happend! ', result.status);
+          console.log('Неизвестная ошибка ', result.status);
           break;
       }
     }
@@ -58,7 +58,6 @@ export default class CommitsController extends RepositoryController {
       repName: this.repositoryName,
       branchName: this.branchName,
     };
-    console.log("brancha = ", this.branchName, this.defaultBranch);
     const result = await RepositoryModel.loadCommitList(data);
 
     if (result.success) {

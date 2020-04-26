@@ -43,10 +43,10 @@ export default class FileTreeController extends RepositoryController {
           this.eventBus.emit(UPLOAD.changePath, '/404');
           break;
         case 403:
-          alert('This is a private repository');
+          alert('Это приватный репозиторий!');
           break;
         default:
-          console.log('Something bad happend! ', result.status);
+          console.log('Неизвестная ошибка ', result.status);
           break;
       }
     }
@@ -71,7 +71,6 @@ export default class FileTreeController extends RepositoryController {
     } else {
       console.log(result.status);
       this.eventBus.emit(UPLOAD.changePath, '/404');
-      // this.eventBus.emit (UPLOAD.notFound, result.status);
     }
   }
 

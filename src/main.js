@@ -12,6 +12,7 @@ import FileTreeController from 'Controllers/FileTreeController';
 import CommitsController from 'Controllers/CommitsController';
 import FileController from 'Controllers/FileController';
 import MainPageController from 'Controllers/MainPageController';
+import IssuesController from "Controllers/IssuesController";
 
 import Create404Page from 'Controllers/404';
 
@@ -32,10 +33,15 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-const application = document.getElementById('root');
 const header = document.createElement('div');
 header.id = 'header';
-application.before(header);
+
+window.onload = function () {
+  const application = document.getElementById('content');
+  application.before(header);
+};
+const application = document.getElementById('content');
+
 
 const router = new Router();
 
@@ -48,6 +54,7 @@ const profileController = new ProfileController(application, eventBus, router);
 const signUpController = new SignUpController(application, eventBus, router);
 const signInController = new SignInController(application, eventBus, router);
 const fileController = new FileController(application, eventBus, router);
+const issuesController = new IssuesController(application, eventBus, router);
 
 const branchesController = new BranchesController(application, eventBus, router);
 const fileTreeController = new FileTreeController(application, eventBus, router);
@@ -68,5 +75,6 @@ router.register(paths.commits, commitsController); // все коммиты ве
 router.register(paths.fileView, fileController);
 router.register(paths.main, mainPageController);
 router.register(/\/404/, create404Page);
+router.register(paths.issues, issuesController);
 
 router.start();
