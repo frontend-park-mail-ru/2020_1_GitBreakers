@@ -34,7 +34,8 @@ export default class SettingsController extends Controller {
         this.eventBus.emit(SETTINGS.avatarFail, { message: 'Файл неподходящего формата или больше 6MB!' });
         break;
       default:
-        alert('Неизвестная ошибка!');
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
+
     }
   }
 
@@ -55,7 +56,7 @@ export default class SettingsController extends Controller {
         this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким имененм уже существует!' });
         break;
       default:
-        this.eventBus.emit(SETTINGS.profileFail, { message: 'Неизвестная ошибка!' });
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 
@@ -76,7 +77,7 @@ export default class SettingsController extends Controller {
         this.eventBus.emit(SETTINGS.passwordFail, { message: 'Пользователь с таким имененм уже существует!' });
         break;
       default:
-        this.eventBus.emit(SETTINGS.passwordFail, { message: 'Неизвестная ошибка!' });
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 

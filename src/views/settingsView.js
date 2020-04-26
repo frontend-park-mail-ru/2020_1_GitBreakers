@@ -1,10 +1,9 @@
 import View from 'Modules/view';
-import { SETTINGS } from 'Modules/events';
+import { SETTINGS, ACTIONS } from 'Modules/events';
 import template from 'Components/updateProfile/updateProfile2.pug';
 import errorMessage from 'Modules/errorMessage';
 import CustomValidation from 'Modules/validation/customValidation';
 import { oldPasswordValidityChecks, passwordValidityChecks } from 'Modules/validation/validationParams';
-
 
 export default class SettingsView extends View {
   constructor(root, eventBus) {
@@ -14,7 +13,9 @@ export default class SettingsView extends View {
     this.eventBus.on(SETTINGS.passwordFail, SettingsView._passwordFail);
     this.eventBus.on(SETTINGS.avatarFail, SettingsView._avatarFail);
     this.eventBus.on(SETTINGS.profileFail, SettingsView._profileFail);
+    this.eventBus.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
   }
+
 
   static _passwordFail({ message = '' } = {}) {
     document.getElementById('passwordMessage').innerHTML = errorMessage(message);
@@ -29,6 +30,7 @@ export default class SettingsView extends View {
   }
 
   render() {
+    this.renderLoader();
     this.eventBus.emit(SETTINGS.load, {});
   }
 
@@ -103,9 +105,9 @@ export default class SettingsView extends View {
 
     document.querySelector('button[type="submit"]').addEventListener('click', validate, false);
 
-    document.forms.setPassword.addEventListener('submit', (e) => {
+    document.forms.setPassword.addEventListener('submit', (event) => {
       validate();
-      e.preventDefault();
+      event.preventDefault();
       this.eventBus.emit(SETTINGS.submitPassword, {
         password: form.password.value,
       });

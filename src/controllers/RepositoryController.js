@@ -42,7 +42,7 @@ export default class RepositoryController extends Controller {
     this.repPath = null;
 
     const branchPath = `${this.author}/${this.repository}/branch/${this.branchName}/`;
-    const res = path.match(`(?<=${branchPath})[\\w-_./]+`);
+    const res = path.match(`(?<=${branchPath})[\\w/_-]+`);
     if (res) {
       this.repPath = res[0];
     }

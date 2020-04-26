@@ -24,17 +24,17 @@ export default class CustomValidation {
         this.addInvalidity(validityCheck.invalidityMessage);
       }
 
-      const requirementElement = document.querySelector(validityCheck.selector);
+      // const requirementElement = document.querySelector(validityCheck.selector);
 
-      if (requirementElement) {
-        if (isInvalid) {
-          requirementElement.classList.add('invalid');
-          requirementElement.classList.remove('valid');
-        } else {
-          requirementElement.classList.remove('invalid');
-          requirementElement.classList.add('valid');
-        }
-      }
+      // if (requirementElement) {
+      //   if (isInvalid) {
+      //     requirementElement.classList.add('invalid');
+      //     requirementElement.classList.remove('valid');
+      //   } else {
+      //     requirementElement.classList.remove('invalid');
+      //     requirementElement.classList.add('valid');
+      //   }
+      // }
     });
   }
 

@@ -1,7 +1,5 @@
 
 div.section
-  //- div.section__title
-  //-   h2.title Edit profile
   div.section__main
     div.profile
       div.profile-info.card
@@ -36,21 +34,21 @@ div.section
               label.form__item_label(for='oldPassword')
                 span.form__item__span old password
                 input#oldPassword.form__item__input(type='password' name='oldPassword' required)
-                ul.input-requirements
-                  li Пароль должен содержать от 8 до 100 символов
-                  li Должна присутствовать минимум 1 цифра
+                //- ul.input-requirements
+                //-   li Пароль должен содержать от 8 до 100 символов
+                //-   li Должна присутствовать минимум 1 цифра
             div.form__item
               label.form__item_label(for='password') 
                 span.form__item__span new password
                 input#newPassword.form__item__input(type='password' name='password' required)
-                ul.input-requirements
-                  li Пароль должен содержать от 8 до 100 символов
-                  li Должна присутствовать минимум 1 цифра
+                //- ul.input-requirements
+                //-   li Пароль должен содержать от 8 до 100 символов
+                //-   li Должна присутствовать минимум 1 цифра
             div.form__item
               label.form__item_label(for='passwordRepeat') 
                 span.form__item__span new password again
                 input#newPassword2.form__item__input(type='password' name='passwordRepeat' required)
-                ul.input-requirements
-                  li Пароли должны совпадать
+                //- ul.input-requirements
+                //-   li Пароли должны совпадать
             div.form__button
               button.button.button-colored(type='submit' name='submit') Save changes
