@@ -33,10 +33,10 @@ export default class BranchesController extends RepositoryController {
         this.eventBus.emit(UPLOAD.changePath, '/404');
         break;
       case 403:
-        alert('This is a private repository');
+        alert('Это приватный репозиторий!');
         break;
       default:
-        console.log('Something bad happend! ', result.status);
+        console.log('Неизвестная ошибка ', result.status);
         break;
     }
   }
@@ -48,10 +48,13 @@ export default class BranchesController extends RepositoryController {
   }
 
 
-  _loadBranchList(branchList = []) {
-    branchList.forEach((item) => {
-      item.commit.update = item.commit.commit_author_when.substr(0, 10);
-    });
+  _loadBranchList(branchList) {
+
+    if (branchList) {
+      branchList.forEach((item) => {
+        item.commit.update = item.commit.commit_author_when.substr(0, 10);
+      });
+    }
     this.data.branchList = branchList;
     this.data.author = this.author;
     this.data.repName = this.repository;

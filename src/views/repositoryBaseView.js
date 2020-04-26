@@ -35,5 +35,13 @@ export default class RepositoryBaseView extends View {
         buttonCommitsList[i].dataset.section = `/${data.author}/${data.repName}/commits/${data.branchName}`;
       });
     }
+
+    const buttonIssuesList = document.getElementsByClassName('issues');
+    for (let i = 0; i < buttonIssuesList.length; i = +1) {
+      buttonIssuesList[i].addEventListener('click', (event) => {
+        event.preventDefault();
+        buttonIssuesList[i].dataset.section = `/${data.author}/${data.repName}/issues`;
+      });
+    }
   }
 }

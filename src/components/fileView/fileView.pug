@@ -6,13 +6,13 @@ block content
         div.fileField
             div.fileField__message #{fileContent} #{message}
             div.fileField__message__link
-                a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Download
+                a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
     else
         if fileType === "code"
-            a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Download
+            a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
             pre.prettyprint.linenums #{fileContent}
         else
-            a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Download
+            a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
             div.fileField
                 div.fileField__content #{fileContent}
 block button

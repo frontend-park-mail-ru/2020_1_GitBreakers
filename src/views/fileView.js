@@ -22,15 +22,17 @@ export default class FileView extends RepositoryBaseView {
     prettyPrint();
 
     const theme = document.getElementById('themeStyle');
-    theme.innerText = 'Dark theme';
+    theme.innerText = 'Тёмная тема';
     this.codeTheme.createCodeTheme(data.themeStyle);
 
     theme.addEventListener('click', (event) => {
       event.preventDefault();
-      theme.innerText = `${data.themeStyle} theme`;
+
       if (data.themeStyle === 'Light') {
+        theme.innerText = `Светлая тема`;
         data.themeStyle = 'Dark';
       } else {
+        theme.innerText = `Тёмная тема`;
         data.themeStyle = 'Light';
       }
       this.codeTheme.createCodeTheme(data.themeStyle);

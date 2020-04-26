@@ -94,3 +94,14 @@ export const FILEVIEW = {
   loadSuccess: 'FileView : LoadSuccess',
   render: 'FileView : Render',
 };
+
+export const REPOSITORY = {
+  getInfo: 'Repository : Get info',
+};
+
+export const ISSUES = {
+  getIssueList: 'Issues : Get issue list',
+  render: 'Issues : Render',
+  submitNewIssue: 'Issues : Submit',
+  createSuccess: 'Issues: Created',
+};

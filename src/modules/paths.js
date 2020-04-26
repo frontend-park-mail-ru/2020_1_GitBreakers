@@ -7,6 +7,7 @@ const paths = {
   profile: /^\/profile\/[\w-_]+$/,
   repositorySettings: /^\/[\w-_]+\/[\w-_]+\/settings$/i,
 
+  issues: /^\/[\w-_]+\/[\w-_]+\/issues$/i,
   commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
   repository: /^\/[\w-_]+\/[\w-_]+$/,
   branch: /^\/[\w-_]+\/[\w-_]+\/branch(\/([\w-_.]+))+$/i,
