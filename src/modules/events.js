@@ -113,7 +113,10 @@ export const ISSUES = {
   getIssueList: 'Issues : Get issue list',
   render: 'Issues : Render',
   submitNewIssue: 'Issues : Submit',
-  createSuccess: 'Issues: Created',
+  createSuccess: 'Issues : Created',
+  showMessage: 'Issues : Show message',
+  submitUpdateIssue: 'Issues : Update issue',
+  deleteIssue: 'Issues : Delete issue',
 };
 
 export const REPSTARS = {

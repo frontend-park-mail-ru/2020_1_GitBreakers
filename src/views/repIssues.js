@@ -1,5 +1,6 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
 import template from 'Components/issues/issues.pug';
+import oneIssuetemplate from 'Components/issues/oneIssue/oneIssue.pug';
 import {ISSUES, REPOSITORY} from 'Modules/events';
 import authUser from 'Modules/authUser';
 
@@ -9,6 +10,7 @@ export default class RepIssuesView extends RepositoryBaseView {
     super(root, template, eventBus);
 
     this.eventBus.on(ISSUES.render, this._onRender.bind(this));
+    this.eventBus.on(ISSUES.showMessage, this._errorMessage.bind(this));
   }
 
 
@@ -16,11 +18,21 @@ export default class RepIssuesView extends RepositoryBaseView {
     this.eventBus.emit(REPOSITORY.getInfo, {});
   }
 
+  _errorMessage (data) {
+    const message = document.getElementById('message');
+    message.innerText = data.message;
+  }
+
+  _successMessage(data) {
+    console.log(data);
+    const successMessage = document.getElementById('successMessage');
+    successMessage.innerText = data.message;
+  }
+
 
   _onRender(data) {
     super.render(data);
 
-    data.successMsg = "";
     const issueUnresolvedList = this.listToHtml(data.unresolved);
     const issueResolvedList = this.listToHtml(data.resolved);
 
@@ -43,6 +55,11 @@ export default class RepIssuesView extends RepositoryBaseView {
       });
     }
 
+
+    if (data.msg) {
+      this._successMessage({message : data.msg});
+    }
+
     const newIssueButton = document.getElementById('newIssue');
     newIssueButton.addEventListener('click', (event) => {
       event.preventDefault();
@@ -56,23 +73,8 @@ export default class RepIssuesView extends RepositoryBaseView {
       newIssueButton.dataset.section = window.location.pathname;
     });
 
+    this._createNewIssueListener(data);
 
-    const createIssue = document.getElementById('CreateIssue');
-    if (!createIssue) return;
-    createIssue.addEventListener('click', (event) => {
-      event.preventDefault();
-      const newIssueForm = document.newIssue;
-
-      const formData = {
-        author_id: authUser.getUserId,
-        repo_id: data.repId,
-        title: newIssueForm.issueTitle.value,
-        message: newIssueForm.issueMsg.value,
-        label: newIssueForm.issueLabel.value,
-        is_closed: false,
-      };
-      this.eventBus.emit(ISSUES.submitNewIssue, formData);
-    });
   }
 
 
@@ -88,9 +90,10 @@ export default class RepIssuesView extends RepositoryBaseView {
           msgElement.innerHTML = data[data.tab][target.dataset.id].message;
           msgElement.dataset.opened = 'true';
 
-          if (authUser.getUserId === data[data.tab][target.dataset.id].author_id
-              || authUser.getUser === data.author) {
-            this.addButtons(buttonElement, target.dataset.id);
+          if (data.tab === 'unresolved' &&
+          (authUser.getUserId === data[data.tab][target.dataset.id].author_id
+              || authUser.getUser === data.author)) {
+            this.addButtons(buttonElement, target.dataset.id, data);
           }
         } else {
           msgElement.innerHTML = '';
@@ -105,12 +108,13 @@ export default class RepIssuesView extends RepositoryBaseView {
     let htmlStr = '';
     for (const [key, item] of Object.entries(itemList)) {
       const str = `
+      <div id="issueitem_${item.id}">  
       <div class="repository__list__item">
       <a class="issueLink repository__list__item_title" data-id =${item.id}>${item.title}</a>
       <div class="repository__list__item_info">${item.date}</div></div>
       <div class="repository__list__item_info-label">Метка: ${item.label}</div>
       <div class="repository__list__item_message" id="issuemsg_${item.id}" data-opened="false"></div>
-      <div class="repository__list__item__buttonField" id="issueButtons_${item.id}">
+      <div class="repository__list__item__buttonField" id="issueButtons_${item.id}"></div>
       </div>
       <hr class="line-separator line-separator_extra-thin">`;
       htmlStr += str;
@@ -119,7 +123,7 @@ export default class RepIssuesView extends RepositoryBaseView {
   }
 
 
-  addButtons(root, id) {
+  addButtons(root, id, data) {
     const buttonUpdate = document.createElement('button');
     buttonUpdate.classList.add('repository__list__item__buttonField_button', 'button', 'button-extra-small');
     buttonUpdate.id = `issueUpdate_${id}`;
@@ -135,15 +139,58 @@ export default class RepIssuesView extends RepositoryBaseView {
 
     buttonUpdate.addEventListener('click', (event) => {
       event.preventDefault();
-      console.log('тык по кнопочке Апдейт id = ', id);
+      const item = document.getElementById(`issueitem_${id}`);
+      item.innerHTML = oneIssuetemplate({
+        oldTitle : data[data.tab][id].title,
+        oldMsg : data[data.tab][id].message,
+        oldLabel : data[data.tab][id].label,
+      });
+      this._createUpdateIssueListener(data, id);
     });
+
 
     buttonClose.addEventListener('click', (event) => {
       event.preventDefault();
-      console.log('тык по кнопочке Close id = ', id);
-      // TODO: должна удаляться только одна
-      // Апишка предполагает удаление всех -_-
+      console.log('тык по кнопочке Закрыть, id задачи = ', id);
+      this.eventBus.emit(ISSUES.deleteIssue, {id : (Number.parseInt(id)),});
 
+    });
+  }
+
+
+  _createNewIssueListener(data) {
+    const createIssue = document.getElementById('CreateIssue');
+    if (!createIssue) return;
+    createIssue.addEventListener('click', (event) => {
+      event.preventDefault();
+      const newIssueForm = document.newIssue;
+
+      const formData = {
+        author_id: authUser.getUserId,
+        repo_id: data.repId,
+        title: newIssueForm.issueTitle.value,
+        message: newIssueForm.issueMsg.value,
+        label: newIssueForm.issueLabel.value,
+        is_closed: false,
+      }
+      this.eventBus.emit(ISSUES.submitNewIssue, {formData, msg : 'Задача успешно создана!'});
+    });
+  }
+
+
+  _createUpdateIssueListener(data, id) {
+    const createIssue = document.getElementById('CreateIssue');
+    if (!createIssue) return;
+    createIssue.addEventListener('click', (event) => {
+      event.preventDefault();
+      const updateIssueForm = document.newIssue;
+
+      const formData = {
+        title: updateIssueForm.issueTitle.value,
+        message: updateIssueForm.issueMsg.value,
+        id:  (Number.parseInt(id)),
+      };
+      this.eventBus.emit(ISSUES.submitUpdateIssue, {formData, msg : 'Задача успешно изменена!'});
     });
   }
 }
