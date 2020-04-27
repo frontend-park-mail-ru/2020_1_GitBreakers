@@ -13,6 +13,8 @@ export default class IssuesController extends RepositoryController {
     this.eventBus.on(REPOSITORY.getInfo, this._getRepository.bind(this));
     this.eventBus.on(ISSUES.getIssueList, this._getIssueList.bind(this));
     this.eventBus.on(ISSUES.submitNewIssue, this._createIssue.bind(this));
+    this.eventBus.on(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
+    this.eventBus.on(ISSUES.deleteIssue, this._deleteIssue.bind(this));
   }
 
 
@@ -106,8 +108,6 @@ export default class IssuesController extends RepositoryController {
 
   async _createIssue(body) {
 
-    console.log(body);
-
     if (body.formData.title.length === 0) {
       this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
       return;
@@ -129,7 +129,7 @@ export default class IssuesController extends RepositoryController {
         this.redirect({ path: '/signin' });
         break;
       case 400:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Неверные данные!'});
+        alert('Ошибка: неверные данные!');
         break;
       case 404:
         this.eventBus.emit(UPLOAD.changePath, '/404');
@@ -141,4 +141,75 @@ export default class IssuesController extends RepositoryController {
         this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
     }
   }
+
+
+
+  async _updateIssue(body) {
+
+    if (body.formData.title.length === 0) {
+      this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
+      return;
+    }
+    const result = await RepositoryModel.updateIssue({
+      data : {
+        repId: this.repId,
+      },
+      body : body.formData,
+    });
+
+    if (result.success) {
+      this.open({active: "false", msg: body.msg});
+      return;
+    }
+    switch (result.status) {
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 400:
+        alert('Ошибка: неверные данные!');
+        break;
+      case 404:
+        this.eventBus.emit(UPLOAD.changePath, '/404');
+        break;
+      case 403:
+        alert('Это приватный репозиторий!');
+        break;
+      default:
+        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+    }
+  }
+
+
+
+  async _deleteIssue(body) {
+
+    const result = await RepositoryModel.deleteIssue({
+      data : {
+        repId: this.repId,
+      },
+      body,
+    });
+
+    if (result.success) {
+      this.open({active: "false", msg: "Задача удалена"});
+      return;
+    }
+    switch (result.status) {
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 400:
+        alert('Ошибка: неверные данные!');
+        break;
+      case 404:
+        this.eventBus.emit(ISSUES.showMessage, {message: 'Ошибка: задача не найдена'});
+        break;
+      case 403:
+        alert('Это приватный репозиторий!');
+        break;
+      default:
+        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+    }
+  }
+
 }

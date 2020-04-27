@@ -105,4 +105,6 @@ export const ISSUES = {
   submitNewIssue: 'Issues : Submit',
   createSuccess: 'Issues : Created',
   showMessage: 'Issues : Show message',
+  submitUpdateIssue: 'Issues : Update issue',
+  deleteIssue: 'Issues : Delete issue',
 };

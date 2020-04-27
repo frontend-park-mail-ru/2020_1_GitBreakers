@@ -73,7 +73,7 @@ export default class RepIssuesView extends RepositoryBaseView {
       newIssueButton.dataset.section = window.location.pathname;
     });
 
-    this._createListener(data, 'Задача успешно создана!');
+    this._createNewIssueListener(data);
 
   }
 
@@ -90,9 +90,9 @@ export default class RepIssuesView extends RepositoryBaseView {
           msgElement.innerHTML = data[data.tab][target.dataset.id].message;
           msgElement.dataset.opened = 'true';
 
-          // if (authUser.getUserId === data[data.tab][target.dataset.id].author_id
-          if (authUser.getUserId != data[data.tab][target.dataset.id].author_id // TODO-3
-              || authUser.getUser === data.author) {
+          if (data.tab === 'unresolved' &&
+          (authUser.getUserId === data[data.tab][target.dataset.id].author_id
+              || authUser.getUser === data.author)) {
             this.addButtons(buttonElement, target.dataset.id, data);
           }
         } else {
@@ -139,30 +139,26 @@ export default class RepIssuesView extends RepositoryBaseView {
 
     buttonUpdate.addEventListener('click', (event) => {
       event.preventDefault();
-      console.log('тык по кнопочке Апдейт id = ', id);
-
       const item = document.getElementById(`issueitem_${id}`);
       item.innerHTML = oneIssuetemplate({
         oldTitle : data[data.tab][id].title,
         oldMsg : data[data.tab][id].message,
         oldLabel : data[data.tab][id].label,
       });
-
-      this._createListener(data, 'Задача успешно изменена!');
+      this._createUpdateIssueListener(data, id);
     });
 
 
     buttonClose.addEventListener('click', (event) => {
       event.preventDefault();
       console.log('тык по кнопочке Закрыть, id задачи = ', id);
-      // TODO: должна удаляться только одна
-      // Апи предполагает удаление всех -_-
+      this.eventBus.emit(ISSUES.deleteIssue, {id : (Number.parseInt(id)),});
 
     });
   }
 
 
-  _createListener(data, msg) {
+  _createNewIssueListener(data) {
     const createIssue = document.getElementById('CreateIssue');
     if (!createIssue) return;
     createIssue.addEventListener('click', (event) => {
@@ -176,7 +172,25 @@ export default class RepIssuesView extends RepositoryBaseView {
         message: newIssueForm.issueMsg.value,
         label: newIssueForm.issueLabel.value,
         is_closed: false,
+      }
+      this.eventBus.emit(ISSUES.submitNewIssue, {formData, msg : 'Задача успешно создана!'});
+    });
+  }
+
+
+  _createUpdateIssueListener(data, id) {
+    const createIssue = document.getElementById('CreateIssue');
+    if (!createIssue) return;
+    createIssue.addEventListener('click', (event) => {
+      event.preventDefault();
+      const updateIssueForm = document.newIssue;
+
+      const formData = {
+        title: updateIssueForm.issueTitle.value,
+        message: updateIssueForm.issueMsg.value,
+        id:  (Number.parseInt(id)),
       };
-      this.eventBus.emit(ISSUES.submitNewIssue, {formData, msg});
-    });}
+      this.eventBus.emit(ISSUES.submitUpdateIssue, {formData, msg : 'Задача успешно изменена!'});
+    });
+  }
 }

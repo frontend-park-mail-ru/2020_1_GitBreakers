@@ -180,9 +180,9 @@ export default class RepositoryModel extends Model {
   }
 
 
-  static loadIssueList(data) {  //TODO-1
-    // const path = `${constants.HOST}/func/repo/${data.repId}/issues`;
-    /* return Api.get(path).then((res) => {
+  static loadIssueList(data) {
+    const path = `${constants.HOST}/func/repo/${data.repId}/issues`;
+    return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
           .then((result) => ({
@@ -201,54 +201,14 @@ export default class RepositoryModel extends Model {
       .catch(() => {
         console.log('Model: getIssueList: something goes wrong');
         return {};
-      }); */
-
-
-    return {
-      success: true,
-      body:
-          [
-            {
-              id: 1,
-              author_id: 33,
-              repo_id: 11,
-              title: 'iss1',
-              message: '1aaaaaaaaaaaaaaaaa',
-              label: 'resolved',
-              is_closed: true,
-              created_at: '2020-04022T27',
-            },
-            {
-              id: 3,
-              author_id: 33,
-              repo_id: 11,
-              title: 'iss1',
-              message: '333333aaaaaaaaaaaaaaaaa',
-              label: 'resolved',
-              is_closed: true,
-              created_at: '2020-04022T27',
-            },
-
-            {
-              id: 2,
-              author_id: 33,
-              repo_id: 11,
-              title: 'iss2',
-              message: '2222bbbbbbbbbbbbbbbbbbbb',
-              label: 'resolved',
-              is_closed: false,
-              created_at: '2020-04022T27',
-            },
-          ],
-
-    };
+      });
   }
 
 
 
   static createIssue(data) {
-   /* const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
-    return Api.post(path, data.body).then((res) => { //TODO-2
+    const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
+    return Api.post(path, data.body).then((res) => {
       if (res.ok) {
         return {
           success: true,
@@ -261,8 +221,46 @@ export default class RepositoryModel extends Model {
     }).catch((err) => {
       console.log('Model: New Issue Erorr!', err);
       return {};
-    });*/
-    return {success: true,};
+    });
   }
+
+    static updateIssue(data) {
+      console.log("body = ", data.body);
+        const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
+        return Api.put(path, data.body).then((res) => {
+            if (res.ok) {
+                return {
+                    success: true,
+                };
+            }
+            return {
+                success: false,
+                status: res.status,
+            };
+        }).catch((err) => {
+            console.log('Model: Update Issue Erorr!', err);
+            return {};
+        });
+    }
+
+
+    static deleteIssue(data) {
+        console.log("delete body = ", data.body);
+        const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
+        return Api.delete(path, data.body).then((res) => {
+            if (res.ok) {
+                return {
+                    success: true,
+                };
+            }
+            return {
+                success: false,
+                status: res.status,
+            };
+        }).catch((err) => {
+            console.log('Model: Delete Issue Erorr!', err);
+            return {};
+        });
+    }
 }
 
