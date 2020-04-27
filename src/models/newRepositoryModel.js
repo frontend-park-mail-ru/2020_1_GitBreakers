@@ -4,7 +4,7 @@ import constants from 'Modules/constants';
 
 export default class NewRepositoryModel {
   static createNewRepository(body) {
-    return Api.post(`${constants.HOST}/repo`, body)
+    return Api.post(`${constants.HOST}/user/repo`, body)
       .then((res) => {
         if (res.ok) {
           return {

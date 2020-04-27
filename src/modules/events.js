@@ -32,8 +32,16 @@ export const PROFILE = {
   loadSuccess: 'loadSuccess : Profile',
   loadFail: 'loadFail : Profile',
   nextPage: 'nextPage : Profile',
-  // getRepositories: 'getRepositories : Profile',
-  // getRepositoriesSuccess: 'getRepositories Success: Profile',
+};
+
+export const STARS = {
+  load: 'load: Stars',
+  render: 'render: Stars',
+  loadSuccess: 'loadSuccess : Stars',
+  deleteStar: 'delete star: Star',
+  deleteStarSuccess: 'delete star Success: star',
+  loadFail: 'loadFail : Stars',
+  nextPage: 'nextPage : Stars',
 };
 
 export const SETTINGS = {

@@ -19,7 +19,7 @@ export default class AuthModel {
 
 
   static getWhoAmI() {
-    return Api.get(`${constants.HOST}/whoami`)
+    return Api.get(`${constants.HOST}/user/profile`)
       .then((res) => {
         if (res.ok) {
           return {
@@ -39,7 +39,7 @@ export default class AuthModel {
 
 
   static signUp(body) {
-    return Api.post(`${constants.HOST}/signup`, body)
+    return Api.post(`${constants.HOST}/user/profile`, body)
       .then((res) => {
         if (res.ok) {
           return {
@@ -58,7 +58,7 @@ export default class AuthModel {
   }
 
   static signIn({ body = {} } = {}) {
-    return Api.post(`${constants.HOST}/login`, body)
+    return Api.post(`${constants.HOST}/session`, body)
       .then((res) => {
         if (res.ok) {
           return {
@@ -78,7 +78,7 @@ export default class AuthModel {
 
 
   static logout() {
-    return Api.post(`${constants.HOST}/logout`, {})
+    return Api.delete(`${constants.HOST}/session`, {})
       .then((res) => {
         if (res.ok) {
           localStorage.clear();

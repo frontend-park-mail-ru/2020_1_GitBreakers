@@ -16,6 +16,7 @@ import IssuesController from "Controllers/IssuesController";
 
 import Create404Page from 'Controllers/404';
 
+import StarsController from 'Controllers/starsController';
 import NewRepositoryController from 'Controllers/newRepositoryController';
 import ProfileController from 'Controllers/profileController';
 import SettingsController from 'Controllers/SettingsController';
@@ -48,6 +49,7 @@ const router = new Router();
 const headerController = new HeaderController(header, eventBus, router);
 headerController.open();
 
+const starsController = new StarsController(application, eventBus, router);
 const settingsController = new SettingsController(application, eventBus, router);
 const newRepositoryController = new NewRepositoryController(application, eventBus, router);
 const profileController = new ProfileController(application, eventBus, router);
@@ -63,6 +65,7 @@ const mainPageController = new MainPageController(application, eventBus, router)
 
 const create404Page = new Create404Page();
 
+router.register(paths.,starsController);
 router.register(paths.profileSettings, settingsController);
 router.register(paths.newRepository, newRepositoryController);
 router.register(paths.profile, profileController);

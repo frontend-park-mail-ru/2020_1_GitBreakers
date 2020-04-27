@@ -1,0 +1,19 @@
+extends ../profile/profile.pug
+
+block content
+  
+  mixin repCard(rep, login)
+    div.rep-list__item
+      div.rep-list__item__top
+        h3 <a href="#" class="route rep-list__item__top__title" data-section='/!{login}/!{rep.name}/branches'> !{rep.name} </a>
+        //- a.rep-list__item__top__title(href='#') !{name}
+        div.rep-list__item__top__stars *5
+        div.rep-list__item__info updated !{rep.created_at}
+    hr.line-separator.line-separator_extra-thin
+
+  div.rep-list
+    if reps
+      each rep in reps
+        +repCard(rep, login)
+    else
+      h3 Репозиториев нет!

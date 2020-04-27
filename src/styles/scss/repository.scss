@@ -1,0 +1,22 @@
+.repository {
+  &__flex_container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+  }
+
+  &__stars {
+    border: 1px solid black;
+
+    &__text {
+
+      
+    }
+
+    &__counter {
+
+    }
+  }
+}
