@@ -1,16 +1,17 @@
 extends ../repository/repository.pug
 
-block content
+
+block content 
 
   mixin userCard(user)
-    div
-      img(src=avatar)
-      h3 !{user.login}
+    .user_card
+      img.user_card__icon_avatar(src=user.image)
+      h3.route(data-section=`/profile/${user.login}`) !{user.login}
 
 
-    div.rep-list
+  div.rep-list
     if users
       each user in users
-        +userCard(rep)
+        +userCard(user)
     else
       h3 Пока подпискок нет!

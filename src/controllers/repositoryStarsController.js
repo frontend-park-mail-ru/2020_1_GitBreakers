@@ -38,12 +38,14 @@ export default class RepositoryStarsController extends RepositoryController {
     const reg = /[\w_]+/g;
 
     const [author, repository] = path.match(reg);
-    const updateRes = StarsModel.updateOrDeleterepoStar({
+    const data = {
       body: {
-        repo_id: id,
+        // repo_id: id,
         vote,
-      }, repositoryId: id,
-    });
+      },
+      repositoryId: id,
+    }
+    const updateRes = StarsModel.updateOrDeleterepoStar(data);
 
     if (updateRes.success) {
       const repoRes = await RepositoryModel.getRepository({ repository, profile: author });
@@ -60,10 +62,12 @@ export default class RepositoryStarsController extends RepositoryController {
     }
 
     switch (updateRes.status) {
-      case 400:
+      case 409:
         this.eventBus.emit(REPOSITORY.updatedStar, { success: false });
         break;
       case 401:
+        break;
+      case 400:
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, {});

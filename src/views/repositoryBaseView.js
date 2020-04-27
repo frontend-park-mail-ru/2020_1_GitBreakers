@@ -48,20 +48,19 @@ export default class RepositoryBaseView extends View {
 
     document.querySelector('a.rep_stars__action').addEventListener('click', (event) => {
       event.preventDefault();
-      const { target } = event;
-      const { vote, id } = target.dataset;
-      this.eventBus.emit(REPOSITORY.updateStar, { vote, id });
+      const { vote, id } = document.querySelector('.rep_stars__counter').dataset;
+      this.eventBus.emit(REPOSITORY.updateStar, { vote: (vote === 'send'), id: +id });
     });
 
     this.eventBus.on(REPOSITORY.updatedStar, this._changeStarStatus.bind(this));
   }
 
-  _changeStarStatus({ success = true } = {}) {
+  _changeStarStatus() {
     const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
 
-    const message = (vote) ? 'Убрать' : ' сохранить';
+    const message = (vote === 'send') ? 'Убрать' : ' сохранить';
 
-    this.root.querySelector('.rep_stars__counter').dataset = !vote;
+    this.root.querySelector('.rep_stars__counter').dataset = (vote === 'send');
     this.root.querySelector('.rep_stars__action').innertHTNL = message;
   }
 }

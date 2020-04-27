@@ -1,5 +1,5 @@
 import View from 'Modules/view';
-import template from 'Components/profileRepositories/profileRepositories.pug';
+import template from 'Components/profileStars/profileStars.pug';
 import { STARS } from 'Modules/events';
 import authUser from 'Modules/authUser';
 

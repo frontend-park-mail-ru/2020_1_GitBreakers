@@ -1,6 +1,6 @@
 import Controller from 'Modules/controller';
 import { UPLOAD, REPOSITORY } from 'Modules/events';
-// import StarsModel from '../models/starsModel';
+import StarsModel from '../models/starsModel';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
 import { ACTIONS } from '../modules/events';
@@ -14,7 +14,7 @@ export default class RepositoryController extends Controller {
       branchName: 'master', // кыш
     };
     this.eventBus.on(UPLOAD.notFound, ((msg) => { console.log(msg); this.eventBus.emit(UPLOAD.changePath, '/404'); }));
-    
+
   }
 
 
@@ -37,15 +37,15 @@ export default class RepositoryController extends Controller {
     const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
     if (listOfRepoRes.success) {
       const listOfRepo = await listOfRepoRes.body;
-      this.data.vote = true
+      this.data.vote = 'send'
       listOfRepo.forEach((item) => {
         if (item.name === this.repository) {
-          this.data.vote = false;
+          this.data.vote = 'delete';
         }
       })
       return;
     }
-    this.data.vote = true;
+    this.data.vote = 'send';
 
   }
 
