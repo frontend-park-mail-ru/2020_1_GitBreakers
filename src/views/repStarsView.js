@@ -22,12 +22,13 @@ export default class RepositoryStarsView extends RepositoryBaseView {
     super.render(data);
   }
 
-  _changeStarStatus() {
+  _changeStarStatus({ success, stars }) {
     const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
 
     const message = (vote === 'send') ? 'Убрать' : ' сохранить';
 
-    this.root.querySelector('.rep_stars__counter').dataset = (vote === 'send');
+    this.root.querySelector('.rep_stars__counter').dataset.vote = vote;
+    this.root.querySelector('.rep_stars__counter').innertHTNL = stars
     this.root.querySelector('.rep_stars__action').innertHTNL = message;
   }
 }

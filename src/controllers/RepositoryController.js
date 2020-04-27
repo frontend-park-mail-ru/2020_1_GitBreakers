@@ -52,7 +52,7 @@ export default class RepositoryController extends Controller {
       const message = (this.data.vote !== 'send') ? 'Убрать' : ' сохранить';
 
       const kek = this.root.querySelector('.rep_stars__counter');
-      kek.dataset = this.data.vote;
+      kek.dataset.vote = this.data.vote;
       this.root.querySelector('.rep_stars__action').innertHTNL = message;
     }
 

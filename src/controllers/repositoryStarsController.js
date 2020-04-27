@@ -47,7 +47,7 @@ export default class RepositoryStarsController extends RepositoryController {
       },
       repositoryId: id,
     }
-    const updateRes = StarsModel.updateOrDeleterepoStar(data);
+    const updateRes = await StarsModel.updateOrDeleterepoStar(data);
     let repoRes = {};
     if (updateRes.success) {
       repoRes = await RepositoryModel.getRepository({ repository, profile: author });
@@ -62,8 +62,6 @@ export default class RepositoryStarsController extends RepositoryController {
         return;
       }
 
-    }
-    if (!(updateRes.success && repoRes.success))
       switch (repoRes.status) {
         case 409:
           this.eventBus.emit(REPOSITORY.updatedStar, { success: false });
@@ -76,5 +74,7 @@ export default class RepositoryStarsController extends RepositoryController {
         default:
           this.eventBus.emit(ACTIONS.offline, {});
       }
+      // this.redirect({ path: `/${author}/${repository}/stargazers` })
+    }
   }
 }

@@ -15,7 +15,8 @@ export default class StarsModel {
           success: false,
           status: res.status,
         };
-      }).catch(() => {
+      })
+      .catch(() => {
         return {
           success: false,
         };
