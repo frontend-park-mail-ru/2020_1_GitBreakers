@@ -43,7 +43,14 @@ export default class RepositoryBaseView extends View {
         event.preventDefault();
         buttonIssuesList[i].dataset.section = `/${data.author}/${data.repName}/issues`;
       });
-
+    }
+    
+    const buttonNewsList = document.getElementsByClassName('news');
+    for (let i = 0; i < buttonNewsList.length; i = +1) {
+      buttonNewsList[i].addEventListener('click', (event) => {
+        event.preventDefault();
+        buttonNewsList[i].dataset.section = `/${data.author}/${data.repName}/news`;
+      });
     }
 
     document.querySelector('a.rep_stars__action').addEventListener('click', (event) => {
