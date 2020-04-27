@@ -6,7 +6,7 @@ block content
   mixin userCard(user)
     .user_card
       img.user_card__icon_avatar(src=user.image)
-      h3.route(data-section=`/profile/${user.login}`) !{user.login}
+      a.route.title(data-section=`/profile/${user.login}`) !{user.login}
 
 
   div.rep-list

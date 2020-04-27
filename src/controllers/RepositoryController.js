@@ -34,6 +34,7 @@ export default class RepositoryController extends Controller {
   }
 
   async _setStarsStatus() {
+    await authUser.loadWhoAmI()
     const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
     if (listOfRepoRes.success) {
       const listOfRepo = await listOfRepoRes.body;
