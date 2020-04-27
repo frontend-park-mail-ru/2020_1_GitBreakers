@@ -13,6 +13,7 @@ import CommitsController from 'Controllers/CommitsController';
 import FileController from 'Controllers/FileController';
 import MainPageController from 'Controllers/MainPageController';
 import IssuesController from "Controllers/IssuesController";
+import NewsController from "Controllers/newsController";
 
 import Create404Page from 'Controllers/404';
 
@@ -64,6 +65,7 @@ const branchesController = new BranchesController(application, eventBus, router)
 const fileTreeController = new FileTreeController(application, eventBus, router);
 const commitsController = new CommitsController(application, eventBus, router);
 const mainPageController = new MainPageController(application, eventBus, router);
+const newsController = new NewsController(application, eventBus, router);
 
 const create404Page = new Create404Page();
 
@@ -82,5 +84,6 @@ router.register(paths.fileView, fileController);
 router.register(paths.main, mainPageController);
 router.register(/\/404/, create404Page);
 router.register(paths.issues, issuesController);
+router.register(paths.news, newsController);
 
 router.start();

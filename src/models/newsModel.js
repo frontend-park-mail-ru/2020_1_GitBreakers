@@ -2,8 +2,8 @@ import Api from 'Modules/api';
 import constants from 'Modules/constants';
 
 export default class NewsModel {
-  static getRepositoryNews({ repositoryId = '', offset = 0, limit = 20 } = {}) {
-    Api.get(`${constants.HOST}/func/repo/${repositoryId}/news?limit=${limit}&offset=${offset}`)
+  static getRepositoryNews({ data = {}, offset = 0, limit = 20 } = {}) {
+    Api.get(`${constants.HOST}/func/repo/${data.repId}/news?limit=${limit}&offset=${offset}`)
       .then((res) => {
         if (res.ok) {
           return {
