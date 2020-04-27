@@ -8,6 +8,7 @@ const paths = {
   stars: /^\/profile\/[\w-_]+\/stars$/,
   repositorySettings: /^\/[\w-_]+\/[\w-_]+\/settings$/i,
 
+  news: /^\/[\w-_]+\/[\w-_]+\/news$/i,
   issues: /^\/[\w-_]+\/[\w-_]+\/issues$/i,
   commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
   repository: /^\/[\w-_]+\/[\w-_]+$/,
