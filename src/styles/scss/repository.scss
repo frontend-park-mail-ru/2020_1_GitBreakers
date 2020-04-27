@@ -11,12 +11,31 @@
     border: 1px solid black;
 
     &__text {
-
-      
     }
 
     &__counter {
-
     }
   }
+}
+
+.repo_stars {
+  min-width: 80px;
+  max-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+.rep_stars__action {
+  margin-right: 10px;
+  max-height: 40px;
+  border-right: 1px solid black;
+  background-color: blanchedalmond;
+}
+
+.rep_stars__counter {
+  max-height: 40px;
 }

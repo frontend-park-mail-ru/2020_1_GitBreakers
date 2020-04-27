@@ -16,6 +16,7 @@ export default class RepositoryStarsController extends RepositoryController {
   async _load({ profile = '', repository = '' } = {}) {
     const repositoryRes = await RepositoryModel.getRepository({ profile, repository });
 
+
     if (repositoryRes.success) {
       this.setRepository();
       const repositoryBody = await repositoryRes.body;
@@ -25,6 +26,7 @@ export default class RepositoryStarsController extends RepositoryController {
           author: this.author,
           repName: this.repository,
           users: await usersListRes.body,
+          ...this.data,
           stars: repositoryBody.stars
         }
         this.eventBus.emit(REPSTARS.render, data);
@@ -46,9 +48,9 @@ export default class RepositoryStarsController extends RepositoryController {
       repositoryId: id,
     }
     const updateRes = StarsModel.updateOrDeleterepoStar(data);
-
+    let repoRes = {};
     if (updateRes.success) {
-      const repoRes = await RepositoryModel.getRepository({ repository, profile: author });
+      repoRes = await RepositoryModel.getRepository({ repository, profile: author });
 
       if (repoRes.success) {
         const repo = await repoRes.body;
@@ -57,20 +59,22 @@ export default class RepositoryStarsController extends RepositoryController {
           success: true,
           stars: repo.stars,
         });
+        return;
       }
 
     }
-
-    switch (updateRes.status) {
-      case 409:
-        this.eventBus.emit(REPOSITORY.updatedStar, { success: false });
-        break;
-      case 401:
-        break;
-      case 400:
-        break;
-      default:
-        this.eventBus.emit(ACTIONS.offline, {});
-    }
+    if (!(updateRes.success && repoRes.success))
+      switch (repoRes.status) {
+        case 409:
+          this.eventBus.emit(REPOSITORY.updatedStar, { success: false });
+          // return;
+          break;
+        case 401:
+          break;
+        case 400:
+          break;
+        default:
+          this.eventBus.emit(ACTIONS.offline, {});
+      }
   }
 }

@@ -5,11 +5,11 @@ div.section
             h2.title Репозиторий: #{author}/#{repName}
             
             .repo_stars
-                a.rep_stars__action
-                    if vote 
-                        p Сохранить
+                a.rep_stars__action 
+                    if vote === 'send'
+                        p * Сохранить
                     else
-                        p Убрать
+                        p  * Убрать
                 a.route.rep_stars__counter(data-section=`/${author}/${repName}/stargazers` data-vote=vote data-id=id) !{stars}
                     //- if stars
                     //-     p !{stars}
