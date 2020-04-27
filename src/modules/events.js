@@ -123,3 +123,9 @@ export const REPSTARS = {
   load: 'load : rep stars',
   render: 'render : rep stars',
 };
+
+export const NEWS = {
+  getInfo: 'News: get info',
+  render: 'News : render',
+  getNewsList: 'News : Get news list',
+}
