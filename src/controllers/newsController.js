@@ -81,8 +81,12 @@ class NewsController extends RepositoryController {
       newsList.forEach((item) => {
         item.date = item.created_at.substr(0, 10);
 
-        item.author = 'Ivan Ivanovich';
-        //ПРОВЕРКА НА НАШЕГО ПОЛЬЗОВАТЕЛЯ
+    if (authUser.getUserId === item.author_id)
+              {
+                item.author = authUser.getUser;
+              } else {
+                item.author = "Неизвестно";
+              }
       });
     }
     this.data.author = this.author;
