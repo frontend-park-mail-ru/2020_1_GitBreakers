@@ -104,9 +104,11 @@ export default class IssuesController extends RepositoryController {
   }
 
 
-  async _createIssue(body = {}) {
+  async _createIssue(body) {
 
-    if (body.title.length === 0) {
+    console.log(body);
+
+    if (body.formData.title.length === 0) {
       this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
       return;
     }
@@ -115,11 +117,11 @@ export default class IssuesController extends RepositoryController {
       data : {
         repId: this.repId,
       },
-      body,
+      body : body.formData,
     });
 
     if (result.success) {
-      this.open({active: "false", msg: 'Задача успешно создана!'});
+      this.open({active: "false", msg: body.msg});
       return;
     }
     switch (result.status) {
@@ -127,7 +129,7 @@ export default class IssuesController extends RepositoryController {
         this.redirect({ path: '/signin' });
         break;
       case 400:
-        alert('Неверные данные!');
+        this.eventBus.emit(ISSUES.showMessage, {message: 'Неверные данные!'});
         break;
       case 404:
         this.eventBus.emit(UPLOAD.changePath, '/404');
@@ -136,7 +138,7 @@ export default class IssuesController extends RepositoryController {
         alert('Это приватный репозиторий!');
         break;
       default:
-        console.log('Неизвестная ошибка!', result.status);
+        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
     }
   }
 }

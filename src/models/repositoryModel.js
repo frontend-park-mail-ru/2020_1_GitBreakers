@@ -210,7 +210,7 @@ export default class RepositoryModel extends Model {
           [
             {
               id: 1,
-              author_id: 28,
+              author_id: 33,
               repo_id: 11,
               title: 'iss1',
               message: '1aaaaaaaaaaaaaaaaa',
@@ -220,7 +220,7 @@ export default class RepositoryModel extends Model {
             },
             {
               id: 3,
-              author_id: 55,
+              author_id: 33,
               repo_id: 11,
               title: 'iss1',
               message: '333333aaaaaaaaaaaaaaaaa',
@@ -231,7 +231,7 @@ export default class RepositoryModel extends Model {
 
             {
               id: 2,
-              author_id: 46,
+              author_id: 33,
               repo_id: 11,
               title: 'iss2',
               message: '2222bbbbbbbbbbbbbbbbbbbb',
@@ -247,8 +247,8 @@ export default class RepositoryModel extends Model {
 
 
   static createIssue(data) {
-    const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
-    /*return Api.post(path, data.body).then((res) => { //TODO-2
+   /* const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
+    return Api.post(path, data.body).then((res) => { //TODO-2
       if (res.ok) {
         return {
           success: true,
