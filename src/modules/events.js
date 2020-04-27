@@ -103,5 +103,6 @@ export const ISSUES = {
   getIssueList: 'Issues : Get issue list',
   render: 'Issues : Render',
   submitNewIssue: 'Issues : Submit',
-  createSuccess: 'Issues: Created',
+  createSuccess: 'Issues : Created',
+  showMessage: 'Issues : Show message',
 };

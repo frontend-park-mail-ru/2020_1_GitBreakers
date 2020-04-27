@@ -9,6 +9,7 @@ export default class RepIssuesView extends RepositoryBaseView {
     super(root, template, eventBus);
 
     this.eventBus.on(ISSUES.render, this._onRender.bind(this));
+    this.eventBus.on(ISSUES.showMessage, this._errorMessage.bind(this));
   }
 
 
@@ -16,11 +17,21 @@ export default class RepIssuesView extends RepositoryBaseView {
     this.eventBus.emit(REPOSITORY.getInfo, {});
   }
 
+  _errorMessage (data) {
+    const message = document.getElementById('message');
+    message.innerText = data.message;
+  }
+
+  _successMessage(data) {
+    console.log(data);
+    const successMessage = document.getElementById('successMessage');
+    successMessage.innerText = data.message;
+  }
+
 
   _onRender(data) {
     super.render(data);
 
-    data.successMsg = "";
     const issueUnresolvedList = this.listToHtml(data.unresolved);
     const issueResolvedList = this.listToHtml(data.resolved);
 
@@ -41,6 +52,11 @@ export default class RepIssuesView extends RepositoryBaseView {
         }
         this.setLinkListener(data);
       });
+    }
+
+
+    if (data.msg) {
+      this._successMessage({message : data.msg});
     }
 
     const newIssueButton = document.getElementById('newIssue');
@@ -142,7 +158,7 @@ export default class RepIssuesView extends RepositoryBaseView {
       event.preventDefault();
       console.log('тык по кнопочке Close id = ', id);
       // TODO: должна удаляться только одна
-      // Апишка предполагает удаление всех -_-
+      // Апи предполагает удаление всех -_-
 
     });
   }

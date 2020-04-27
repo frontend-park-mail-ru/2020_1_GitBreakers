@@ -1,9 +1,8 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import {ISSUES, REPOSITORY, SETTINGS, UPLOAD} from 'Modules/events';
+import {ISSUES, REPOSITORY, UPLOAD} from 'Modules/events';
 import RepIssuesView from 'Views/repIssues';
 
 import RepositoryModel from 'Models/repositoryModel';
-import ProfileModel from "Models/profileModel";
 
 
 export default class IssuesController extends RepositoryController {
@@ -30,7 +29,7 @@ export default class IssuesController extends RepositoryController {
     const result = await RepositoryModel.loadRepository(data);
 
     if (result.success) {
-      this.repId = 11; //= result.body.id //TODO!!!!
+      this.repId = result.body.id;
 
       this.eventBus.emit(ISSUES.getIssueList, {});
     } else {
@@ -51,7 +50,6 @@ export default class IssuesController extends RepositoryController {
 
   async _getIssueList() {
     const data = {
-      repName: this.repositoryName,
       repId: this.repId,
     };
 
@@ -101,19 +99,27 @@ export default class IssuesController extends RepositoryController {
 
   open(data) {
     this.data.newIssueForm = data.active;
+    this.data.msg = data.msg;
     super.open();
   }
 
 
   async _createIssue(body = {}) {
-    console.log("bbb = ", body);
 
+    if (body.title.length === 0) {
+      this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
+      return;
+    }
 
-    this.data.successMsg = 'Задача создана';
+    const result = await RepositoryModel.createIssue({
+      data : {
+        repId: this.repId,
+      },
+      body,
+    });
 
-   /* const result = await ProfileModel.createIssue({ body });
     if (result.success) {
-      this.eventBus.emit(ISSUES.createSuccess, { message: 'Задача создана' });
+      this.open({active: "false", msg: 'Задача успешно создана!'});
       return;
     }
     switch (result.status) {
@@ -121,7 +127,7 @@ export default class IssuesController extends RepositoryController {
         this.redirect({ path: '/signin' });
         break;
       case 400:
-        this.eventBus.emit(SETTINGS.profileFail, { message: 'Неверные данные!' });
+        alert('Неверные данные!');
         break;
       case 404:
         this.eventBus.emit(UPLOAD.changePath, '/404');
@@ -130,7 +136,7 @@ export default class IssuesController extends RepositoryController {
         alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(SETTINGS.profileFail, { message: 'Неизвестная ошибка!' });
-    }*/
+        console.log('Неизвестная ошибка!', result.status);
+    }
   }
 }

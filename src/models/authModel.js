@@ -58,7 +58,7 @@ export default class AuthModel {
   }
 
   static signIn({ body = {} } = {}) {
-    return Api.post(`${constants.HOST}/login`, body)
+    return Api.post(`${constants.HOST}/session`, body)
       .then((res) => {
         if (res.ok) {
           return {
