@@ -5,6 +5,7 @@ const paths = {
   signup: /^\/signup$/i,
   signin: /^\/signin$/i,
   profile: /^\/profile\/[\w-_]+$/,
+  stars: /^\/profile\/[\w-_]+\/stars$/,
   repositorySettings: /^\/[\w-_]+\/[\w-_]+\/settings$/i,
 
   issues: /^\/[\w-_]+\/[\w-_]+\/issues$/i,

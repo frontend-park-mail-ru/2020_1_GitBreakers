@@ -65,7 +65,7 @@ const mainPageController = new MainPageController(application, eventBus, router)
 
 const create404Page = new Create404Page();
 
-router.register(paths.,starsController);
+router.register(paths.stars, starsController);
 router.register(paths.profileSettings, settingsController);
 router.register(paths.newRepository, newRepositoryController);
 router.register(paths.profile, profileController);
