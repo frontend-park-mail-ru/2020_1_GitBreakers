@@ -1,5 +1,9 @@
 import Controller from 'Modules/controller';
-import { UPLOAD } from 'Modules/events';
+import { UPLOAD, REPOSITORY } from 'Modules/events';
+// import StarsModel from '../models/starsModel';
+import authUser from 'Modules/authUser';
+import RepositoryModel from 'Models/repositoryModel';
+import { ACTIONS } from '../modules/events';
 
 export default class RepositoryController extends Controller {
   constructor(root, eventBus, router) {
@@ -10,6 +14,7 @@ export default class RepositoryController extends Controller {
       branchName: 'master', // кыш
     };
     this.eventBus.on(UPLOAD.notFound, ((msg) => { console.log(msg); this.eventBus.emit(UPLOAD.changePath, '/404'); }));
+    
   }
 
 
@@ -17,13 +22,43 @@ export default class RepositoryController extends Controller {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
-    this.author = path.match(reg)[0];
-    this.repository = path.match(reg)[1];
+    // this.author = path.match(reg)[0];
+    // this.repository = path.match(reg)[1];
+    [this.author, this.repository] = path.match(reg);
     this.repositoryName = `${this.author}/${this.repository}`;
 
     this.defaultBranch = this._getDefaultBranch();
+
+    this._setStarsStatus()
+    this._getStarsCount();
   }
 
+  async _setStarsStatus() {
+    const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
+    if (listOfRepoRes.success) {
+      const listOfRepo = await listOfRepoRes.body;
+      this.data.vote = true
+      listOfRepo.forEach((item) => {
+        if (item.name === this.repository) {
+          this.data.vote = false;
+        }
+      })
+      return;
+    }
+    this.data.vote = true;
+
+  }
+
+  async _getStarsCount() {
+    const rep = this.repository;
+    const repoRes = await RepositoryModel.getRepository({ repository: rep, profile: this.author });
+
+    if (repoRes.success) {
+      const repo = await repoRes.body;
+      this.data.stars = repo.stars;
+      this.data.id = repo.id;
+    }
+  }
 
   setBranchName() {
     const path = window.location.pathname;
@@ -44,7 +79,8 @@ export default class RepositoryController extends Controller {
     const branchPath = `${this.author}/${this.repository}/branch/${this.branchName}/`;
     const res = path.match(`(?<=${branchPath})[\\w-_./]+`);
     if (res) {
-      this.repPath = res[0];
+      // this.repPath = res[0];
+      [this.repPath] = res;
     }
   }
 

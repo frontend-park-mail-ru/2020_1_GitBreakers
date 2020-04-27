@@ -20,6 +20,7 @@ import StarsController from 'Controllers/starsController';
 import NewRepositoryController from 'Controllers/newRepositoryController';
 import ProfileController from 'Controllers/profileController';
 import SettingsController from 'Controllers/SettingsController';
+import RepositoryStarsController from 'Controllers/repositoryStarsController';
 
 /** Регистрация сервис воркера */
 if ('serviceWorker' in navigator) {
@@ -58,6 +59,7 @@ const signInController = new SignInController(application, eventBus, router);
 const fileController = new FileController(application, eventBus, router);
 const issuesController = new IssuesController(application, eventBus, router);
 
+const repositoryStarsController = new RepositoryStarsController(application, eventBus, router);
 const branchesController = new BranchesController(application, eventBus, router);
 const fileTreeController = new FileTreeController(application, eventBus, router);
 const commitsController = new CommitsController(application, eventBus, router);
@@ -65,6 +67,7 @@ const mainPageController = new MainPageController(application, eventBus, router)
 
 const create404Page = new Create404Page();
 
+router.register(paths.repoStars, repositoryStarsController);
 router.register(paths.stars, starsController);
 router.register(paths.profileSettings, settingsController);
 router.register(paths.newRepository, newRepositoryController);

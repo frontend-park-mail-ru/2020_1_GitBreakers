@@ -105,6 +105,8 @@ export const FILEVIEW = {
 
 export const REPOSITORY = {
   getInfo: 'Repository : Get info',
+  updateStar: 'update Stars: Repository',
+  updatedStar: 'updated Stars: Repository'
 };
 
 export const ISSUES = {
@@ -112,4 +114,9 @@ export const ISSUES = {
   render: 'Issues : Render',
   submitNewIssue: 'Issues : Submit',
   createSuccess: 'Issues: Created',
+};
+
+export const REPSTARS = {
+  load: 'load : rep stars',
+  render: 'render : rep stars',
 };

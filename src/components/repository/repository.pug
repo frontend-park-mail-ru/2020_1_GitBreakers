@@ -3,6 +3,19 @@ div.section
     div.card
         div.section__title
             h2.title Репозиторий: #{author}/#{repName}
+            
+            .repo_stars
+                a.rep_stars__action
+                    if vote 
+                        p Сохранить
+                    else
+                        p Убрать
+                a.route.rep_stars__counter(data-section=`/${author}/${repName}/stargazers` data-vote=vote data-id=id) !{stars}
+                    //- if stars
+                    //-     p !{stars}
+                    //- else
+                    //-     p 0
+
         div.section__main
             div.rep-menu
                 div.rep-menu-main

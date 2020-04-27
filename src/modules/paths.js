@@ -11,6 +11,7 @@ const paths = {
   issues: /^\/[\w-_]+\/[\w-_]+\/issues$/i,
   commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
   repository: /^\/[\w-_]+\/[\w-_]+$/,
+  repoStars: /^\/[\w-_]+\/[\w-_]+\/stargazers$/,
   branch: /^\/[\w-_]+\/[\w-_]+\/branch(\/([\w-_.]+))+$/i,
   repositoryBranches: /^\/[\w-_]+\/[\w-_]+\/branches$/i,
   fileView: /^\/[\w-_]+\/[\w-_]+\/file(\/([\w-_.]+))+$/i,

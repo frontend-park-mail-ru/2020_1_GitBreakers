@@ -2,7 +2,7 @@ div.header
     div.header__logo
         h1
             if auth
-                a.route.header__logo_name(data-section='/profile/!{user}') Git
+                a.route.header__logo_name(data-section=`/profile/${user}`) Git
             else
                 a.route.header__logo_name(data-section='/') Git
     div.header__search

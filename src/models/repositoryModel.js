@@ -5,13 +5,9 @@ import { NEWBRANCH } from 'Modules/events';
 
 
 export default class RepositoryModel extends Model {
-  constructor(root, eventBus) {
-    super(eventBus);
-  }
-
 
   static loadRepository(data) {
-    const path = `${constants.HOST}/${data.repName}`;
+    const path = `${constants.HOST}/repo/${data.repName}`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -36,7 +32,7 @@ export default class RepositoryModel extends Model {
 
 
   static loadFileList(data) {
-    let path = `${constants.HOST}/${data.repName}/files/${data.branchName}`;
+    let path = `${constants.HOST}/repo/${data.repName}/files/${data.branchName}`;
     if (data.repPath) {
       path += `?path=${data.repPath}`;
     }
@@ -64,7 +60,7 @@ export default class RepositoryModel extends Model {
 
 
   static loadBranchList(data) {
-    const path = `${constants.HOST}/${data.repName}/branches`;
+    const path = `${constants.HOST}/repo/${data.repName}/branches`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -89,7 +85,7 @@ export default class RepositoryModel extends Model {
 
 
   static loadCommitList(data) {
-    const path = `${constants.HOST}/${data.repName}/${data.branchName}/commits`;
+    const path = `${constants.HOST}/repo/${data.repName}/${data.branchName}/commits`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -114,7 +110,7 @@ export default class RepositoryModel extends Model {
 
 
   static createBranch(data) {
-    const path = `${constants.HOST}/${data.repName}`;
+    const path = `${constants.HOST}/repo/${data.repName}`;
     Api.post(path, data.data)
       .then((res) => res.json())
       .then((res) => {
@@ -144,7 +140,7 @@ export default class RepositoryModel extends Model {
 
 
   static deleteBranch() {
-    const path = `${constants.HOST}/data.branchPath`;
+    const path = `${constants.HOST}/repo/data.branchPath`;
     Api.delete(path)
       .then((res) => res.json())
       .then((res) => {
@@ -156,7 +152,7 @@ export default class RepositoryModel extends Model {
 
 
   static loadFile(data) {
-    const path = `${constants.HOST}/${data.repName}/files/${data.branchName}?path=${data.filePath}`;
+    const path = `${constants.HOST}/repo/${data.repName}/files/${data.branchName}?path=${data.filePath}`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -240,5 +236,25 @@ export default class RepositoryModel extends Model {
         ],
 
     };
+  }
+
+  static getRepository({ profile = '', repository = '' } = {}) {
+    return Api.get(`${constants.HOST}/repo/${profile}/${repository}`)
+      .then((res) => {
+        if (res.ok) {
+          return {
+            success: true,
+            body: res.json(),
+          }
+        }
+        return {
+          success: false,
+          status: res.status,
+        }
+      }).catch(() => {
+        return {
+          success: false,
+        }
+      });
   }
 }

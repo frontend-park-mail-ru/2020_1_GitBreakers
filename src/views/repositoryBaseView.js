@@ -1,4 +1,5 @@
 import View from 'Modules/view';
+import { REPOSITORY } from 'Modules/events';
 
 
 export default class RepositoryBaseView extends View {
@@ -42,6 +43,25 @@ export default class RepositoryBaseView extends View {
         event.preventDefault();
         buttonIssuesList[i].dataset.section = `/${data.author}/${data.repName}/issues`;
       });
+
     }
+
+    document.querySelector('a.rep_stars__action').addEventListener('click', (event) => {
+      event.preventDefault();
+      const { target } = event;
+      const { vote, id } = target.dataset;
+      this.eventBus.emit(REPOSITORY.updateStar, { vote, id });
+    });
+
+    this.eventBus.on(REPOSITORY.updatedStar, this._changeStarStatus.bind(this));
+  }
+
+  _changeStarStatus({ success = true } = {}) {
+    const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
+
+    const message = (vote) ? 'Убрать' : ' сохранить';
+
+    this.root.querySelector('.rep_stars__counter').dataset = !vote;
+    this.root.querySelector('.rep_stars__action').innertHTNL = message;
   }
 }

@@ -47,7 +47,7 @@ export default class StarsModel {
     offset = 0,
     limit = 20,
   } = {}) {
-    Api.get(`${constants.HOST}/func/repo/${repositoryId}/stars/users?limit=${limit}&offset=${offset}`)
+    return Api.get(`${constants.HOST}/func/repo/${repositoryId}/stars/users?limit=${limit}&offset=${offset}`)
       .then((res) => {
         if (res.ok) {
           return {

@@ -19,10 +19,13 @@ export default class FileController extends RepositoryController {
     this.setBranchName();
     this.setFilePath();
 
+
     const data = {
       repName: this.repositoryName,
       branchName: this.branchName,
       filePath: this.filePath,
+      vote: this.vote,
+      stars: this.stars,
     };
     const result = await RepositoryModel.loadFile(data);
 
