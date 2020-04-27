@@ -1,23 +1,30 @@
-div.profile-card
-    a.profile-avatar
-        img(src = avatar)
-    div.content
-        span() User login: #{login}
-    div.edit-profile
-        ul
-            li.li
-                span #{name}
-                //a(href="")  #{email}
-            li.li
-                span  <b>Bio:</b> #{bio}
-                //a(href="")  #{registrationDate}
-            li.li
-                a(href=url) My Web Site #{url}
-            li.li
-                //a(href="")  #{followers} + " Подписчики"
-                span  #{followers} Подписчики
-                //a(href="")  #{following} + " Подписки"
-                span  #{following} Подписки
-        button#edit-button(href="#" data-section="updateProfile") Edit profile!
 
 
+div.section
+  div.section__main
+    div.profile
+      div.profile_col1
+        div.profile-info
+          div.card
+            h2.title Профиль
+              hr.line-separator.line-separator_extra-thin
+              img.profile__avatar(src=image alt='avatar')
+              h3.profile-info__login Логин: !{login}
+              h3.profile-info__email Email: !{email}
+              div.profile-info__button
+                if (auth === login)
+                  button.route.button.button_long(type='submit' name='settings' data-section='/settings') Изменить профиль
+      div.profile_col2
+        div.profile__data
+          div.card.col2-height
+            div.profile__data__top
+              div.profile__data__top__menu
+                div.profile__data__top__menu_item
+                  a.route.profile__menu__link(href='' data-section=('/profile/'+login)) Репозитории
+                .profile__dsta__top__menu_item
+                  a.route.profile__menu__link(href='' data-section=('/profile/' + login + '/stars')) Звезды !{Stars}
+                div.profile__data__top__menu_item
+                  button.route.button(type='submit' data-section='/new') Создать репозиторий
+            hr.line-separator.line-separator_thin
+            div.profile__data__main
+              block content

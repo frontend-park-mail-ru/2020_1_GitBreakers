@@ -1,14 +1,19 @@
 div.header
     div.header__logo
         h1
-            a.route.header__logo_name(data-section='') Git
+            if auth
+                a.route.header__logo_name(data-section=`/profile/${user}`) Git
+            else
+                a.route.header__logo_name(data-section='/') Git
     div.header__search
         form.search(action='#')
             input.header__search_input(name='search' placeholder="Search..." type='text')
     div.header__menu
-        if user
-            a.route.header__menu_item(data-section=`/profile/${user}`) #{user}
-            a.header__menu_item(data-section='signout')  SignOut
+        if auth
+            a.route.header__menu_item(data-section=`/profile/${user}`) Мой профиль
+            a#logout.route.header__menu_item  Выйти
+            image.header__avatar(width='32' hight='32' src=image alt='avatar')
         else
-            a.route.header__menu_item(data-section='/signup') SignUp
-            a.route.header__menu_item(data-section='/signin')  SignIn
+            a.route.header__menu_item(data-section='/signup') Регистрация
+            a.route.header__menu_item(data-section='/signin') Авторизация
+

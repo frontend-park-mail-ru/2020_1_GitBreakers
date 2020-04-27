@@ -9,10 +9,12 @@
     &-main {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
     }
 
     &-additional {
-        margin-left: auto;
+        //  margin-left: auto;
     }
 
     &__item {
@@ -28,23 +30,45 @@
 
         &__item {
             display: flex;
-            margin: 40px 0;
+            margin: 40px 0 10px 0;
             text-decoration: none;
             color: $font-light-color;
+
+            &_message {
+                font-size: 90%;
+                margin-top: 30px;
+                word-break: break-all;
+            }
 
             &_title {
                 font-weight: bold;
                 margin: auto 30px auto 0;
+                word-break: break-all;
             }
 
             &_info {
                 font-size: 85%;
                 margin: auto 20px auto 0;
+                word-break: break-all;
+
+                &-label {
+                    font-size: 80%;
+                }
             }
 
             &_button {
                 flex-wrap: wrap;
                 margin-left: auto;
+            }
+
+            &__buttonField {
+                display: flex;
+                width: fit-content;
+                margin: 10px 0 10px auto;
+
+                &_button {
+                    margin-right: 15px;
+                }
             }
         }
 
@@ -53,10 +77,13 @@
 
             &_title {
                 margin: 0 0 -20px 0;
+                word-break: break-all;
             }
 
             &_content {
                 padding: 0 10px;
+                margin-bottom: 50px;
+                word-break: break-all;
             }
         }
     }
@@ -70,10 +97,46 @@
             font-size: 90%;
             font-weight: bold;
             margin: auto 0;
+            word-break: break-all;
         }
 
         &_button {
             margin: 10px 0 10px auto;
         }
+
+        &__menu {
+            margin-bottom: 10px;
+
+            &_link {
+                // font-size: 90%;
+                // color: $font-main;
+                // margin-right: 50px;
+                display: none;
+            }
+
+
+            &_label {
+                display: inline;
+                padding: 5px 10px;
+                border: 1px solid $button-border-color;
+                border-radius: 7px 7px 0 0;
+                margin-right: 10px;
+                font-size: 80%;
+                color: #878181;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            &_label:hover,
+            &_link:checked + label {
+                background: #c9c5c5;
+                color: white;
+            }
+        }
     }
+}
+
+.issue_info_message {
+    font-size: 90%;
+    margin-left: 5%;
 }

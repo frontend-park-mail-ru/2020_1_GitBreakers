@@ -1,30 +1,24 @@
-import Model from 'Modules/model';
 import Api from 'Modules/api';
-import { NEWREPOSITORY, ACTIONS } from 'Modules/events';
 import constants from 'Modules/constants';
 
 
-export default class NewRepositoryModel extends Model {
-  constructor(root, eventBus) {
-    super(eventBus);
-
-    this.eventBus.on(NEWREPOSITORY.sendValid, this.createNewRepository.bind(this));
-  }
-
-  createNewRepository(body) {
-    Api.post(`${constants.HOST}/repo`, body)
+export default class NewRepositoryModel {
+  static createNewRepository(body) {
+    return Api.post(`${constants.HOST}/user/repo`, body)
       .then((res) => {
-        if (res.status === 200) {
-          this.eventBus.emit(NEWREPOSITORY.sendSuccess, { name: body.name });
-          return;
+        if (res.ok) {
+          return {
+            success: true,
+            repName: body.name,
+          };
         }
-        if (res.status === 401) {
-          this.eventBus.emit(ACTIONS.redirect, { redirect: '/new' });
-          return;
-        }
-        throw new Error('Somthing go wrong');
+        return {
+          success: false,
+          status: res.status,
+        };
       }).catch((err) => {
-        alert('Model: New Repository Erorr!', err);
+        console.log('Model: New Repository Erorr!', err);
+        return {};
       });
   }
 }

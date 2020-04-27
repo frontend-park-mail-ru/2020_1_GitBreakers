@@ -6,10 +6,10 @@ form.form-horizontal(action='#' name='newBranch')
         label.form-horizontal__item__label(for="parentBranch") from
         select#parentBranch.form__item__input(name="parentBranch")
             each branch in branchList
-                if branch.branchName==="master"
+                if branch.name==="master"
                     option(selected value=master) master
                 else
-                    option(value=branch.branchName) #{branch.branchName}
+                    option(value=branch.name) #{branch.name}
 
     div.form-horizontal__button
         button.createBranch.button.button-colored(type="submit" name="createBranch") Create branch

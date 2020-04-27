@@ -1,4 +1,6 @@
 import View from 'Modules/view';
+import { REPOSITORY } from 'Modules/events';
+
 
 export default class RepositoryBaseView extends View {
   render(data) {
@@ -9,13 +11,13 @@ export default class RepositoryBaseView extends View {
       buttonCodeList[i].addEventListener('click', (event) => {
         event.preventDefault();
 
-        // let codePath = "";
-        // if (data.branchName === 'master') {
-        //   codePath = `/${data.author}/${data.repName}`;
-        // } else {
-        //   codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;
-        // }
-        buttonCodeList[i].dataset.section = '/'; // codePath;
+        let codePath = '/';
+        if (data.branchName === data.defaultBranch) {
+          codePath = `/${data.author}/${data.repName}`;
+        } else {
+          codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;
+        }
+        buttonCodeList[i].dataset.section = codePath;
       });
     }
 
@@ -34,5 +36,24 @@ export default class RepositoryBaseView extends View {
         buttonCommitsList[i].dataset.section = `/${data.author}/${data.repName}/commits/${data.branchName}`;
       });
     }
+
+    const buttonIssuesList = document.getElementsByClassName('issues');
+    for (let i = 0; i < buttonIssuesList.length; i = +1) {
+      buttonIssuesList[i].addEventListener('click', (event) => {
+        event.preventDefault();
+        buttonIssuesList[i].dataset.section = `/${data.author}/${data.repName}/issues`;
+      });
+
+    }
+
+    document.querySelector('a.rep_stars__action').addEventListener('click', (event) => {
+      event.preventDefault();
+      const { vote, id } = document.querySelector('.rep_stars__counter').dataset;
+      this.eventBus.emit(REPOSITORY.updateStar, { vote: (vote === 'send'), id: +id });
+    });
+
+    
   }
+
+  
 }

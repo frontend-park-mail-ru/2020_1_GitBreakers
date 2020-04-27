@@ -1,29 +1,36 @@
-extends ../page/page.pug
-block main_section
-    div.section
+
+div.section
+    div.card-small
         div.section__title
-            h2.title Sign Up
+            h2.title Регистрация
         div.section__main
             form.form(action='#' name="signUp")
-                div#respError
+                div#signUpMessage
                 div.form__item
-                    lable.form__item__label(for='email') E-mail address
-                    div#emailError
-                    input#email.form__item__input(type='email' name='email')
+                    label.form__item__label(for='email')
+                        span.form__item__span Email
+                        input.form__item__input(type='email' name='email' required)
                 div.form__item
-                    lable.form__item__label(for='username') Username
-                    div#usernameError
-                    input#username.form__item__input(type='text' name='username')
+                    label.form__item__label(for='username')
+                        span.form__item__span Логин
+                        input.form__item__input(type='text' name='username' required)
+                        //- ul.input-requirements
+                        //-     li Должен содержать от 3 до 100 сиволов
+                        //-     li Должен содержать только буквы и цифры
                 div.form__item
-                    lable.form__item__label(for='password') Password
-                    div#passwordError
-                    input#password.form__item__input(type='password' name='password')
+                    label.form__item__label(for='password')
+                        span.form__item__span Пароль
+                        input.form__item__input(type='password' name='password' required)
+                        //- ul.input-requirements
+                        //-     li Пароль должен содержать от 8 до 100 символов
+                        //-     li Должна присутствовать минимум 1 цифра
                 div.form__item
-                    lable.form__item__label(for='password2') Password again
-                    div#password2Error
-                    input#password2.form__item__input(type='password' name='password2')
-
+                    label.form__item__label(for='passwordRepeat')
+                        span.form__item__span Повторите пароль
+                        input.form__item__input(type='password' name='passwordRepeat' required)
+                        //- ul.input-requirements
+                        //-     li Пароли должны совпадать
                 div.form__button
-                    button.button(name='signup' type='submit' data-section='sendSignUp') SignUp!
-                div.form__item
-                    a#login.route.form__link(href='#' data-section='/signin') SignIn!
+                    button.button(type='submit' ) Отправить
+                div
+                    a#login.route.form__link(href='#' data-section='/signin') Войти

@@ -1,4 +1,4 @@
-src/dist/**
+dist/**
 components/**
 src/components/**
 src/modules/prettify/**

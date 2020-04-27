@@ -1,138 +1,281 @@
 import constants from 'Modules/constants';
 import Model from 'Modules/model';
 import Api from 'Modules/api';
-import {
-  NEWBRANCH, UPLOAD, TREEPAGE, BRANCHESPAGE, COMMITSPAGE, DELETEBRANCH, FILEVIEW,
-} from 'Modules/events';
+import { NEWBRANCH } from 'Modules/events';
+
 
 export default class RepositoryModel extends Model {
-  constructor(root, eventBus) {
-    super(eventBus);
 
-    this.eventBus.on(TREEPAGE.getFiles, this._getBranch.bind(this));
-    this.eventBus.on(BRANCHESPAGE.getFiles, this._getBranchList.bind(this));
-    this.eventBus.on(COMMITSPAGE.getCommits, this._getCommitList.bind(this));
-
-    this.eventBus.on(NEWBRANCH.valid, this._createBranch.bind(this));
-    this.eventBus.on(DELETEBRANCH.delete, this._deleteBranch.bind(this));
-    this.eventBus.on(FILEVIEW.loadFile, this._getFile.bind(this));
+  static loadRepository(data) {
+    const path = `${constants.HOST}/repo/${data.repName}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+            .then((result) => ({
+              success: true,
+              body: result,
+            }), () => ({
+              success: false,
+              status: 'Something wrong with json',
+            }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+        .catch(() => {
+          console.log('Model: getRepository: something goes wrong');
+          return {};
+        });
   }
 
-  _getBranch(data) {
-    let path = `${constants.HOST}/${data.repName}/files/${data.branchName}`;
+
+  static loadFileList(data) {
+    let path = `${constants.HOST}/repo/${data.repName}/files/${data.branchName}`;
     if (data.repPath) {
       path += `?path=${data.repPath}`;
     }
-    Api.get(path)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        }
-        this.eventBus.emit(UPLOAD.notFound, 'such branch or repository not found');
-      })
-      .then((res) => {
-        this.eventBus.emit(TREEPAGE.setData, res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  _getBranchList(data) {
-    Api.get(`${constants.HOST}/${data.repName}/branches`)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        }
-        this.eventBus.emit(UPLOAD.notFound, 'branchlist not found');
-      })
-      .then((res) => {
-        if (data.page === 'branchPage') {
-          this.eventBus.emit(BRANCHESPAGE.setData, res);
-        } else this.eventBus.emit(COMMITSPAGE.setBranches, res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  _getCommitList(data) {
-    const path = `${constants.HOST}/${data.repName}/${data.branchName}/commits`;
-    Api.get(path)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        }
-        this.eventBus.emit(UPLOAD.notFound, 'commits not found');
-      })
-      .then((res) => {
-        this.eventBus.emit(COMMITSPAGE.setCommits, res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+            .then((result) => ({
+              success: true,
+              body: result,
+            }), () => ({
+              success: false,
+              status: 'Something wrong with json',
+            }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+        .catch(() => {
+          console.log('Model: getFileList: something goes wrong');
+          return {};
+        });
   }
 
 
-  _createBranch(data) {
-    const path = `${constants.HOST}/${data.repName}`;
+  static loadBranchList(data) {
+    const path = `${constants.HOST}/repo/${data.repName}/branches`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+            .then((result) => ({
+              success: true,
+              body: result,
+            }), () => ({
+              success: false,
+              status: 'Something wrong with json',
+            }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+        .catch(() => {
+          console.log('Model: getBranchList: something goes wrong');
+          return {};
+        });
+  }
+
+
+  static loadCommitList(data) {
+    const path = `${constants.HOST}/repo/${data.repName}/commits/branch/${data.branchName}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+            .then((result) => ({
+              success: true,
+              body: result,
+            }), () => ({
+              success: false,
+              status: 'Something wrong with json',
+            }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+        .catch(() => {
+          console.log('Model: getCommitList: something goes wrong');
+          return {};
+        });
+  }
+
+
+  static createBranch(data) {
+    const path = `${constants.HOST}/repo/${data.repName}`;
     Api.post(path, data.data)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.statusCode === 200) {
-          const newPath = `${path}/${data.data.branchName}`;
-          this.eventBus.emit(NEWBRANCH.success, {
-            message: 'sent successfully',
-            path: newPath,
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.statusCode === 200) {
+            const newPath = `${path}-${data.data.branchName}`;
+            this.eventBus.emit(NEWBRANCH.success, {
+              message: 'sent successfully',
+              path: newPath,
+            });
+          }
+          this.eventBus.emit(NEWBRANCH.fail, {
+            data: [{
+              item: 'resp',
+              message: res.body,
+            }],
           });
-        }
-        this.eventBus.emit(NEWBRANCH.fail, {
-          data: [{
-            item: 'resp',
-            message: res.body,
-          }],
+        })
+        .catch((err) => {
+          this.eventBus.emit(NEWBRANCH.fail, {
+            data: [{
+              item: 'resp',
+              message: err,
+            }],
+          });
         });
-      })
-      .catch((err) => {
-        this.eventBus.emit(NEWBRANCH.fail, {
-          data: [{
-            item: 'resp',
-            message: err,
-          }],
-        });
-      });
   }
 
-  _deleteBranch(data) {
-    const path = `${constants.HOST}/${data.branchPath}`;
+
+  static deleteBranch() {
+    const path = `${constants.HOST}/repo/data.branchPath`;
     Api.delete(path)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.statusCode === 200) {
-          console.log('Deleted success');
-        }
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.statusCode === 200) {
+            console.log('Deleted success');
+          }
+        });
+  }
+
+
+  static loadFile(data) {
+    const path = `${constants.HOST}/repo/${data.repName}/files/${data.branchName}?path=${data.filePath}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+            .then((result) => ({
+              success: true,
+              body: result,
+            }), () => ({
+              success: false,
+              status: 'Something wrong with json',
+            }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+        .catch(() => {
+          console.log('Model: getFile: something goes wrong');
+          return {};
+        });
+  }
+
+
+  static loadIssueList(data) {
+    const path = `${constants.HOST}/func/repo/${data.repId}/issues`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getIssueList: something goes wrong');
+        return {};
       });
   }
 
 
-  _getFile(data) {
-    const path = `${constants.HOST}/${data.repName}/files/${data.branchName}?path=${data.filePath}`;
-    Api.get(path)
+
+  static createIssue(data) {
+    const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
+    return Api.post(path, data.body).then((res) => {
+      if (res.ok) {
+        return {
+          success: true,
+        };
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    }).catch((err) => {
+      console.log('Model: New Issue Erorr!', err);
+      return {};
+    });
+  }
+
+  static getRepository({ profile = '', repository = '' } = {}) {
+    return Api.get(`${constants.HOST}/repo/${profile}/${repository}`)
       .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          return res.json();
+        if (res.ok) {
+          return {
+            success: true,
+            body: res.json(),
+          }
         }
-        console.log('Не удалось загрузить файл');
-        this.eventBus.emit(FILEVIEW.loadFail, res.status);
-        throw new Error(res.status);
-      })
-      .then((res) => {
-        console.log(res);
-        this.eventBus.emit(FILEVIEW.loadSuccess, res.body);
-      })
-      .catch((err) => {
-        console.log(err);
+        return {
+          success: false,
+          status: res.status,
+        }
+      }).catch(() => {
+        return {
+          success: false,
+        }
       });
   }
+    static updateIssue(data) {
+      console.log("body = ", data.body);
+        const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
+        return Api.put(path, data.body).then((res) => {
+            if (res.ok) {
+                return {
+                    success: true,
+                };
+            }
+            return {
+                success: false,
+                status: res.status,
+            };
+        }).catch((err) => {
+            console.log('Model: Update Issue Erorr!', err);
+            return {};
+        });
+    }
+
+
+    static deleteIssue(data) {
+        console.log("delete body = ", data.body);
+        const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
+        return Api.delete(path, data.body).then((res) => {
+            if (res.ok) {
+                return {
+                    success: true,
+                };
+            }
+            return {
+                success: false,
+                status: res.status,
+            };
+        }).catch((err) => {
+            console.log('Model: Delete Issue Erorr!', err);
+            return {};
+        });
+    }
 }
+

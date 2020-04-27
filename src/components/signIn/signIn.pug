@@ -1,22 +1,22 @@
-extends ../page/page.pug
-block main_section
-    div.section
+
+div.section
+    div.card-small
         div.section__title
-            h2.title Sign In
+            h2.title Авторизация
         div.section__main
             form.form#SignIn(action='#' name='signIn')
-                div#respError
+                div#signInMessage
                 div.form__item
-                    lable.form__item__label(for='username') Username or e-mail address
-                    div#usernameError
-                    input#username.form__item__input(type='text' name='username')
+                    label.form__item__label(for='username')
+                        span.form__item__span Логин или email
+                        input.form__item__input(type='text' name='username' autofocus required)
                 div.form__item
-                    lable.form__item__label(for='password') Password
-                    div#passwordError
-                    input#password.form__item__input(type='password' name='password')
+                    label.form__item__label(for='password')
+                        span.form__item__span Пароль
+                        input.form__item__input(type='password' name='password' minlength='8' maxlength='100' required)
                 div.form__button
-                    button.button#login(name='login' type='submit' data-section='sendLogin') Login
+                    button.button#login( type='submit' ) Войти
+                //- div.form__item
+                //-     a#forgot.form__link(href='#') Forgot your password?
                 div.form__item
-                    a#forgot.form__link(href='#') Forgot your password?
-                div.form__item
-                    a.route.form__link(href='#' data-section='/signup') SignUp!
+                    a.route.form__link(href='#' data-section='/signup') Зарегистрироваться!

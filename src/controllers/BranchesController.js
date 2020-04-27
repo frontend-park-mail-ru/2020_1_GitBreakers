@@ -1,6 +1,7 @@
 import RepBranchesView from 'Views/repBranches';
-import { NEWBRANCH, BRANCHESPAGE } from 'Modules/events';
+import { NEWBRANCH, BRANCHESPAGE, UPLOAD } from 'Modules/events';
 import RepositoryController from 'Controllers/RepositoryController';
+import RepositoryModel from 'Models/repositoryModel';
 
 
 export default class BranchesController extends RepositoryController {
@@ -8,27 +9,55 @@ export default class BranchesController extends RepositoryController {
     super(root, eventBus, router);
     this.view = new RepBranchesView(root, eventBus);
 
+    this.eventBus.on(BRANCHESPAGE.getBranchList, this._getBranchList.bind(this));
     this.eventBus.on(NEWBRANCH.submit, this.newBranchSubmit.bind(this));
-    this.eventBus.on(BRANCHESPAGE.setData, this.loadBranchList.bind(this));
   }
 
-  loadBranchList(branchList) {
-    branchList.forEach((item) => {
-      item.commit.update = item.commit.commit_author_when.substr(0, 10);
-    });
 
-    this.data.branchList = branchList;
-    this._open();
+  async _getBranchList() {
+    this.setRepository();
+    const data = {
+      repName: this.repositoryName,
+    };
+    const result = await RepositoryModel.loadBranchList(data);
+
+    if (result.success) {
+      await this._loadBranchList(await result.body);
+
+      this.data.defaultBranch = this.defaultBranch;
+      this.eventBus.emit(BRANCHESPAGE.render, this.data);
+      return;
+    }
+    switch (result.status) {
+      case 404:
+        this.eventBus.emit(UPLOAD.changePath, '/404');
+        break;
+      case 403:
+        alert('Это приватный репозиторий!');
+        break;
+      default:
+        console.log('Неизвестная ошибка ', result.status);
+        break;
+    }
   }
+
 
   open(data) {
-    this.setRepositoryName();
-
     this.data.formShow = data.active;
-    this.eventBus.emit(BRANCHESPAGE.getFiles, {
-      repName: this.repositoryName,
-      page: 'branchPage',
-    });
+    super.open();
+  }
+
+
+  _loadBranchList(branchList) {
+
+    if (branchList) {
+      branchList.forEach((item) => {
+        item.commit.update = item.commit.commit_author_when.substr(0, 10);
+      });
+    }
+    this.data.branchList = branchList;
+    this.data.author = this.author;
+    this.data.repName = this.repository;
   }
 
 
@@ -68,7 +97,7 @@ export default class BranchesController extends RepositoryController {
         message: 'Имя ветки не должно превышать 30 символов!',
       };
     }
-    const reg = /^[\w_-]+$/;
+    const reg = /^[\w_]+$/;
     if (!reg.test(branchName)) {
       return {
         item,

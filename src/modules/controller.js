@@ -1,15 +1,19 @@
-import View from 'Modules/view';
+// import View from 'Modules/view';
 
 export default class Controller {
   constructor(root, eventBus, router) {
     this.root = root;
     this.eventBus = eventBus;
     this.router = router;
-    this.view = new View();
+    // this.view = new View(root, eventBus);
   }
 
-  open(data = {}) {
-    this.view.render(data);
+  redirect({ path = '/' } = {}) {
+    this.router.go(path);
+  }
+
+  open() {
+    this.view.render();
   }
 
   close() {

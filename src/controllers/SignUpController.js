@@ -1,194 +1,53 @@
 import authUser from 'Modules/authUser';
 import Controller from 'Modules/controller';
-import { SIGNUP } from 'Modules/events';
-import SignUp from 'Views/signUp';
+import { SIGNUP, HEADER, ACTIONS } from 'Modules/events';
+import SignUp from 'Views/signUpView';
+import AuthModel from 'Models/authModel';
 
 export default class SignUpController extends Controller {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.view = new SignUp(root, eventBus);
-    this.eventBus.on(SIGNUP.submit, this.signUpSubmit.bind(this));
+    this.eventBus.on(SIGNUP.submit, this.signUp.bind(this));
     // this.eventBus.on(SIGNUP.success, this.submitSuccess.bind(this));
   }
 
-  // submitSuccess() {
-  //   authUser.loadUser();
-  //   this.router.go(`/profile/${authUser.getUser()}`);
-  // }
-
-  open(data) {
-    if (!authUser.isAuth) {
-      super.open(data);
-    } else {
-      // window.location.pathname = `/profile/${authUser.getUser()}`;
-      this.router.go(`/profile/${authUser.getUser()}`);
+  async signUp(body) {
+    const result = await AuthModel.signUp(body);
+    if (result.success) {
+      AuthModel.csrf();
+      await authUser.loadWhoAmI();
+      this.eventBus.emit(HEADER.rerender, {});
+      this.redirect({ path: `/profile/${authUser.getUser}` });
+    }
+    switch (result.status) {
+      case 409:
+        this.eventBus.emit(SIGNUP.fail, { message: 'Такой пользователь уже существует!' });
+        break;
+      case 400:
+        this.eventBus.emit(SIGNUP.fail, { message: 'Проверьте данные!' });
+        break;
+      default:
+        this.eventBus.emit(SIGNUP.fail, { message: 'Неизвестная ошибка!' });
     }
   }
 
-  signUpSubmit(data = {}) {
-    const {
-      username,
-      email,
-      password,
-      password2,
-    } = data;
-    const result = { data: [] };
-
-
-    let flag = SignUpController.validateEmail(email.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
+  onFinishLoadWhoAmI() {
+    if (authUser.isAuth) {
+      this.redirect({ path: `/profile/${authUser.getUser}` });
     } else {
-      document.getElementById('emailError').innerHTML = '';
+      super.open();
     }
-
-    flag = SignUpController.validateUsername(username.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('usernameError').innerHTML = '';
-    }
-
-    flag = SignUpController.validatePassword(password.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('passwordError').innerHTML = '';
-      document.getElementById('password2Error').innerHTML = '';
-    }
-
-    flag = SignUpController.validatePassword2(password.value, password2.value);
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('password2Error').innerHTML = '';
-    }
-
-    if (result.data.length === 0) {
-      this.eventBus.emit(SIGNUP.valid, {
-        login: username.value,
-        email: email.value,
-        name: '',
-        password: password.value,
-      });
-      return;
-    }
-    this.eventBus.emit(SIGNUP.fail, result);
+    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
   }
 
-  static validateEmail(email = '') {
-    const item = 'email';
-    if (!email) {
-      return {
-        item,
-        message: 'Пустой поле с mail`ом!',
-      };
+  open() {
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
-
-    const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
-    if (!reg.test(email)) {
-      return {
-        item,
-        message: 'Невалидный email!',
-      };
-    }
-
-    if (email.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий mail!!!(Меньше 6 символов)',
-      };
-    }
-
-    if (email.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный mail!!!(Больше 50 символа)',
-      };
-    }
-    return false;
-  }
-
-  static validatePassword(password = '') {
-    const item = 'password';
-    if (!password) {
-      return {
-        item,
-        message: 'Пустой поле с password`ом!',
-      };
-    }
-
-    if (password.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий password!!!(Меньше 6 символов)',
-      };
-    }
-
-    if (password.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный password!!!(Больше 50 символа)',
-      };
-    }
-    return false;
-  }
-
-  static validatePassword2(password = '', password2 = {}) {
-    const item = 'password2';
-    if (password !== password2) {
-      return {
-        item,
-        message: 'Пароли не совпадают!',
-      };
-    }
-    return false;
-  }
-
-  static validateUsername(username) {
-    const item = 'username';
-    if (!username) {
-      return {
-        item,
-        message: 'Пустой поле с username`ом!',
-      };
-    }
-
-    if (username.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий username!!!(Меньше 6 символов)',
-      };
-    }
-
-    if (username.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный username!!!(Больше 50 символа)',
-      };
-    }
-
-    const reg = /^[a-zA-Z0-9]+$/;
-    if (!reg.test(username)) {
-      return {
-        item,
-        message: 'Используются неправильные символы!!! (разрешены цифры и буквы латинского алфавита)',
-      };
-    }
-    return false;
   }
 }
-// /* контроллер, который дёргается для создания страницы */
-// export function createSignUpPage() {
-//   const root = document.getElementById('root');
-//   // divLogin.innerHTML = signupTemplate({});
-
-//   console.log('показываем страницу SignUp');
-//   const signUpView = new SignUpView(root, eventBus);
-//   signUpView.render();
-// }

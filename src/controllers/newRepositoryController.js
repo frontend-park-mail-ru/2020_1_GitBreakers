@@ -1,7 +1,8 @@
 import NewRepositoryView from 'Views/newRepository';
-import { NEWREPOSITORY } from 'Modules/events';
+import { NEWREPOSITORY, ACTIONS } from 'Modules/events';
 import Controller from 'Modules/controller';
 import authUser from 'Modules/authUser';
+import NewRepositoryModel from '../models/newRepositoryModel';
 
 
 export default class NewRepositoryController extends Controller {
@@ -9,48 +10,45 @@ export default class NewRepositoryController extends Controller {
     super(root, eventBus, router);
 
     this.view = new NewRepositoryView(root, eventBus);
-    this.eventBus.on(NEWREPOSITORY.send, this.validate.bind(this));
-    this.eventBus.on(NEWREPOSITORY.sendSuccess, this.success.bind(this));
+    this.eventBus.on(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
   }
 
-  // success({ name = '' } = {}) {
-  success() {
-    // this.router.go(`/${authUser.getUser()}/${name}/branches`);
-    this.router.go(`/profile/${authUser.getUser()}`);
-  }
-
-
-  validate(data = {}) {
-    const { name } = data;
-    const errors = [];
-
-
-    const flag = NewRepositoryController.validateName(name);
-    if (flag) {
-      errors.push({
-        message: flag,
-        place: 'repNameError',
-      });
-    } else {
-      document.getElementById('repNameError').innerHTML = '';
-    }
-
-
-    if (errors.length === 0) {
-      this.eventBus.emit(NEWREPOSITORY.sendValid, data);
+  async createNewRepository(body = {}) {
+    const result = await NewRepositoryModel.createNewRepository(body);
+    if (result.success) {
+      this.redirect({ path: `/profile/${authUser.getUser}` });
       return;
     }
-    this.eventBus.emit(NEWREPOSITORY.sendFail, errors);
+    switch (result.status) {
+      case 401:
+        this.redirect('/signin');
+        break;
+      case 400:
+        this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неверные данные!' });
+        break;
+      case 409:
+        this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Такое название уже занято!' });
+        break;
+      default:
+        this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неизвестная ошибка!' });
+    }
   }
 
-  static validateName(name) {
-    if (name.length < 2) {
-      return 'Слишком короткое имя (<2 символов)!';
+  onFinishLoadWhoAmI() {
+    if (!authUser.isAuth) {
+      this.redirect({ path: '/signin' });
+    } else {
+      super.open();
     }
+    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+  }
 
-    if (name.length > 50) {
-      return 'Слишком длинное имя (>50 символов)!';
+  open() {
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
-    return null;
   }
 }

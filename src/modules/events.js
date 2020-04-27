@@ -1,6 +1,8 @@
 export const ACTIONS = {
   redirect: 'redirect',
   loadWhoAmI: 'loadWhoAmI',
+  loadWhoAmIFinish: 'load Who am I finish',
+  offline: 'offline',
 };
 
 export const SIGNUP = {
@@ -18,38 +20,45 @@ export const SIGNIN = {
   nextPage: 'nextPage : SignIn',
 };
 
+export const HEADER = {
+  render: 'Render: Header',
+  load: 'Load: Header',
+  logout: 'Logout: Header',
+};
+
 export const PROFILE = {
   load: 'load: Profile',
+  render: 'render: Profile',
   loadSuccess: 'loadSuccess : Profile',
   loadFail: 'loadFail : Profile',
   nextPage: 'nextPage : Profile',
-  // getRepositories: 'getRepositories : Profile',
-  // getRepositoriesSuccess: 'getRepositories Success: Profile',
+};
+
+export const STARS = {
+  load: 'load: Stars',
+  render: 'render: Stars',
+  loadSuccess: 'loadSuccess : Stars',
+  deleteStar: 'delete star: Star',
+  deleteStarSuccess: 'delete star Success: star',
+  loadFail: 'loadFail : Stars',
+  nextPage: 'nextPage : Stars',
 };
 
 export const SETTINGS = {
   submitAvatar: 'submitAvatar: Settings',
   submitProfile: 'submitProfile: Setting',
   submitPassword: 'submitPassword: Settings',
-  sendAvatar: 'sendAvatar: Settings',
-  sendProfile: 'sendProfile: Setting',
-  sendPassword: 'sendPassword: Settings',
-  sendAvatarSuccess: 'sendAvatar Success: Settings',
-  sendAvatarFail: 'sendAvatar Fail: Settings',
-  sendProfileSuccess: 'sendProfile Success: Settings',
-  sendProfileFail: 'sendProfile Fail: Settings',
-  sendPasswordSuccess: 'sendPassword Success: Settings',
-  sendPasswordFail: 'sendPassword Fail: Settings',
-  loadWhoAmI: 'loadWhoAmI: Settings',
-  loadWhoAmISuccess: 'loadWhoAmISuccess: Settings',
-  loadWhoAmIFail: 'loadWhoAmIFail: Settings',
+  changeAvatar: 'ChangeAvatar: Settings',
+  passwordFail: 'passwordFail: settings',
+  avatarFail: 'avatarFail: Settings',
+  profileFail: 'profileFail: Settings',
+  render: 'Render: Settings',
+  load: 'loadProfile : Settings',
 };
 
 export const NEWREPOSITORY = {
-  send: 'send: NewRepository',
-  sendFail: 'sendFail: NewRepository',
-  sendSuccess: 'sendSuccess: NewRepository',
-  sendValid: 'sendValid: NewRepository',
+  submit: 'submit: NewRepository',
+  fail: 'fail: NewRepository',
 };
 
 
@@ -59,19 +68,20 @@ export const UPLOAD = {
 };
 
 export const TREEPAGE = {
+  getBranchList: 'FileTree : Get branch list',
   getFiles: 'FileTree : Get files',
-  setData: 'FileTree : Set data',
+  render: 'FileTree : Render',
 };
 
 export const BRANCHESPAGE = {
-  getFiles: 'Branches : Get files',
-  setData: 'Branches : Set data',
+  getBranchList: 'Branches : Get branch list',
+  render: 'Branches : Render',
 };
 
 export const COMMITSPAGE = {
-  setBranches: 'Commits : Set branches',
-  getCommits: 'Commits : Get commits',
-  setCommits: 'Commits : Set commits',
+  getBranchList: 'Commits : Get branch list',
+  getCommitList: 'Commits : Set commits',
+  render: 'Commits : Render',
 };
 
 export const NEWBRANCH = {
@@ -89,6 +99,27 @@ export const DELETEBRANCH = {
 
 export const FILEVIEW = {
   loadFile: 'FileView : LoadFile',
-  loadFail: 'FileView : LoadFail',
   loadSuccess: 'FileView : LoadSuccess',
+  render: 'FileView : Render',
+};
+
+export const REPOSITORY = {
+  getInfo: 'Repository : Get info',
+  updateStar: 'update Stars: Repository',
+  updatedStar: 'updated Stars: Repository'
+};
+
+export const ISSUES = {
+  getIssueList: 'Issues : Get issue list',
+  render: 'Issues : Render',
+  submitNewIssue: 'Issues : Submit',
+  createSuccess: 'Issues : Created',
+  showMessage: 'Issues : Show message',
+  submitUpdateIssue: 'Issues : Update issue',
+  deleteIssue: 'Issues : Delete issue',
+};
+
+export const REPSTARS = {
+  load: 'load : rep stars',
+  render: 'render : rep stars',
 };

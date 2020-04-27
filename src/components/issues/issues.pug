@@ -1,0 +1,18 @@
+extends ../repository/repository.pug
+block content
+    if newIssueForm ==="true"
+        include ./oneIssue/oneIssue.pug
+
+    input#openedLink.repository__top__menu_link(type="radio" name = "issueLink" "checked")
+    label.repository__top__menu_label(for="openedLink") Открытые
+    input#closedLink.repository__top__menu_link(type="radio" name = "issueLink")
+    label.repository__top__menu_label(for="closedLink") Закрытые
+    span#issueMessage.issue_info_message #{successMsg}
+
+    hr.line-separator.line-separator_extra-thin(style="margin-top: 4px")
+    div#repository__list__issues
+        hr.line-separator.line-separator_extra-thin
+block button
+    div.repository__top_button
+        button#newIssue.route.button.button-small(type="submit") Новая задача
+    span#successMessage.error-msg

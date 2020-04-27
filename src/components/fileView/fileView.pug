@@ -2,11 +2,19 @@ extends ../repository/repository.pug
 block content
     div.repository__top
         div.repository__top_path #{repName}/#{branchName}/#{filePath}
-        div.repository__top_button
-            button.route.deleteFile.button.button-extra-small.button-colored(type='submit') Delete file
-    if fileType === "code"
-        pre.prettyprint.linenums(class="lang-с") #{fileContent}
-    else
+    if fileType === "fileForLoad"
         div.fileField
-            a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName)
-                u View file
+            div.fileField__message #{fileContent} #{message}
+            div.fileField__message__link
+                a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
+    else
+        if fileType === "code"
+            a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
+            pre.prettyprint.linenums #{fileContent}
+        else
+            a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
+            div.fileField
+                div.fileField__content #{fileContent}
+block button
+    div.fileField__top.fileField__link
+        a#themeStyle

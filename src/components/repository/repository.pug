@@ -1,23 +1,36 @@
-extends ../page/page.pug
-block main_section
-    div.section
+
+div.section
+    div.card
         div.section__title
-            h2.title Repository: #{author}/#{repName}
+            h2.title Репозиторий: #{author}/#{repName}
+            
+            .repo_stars
+                a.rep_stars__action 
+                    if vote === 'send'
+                        p * Сохранить
+                    else
+                        p  * Убрать
+                a.route.rep_stars__counter(data-section=`/${author}/${repName}/stargazers` data-vote=vote data-id=id) !{stars}
+                    //- if stars
+                    //-     p !{stars}
+                    //- else
+                    //-     p 0
+
         div.section__main
             div.rep-menu
                 div.rep-menu-main
                     div.rep-menu__item
-                        button.route.code.button(name='code', type='submit') Code
+                        button.route.code.button(name='code', type='submit') Код
                     div.rep-menu__item
-                        button.route.branches.button(type='submit') Branches
+                        button.route.branches.button(type='submit') Ветки
                     div.rep-menu__item
-                        button.route.commits.button(type='submit') Commits
+                        button.route.commits.button(type='submit') Коммиты
                     div.rep-menu__item
-                        button.route.settings.button(type='submit') Settings
+                        button.route.issues.button(type='submit') Задачи
                 div.rep-menu-additional
                     block button
             hr.line-separator.line-separator_thin
-            if formShow==="true"
+            if formShow === "true"
                 include ../branches/newBranch/newBranch.pug
             div.repository
                 block content

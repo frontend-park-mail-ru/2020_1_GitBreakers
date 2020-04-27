@@ -1,6 +1,9 @@
 import Controller from 'Modules/controller';
-import SettingsView from 'Views/settings';
-import { SETTINGS } from 'Modules/events';
+import SettingsView from 'Views/settingsView';
+import { SETTINGS, ACTIONS } from 'Modules/events';
+import ProfileModel from 'Models/profileModel';
+import authUser from 'Modules/authUser';
+import AuthModel from 'Models/authModel';
 
 
 export default class SettingsController extends Controller {
@@ -8,100 +11,100 @@ export default class SettingsController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SettingsView(root, eventBus);
-    this.eventBus.on(SETTINGS.submitAvatar, this.validateImage.bind(this));
-    this.eventBus.on(SETTINGS.submitProfile, this.validateProfile.bind(this));
-    this.eventBus.on(SETTINGS.submitPassword, this.validatePasswordForm.bind(this));
-    this.eventBus.on(SETTINGS.sendAvatarSuccess, this.sendAvatarSuccess.bind(this));
+    this.eventBus.on(SETTINGS.load, this._loadProfile.bind(this));
+    this.eventBus.on(SETTINGS.submitProfile, this._updateProfile.bind(this));
+    this.eventBus.on(SETTINGS.submitPassword, this._updatePassword.bind(this));
+    this.eventBus.on(SETTINGS.submitAvatar, this._updateAvatar.bind(this));
   }
 
-  sendAvatarSuccess() {
-    this.router.go('/settings');
-  }
 
-  validateImage(data) {
-    this.eventBus.emit(SETTINGS.sendAvatar, data);
-  }
-
-  validateProfile(data) {
-    this.eventBus.emit(SETTINGS.sendProfile, data);
-  }
-
-  validatePasswordForm(data) {
-    // this.eventBus.emit(SETTINGS.sendPassword, data);
-    const {
-      oldPassword,
-      newPassword,
-      newPassword2,
-    } = data;
-    const result = { data: [] };
-
-    let flag = SettingsController.validatePassword(oldPassword, 'oldPasswordError');
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('oldPasswordError').innerHTML = '';
-    }
-
-    flag = SettingsController.validatePassword(newPassword, 'newPasswordError');
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('newPasswordError').innerHTML = '';
-      document.getElementById('newPassword2Error').innerHTML = '';
-    }
-
-    flag = SettingsController.validatePassword2(newPassword, newPassword2);
-    if (flag) {
-      result.data.push(flag);
-      flag = null;
-    } else {
-      document.getElementById('newPassword2Error').innerHTML = '';
-    }
-
-
-    if (result.data.length === 0) {
-      this.eventBus.emit(SETTINGS.sendPasswordSuccess, {
-        password: newPassword,
-      });
+  async _updateAvatar(body = {}) {
+    const result = await ProfileModel.setAvatar({ body: body.form });
+    if (result.success) {
+      const newProfielImageUrl = await ProfileModel.getProfile({ profile: authUser.getUser });
+      const profileBody = await newProfielImageUrl.body;
+      this.eventBus.emit(SETTINGS.changeAvatar, { url: profileBody.image });
       return;
     }
-    this.eventBus.emit(SETTINGS.sendPasswordFail, result);
+    switch (result.status) {
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 400:
+        this.eventBus.emit(SETTINGS.avatarFail, { message: 'Файл неподходящего формата или больше 6MB!' });
+        break;
+      default:
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
+
+    }
   }
 
-  static validatePassword(password = '', item = '') {
-    if (!password) {
-      return {
-        item,
-        message: 'Пустой поле с password`ом!',
-      };
+  async _updateProfile(body = {}) {
+    const result = await ProfileModel.updateProfile({ body });
+    if (result.success) {
+      this.eventBus.emit(SETTINGS.profileFail, { message: 'Данные обновились!' });
+      return;
     }
-
-    if (password.length < 6) {
-      return {
-        item,
-        message: 'Слишком короткий password!!!(Меньше 6 символов)',
-      };
+    switch (result.status) {
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 400:
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Неверные данные!' });
+        break;
+      case 409:
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким имененм уже существует!' });
+        break;
+      default:
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
-
-    if (password.length > 50) {
-      return {
-        item,
-        message: 'Слишком длинный password!!!(Больше 50 символа)',
-      };
-    }
-    return false;
   }
 
-  static validatePassword2(password = '', password2 = {}) {
-    const item = 'newPassword2';
-    if (password !== password2) {
-      return {
-        item,
-        message: 'Пароли не совпадают!',
-      };
+  async _updatePassword(body = {}) {
+    const result = await ProfileModel.updateProfile({ body });
+    if (result.success) {
+      this.eventBus.emit(SETTINGS.passwordFail, { message: 'Данные обновились!' });
+      return;
     }
-    return false;
+    switch (result.status) {
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 400:
+        this.eventBus.emit(SETTINGS.passwordFail, { message: 'Неверные данные!' });
+        break;
+      case 409:
+        this.eventBus.emit(SETTINGS.passwordFail, { message: 'Пользователь с таким имененм уже существует!' });
+        break;
+      default:
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
+    }
+  }
+
+  async _loadProfile() {
+    // const result = ProfileModel.getProfile({ profile: authUser.getUser });
+    const result = await AuthModel.getWhoAmI();
+    console.log('stop');
+    if (result.success) {
+      this.eventBus.emit(SETTINGS.render, await result.body);
+    }
+  }
+
+  onFinishLoadWhoAmI() {
+    if (!authUser.isAuth) {
+      this.redirect({ path: '/signin' });
+    } else {
+      super.open();
+    }
+    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+  }
+
+  open() {
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    }
   }
 }

@@ -1,32 +1,53 @@
 import { ACTIONS } from 'Modules/events';
 import eventBus from 'Modules/eventBus';
+import AuthModel from 'Models/authModel';
 
 class AuthUser {
   constructor(_eventBus) {
     this.eventBus = _eventBus;
-    this.auth = !!localStorage.getItem('user');
+    this.loadStatus = false;
+    this.auth = false;
+    this.user = null;
+    this.image = null;
+  }
 
-    this.eventBus.on(ACTIONS.loadWhoAmI, this.loadUser.bind(this));
+  get getLoadStatus() {
+    return this.loadStatus;
   }
 
   get isAuth() {
     return this.auth;
   }
 
-  getUser() {
-    if (this.auth) {
-      const user = localStorage.getItem('user');
-      this.auth = !!user;
-      return user || null;
-    }
-    return null;
+  get getUser() {
+    return this.user;
   }
 
-  loadUser({ auth = false, user = null } = {}) {
-    if (auth) {
-      localStorage.setItem('user', user);
-      this.auth = true;
+  get getUserId() {
+    return this.id;
+  }
+
+  get getImage() {
+    return this.image;
+  }
+
+  async loadWhoAmI() {
+    this.loadStatus = false;
+    const result = await AuthModel.getWhoAmI();
+    if (result.success) {
+      const body = await result.body;
+      this.user = body.login;
+      this.image = body.image;
+      this.auth = !!this.user;
+      this.id = body.id;
+    } else {
+      this.auth = false;
+      this.user = null;
+      this.avatar = null;
+      this.id = null;
     }
+    this.loadStatus = true;
+    this.eventBus.emit(ACTIONS.loadWhoAmIFinish, {});
   }
 }
 

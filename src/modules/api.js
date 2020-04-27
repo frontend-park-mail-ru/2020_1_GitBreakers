@@ -1,9 +1,14 @@
 export default class Api {
-  static request(path = '/', method = 'GET', header = {}, body = {}) {
+  static request(path, method, header, body) {
+    const headers = header;
     if (method !== 'GET') {
+      const csrf = localStorage.getItem('csrf_token');
+      if (csrf) {
+        headers['X-Csrf-Token'] = csrf;
+      }
       return fetch(path, {
         method,
-        headers: header,
+        headers,
         credentials: 'include',
         mode: 'cors',
         body: JSON.stringify(body),
@@ -16,29 +21,31 @@ export default class Api {
   }
 
   static get(path) {
-    return this.request(path);
+    return Api.request(path, 'GET');
   }
 
   static post(path, body) {
     const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
-    return this.request(path, 'POST', headers, body);
+    return Api.request(path, 'POST', headers, body);
   }
 
   static delete(path, body) {
     const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
-    return this.request(path, 'DELETE', headers, body);
+    return Api.request(path, 'DELETE', headers, body);
   }
 
   static put(path, body) {
     const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
-    return this.request(path, 'PUT', headers, body);
+    return Api.request(path, 'PUT', headers, body);
   }
 
-  static setAvatar(path = '/', body = {}) {
+  static setAvatar(path = '/', body) {
     // const headers = { 'Content-Type': 'multipart/form-data' };
+    const csrf = localStorage.getItem('csrf_token');
+    const headers = { 'X-Csrf-Token': csrf };
     return fetch(path, {
       method: 'PUT',
-      // headers,
+      headers,
       body: new FormData(body),
       credentials: 'include',
       mode: 'cors',
