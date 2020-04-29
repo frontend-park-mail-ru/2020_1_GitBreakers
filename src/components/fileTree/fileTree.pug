@@ -17,6 +17,7 @@ block content
                        // div.repository__tree__item_commit #{folder.commit} commit_info
                     td.column-very-thin
                         //div.repository__tree__item_info #{folder.update} yesterday
+                        div.repository__tree__item_info #{folder.update} folder
 
             each file in fileList
                 tr.repository__tree__item
@@ -27,6 +28,7 @@ block content
                         // div.repository__tree__item_commit #{file.commit} commit_info
                     td.column-very-thin
                         //div.repository__tree__item_info #{file.update} yesterday
+                        div.repository__tree__item_info #{file.update} file
 
     else
         div

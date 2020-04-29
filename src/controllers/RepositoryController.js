@@ -25,28 +25,37 @@ export default class RepositoryController extends Controller {
     // this.author = path.match(reg)[0];
     // this.repository = path.match(reg)[1];
     [this.author, this.repository] = path.match(reg);
+    this._setStarsStatus();
     this.repositoryName = `${this.author}/${this.repository}`;
 
     this.defaultBranch = this._getDefaultBranch();
 
-    this._setStarsStatus()
+
     this._getStarsCount();
   }
 
   async _setStarsStatus() {
+    this.data.vote = 'send';
     await authUser.loadWhoAmI()
     const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
     if (listOfRepoRes.success) {
       const listOfRepo = await listOfRepoRes.body;
-      this.data.vote = 'send'
-      listOfRepo.forEach((item) => {
-        if (item.name === this.repository) {
-          this.data.vote = 'delete';
-        }
-      })
-      return;
+      if (listOfRepo) {
+        listOfRepo.forEach((item) => {
+          if (item.name === this.repository) {
+            this.data.vote = 'delete';
+          }
+        })
+      }
+
+
+      const message = (this.data.vote !== 'send') ? 'Убрать' : ' сохранить';
+
+      const kek = this.root.querySelector('.rep_stars__counter');
+      kek.dataset.vote = this.data.vote;
+      this.root.querySelector('.rep_stars__action').innertHTNL = message;
     }
-    this.data.vote = 'send';
+
 
   }
 

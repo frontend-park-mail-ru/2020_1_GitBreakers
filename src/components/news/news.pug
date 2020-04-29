@@ -1,7 +1,20 @@
 extends ../repository/repository.pug
-
-
 block content
 
-  mixin userCard(user)
-    .p
+  if newsList
+    hr.line-separator.line-separator_thin
+    div.repository__list
+      div.repository__list__group
+        each news in newsList
+          div.repository__list__group_title дата: #{news.date}
+          div.repository__list__group_content
+            div.repository__list__item
+              div.repository__list__item_title #{news.message}
+              div.repository__list__item_info автор: #{news.author}
+
+              div.repository__list__item_button
+                // button.button.button-colored.button-small(type='submit') *
+    
+  else
+    div
+      span.repository__list__item_info В этом репозитории пока что нет новостей

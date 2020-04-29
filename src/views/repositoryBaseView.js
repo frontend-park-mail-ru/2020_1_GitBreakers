@@ -43,7 +43,14 @@ export default class RepositoryBaseView extends View {
         event.preventDefault();
         buttonIssuesList[i].dataset.section = `/${data.author}/${data.repName}/issues`;
       });
-
+    }
+    
+    const buttonNewsList = document.getElementsByClassName('news');
+    for (let i = 0; i < buttonNewsList.length; i = +1) {
+      buttonNewsList[i].addEventListener('click', (event) => {
+        event.preventDefault();
+        buttonNewsList[i].dataset.section = `/${data.author}/${data.repName}/news`;
+      });
     }
 
     document.querySelector('a.rep_stars__action').addEventListener('click', (event) => {
@@ -52,15 +59,8 @@ export default class RepositoryBaseView extends View {
       this.eventBus.emit(REPOSITORY.updateStar, { vote: (vote === 'send'), id: +id });
     });
 
-    this.eventBus.on(REPOSITORY.updatedStar, this._changeStarStatus.bind(this));
+    
   }
 
-  _changeStarStatus() {
-    const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
-
-    const message = (vote === 'send') ? 'Убрать' : ' сохранить';
-
-    this.root.querySelector('.rep_stars__counter').dataset = (vote === 'send');
-    this.root.querySelector('.rep_stars__action').innertHTNL = message;
-  }
+  
 }
