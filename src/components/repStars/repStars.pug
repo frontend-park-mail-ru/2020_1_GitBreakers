@@ -1,6 +1,4 @@
 extends ../repository/repository.pug
-
-
 block content 
 
   mixin userCard(user)
@@ -10,7 +8,7 @@ block content
 
 
   div.rep-list
-    if users
+    if (users && users.length > 0)
       each user in users
         +userCard(user)
     else

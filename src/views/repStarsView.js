@@ -30,7 +30,7 @@ export default class RepositoryStarsView extends RepositoryBaseView {
     // } else {
     //   vote = 'send';
     // }
-    const message = (vote === 'send') ? 'Убрать' : ' сохранить';
+    const message = (vote === 'send') ? '<p> Удалить </p>' : '<p> Добавить </p>';
 
     if (stars > -1) {
       this.root.querySelector('.rep_stars__counter').innerHTML = stars

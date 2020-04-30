@@ -49,11 +49,11 @@ export default class RepositoryController extends Controller {
       }
 
 
-      const message = (this.data.vote === 'send') ? 'Убрать' : ' сохранить';
+      const message = (this.data.vote !== 'send') ? '<p> Удалить </p> ' : '<p> Сохранить </p> ';
 
       const kek = this.root.querySelector('.rep_stars__counter');
       kek.dataset.vote = this.data.vote;
-      this.root.querySelector('.rep_stars__action').innertHTML = message;
+      this.root.querySelector('.rep_stars__action').innerHTML = message;
     }
 
 

@@ -10,7 +10,7 @@ block content
     hr.line-separator.line-separator_extra-thin
 
   div.rep-list
-    if reps
+    if (reps.length > 0)
       each rep in reps
         +repCard(rep, login)
     else

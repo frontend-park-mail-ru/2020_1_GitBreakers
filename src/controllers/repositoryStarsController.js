@@ -39,7 +39,7 @@ export default class RepositoryStarsController extends RepositoryController {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
-    const [author, repository] = path.match(reg);
+    const [author, repository , page] = path.match(reg);
     const data = {
       body: {
         vote,
@@ -52,7 +52,10 @@ export default class RepositoryStarsController extends RepositoryController {
 
       if (repoRes.success) {
         const repo = await repoRes.body;
-
+        if (page === 'stargazers') {
+          this.redirect({ path });
+          return;
+        }
         this.eventBus.emit(REPOSITORY.updatedStar, {
           stars: repo.stars,
         });
