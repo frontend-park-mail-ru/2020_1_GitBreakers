@@ -1,11 +1,17 @@
 import loader from 'Components/loader/loader.pug';
 import popUp from 'Components/offline/offline.pug';
+import EventCollector from 'Modules/eventCollector';
 
 export default class View {
   constructor(root, template, eventBus) {
     this.root = root;
     this.template = template;
     this.eventBus = eventBus;
+    this.eventCollector = new EventCollector();
+  }
+
+  hide() {
+    this.eventCollector.removeEvents();
   }
 
   render(data = {}) {
@@ -39,4 +45,6 @@ export default class View {
   popUpCloseOnClick() {
     this._popUp.classList.add('popup-hidden')
   }
+
+
 }

@@ -4,6 +4,7 @@ import { SIGNUP, HEADER, ACTIONS } from 'Modules/events';
 import SignUp from 'Views/signUpView';
 import AuthModel from 'Models/authModel';
 
+
 export default class SignUpController extends Controller {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
