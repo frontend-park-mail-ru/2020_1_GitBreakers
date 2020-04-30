@@ -22,13 +22,20 @@ export default class RepositoryStarsView extends RepositoryBaseView {
     super.render(data);
   }
 
-  _changeStarStatus({ success, stars }) {
+  _changeStarStatus({ stars = -1 } = {}) {
+    
     const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
-
+    // if (vote === 'send') {
+    //   vote = 'delete';
+    // } else {
+    //   vote = 'send';
+    // }
     const message = (vote === 'send') ? 'Убрать' : ' сохранить';
 
-    this.root.querySelector('.rep_stars__counter').dataset.vote = vote;
-    this.root.querySelector('.rep_stars__counter').innerHTML = stars
+    if (stars > -1) {
+      this.root.querySelector('.rep_stars__counter').innerHTML = stars
+    }
+    this.root.querySelector('.rep_stars__counter').dataset.vote = (vote === 'send')? 'delete' : 'send';
     this.root.querySelector('.rep_stars__action').innerHTML = message;
   }
 }

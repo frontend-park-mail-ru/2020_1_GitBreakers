@@ -54,7 +54,6 @@ export default class RepositoryStarsController extends RepositoryController {
         const repo = await repoRes.body;
 
         this.eventBus.emit(REPOSITORY.updatedStar, {
-          success: true,
           stars: repo.stars,
         });
         return;
@@ -63,7 +62,7 @@ export default class RepositoryStarsController extends RepositoryController {
 
     switch (updateRes.status) {
       case 409:
-        this.eventBus.emit(REPOSITORY.updatedStar, { success: false });
+        this.eventBus.emit(REPOSITORY.updatedStar, {});
         break;
       case 401:
         break;
