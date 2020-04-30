@@ -1,16 +1,22 @@
 import eventBus from 'Modules/eventBus';
 import { UPLOAD } from 'Modules/events';
 
+
 class Router {
   constructor() {
     this.routes = [];
   }
 
   go(newUrl = '/', data = {}) {
+    this.prevController = this.controller
+    if (this.prevController) {
+      // this.prevController.close();
+    }
     this.controller = this.getController(newUrl);
     if (!this.controller) {
       console.log('newUrl =', newUrl, 'Контроллер не найден');
-      this.controller = this.getController(newUrl);
+      // this.controller = this.getController(newUrl);
+      this.controller = this.getController('/404')
     }
     if ((window.location.pathname !== newUrl) && (newUrl !== '/404')) {
       window.history.pushState(null, null, newUrl);
