@@ -1,3 +1,4 @@
+@import "constants";
 .repository {
   &__flex_container {
     display: flex;
@@ -38,4 +39,35 @@
 
 .rep_stars__counter {
   max-height: 40px;
+}
+
+.link {
+  &__copy {
+    border: 1px solid $button-border-color;
+    background-color: white;
+    color: $font-color;
+    border-radius: 0px 10px 10px 0px;
+    font-size: 95%;
+    height: 38px;
+    margin-left: 0px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__box {
+    margin-right: 0px;
+    border: 1px solid;
+    border-color: $button-border-color;
+    // height: 28px;
+    border-radius:  10px 0px 0px 10px;
+    font-size: 95%;
+    height: 34px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
 }

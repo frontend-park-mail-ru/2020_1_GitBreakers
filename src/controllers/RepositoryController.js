@@ -53,7 +53,7 @@ export default class RepositoryController extends Controller {
 
       const kek = this.root.querySelector('.rep_stars__counter');
       kek.dataset.vote = this.data.vote;
-      this.root.querySelector('.rep_stars__action').innertHTNL = message;
+      this.root.querySelector('.rep_stars__action').innertHTML = message;
     }
 
 

@@ -28,7 +28,7 @@ export default class RepositoryStarsView extends RepositoryBaseView {
     const message = (vote === 'send') ? 'Убрать' : ' сохранить';
 
     this.root.querySelector('.rep_stars__counter').dataset.vote = vote;
-    this.root.querySelector('.rep_stars__counter').innertHTNL = stars
-    this.root.querySelector('.rep_stars__action').innertHTNL = message;
+    this.root.querySelector('.rep_stars__counter').innerHTML = stars
+    this.root.querySelector('.rep_stars__action').innerHTML = message;
   }
 }

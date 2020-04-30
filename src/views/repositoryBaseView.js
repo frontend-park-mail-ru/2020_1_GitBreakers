@@ -56,10 +56,15 @@ export default class RepositoryBaseView extends View {
     document.querySelector('a.rep_stars__action').addEventListener('click', (event) => {
       event.preventDefault();
       const { vote, id } = document.querySelector('.rep_stars__counter').dataset;
-      this.eventBus.emit(REPOSITORY.updateStar, { vote: (vote === 'send'), id: +id });
+      this.eventBus.emit(REPOSITORY.updateStar, { vote: (vote === 'send'), id: id });
     });
 
-    
+    document.querySelector('button.link__copy').addEventListener('click', (event) => {
+      event.preventDefault();
+      const text = document.querySelector('input.link__box');
+      text.select();
+      document.execCommand("copy");
+    })
   }
 
   
