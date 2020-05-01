@@ -8,14 +8,17 @@ import { oldPasswordValidityChecks, passwordValidityChecks } from 'Modules/valid
 export default class SettingsView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
-    this.eventBus.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
-    this.eventBus.on(SETTINGS.render, this._onRender.bind(this));
-    this.eventBus.on(SETTINGS.passwordFail, SettingsView._passwordFail);
-    this.eventBus.on(SETTINGS.avatarFail, SettingsView._avatarFail);
-    this.eventBus.on(SETTINGS.profileFail, SettingsView._profileFail);
-    this.eventBus.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
   }
 
+  hide() {
+    super.hide();
+    this.eventBus.off(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
+    this.eventBus.off(SETTINGS.render, this._onRender.bind(this));
+    this.eventBus.off(SETTINGS.passwordFail, SettingsView._passwordFail);
+    this.eventBus.off(SETTINGS.avatarFail, SettingsView._avatarFail);
+    this.eventBus.off(SETTINGS.profileFail, SettingsView._profileFail);
+    this.eventBus.off(ACTIONS.offline, this.showOfflinePopUp.bind(this));
+  }
 
   static _passwordFail({ message = '' } = {}) {
     document.getElementById('passwordMessage').innerHTML = errorMessage(message);
@@ -31,6 +34,14 @@ export default class SettingsView extends View {
 
   render() {
     this.renderLoader();
+
+    this.eventBus.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
+    this.eventBus.on(SETTINGS.render, this._onRender.bind(this));
+    this.eventBus.on(SETTINGS.passwordFail, SettingsView._passwordFail);
+    this.eventBus.on(SETTINGS.avatarFail, SettingsView._avatarFail);
+    this.eventBus.on(SETTINGS.profileFail, SettingsView._profileFail);
+    this.eventBus.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
+
     this.eventBus.emit(SETTINGS.load, {});
   }
 
