@@ -77,8 +77,8 @@ export default class IssuesController extends RepositoryController {
   }
 
   async _loadIssueList(issueList) {
-    let resolved = {};
-    let unresolved = {};
+    const resolved = {};
+    const unresolved = {};
 
     if (issueList) {
       issueList.forEach((item) => {

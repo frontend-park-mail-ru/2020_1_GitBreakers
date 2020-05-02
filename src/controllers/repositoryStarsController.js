@@ -39,7 +39,7 @@ export default class RepositoryStarsController extends RepositoryController {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
-    const [author, repository , page] = path.match(reg);
+    const [author, repository, page] = path.match(reg);
     const data = {
       body: {
         vote,

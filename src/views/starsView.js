@@ -7,11 +7,15 @@ import authUser from 'Modules/authUser';
 export default class StarsView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
+  }
 
-    this.eventBus.on(STARS.render, this._onRender.bind(this));
+  hide() {
+    super.hide();
+    this.eventBus.off(STARS.render, this._onRender.bind(this));
   }
 
   render() {
+    this.eventBus.on(STARS.render, this._onRender.bind(this));
     this.eventBus.emit(STARS.load, {});
   }
 
@@ -21,13 +25,16 @@ export default class StarsView extends View {
       ...data,
     });
 
-    document.querySelector('.profile__data__main').addEventListener('click', (event) => {
+    const func = (event) => {
       const { target } = event;
 
       if (target instanceof HTMLButtonElement) {
         event.preventDefault();
         this.eventBus.emit(STARS.deleteStar, { repositoryId: target.data.id });
       }
-    })
+    }
+
+    document.querySelector('.profile__data__main').addEventListener('click', func);
+    this.eventCollector.addEventListener(document.querySelector('.profile__data__main'), 'click', func);
   }
 }

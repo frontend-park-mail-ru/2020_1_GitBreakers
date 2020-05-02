@@ -1,9 +1,9 @@
 import Controller from 'Modules/controller';
-import { UPLOAD, REPOSITORY } from 'Modules/events';
-import StarsModel from '../models/starsModel';
+import { UPLOAD, REPOSITORY , ACTIONS } from 'Modules/events';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
-import { ACTIONS } from '../modules/events';
+import StarsModel from '../models/starsModel';
+
 
 export default class RepositoryController extends Controller {
   constructor(root, eventBus, router) {
