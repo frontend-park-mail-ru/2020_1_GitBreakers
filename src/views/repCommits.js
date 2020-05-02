@@ -6,11 +6,15 @@ import { UPLOAD, COMMITSPAGE } from 'Modules/events';
 export default class RepCommitsView extends RepositoryBaseView {
   constructor(root, eventBus) {
     super(root, template, eventBus);
+  }
 
-    this.eventBus.on(COMMITSPAGE.render, this._onRender.bind(this));
+  hide() {
+    this.eventBus.off(COMMITSPAGE.render, this._onRender.bind(this));
+    super.hide();
   }
 
   render() {
+    this.eventBus.on(COMMITSPAGE.render, this._onRender.bind(this));
     this.eventBus.emit(COMMITSPAGE.getBranchList, {});
   }
 
@@ -19,11 +23,15 @@ export default class RepCommitsView extends RepositoryBaseView {
 
     const branch = document.getElementById('branchName');
     if (branch) {
-      branch.addEventListener('change', () => {
+
+      const func = () => {
         const branchName = branch.value;
         const path = `/${data.author}/${data.repName}/commits/${branchName}`;
         this.eventBus.emit(UPLOAD.changePath, path);
-      });
+      }
+
+      branch.addEventListener('change', func);
+      this.eventCollector.addEvent(branch, 'change', func);
     }
   }
 }

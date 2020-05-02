@@ -8,10 +8,16 @@ export default class ProfileStarsView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
 
-    this.eventBus.on(STARS.render, this._onRender.bind(this));
+  }
+
+  hide() {
+    this.eventBus.off(STARS.render, this._onRender.bind(this));
+    super.hide();
   }
 
   render() {
+    this.eventBus.on(STARS.render, this._onRender.bind(this));
+
     this.eventBus.emit(STARS.load, {});
   }
 

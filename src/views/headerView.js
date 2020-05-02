@@ -6,10 +6,17 @@ export default class HeaderView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
 
-    this.eventBus.on(HEADER.render, this._onRender.bind(this));
+  }
+
+  hide() {
+    this.eventBus.off(HEADER.render, this._onRender.bind(this));
+
+    super.hide()
   }
 
   render() {
+    this.eventBus.on(HEADER.render, this._onRender.bind(this));
+
     this.eventBus.emit(HEADER.load, {});
   }
 
@@ -17,10 +24,14 @@ export default class HeaderView extends View {
     super.render(data);
 
     if (data.auth) {
-      document.getElementById('logout').addEventListener('click', (event) => {
+
+      const func = (event) => {
         event.preventDefault();
         this.eventBus.emit(HEADER.logout);
-      });
+      }
+
+      document.getElementById('logout').addEventListener('click', func);
+      this.eventCollector.addEvent(document.getElementById('logout'), 'click', func);
     }
   }
 }
