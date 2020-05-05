@@ -35,6 +35,6 @@ export default class StarsView extends View {
     }
 
     document.querySelector('.profile__data__main').addEventListener('click', func);
-    this.eventCollector.addEventListener(document.querySelector('.profile__data__main'), 'click', func);
+    this.eventCollector.addEvent(document.querySelector('.profile__data__main'), 'click', func);
   }
 }

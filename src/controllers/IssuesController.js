@@ -1,5 +1,5 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import {ISSUES, REPOSITORY, UPLOAD} from 'Modules/events';
+import { ISSUES, REPOSITORY, UPLOAD } from 'Modules/events';
 import RepIssuesView from 'Views/repIssues';
 
 import RepositoryModel from 'Models/repositoryModel';
@@ -10,11 +10,28 @@ export default class IssuesController extends RepositoryController {
     super(root, eventBus, router);
     this.view = new RepIssuesView(root, eventBus);
 
+  }
+
+  open(data) {
     this.eventBus.on(REPOSITORY.getInfo, this._getRepository.bind(this));
     this.eventBus.on(ISSUES.getIssueList, this._getIssueList.bind(this));
     this.eventBus.on(ISSUES.submitNewIssue, this._createIssue.bind(this));
     this.eventBus.on(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
     this.eventBus.on(ISSUES.deleteIssue, this._deleteIssue.bind(this));
+
+    this.data.newIssueForm = data.active;
+    this.data.msg = data.msg;
+    super.open();
+  }
+
+  close() {
+    this.eventBus.off(REPOSITORY.getInfo, this._getRepository.bind(this));
+    this.eventBus.off(ISSUES.getIssueList, this._getIssueList.bind(this));
+    this.eventBus.off(ISSUES.submitNewIssue, this._createIssue.bind(this));
+    this.eventBus.off(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
+    this.eventBus.off(ISSUES.deleteIssue, this._deleteIssue.bind(this));
+
+    super.close();
   }
 
 
@@ -99,29 +116,25 @@ export default class IssuesController extends RepositoryController {
     this.data.tab = "unresolved";
   }
 
-  open(data) {
-    this.data.newIssueForm = data.active;
-    this.data.msg = data.msg;
-    super.open();
-  }
+
 
 
   async _createIssue(body) {
 
     if (body.formData.title.length === 0) {
-      this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
+      this.eventBus.emit(ISSUES.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
       return;
     }
 
     const result = await RepositoryModel.createIssue({
-      data : {
+      data: {
         repId: this.repId,
       },
-      body : body.formData,
+      body: body.formData,
     });
 
     if (result.success) {
-      this.open({active: "false", msg: body.msg});
+      this.open({ active: "false", msg: body.msg });
       return;
     }
     switch (result.status) {
@@ -138,7 +151,7 @@ export default class IssuesController extends RepositoryController {
         alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+        this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
     }
   }
 
@@ -147,18 +160,18 @@ export default class IssuesController extends RepositoryController {
   async _updateIssue(body) {
 
     if (body.formData.title.length === 0) {
-      this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
+      this.eventBus.emit(ISSUES.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
       return;
     }
     const result = await RepositoryModel.updateIssue({
-      data : {
+      data: {
         repId: this.repId,
       },
-      body : body.formData,
+      body: body.formData,
     });
 
     if (result.success) {
-      this.open({active: "false", msg: body.msg});
+      this.open({ active: "false", msg: body.msg });
       return;
     }
     switch (result.status) {
@@ -175,7 +188,7 @@ export default class IssuesController extends RepositoryController {
         alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+        this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
     }
   }
 
@@ -184,14 +197,14 @@ export default class IssuesController extends RepositoryController {
   async _deleteIssue(body) {
 
     const result = await RepositoryModel.deleteIssue({
-      data : {
+      data: {
         repId: this.repId,
       },
       body,
     });
 
     if (result.success) {
-      this.open({active: "false", msg: "Задача удалена"});
+      this.open({ active: "false", msg: "Задача удалена" });
       return;
     }
     switch (result.status) {
@@ -202,13 +215,13 @@ export default class IssuesController extends RepositoryController {
         alert('Ошибка: неверные данные!');
         break;
       case 404:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Ошибка: задача не найдена'});
+        this.eventBus.emit(ISSUES.showMessage, { message: 'Ошибка: задача не найдена' });
         break;
       case 403:
         alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+        this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
     }
   }
 

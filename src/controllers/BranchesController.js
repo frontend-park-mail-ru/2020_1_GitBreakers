@@ -9,10 +9,22 @@ export default class BranchesController extends RepositoryController {
     super(root, eventBus, router);
     this.view = new RepBranchesView(root, eventBus);
 
-    this.eventBus.on(BRANCHESPAGE.getBranchList, this._getBranchList.bind(this));
-    this.eventBus.on(NEWBRANCH.submit, this.newBranchSubmit.bind(this));
   }
 
+  open(data) {
+    this.eventBus.on(BRANCHESPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBus.on(NEWBRANCH.submit, this.newBranchSubmit.bind(this));
+
+    this.data.formShow = data.active;
+    super.open();
+  }
+
+  close() {
+    this.eventBus.off(BRANCHESPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBus.off(NEWBRANCH.submit, this.newBranchSubmit.bind(this));
+
+    super.close();
+  }
 
   async _getBranchList() {
     this.setRepository();
@@ -41,11 +53,6 @@ export default class BranchesController extends RepositoryController {
     }
   }
 
-
-  open(data) {
-    this.data.formShow = data.active;
-    super.open();
-  }
 
 
   _loadBranchList(branchList) {

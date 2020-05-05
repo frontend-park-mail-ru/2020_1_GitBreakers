@@ -19,7 +19,7 @@ export default class RepIssuesView extends RepositoryBaseView {
 
   render() {
     this.eventBus.on(ISSUES.render, this._onRender.bind(this));
-    this.eventBus.on(ISSUES.showMessage, this._errorMessage.bind(this));
+    this.eventBus.on(ISSUES.showMessage, RepIssuesView._errorMessage);
 
     this.eventBus.emit(REPOSITORY.getInfo, {});
   }

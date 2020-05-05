@@ -55,7 +55,7 @@ export default class newRepositoryView extends View {
     }
 
     document.forms.newRepository.addEventListener('submit', submitFunc, false);
-    this.eventCollector(document.forms.newRepository, 'submit', submitFunc, false);
+    this.eventCollector.addEvent(document.forms.newRepository, 'submit', submitFunc, false);
   }
 
   static _fail({ message = '' }) {

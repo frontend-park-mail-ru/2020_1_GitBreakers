@@ -1,5 +1,5 @@
 import Controller from 'Modules/controller';
-import { UPLOAD, REPOSITORY , ACTIONS } from 'Modules/events';
+import { UPLOAD, REPOSITORY, ACTIONS } from 'Modules/events';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
 import StarsModel from '../models/starsModel';
@@ -13,8 +13,18 @@ export default class RepositoryController extends Controller {
     this.data = {
       branchName: 'master', // кыш
     };
-    this.eventBus.on(UPLOAD.notFound, ((msg) => { console.log(msg); this.eventBus.emit(UPLOAD.changePath, '/404'); }));
 
+    this.eventBus.on(UPLOAD.notFound, ((msg) => { console.log(msg); this.eventBus.emit(UPLOAD.changePath, '/404'); }));
+  }
+
+  open() {
+
+    super.open();
+  }
+
+  close() {
+
+    super.close();
   }
 
 

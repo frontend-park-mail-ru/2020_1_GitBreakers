@@ -9,8 +9,20 @@ export default class RepositoryStarsController extends RepositoryController {
     super(root, eventBus, router);
 
     this.view = new RepositoryStarsView(root, eventBus);
+  }
+
+  open() {
     this.eventBus.on(REPSTARS.load, this._load.bind(this));
     this.eventBus.on(REPOSITORY.updateStar, this._updateStar.bind(this));
+
+    super.open();
+  }
+
+  close() {
+    this.eventBus.off(REPSTARS.load, this._load.bind(this));
+    this.eventBus.off(REPOSITORY.updateStar, this._updateStar.bind(this));
+
+    super.close();
   }
 
   async _load({ profile = '', repository = '' } = {}) {

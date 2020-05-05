@@ -10,7 +10,23 @@ export default class NewRepositoryController extends Controller {
     super(root, eventBus, router);
 
     this.view = new NewRepositoryView(root, eventBus);
+  }
+
+  close() {
+    this.eventBus.off(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
+
+    super.close();
+  }
+
+  open() {
     this.eventBus.on(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
+
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    }
   }
 
   async createNewRepository(body = {}) {
@@ -41,14 +57,5 @@ export default class NewRepositoryController extends Controller {
       super.open();
     }
     this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
-  }
-
-  open() {
-    if (authUser.getLoadStatus) {
-      this.onFinishLoadWhoAmI();
-    } else {
-      this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
-    }
   }
 }
