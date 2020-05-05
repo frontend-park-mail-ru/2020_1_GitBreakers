@@ -10,10 +10,18 @@ export default class FileView extends RepositoryBaseView {
     super(root, template, eventBus);
 
     this.codeTheme = new CodeTheme();
-    this.eventBus.on(FILEVIEW.render, this._onRender.bind(this));
+
+  }
+
+  hide() {
+    this.eventBus.off(FILEVIEW.render, this._onRender.bind(this));
+
+    super.hide();
   }
 
   render() {
+    this.eventBus.on(FILEVIEW.render, this._onRender.bind(this));
+
     this.eventBus.emit(FILEVIEW.loadFile, {});
   }
 
@@ -25,7 +33,7 @@ export default class FileView extends RepositoryBaseView {
     theme.innerText = 'Тёмная тема';
     this.codeTheme.createCodeTheme(data.themeStyle);
 
-    theme.addEventListener('click', (event) => {
+    const func = (event) => {
       event.preventDefault();
 
       if (data.themeStyle === 'Light') {
@@ -36,6 +44,9 @@ export default class FileView extends RepositoryBaseView {
         data.themeStyle = 'Light';
       }
       this.codeTheme.createCodeTheme(data.themeStyle);
-    });
+    }
+
+    theme.addEventListener('click', func);
+    this.eventCollector.addEvent(theme, 'click', func);
   }
 }

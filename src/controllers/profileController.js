@@ -8,7 +8,18 @@ export default class ProfileController extends Controller {
     super(root, eventBus, router);
 
     this.view = new ProfileView(root, eventBus);
+  }
+
+  open() {
     this.eventBus.on(PROFILE.load, this.loadPage.bind(this));
+
+    super.open();
+  }
+
+  close() {
+    this.eventBus.off(PROFILE.load, this.loadPage.bind(this));
+
+    super.close();
   }
 
   async loadPage() {

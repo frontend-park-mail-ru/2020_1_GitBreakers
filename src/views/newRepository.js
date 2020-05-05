@@ -10,10 +10,17 @@ export default class newRepositoryView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
 
-    this.eventBus.on(NEWREPOSITORY.fail, newRepositoryView._fail);
+  }
+
+  hide() {
+    this.eventBus.off(NEWREPOSITORY.fail, newRepositoryView._fail);
+
+    super.hide();
   }
 
   render() {
+    this.eventBus.on(NEWREPOSITORY.fail, newRepositoryView._fail);
+
     super.render({});
 
     const form = document.forms.newRepository;
@@ -34,8 +41,9 @@ export default class newRepositoryView extends View {
     };
 
     document.querySelectorAll('button[type="submit"]')[0].addEventListener('click', validate, false);
+    this.eventCollector.addEvent(document.querySelectorAll('button[type="submit"]')[0], 'click', validate, false);
 
-    document.forms.newRepository.addEventListener('submit', (e) => {
+    const submitFunc = (e) => {
       validate();
       e.preventDefault();
       const isPublicInputValue = form['rep-status'].value;
@@ -44,7 +52,10 @@ export default class newRepositoryView extends View {
         description: descriptionInputValue,
         is_public: (isPublicInputValue === 'public'),
       });
-    }, false);
+    }
+
+    document.forms.newRepository.addEventListener('submit', submitFunc, false);
+    this.eventCollector.addEvent(document.forms.newRepository, 'submit', submitFunc, false);
   }
 
   static _fail({ message = '' }) {

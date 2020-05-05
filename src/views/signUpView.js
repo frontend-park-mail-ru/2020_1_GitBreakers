@@ -8,12 +8,18 @@ import { loginValidityChecks, passwordValidityChecks } from 'Modules/validation/
 export default class SignUpView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
+  }
 
-    this.eventBus.on(SIGNUP.fail, SignUpView._fail);
-    this.eventBus.on(SIGNUP.success, SignUpView._success);
+  hide() {
+    this.eventBus.off(SIGNUP.fail, SignUpView._fail);
+    this.eventBus.off(SIGNUP.success, SignUpView._success);
+    super.hide();
   }
 
   render() {
+    this.eventBus.on(SIGNUP.fail, SignUpView._fail);
+    this.eventBus.on(SIGNUP.success, SignUpView._success);
+
     super.render();
 
     const form = document.forms.signUp;

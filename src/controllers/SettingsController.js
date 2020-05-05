@@ -11,10 +11,30 @@ export default class SettingsController extends Controller {
     super(root, eventBus, router);
 
     this.view = new SettingsView(root, eventBus);
+
+  }
+
+  close() {
+    this.eventBus.off(SETTINGS.load, this._loadProfile.bind(this));
+    this.eventBus.off(SETTINGS.submitProfile, this._updateProfile.bind(this));
+    this.eventBus.off(SETTINGS.submitPassword, this._updatePassword.bind(this));
+    this.eventBus.off(SETTINGS.submitAvatar, this._updateAvatar.bind(this));
+
+    super.close();
+  }
+
+  open() {
     this.eventBus.on(SETTINGS.load, this._loadProfile.bind(this));
     this.eventBus.on(SETTINGS.submitProfile, this._updateProfile.bind(this));
     this.eventBus.on(SETTINGS.submitPassword, this._updatePassword.bind(this));
     this.eventBus.on(SETTINGS.submitAvatar, this._updateAvatar.bind(this));
+
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    }
   }
 
 
@@ -97,14 +117,5 @@ export default class SettingsController extends Controller {
       super.open();
     }
     this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
-  }
-
-  open() {
-    if (authUser.getLoadStatus) {
-      this.onFinishLoadWhoAmI();
-    } else {
-      this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
-    }
   }
 }

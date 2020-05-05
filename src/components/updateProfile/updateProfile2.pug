@@ -17,8 +17,8 @@ div.section
       div.profile_col2
         div.profile__data
           div.card
-            div.form.form_large
-              form(name='setProfile')
+            form(name='setProfile')
+              div.form.form_large
                 div#profileMessage
                 div.form__item
                   label.form_large__item__label(for='name')
@@ -30,29 +30,21 @@ div.section
                     input#email.form__item__input.form__item__input_long(type='email' name='email' value=email required)
                 div.form__button
                   button.button.button-colored(type='submit') Сохранить
-                table.repository__tree
-                  hr.line-separator.line-separator_thin
+              hr.line-separator.line-separator_thin
               form(name='setPassword')
-                div#passwordMessage
-                div.form__item
-                  label.form__item_label(for='oldPassword')
-                    span.form__item__span Cтарый пароль
-                    input#oldPassword.form__item__input(type='password' name='oldPassword' required)
-                    //- ul.input-requirements
-                    //-   li Пароль должен содержать от 8 до 100 символов
-                    //-   li Должна присутствовать минимум 1 цифра
-                div.form__item
-                  label.form__item_label(for='password')
-                    span.form__item__span Новый пароль
-                    input#newPassword.form__item__input(type='password' name='password' required)
-                    //- ul.input-requirements
-                    //-   li Пароль должен содержать от 8 до 100 символов
-                    //-   li Должна присутствовать минимум 1 цифра
-                div.form__item
-                  label.form__item_label(for='passwordRepeat')
-                    span.form__item__span Ещё раз новый пароль
-                    input#newPassword2.form__item__input(type='password' name='passwordRepeat' required)
-                    //- ul.input-requirements
-                    //-   li Пароли должны совпадать
-                div.form__button
-                  button.button.button-colored(type='submit' name='submit') Сохранить
+                div.form.form_large
+                  div#passwordMessage
+                  div.form__item
+                    label.form__item_label(for='oldPassword')
+                      span.form__item__span Cтарый пароль
+                      input#oldPassword.form__item__input(type='password' name='oldPassword' required)
+                  div.form__item
+                    label.form__item_label(for='password')
+                      span.form__item__span Новый пароль
+                      input#newPassword.form__item__input(type='password' name='password' required)
+                  div.form__item
+                    label.form__item_label(for='passwordRepeat')
+                      span.form__item__span Ещё раз новый пароль
+                      input#newPassword2.form__item__input(type='password' name='passwordRepeat' required)
+                  div.form__button
+                    button.button.button-colored(type='submit' name='submit') Сохранить

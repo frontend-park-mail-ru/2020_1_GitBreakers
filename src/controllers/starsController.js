@@ -1,5 +1,4 @@
 import Controller from 'Modules/controller';
-// import ProfileView from 'Views/profileView';
 import ProfileModel from 'Models/profileModel';
 import StarsModels from 'Models/starsModel';
 import StarsView from 'Views/starsView';
@@ -10,8 +9,16 @@ export default class StarsController extends Controller {
     super(root, eventBus, router);
 
     this.view = new StarsView(root, eventBus);
+  }
 
+  close() {
+    this.eventBus.off(STARS.load, this.loadPage.bind(this));
+    super.close();
+  }
+
+  open() {
     this.eventBus.on(STARS.load, this.loadPage.bind(this));
+    super.open();
   }
 
   async loadPage() {

@@ -5,11 +5,16 @@ import { TREEPAGE } from 'Modules/events';
 export default class RepBranchesView extends RepositoryBaseView {
   constructor(root, eventBus) {
     super(root, template, eventBus);
+  }
 
-    this.eventBus.on(TREEPAGE.render, this._onRender.bind(this));
+  hide() {
+    this.eventBus.off(TREEPAGE.render, this._onRender.bind(this));
+    super.hide();
   }
 
   render() {
+    this.eventBus.on(TREEPAGE.render, this._onRender.bind(this));
+
     this.eventBus.emit(TREEPAGE.getBranchList, {});
   }
 
@@ -18,7 +23,8 @@ export default class RepBranchesView extends RepositoryBaseView {
 
     const folderLinkList = document.getElementsByClassName('folder');
     for (let i = 0; i < folderLinkList.length; i += 1) {
-      folderLinkList[i].addEventListener('click', (event) => {
+
+      const func = (event) => {
         event.preventDefault();
         const { target } = event;
         const folderName = target.name;
@@ -30,13 +36,17 @@ export default class RepBranchesView extends RepositoryBaseView {
           folderPath += `/${folderName}`;
         }
         folderLinkList[i].dataset.section = folderPath;
-      });
+      }
+
+      folderLinkList[i].addEventListener('click', func);
+      this.eventCollector.addEvent(folderLinkList[i], 'click', func);
     }
 
 
     const fileLinkList = document.getElementsByClassName('file');
     for (let i = 0; i < fileLinkList.length; i += 1) {
-      fileLinkList[i].addEventListener('click', (event) => {
+
+      const func = (event) => {
         event.preventDefault();
         const { target } = event;
         const fileName = target.name;
@@ -48,7 +58,10 @@ export default class RepBranchesView extends RepositoryBaseView {
           filePath += `/${fileName}`;
         }
         fileLinkList[i].dataset.section = filePath;
-      });
+      }
+
+      fileLinkList[i].addEventListener('click', func);
+      this.eventCollector.addEvent(fileLinkList[i], 'click', func);
     }
   }
 }

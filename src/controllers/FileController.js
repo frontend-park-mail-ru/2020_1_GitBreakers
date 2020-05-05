@@ -10,7 +10,18 @@ export default class FileController extends RepositoryController {
     super(root, eventBus, router);
 
     this.view = new FileView(root, eventBus);
+  }
+
+  open() {
     this.eventBus.on(FILEVIEW.loadFile, this._getFileContent.bind(this));
+
+    super.open();
+  }
+
+  close() {
+    this.eventBus.off(FILEVIEW.loadFile, this._getFileContent.bind(this));
+
+    super.close();
   }
 
 

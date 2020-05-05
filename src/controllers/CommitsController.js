@@ -9,10 +9,21 @@ export default class CommitsController extends RepositoryController {
     super(root, eventBus, router);
     this.view = new RepCommitsView(root, eventBus);
 
-    this.eventBus.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
-    this.eventBus.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
   }
 
+  open() {
+    this.eventBus.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBus.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
+
+    super.open();
+  }
+
+  close() {
+    this.eventBus.off(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBus.off(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
+
+    super.close();
+  }
 
   async _getBranchList() {
     this.setRepository();

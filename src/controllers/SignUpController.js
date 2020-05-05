@@ -4,13 +4,29 @@ import { SIGNUP, HEADER, ACTIONS } from 'Modules/events';
 import SignUp from 'Views/signUpView';
 import AuthModel from 'Models/authModel';
 
+
 export default class SignUpController extends Controller {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.view = new SignUp(root, eventBus);
+  }
+
+  close() {
+    this.eventBus.off(SIGNUP.submit, this.signUp.bind(this));
+
+    super.close();
+  }
+
+  open() {
     this.eventBus.on(SIGNUP.submit, this.signUp.bind(this));
-    // this.eventBus.on(SIGNUP.success, this.submitSuccess.bind(this));
+
+    if (authUser.getLoadStatus) {
+      this.onFinishLoadWhoAmI();
+    } else {
+      this.view.renderLoader();
+      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    }
   }
 
   async signUp(body) {
@@ -20,6 +36,7 @@ export default class SignUpController extends Controller {
       await authUser.loadWhoAmI();
       this.eventBus.emit(HEADER.rerender, {});
       this.redirect({ path: `/profile/${authUser.getUser}` });
+      return;
     }
     switch (result.status) {
       case 409:
@@ -40,14 +57,5 @@ export default class SignUpController extends Controller {
       super.open();
     }
     this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
-  }
-
-  open() {
-    if (authUser.getLoadStatus) {
-      this.onFinishLoadWhoAmI();
-    } else {
-      this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
-    }
   }
 }

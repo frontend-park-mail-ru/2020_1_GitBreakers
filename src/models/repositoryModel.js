@@ -239,6 +239,7 @@ export default class RepositoryModel extends Model {
         }
       });
   }
+
     static updateIssue(data) {
       console.log("body = ", data.body);
         const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;

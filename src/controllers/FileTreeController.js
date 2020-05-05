@@ -9,10 +9,21 @@ export default class FileTreeController extends RepositoryController {
     super(root, eventBus, router);
     this.view = new RepFilesView(root, eventBus);
 
-    this.eventBus.on(TREEPAGE.getFiles, this._getFileList.bind(this));
-    this.eventBus.on(TREEPAGE.getBranchList, this._getBranchList.bind(this));
   }
 
+  open() {
+    this.eventBus.on(TREEPAGE.getFiles, this._getFileList.bind(this));
+    this.eventBus.on(TREEPAGE.getBranchList, this._getBranchList.bind(this));
+
+    super.open();
+  }
+
+  close() {
+    this.eventBus.off(TREEPAGE.getFiles, this._getFileList.bind(this));
+    this.eventBus.off(TREEPAGE.getBranchList, this._getBranchList.bind(this));
+
+    super.close();
+  }
 
   async _getBranchList() {
     this.setRepository();
