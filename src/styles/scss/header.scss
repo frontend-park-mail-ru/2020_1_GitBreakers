@@ -1,6 +1,5 @@
 @import "constants";
 
-
 .header {
   grid-row: 1/2;
   display: grid;
@@ -13,6 +12,7 @@
     height: 40px;
     border-radius: 30px;
     margin-left: 10px;
+    object-fit: cover;
   }
 
   &__logo {
