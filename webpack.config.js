@@ -2,6 +2,7 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // const isDev = process.env.NODE_ENV === 'development';
 
@@ -25,6 +26,12 @@ module.exports = {
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, '/src/sw.js'),
     }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, 'src/favicon'),
+        to: path.resolve(__dirname, 'dist/favicon'),
+      }
+    ]),
   ],
   resolve: {
     extensions: ['.js'],
