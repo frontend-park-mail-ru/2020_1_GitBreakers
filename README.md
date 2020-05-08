@@ -12,17 +12,20 @@
 
 Установка зависимостей
 
-```npm install
+```
+npm install
 ```
 
 Сборка
 
-```npm run build
+```
+npm run build
 ```
 
 Запуск dev сервера
 
-```npm run devServer
+```
+npm run devServer
 ```
 
 ## Состав
