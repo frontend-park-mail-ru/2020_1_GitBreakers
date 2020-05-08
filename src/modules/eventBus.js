@@ -26,6 +26,10 @@ class EventBus {
       listener(data);
     });
   }
+
+  clear() {
+    this.listeners = {};
+  }
 }
 
 export default new EventBus();

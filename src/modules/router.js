@@ -10,7 +10,7 @@ class Router {
   go(newUrl = '/', data = {}) {
     this.prevController = this.controller
     if (this.prevController) {
-      // this.prevController.close();
+      this.prevController.close();
     }
     this.controller = this.getController(newUrl);
     if (!this.controller) {
@@ -47,6 +47,10 @@ class Router {
       const url = window.location.pathname;
       this.go(url);
     });
+
+    eventBus.on(UPLOAD.changePath, (newUrl) => {
+      this.go(newUrl);
+    });
   }
 
   getController(url) {
@@ -62,9 +66,6 @@ class Router {
     this.routes.push({
       url,
       controller,
-    });
-    eventBus.on(UPLOAD.changePath, (newUrl) => {
-      this.go(newUrl);
     });
   }
 }

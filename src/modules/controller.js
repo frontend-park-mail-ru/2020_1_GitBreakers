@@ -1,11 +1,11 @@
-// import View from 'Modules/view';
+import EventBusCollector from "Modules/eventBusCollector";
 
 export default class Controller {
   constructor(root, eventBus, router) {
     this.root = root;
     this.eventBus = eventBus;
     this.router = router;
-    // this.view = new View(root, eventBus);
+    this.eventBusCollector = new EventBusCollector(eventBus);
   }
 
   redirect({ path = '/' } = {}) {
@@ -18,5 +18,6 @@ export default class Controller {
 
   close() {
     this.view.hide();
+    this.eventBusCollector.clean();
   }
 }

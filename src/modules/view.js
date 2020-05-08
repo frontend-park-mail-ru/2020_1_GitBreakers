@@ -1,6 +1,7 @@
 import loader from 'Components/loader/loader.pug';
 import popUp from 'Components/offline/offline.pug';
 import EventCollector from 'Modules/eventCollector';
+import EventBusCollector from 'Modules/eventBusCollector';
 
 export default class View {
   constructor(root, template, eventBus) {
@@ -8,14 +9,15 @@ export default class View {
     this.template = template;
     this.eventBus = eventBus;
     this.eventCollector = new EventCollector();
+    this.eventBusCollector = new EventBusCollector(eventBus);
   }
 
   hide() {
     this.eventCollector.removeEvents();
+    this.eventBusCollector.clean();
   }
 
   render(data = {}) {
-    // this.root.innerHTML = loader();
     this.root.innerHTML = this.template(data);
   }
 
@@ -32,7 +34,6 @@ export default class View {
       this._popUp.classList.remove('popup-hidden');
     }
     document.querySelector('.popup__content__close-button').addEventListener('click', this.popUpCloseOnClick.bind(this));
-
   }
 
   close() {
