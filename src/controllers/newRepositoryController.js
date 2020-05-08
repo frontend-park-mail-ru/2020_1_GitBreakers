@@ -12,14 +12,8 @@ export default class NewRepositoryController extends Controller {
     this.view = new NewRepositoryView(root, eventBus);
   }
 
-  close() {
-    this.eventBus.off(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
-
-    super.close();
-  }
-
   open() {
-    this.eventBus.on(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
+    this.eventBusCollector.on(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
 
     if (authUser.getLoadStatus) {
       this.onFinishLoadWhoAmI();
@@ -43,7 +37,7 @@ export default class NewRepositoryController extends Controller {
         this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неверные данные!' });
         break;
       case 409:
-        this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Такое название уже занято!' });
+        this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Такой репозиторий уже есть!' });
         break;
       default:
         this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неизвестная ошибка!' });

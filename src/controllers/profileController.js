@@ -11,15 +11,9 @@ export default class ProfileController extends Controller {
   }
 
   open() {
-    this.eventBus.on(PROFILE.load, this.loadPage.bind(this));
+    this.eventBusCollector.on(PROFILE.load, this.loadPage.bind(this));
 
     super.open();
-  }
-
-  close() {
-    this.eventBus.off(PROFILE.load, this.loadPage.bind(this));
-
-    super.close();
   }
 
   async loadPage() {

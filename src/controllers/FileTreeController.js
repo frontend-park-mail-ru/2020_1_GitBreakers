@@ -12,21 +12,16 @@ export default class FileTreeController extends RepositoryController {
   }
 
   open() {
-    this.eventBus.on(TREEPAGE.getFiles, this._getFileList.bind(this));
-    this.eventBus.on(TREEPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBusCollector.on(TREEPAGE.getFiles, this._getFileList.bind(this));
+    this.eventBusCollector.on(TREEPAGE.getBranchList, this._getBranchList.bind(this));
 
     super.open();
   }
 
-  close() {
-    this.eventBus.off(TREEPAGE.getFiles, this._getFileList.bind(this));
-    this.eventBus.off(TREEPAGE.getBranchList, this._getBranchList.bind(this));
-
-    super.close();
-  }
-
   async _getBranchList() {
     this.setRepository();
+
+    await this._setStars();
 
     this.data.folderList = [];
     this.data.fileList = [];

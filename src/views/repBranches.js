@@ -9,25 +9,12 @@ import errorMessage from 'Modules/errorMessage';
 export default class RepBranchesView extends RepositoryBaseView {
   constructor(root, eventBus) {
     super(root, template, eventBus);
-
-    this.eventBus.on(BRANCHESPAGE.render, this._onRender.bind(this));
-    this.eventBus.on(NEWBRANCH.fail, RepBranchesView._fail);
-    this.eventBus.on(NEWBRANCH.success, RepBranchesView._success.bind(this));
   }
-
-  hide() {
-    this.eventBus.off(BRANCHESPAGE.render, this._onRender.bind(this));
-    this.eventBus.off(NEWBRANCH.fail, RepBranchesView._fail);
-    this.eventBus.off(NEWBRANCH.success, RepBranchesView._success.bind(this));
-
-    super.hide();
-  }
-
 
   render() {
-    this.eventBus.on(BRANCHESPAGE.render, this._onRender.bind(this));
-    this.eventBus.on(NEWBRANCH.fail, RepBranchesView._fail);
-    this.eventBus.on(NEWBRANCH.success, RepBranchesView._success.bind(this));
+    this.eventBusCollector.on(BRANCHESPAGE.render, this._onRender.bind(this));
+    this.eventBusCollector.on(NEWBRANCH.fail, RepBranchesView._fail);
+    this.eventBusCollector.on(NEWBRANCH.success, RepBranchesView._success.bind(this));
 
     this.eventBus.emit(BRANCHESPAGE.getBranchList, {});
   }

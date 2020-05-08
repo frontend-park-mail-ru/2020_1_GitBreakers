@@ -13,23 +13,17 @@ export default class FileController extends RepositoryController {
   }
 
   open() {
-    this.eventBus.on(FILEVIEW.loadFile, this._getFileContent.bind(this));
+    this.eventBusCollector.on(FILEVIEW.loadFile, this._getFileContent.bind(this));
 
     super.open();
   }
-
-  close() {
-    this.eventBus.off(FILEVIEW.loadFile, this._getFileContent.bind(this));
-
-    super.close();
-  }
-
 
   async _getFileContent() {
     this.setRepository();
     this.setBranchName();
     this.setFilePath();
 
+    await this._setStars();
 
     const data = {
       repName: this.repositoryName,

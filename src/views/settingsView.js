@@ -10,16 +10,6 @@ export default class SettingsView extends View {
     super(root, template, eventBus);
   }
 
-  hide() {
-    super.hide();
-    this.eventBus.off(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
-    this.eventBus.off(SETTINGS.render, this._onRender.bind(this));
-    this.eventBus.off(SETTINGS.passwordFail, SettingsView._passwordFail);
-    this.eventBus.off(SETTINGS.avatarFail, SettingsView._avatarFail);
-    this.eventBus.off(SETTINGS.profileFail, SettingsView._profileFail);
-    this.eventBus.off(ACTIONS.offline, this.showOfflinePopUp.bind(this));
-  }
-
   static _passwordFail({ message = '' } = {}) {
     document.getElementById('passwordMessage').innerHTML = errorMessage(message);
   }
@@ -35,12 +25,12 @@ export default class SettingsView extends View {
   render() {
     this.renderLoader();
 
-    this.eventBus.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
-    this.eventBus.on(SETTINGS.render, this._onRender.bind(this));
-    this.eventBus.on(SETTINGS.passwordFail, SettingsView._passwordFail);
-    this.eventBus.on(SETTINGS.avatarFail, SettingsView._avatarFail);
-    this.eventBus.on(SETTINGS.profileFail, SettingsView._profileFail);
-    this.eventBus.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
+    this.eventBusCollector.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
+    this.eventBusCollector.on(SETTINGS.render, this._onRender.bind(this));
+    this.eventBusCollector.on(SETTINGS.passwordFail, SettingsView._passwordFail);
+    this.eventBusCollector.on(SETTINGS.avatarFail, SettingsView._avatarFail);
+    this.eventBusCollector.on(SETTINGS.profileFail, SettingsView._profileFail);
+    this.eventBusCollector.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
 
     this.eventBus.emit(SETTINGS.load, {});
   }
@@ -64,12 +54,25 @@ export default class SettingsView extends View {
   _setAvatarForm() {
     const form = document.forms.setAvatar;
 
+    // const func = (event) => {
+    //   event.preventDefault();
+    //   this.eventBus.emit(SETTINGS.submitAvatar, { form });
+    // }
+    // form.addEventListener('submit', func);
+    // this.eventCollector.addEvent(form, 'submit', func);
+    const func1 = (event) => {
+      event.preventDefault();
+      document.forms.setAvatar.avatar.click();
+    }
+    document.querySelector('a.fileLoad').addEventListener('click', func1);
+    this.eventCollector.addEvent(document.querySelector('a.fileLoad'), 'click', func1);
+
     const func = (event) => {
       event.preventDefault();
       this.eventBus.emit(SETTINGS.submitAvatar, { form });
     }
-    form.addEventListener('submit', func);
-    this.eventCollector.addEvent(form, 'submit', func);
+    form.avatar.addEventListener('change', func);
+    this.eventCollector.addEvent(form, 'change', func);
   }
 
   _setProfileForm() {
@@ -119,8 +122,10 @@ export default class SettingsView extends View {
         input.CustomValidation.checkInput();
       });
     };
+
     const target = document.querySelector('button[type="submit"]');
     target.addEventListener('click', validate, false);
+
     this.eventCollector.addEvent(document.forms.setPassword, 'submit', validate, false);
 
     const send = (event) => {

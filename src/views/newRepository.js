@@ -12,14 +12,8 @@ export default class newRepositoryView extends View {
 
   }
 
-  hide() {
-    this.eventBus.off(NEWREPOSITORY.fail, newRepositoryView._fail);
-
-    super.hide();
-  }
-
   render() {
-    this.eventBus.on(NEWREPOSITORY.fail, newRepositoryView._fail);
+    this.eventBusCollector.on(NEWREPOSITORY.fail, newRepositoryView._fail);
 
     super.render({});
 
@@ -40,8 +34,8 @@ export default class newRepositoryView extends View {
       });
     };
 
-    document.querySelectorAll('button[type="submit"]')[0].addEventListener('click', validate, false);
-    this.eventCollector.addEvent(document.querySelectorAll('button[type="submit"]')[0], 'click', validate, false);
+    document.querySelector('button[type="submit"]').addEventListener('click', validate, false);
+    this.eventCollector.addEvent(document.querySelector('button[type="submit"]'), 'click', validate, false);
 
     const submitFunc = (e) => {
       validate();

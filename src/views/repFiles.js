@@ -7,13 +7,8 @@ export default class RepBranchesView extends RepositoryBaseView {
     super(root, template, eventBus);
   }
 
-  hide() {
-    this.eventBus.off(TREEPAGE.render, this._onRender.bind(this));
-    super.hide();
-  }
-
   render() {
-    this.eventBus.on(TREEPAGE.render, this._onRender.bind(this));
+    this.eventBusCollector.on(TREEPAGE.render, this._onRender.bind(this));
 
     this.eventBus.emit(TREEPAGE.getBranchList, {});
   }

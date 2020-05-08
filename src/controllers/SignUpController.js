@@ -12,14 +12,8 @@ export default class SignUpController extends Controller {
     this.view = new SignUp(root, eventBus);
   }
 
-  close() {
-    this.eventBus.off(SIGNUP.submit, this.signUp.bind(this));
-
-    super.close();
-  }
-
   open() {
-    this.eventBus.on(SIGNUP.submit, this.signUp.bind(this));
+    this.eventBusCollector.on(SIGNUP.submit, this.signUp.bind(this));
 
     if (authUser.getLoadStatus) {
       this.onFinishLoadWhoAmI();

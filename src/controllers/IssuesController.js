@@ -13,30 +13,22 @@ export default class IssuesController extends RepositoryController {
   }
 
   open(data) {
-    this.eventBus.on(REPOSITORY.getInfo, this._getRepository.bind(this));
-    this.eventBus.on(ISSUES.getIssueList, this._getIssueList.bind(this));
-    this.eventBus.on(ISSUES.submitNewIssue, this._createIssue.bind(this));
-    this.eventBus.on(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
-    this.eventBus.on(ISSUES.deleteIssue, this._deleteIssue.bind(this));
+    this.eventBusCollector.on(REPOSITORY.getInfo, this._getRepository.bind(this));
+    this.eventBusCollector.on(ISSUES.getIssueList, this._getIssueList.bind(this));
+    this.eventBusCollector.on(ISSUES.submitNewIssue, this._createIssue.bind(this));
+    this.eventBusCollector.on(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
+    this.eventBusCollector.on(ISSUES.deleteIssue, this._deleteIssue.bind(this));
 
     this.data.newIssueForm = data.active;
     this.data.msg = data.msg;
     super.open();
   }
 
-  close() {
-    this.eventBus.off(REPOSITORY.getInfo, this._getRepository.bind(this));
-    this.eventBus.off(ISSUES.getIssueList, this._getIssueList.bind(this));
-    this.eventBus.off(ISSUES.submitNewIssue, this._createIssue.bind(this));
-    this.eventBus.off(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
-    this.eventBus.off(ISSUES.deleteIssue, this._deleteIssue.bind(this));
-
-    super.close();
-  }
-
-
   async _getRepository() {
     this.setRepository();
+
+    await this._setStars();
+
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;

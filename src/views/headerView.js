@@ -8,14 +8,8 @@ export default class HeaderView extends View {
 
   }
 
-  hide() {
-    this.eventBus.off(HEADER.render, this._onRender.bind(this));
-
-    super.hide()
-  }
-
   render() {
-    this.eventBus.on(HEADER.render, this._onRender.bind(this));
+    this.eventBusCollector.on(HEADER.render, this._onRender.bind(this));
 
     this.eventBus.emit(HEADER.load, {});
   }

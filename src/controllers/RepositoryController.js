@@ -13,72 +13,59 @@ export default class RepositoryController extends Controller {
     this.data = {
       branchName: 'master', // кыш
     };
+  }
 
-    this.eventBus.on(UPLOAD.notFound, ((msg) => { console.log(msg); this.eventBus.emit(UPLOAD.changePath, '/404'); }));
+  pageNotFound(msg) {
+    console.log(msg);
+    this.eventBus.emit(UPLOAD.changePath, '/404');
   }
 
   open() {
+    this.eventBusCollector.on(REPOSITORY.updateStar, this._updateStar.bind(this));
+    this.eventBusCollector.on(UPLOAD.notFound, this.pageNotFound.bind(this));
 
     super.open();
   }
-
-  close() {
-
-    super.close();
-  }
-
 
   setRepository() {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
-    // this.author = path.match(reg)[0];
-    // this.repository = path.match(reg)[1];
     [this.author, this.repository] = path.match(reg);
-    this._setStarsStatus();
     this.repositoryName = `${this.author}/${this.repository}`;
 
     this.defaultBranch = this._getDefaultBranch();
-
-
-    this._getStarsCount();
   }
 
-  async _setStarsStatus() {
-    this.data.vote = 'send';
-    await authUser.loadWhoAmI()
-    const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
-    if (listOfRepoRes.success) {
-      const listOfRepo = await listOfRepoRes.body;
-      if (listOfRepo) {
-        listOfRepo.forEach((item) => {
-          if (item.name === this.repository) {
-            this.data.vote = 'delete';
-          }
-        })
-      }
-
-
-      const message = (this.data.vote !== 'send') ? '<p> Удалить </p> ' : '<p> Сохранить </p> ';
-
-      const kek = this.root.querySelector('.rep_stars__counter');
-      kek.dataset.vote = this.data.vote;
-      this.root.querySelector('.rep_stars__action').innerHTML = message;
-    }
-
-
-  }
-
-  async _getStarsCount() {
+  async _setStars() {
     const rep = this.repository;
     const repoRes = await RepositoryModel.getRepository({ repository: rep, profile: this.author });
 
+    const kek = 1;
+    console.log(kek);
     if (repoRes.success) {
       const repo = await repoRes.body;
       this.data.stars = repo.stars;
       this.data.id = repo.id;
+
+
+      this.data.vote = 'send';
+      await authUser.loadWhoAmI()
+      const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
+      if (listOfRepoRes.success) {
+        const listOfRepo = await listOfRepoRes.body;
+        if (listOfRepo) {
+          listOfRepo.forEach((item) => {
+            if (item.name === this.repository) {
+              this.data.vote = 'delete';
+            }
+          })
+        }
+      }
     }
   }
+
+
 
   setBranchName() {
     const path = window.location.pathname;
@@ -119,4 +106,46 @@ export default class RepositoryController extends Controller {
     // RepositoryModel.loadDefaultBranch()
     return 'master';
   }
+
+  async _updateStar({ vote = true, id = 0 } = {}) {
+    const path = window.location.pathname;
+    const reg = /[\w_]+/g;
+
+    const [author, repository, page] = path.match(reg);
+    const data = {
+      body: {
+        vote,
+      },
+      repositoryId: id,
+    }
+    const updateRes = await StarsModel.updateOrDeleterepoStar(data);
+    if (updateRes.success) {
+      const repoRes = await RepositoryModel.getRepository({ repository, profile: author });
+
+      if (repoRes.success) {
+        const repo = await repoRes.body;
+        if (page === 'stargazers') {
+          this.redirect({ path });
+          return;
+        }
+        this.eventBus.emit(REPOSITORY.updatedStar, {
+          stars: repo.stars,
+        });
+        return;
+      }
+    }
+
+    switch (updateRes.status) {
+      case 409:
+        this.eventBus.emit(REPOSITORY.updatedStar, {});
+        break;
+      case 401:
+        break;
+      case 400:
+        break;
+      default:
+        this.eventBus.emit(ACTIONS.offline, {});
+    }
+  }
+
 }

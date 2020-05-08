@@ -10,15 +10,9 @@ export default class SignUpView extends View {
     super(root, template, eventBus);
   }
 
-  hide() {
-    this.eventBus.off(SIGNUP.fail, SignUpView._fail);
-    this.eventBus.off(SIGNUP.success, SignUpView._success);
-    super.hide();
-  }
-
   render() {
-    this.eventBus.on(SIGNUP.fail, SignUpView._fail);
-    this.eventBus.on(SIGNUP.success, SignUpView._success);
+    this.eventBusCollector.on(SIGNUP.fail, SignUpView._fail);
+    this.eventBusCollector.on(SIGNUP.success, SignUpView._success);
 
     super.render();
 

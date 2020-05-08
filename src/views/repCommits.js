@@ -8,13 +8,8 @@ export default class RepCommitsView extends RepositoryBaseView {
     super(root, template, eventBus);
   }
 
-  hide() {
-    this.eventBus.off(COMMITSPAGE.render, this._onRender.bind(this));
-    super.hide();
-  }
-
   render() {
-    this.eventBus.on(COMMITSPAGE.render, this._onRender.bind(this));
+    this.eventBusCollector.on(COMMITSPAGE.render, this._onRender.bind(this));
     this.eventBus.emit(COMMITSPAGE.getBranchList, {});
   }
 

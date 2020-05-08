@@ -10,14 +10,9 @@ export default class ProfileView extends View {
 
   }
 
-  hide() {
-    this.eventBus.off(PROFILE.render, this._onRender.bind(this));
-
-    super.hide();
-  }
 
   render() {
-    this.eventBus.on(PROFILE.render, this._onRender.bind(this));
+    this.eventBusCollector.on(PROFILE.render, this._onRender.bind(this));
 
     this.eventBus.emit(PROFILE.load, {});
   }

@@ -10,16 +10,9 @@ export default class RepIssuesView extends RepositoryBaseView {
     super(root, template, eventBus);
   }
 
-  hide() {
-    this.eventBus.off(ISSUES.render, this._onRender.bind(this));
-    this.eventBus.off(ISSUES.showMessage, RepIssuesView._errorMessage);
-    super.hide();
-  }
-
-
   render() {
-    this.eventBus.on(ISSUES.render, this._onRender.bind(this));
-    this.eventBus.on(ISSUES.showMessage, RepIssuesView._errorMessage);
+    this.eventBusCollector.on(ISSUES.render, this._onRender.bind(this));
+    this.eventBusCollector.on(ISSUES.showMessage, RepIssuesView._errorMessage);
 
     this.eventBus.emit(REPOSITORY.getInfo, {});
   }
@@ -38,6 +31,10 @@ export default class RepIssuesView extends RepositoryBaseView {
 
   _onRender(data) {
     super.render(data);
+
+    // while (!this.isRender) {
+    //   console.log('wait');
+    // }
 
     const issueUnresolvedList = RepIssuesView.listToHtml(data.unresolved);
     const issueResolvedList = RepIssuesView.listToHtml(data.resolved);

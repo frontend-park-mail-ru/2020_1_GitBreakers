@@ -4,6 +4,8 @@ import { REPOSITORY } from 'Modules/events';
 
 export default class RepositoryBaseView extends View {
   render(data) {
+    this.eventBusCollector.on(REPOSITORY.updatedStar, this._changeStarStatus.bind(this));
+
     super.render(data);
 
     const buttonCodeList = document.getElementsByClassName('code');
@@ -93,5 +95,16 @@ export default class RepositoryBaseView extends View {
     this.eventCollector.addEvent(document.querySelector('button.link__copy'), 'click', copyLinkFunc);
   }
 
+  _changeStarStatus({ stars = -1 } = {}) {
+
+    const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
+    const message = (vote === 'send') ? '<p> Удалить </p>' : '<p> Добавить </p>';
+
+    if (stars > -1) {
+      this.root.querySelector('.rep_stars__counter').innerHTML = stars
+    }
+    this.root.querySelector('.rep_stars__counter').dataset.vote = (vote === 'send') ? 'delete' : 'send';
+    this.root.querySelector('.rep_stars__action').innerHTML = message;
+  }
 
 }

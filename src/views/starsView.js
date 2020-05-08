@@ -9,13 +9,8 @@ export default class StarsView extends View {
     super(root, template, eventBus);
   }
 
-  hide() {
-    super.hide();
-    this.eventBus.off(STARS.render, this._onRender.bind(this));
-  }
-
   render() {
-    this.eventBus.on(STARS.render, this._onRender.bind(this));
+    this.eventBusCollector.on(STARS.render, this._onRender.bind(this));
     this.eventBus.emit(STARS.load, {});
   }
 

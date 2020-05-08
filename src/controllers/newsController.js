@@ -15,21 +15,17 @@ export default class NewsController extends RepositoryController {
   }
 
   open() {
-    this.eventBus.on(NEWS.getInfo, this._getRepository.bind(this));
-    this.eventBus.on(NEWS.getNewsList, this._getNewsList.bind(this));
+    this.eventBusCollector.on(NEWS.getInfo, this._getRepository.bind(this));
+    this.eventBusCollector.on(NEWS.getNewsList, this._getNewsList.bind(this));
 
     super.open();
   }
 
-  close() {
-    this.eventBus.off(NEWS.getInfo, this._getRepository.bind(this));
-    this.eventBus.off(NEWS.getNewsList, this._getNewsList.bind(this));
-
-    super.close();
-  }
-
   async _getRepository() {
     this.setRepository();
+
+    await this._setStars();
+
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;

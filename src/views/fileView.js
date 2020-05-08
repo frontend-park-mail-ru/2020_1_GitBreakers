@@ -13,14 +13,8 @@ export default class FileView extends RepositoryBaseView {
 
   }
 
-  hide() {
-    this.eventBus.off(FILEVIEW.render, this._onRender.bind(this));
-
-    super.hide();
-  }
-
   render() {
-    this.eventBus.on(FILEVIEW.render, this._onRender.bind(this));
+    this.eventBusCollector.on(FILEVIEW.render, this._onRender.bind(this));
 
     this.eventBus.emit(FILEVIEW.loadFile, {});
   }

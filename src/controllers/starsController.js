@@ -11,13 +11,8 @@ export default class StarsController extends Controller {
     this.view = new StarsView(root, eventBus);
   }
 
-  close() {
-    this.eventBus.off(STARS.load, this.loadPage.bind(this));
-    super.close();
-  }
-
   open() {
-    this.eventBus.on(STARS.load, this.loadPage.bind(this));
+    this.eventBusCollector.on(STARS.load, this.loadPage.bind(this));
     super.open();
   }
 

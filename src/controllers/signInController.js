@@ -12,14 +12,8 @@ export default class SignInController extends Controller {
     this.view = new SignInView(root, eventBus);
   }
 
-  close() {
-    this.eventBus.off(SIGNIN.submit, this._submitSignIn.bind(this));
-
-    super.close();
-  }
-
   open() {
-    this.eventBus.on(SIGNIN.submit, this._submitSignIn.bind(this));
+    this.eventBusCollector.on(SIGNIN.submit, this._submitSignIn.bind(this));
 
     if (authUser.getLoadStatus) {
       this.onFinishLoadWhoAmI();

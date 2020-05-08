@@ -12,21 +12,18 @@ export default class CommitsController extends RepositoryController {
   }
 
   open() {
-    this.eventBus.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
-    this.eventBus.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
+    this.eventBusCollector.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBusCollector.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
 
     super.open();
   }
 
-  close() {
-    this.eventBus.off(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
-    this.eventBus.off(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
-
-    super.close();
-  }
-
   async _getBranchList() {
+
     this.setRepository();
+
+    await this._setStars();
+
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;

@@ -8,10 +8,6 @@ export default class MainPageController extends Controller {
     this.view = new MainPageView(root, eventBus);
   }
 
-  close() {
-    super.close();
-  }
-
   open() {
     super.open();
   }
