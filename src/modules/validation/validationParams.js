@@ -61,7 +61,8 @@ export const repNameValidityChecks = [
   },
   {
     isInvalid(input) {
-      return !input.value.match(/\w/i);
+      // return !input.value.match(/\w/i);
+      return !(/^[\w\d]+$/).test(input.value);
     },
     invalidityMessage: 'Должен содержать только буквы латинского алфавита и/или _',
   },
