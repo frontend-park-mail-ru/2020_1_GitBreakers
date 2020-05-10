@@ -34,10 +34,11 @@ export default class RepositoryController extends Controller {
     [this.author, this.repository] = path.match(reg);
     this.repositoryName = `${this.author}/${this.repository}`;
 
-    this.defaultBranch = this._getDefaultBranch();
+    this.defaultBranch = RepositoryController._getDefaultBranch();
   }
 
   async _setStars() {
+    this.setRepository();
     const rep = this.repository;
     const repoRes = await RepositoryModel.getRepository({ repository: rep, profile: this.author });
 
@@ -102,7 +103,7 @@ export default class RepositoryController extends Controller {
     }
   }
 
-  _getDefaultBranch() {
+  static _getDefaultBranch() {
     // RepositoryModel.loadDefaultBranch()
     return 'master';
   }

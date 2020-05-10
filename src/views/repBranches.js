@@ -21,7 +21,8 @@ export default class RepBranchesView extends RepositoryBaseView {
 
 
   _onRender(data) {
-    super.render(data);
+    const dataTmp = data;
+    super.render(dataTmp);
 
     const newBranchBottomList = document.getElementsByClassName('newBranch');
     for (let i = 0; i < newBranchBottomList.length; i += 1) {
@@ -29,12 +30,12 @@ export default class RepBranchesView extends RepositoryBaseView {
       const func = (event) => {
         event.preventDefault();
 
-        if (data.formShow === 'true') {
-          data.formShow = 'false';
+        if (dataTmp.formShow === 'true') {
+          dataTmp.formShow = 'false';
         } else {
-          data.formShow = 'true';
+          dataTmp.formShow = 'true';
         }
-        newBranchBottomList[i].dataset.active = data.formShow;
+        newBranchBottomList[i].dataset.active = dataTmp.formShow;
         newBranchBottomList[i].dataset.section = window.location.pathname;
       }
 
@@ -72,7 +73,7 @@ export default class RepBranchesView extends RepositoryBaseView {
         const { target } = event;
 
         const branchName = target.name;
-        const branchPath = `/${data.author}/${data.repository}/branch/${branchName}`;
+        const branchPath = `/${dataTmp.author}/${dataTmp.repository}/branch/${branchName}`;
 
         this.eventBus.emit(DELETEBRANCH.delete, {
           branchPath,
@@ -92,7 +93,7 @@ export default class RepBranchesView extends RepositoryBaseView {
         const { target } = event;
         const branchHash = target.dataset.hash;
 
-        const branchPath = `/${data.author}/${data.repName}/branch/${branchHash}`;
+        const branchPath = `/${dataTmp.author}/${dataTmp.repName}/branch/${branchHash}`;
         branchLinkList[i].dataset.section = branchPath;
       }
 

@@ -79,9 +79,13 @@ export default class CommitsController extends RepositoryController {
 
 
   _loadCommitList(res = []) {
-    const commitList = res.slice([0], [9]);
-    commitList.forEach((item) => {
-      item.update = item.commit_author_when.substr(0, 10);
+    let commitList = res.slice([0], [9]);
+    commitList = commitList.map((item) => {
+      const newItem = item;
+      const date = new Date(item.commit_author_when);
+      newItem.update = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+      // newItem.update = item.commit_author_when.substr(0, 10);
+      return newItem;
     });
     this.data.commitList = commitList;
     this.data.branchName = this.branchName;

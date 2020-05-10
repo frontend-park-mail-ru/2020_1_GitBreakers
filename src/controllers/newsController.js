@@ -89,21 +89,26 @@ export default class NewsController extends RepositoryController {
 
 
   async _loadNewsList(newsList) {
-    if (newsList) {
-      newsList.forEach((item) => {
-        item.date = item.created_at.substr(0, 10);
+    let newsListChanged = newsList;
+    if (newsListChanged) {
+      newsListChanged = newsListChanged.map((item) => {
+        const newItem = item;
+        const date = new Date(newItem.created_at);
+        newItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+
+        // newItem.date = item.created_at.substr(0, 10);
 
         if (authUser.getUserId === item.author_id) {
-          item.author = authUser.getUser;
+          newItem.author = authUser.getUser;
         } else {
-          item.author = "Неизвестно";
+          newItem.author = "Неизвестно";
         }
-
+        return newItem;
       });
     }
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.repId = this.repId;
-    this.data.newsList = newsList;
+    this.data.newsList = newsListChanged;
   }
 }
