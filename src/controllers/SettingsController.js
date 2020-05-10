@@ -33,7 +33,7 @@ export default class SettingsController extends Controller {
     if (result.success) {
       const newProfielImageUrl = await ProfileModel.getProfile({ profile: authUser.getUser });
       const profileBody = await newProfielImageUrl.body;
-      this.eventBus.emit(SETTINGS.changeAvatar, { url: profileBody.image });
+      this.eventBus.emit(SETTINGS.changeAvatar, { url: profileBody.image, message: 'Данные обновились!', success: true });
       return;
     }
     switch (result.status) {
@@ -52,7 +52,7 @@ export default class SettingsController extends Controller {
   async _updateProfile(body = {}) {
     const result = await ProfileModel.updateProfile({ body });
     if (result.success) {
-      this.eventBus.emit(SETTINGS.profileFail, { message: 'Данные обновились!' });
+      this.eventBus.emit(SETTINGS.profileFail, { message: 'Данные обновились!', success: true });
       return;
     }
     switch (result.status) {
@@ -73,7 +73,7 @@ export default class SettingsController extends Controller {
   async _updatePassword(body = {}) {
     const result = await ProfileModel.updateProfile({ body });
     if (result.success) {
-      this.eventBus.emit(SETTINGS.passwordFail, { message: 'Данные обновились!' });
+      this.eventBus.emit(SETTINGS.passwordFail, { message: 'Данные обновились!', success: true });
       return;
     }
     switch (result.status) {

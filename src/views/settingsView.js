@@ -1,35 +1,50 @@
 import View from 'Modules/view';
 import { SETTINGS, ACTIONS } from 'Modules/events';
 import template from 'Components/updateProfile/updateProfile2.pug';
-import errorMessage from 'Modules/errorMessage';
 import CustomValidation from 'Modules/validation/customValidation';
 import { oldPasswordValidityChecks, passwordValidityChecks } from 'Modules/validation/validationParams';
+import errorMessage from 'Components/message/errorMessage.pug';
+import successMessage from 'Components/message/successMessage.pug';
+
 
 export default class SettingsView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
   }
 
-  static _passwordFail({ message = '' } = {}) {
-    document.getElementById('passwordMessage').innerHTML = errorMessage(message);
+  static _passwordMessage({ message = '', success = false } = {}) {
+    if (!success) {
+      document.getElementById('passwordMessage').innerHTML = errorMessage({ message });
+    } else {
+      document.getElementById('passwordMessage').innerHTML = successMessage({ message });
+    }
   }
 
-  static _avatarFail({ message = '' } = {}) {
-    document.getElementById('avatarMessage').innerHTML = errorMessage(message);
+  static _avatarMessage({ message = '', success = false } = {}) {
+    if (!success) {
+      document.getElementById('avatarMessage').innerHTML = errorMessage({ message });
+    } else {
+      document.getElementById('avatarMessage').innerHTML = successMessage({ message });
+    }
   }
 
-  static _profileFail({ message = '' } = {}) {
-    document.getElementById('profileMessage').innerHTML = errorMessage(message);
+  static _profileMessage({ message = '', success = false } = {}) {
+    if (!success) {
+      document.getElementById('profileMessage').innerHTML = errorMessage({ message });
+    } else {
+      document.getElementById('profileMessage').innerHTML = successMessage({ message });
+    }
   }
 
   render() {
-    this.renderLoader();
+    // this.renderLoader();
 
     this.eventBusCollector.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
+    this.eventBusCollector.on(SETTINGS.changeAvatar, SettingsView._avatarMessage);
     this.eventBusCollector.on(SETTINGS.render, this._onRender.bind(this));
-    this.eventBusCollector.on(SETTINGS.passwordFail, SettingsView._passwordFail);
-    this.eventBusCollector.on(SETTINGS.avatarFail, SettingsView._avatarFail);
-    this.eventBusCollector.on(SETTINGS.profileFail, SettingsView._profileFail);
+    this.eventBusCollector.on(SETTINGS.passwordFail, SettingsView._passwordMessage);
+    this.eventBusCollector.on(SETTINGS.avatarFail, SettingsView._avatarMessage);
+    this.eventBusCollector.on(SETTINGS.profileFail, SettingsView._profileMessage);
     this.eventBusCollector.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
 
     this.eventBus.emit(SETTINGS.load, {});
@@ -54,12 +69,6 @@ export default class SettingsView extends View {
   _setAvatarForm() {
     const form = document.forms.setAvatar;
 
-    // const func = (event) => {
-    //   event.preventDefault();
-    //   this.eventBus.emit(SETTINGS.submitAvatar, { form });
-    // }
-    // form.addEventListener('submit', func);
-    // this.eventCollector.addEvent(form, 'submit', func);
     const func1 = (event) => {
       event.preventDefault();
       document.forms.setAvatar.avatar.click();
