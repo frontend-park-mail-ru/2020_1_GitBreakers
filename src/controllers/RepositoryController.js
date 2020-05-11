@@ -145,6 +145,8 @@ export default class RepositoryController extends Controller {
         break;
       case 400:
         break;
+      case 403:
+        break;
       default:
         this.eventBus.emit(ACTIONS.offline, {});
     }

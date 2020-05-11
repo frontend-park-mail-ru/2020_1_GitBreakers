@@ -1,5 +1,5 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import { ISSUES, REPOSITORY, UPLOAD } from 'Modules/events';
+import { ISSUES, REPOSITORY, UPLOAD, ACTIONS } from 'Modules/events';
 import RepIssuesView from 'Views/repIssues';
 
 import RepositoryModel from 'Models/repositoryModel';
@@ -52,7 +52,9 @@ export default class IssuesController extends RepositoryController {
           alert('Это приватный репозиторий!');
           break;
         default:
-          console.log('Неизвестная ошибка ', result.status);
+          // console.log('Неизвестная ошибка ', result.status);
+          this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
+
           break;
       }
     }
@@ -145,7 +147,8 @@ export default class IssuesController extends RepositoryController {
         alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
+        // this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 

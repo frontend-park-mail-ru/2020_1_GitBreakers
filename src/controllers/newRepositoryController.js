@@ -40,7 +40,8 @@ export default class NewRepositoryController extends Controller {
         this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Такой репозиторий уже есть!' });
         break;
       default:
-        this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неизвестная ошибка!' });
+        // this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неизвестная ошибка!' });
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 

@@ -1,6 +1,6 @@
 import RepositoryController from 'Controllers/RepositoryController';
 import RepositoryModel from "Models/repositoryModel";
-import { NEWS, UPLOAD } from "Modules/events";
+import { NEWS, UPLOAD, ACTIONS } from "Modules/events";
 import RepNewsView from "Views/repNews";
 import authUser from "Modules/authUser";
 
@@ -79,7 +79,9 @@ export default class NewsController extends RepositoryController {
           alert('Это приватный репозиторий!');
           break;
         default:
-          console.log('Неизвестная ошибка ', result.status);
+          // console.log('Неизвестная ошибка ', result.status);
+          this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
+
           break;
       }
     }

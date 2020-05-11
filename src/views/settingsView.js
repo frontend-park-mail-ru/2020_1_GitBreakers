@@ -45,7 +45,7 @@ export default class SettingsView extends View {
     this.eventBusCollector.on(SETTINGS.passwordFail, SettingsView._passwordMessage);
     this.eventBusCollector.on(SETTINGS.avatarFail, SettingsView._avatarMessage);
     this.eventBusCollector.on(SETTINGS.profileFail, SettingsView._profileMessage);
-    this.eventBusCollector.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
+    // this.eventBusCollector.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
 
     this.eventBus.emit(SETTINGS.load, {});
   }

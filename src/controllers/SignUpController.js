@@ -40,7 +40,8 @@ export default class SignUpController extends Controller {
         this.eventBus.emit(SIGNUP.fail, { message: 'Проверьте данные!' });
         break;
       default:
-        this.eventBus.emit(SIGNUP.fail, { message: 'Неизвестная ошибка!' });
+        // this.eventBus.emit(SIGNUP.fail, { message: 'Неизвестная ошибка!' });
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 

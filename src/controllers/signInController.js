@@ -46,7 +46,8 @@ export default class SignInController extends Controller {
         this.eventBus.emit(SIGNIN.fail, { message: 'Неверные данные!' });
         break;
       default:
-        this.eventBus.emit(SIGNIN.fail, { message: 'Неизвестная ошибка!' });
+        // this.eventBus.emit(SIGNIN.fail, { message: 'Неизвестная ошибка!' });
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 
