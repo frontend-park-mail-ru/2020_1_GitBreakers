@@ -18,8 +18,8 @@ export default class SignUpController extends Controller {
     if (authUser.getLoadStatus) {
       this.onFinishLoadWhoAmI();
     } else {
-      this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+      // this.view.renderLoader();
+      this.eventBusCollector.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
   }
 

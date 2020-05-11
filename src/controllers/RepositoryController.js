@@ -141,6 +141,7 @@ export default class RepositoryController extends Controller {
         this.eventBus.emit(REPOSITORY.updatedStar, {});
         break;
       case 401:
+        this.redirect({ path: '/signin' });
         break;
       case 400:
         break;

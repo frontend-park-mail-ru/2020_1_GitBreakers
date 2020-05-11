@@ -22,7 +22,7 @@ export default class SettingsController extends Controller {
     if (authUser.getLoadStatus) {
       this.onFinishLoadWhoAmI();
     } else {
-      this.view.renderLoader();
+      // this.view.renderLoader();
       this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
   }
