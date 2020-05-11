@@ -122,11 +122,12 @@ export default class RepIssuesView extends RepositoryBaseView {
 
   static listToHtml(itemList) {
     const issueItem = (item) => {
+      const date = new Date(item.created_at);
       return `
       <div id="issueitem_${item.id}">
       <div class="repository__list__item">
       <a class="issueLink repository__list__item_title" data-id =${item.id}>${item.title}</a>
-      <div class="repository__list__item_info"> ${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0,-3)} </div></div>
+      <div class="repository__list__item_info"> ${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)} </div></div>
       <div class="repository__list__item_info-label">Метка: ${item.label}</div>
       <div class="repository__list__item_message" id="issuemsg_${item.id}" data-opened="false"></div>
       <div class="repository__list__item__buttonField" id="issueButtons_${item.id}"></div>
