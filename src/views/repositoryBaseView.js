@@ -44,7 +44,7 @@ export default class RepositoryBaseView extends View {
 
       const func = (event) => {
         event.preventDefault();
-        buttonCommitsList[i].dataset.section = `/${data.author}/${data.repName}/commits/${data.branchName}`;
+        buttonCommitsList[i].dataset.section = `/${data.author}/${data.repName}/commits/master`;
       }
 
       buttonCommitsList[i].addEventListener('click', func);

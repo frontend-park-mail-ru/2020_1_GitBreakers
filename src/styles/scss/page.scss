@@ -5,12 +5,68 @@ body {
   background-color: $background-color;
   min-height: 100vh;
   font-family: $font-main;
+  overflow-x: hidden;
+}
+
+@media (max-width: 670px) {
+  .profile {
+    width: 82%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .profile__data > .card, .profile-info > .card {
+    width: 95%;
+    margin: 5px auto 45px auto;
+    color: #66a0e7;
+  }
 }
 
 @media (max-width: 540px) {
   .header__search {
     display: none;
   }
+  .card, .card-small, .section {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .card {
+    margin-top: 0;
+  }
+
+  .content {
+    margin-left: -2.5%;
+  }
+
+  .section {
+    width: 85%;
+  }
+
+  .form {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    &__item {
+      margin: 5px 0;
+      font-size: 130%;
+
+      &__input {
+        width: auto;
+      }
+    }
+  }
+
+  .header__logo, .header__menu, .header__logo_name {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .header__avatar {
+    display: none;
+  }
+
 }
 
 @media (max-width: 400px) {

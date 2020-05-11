@@ -20,7 +20,7 @@
 }
 
 .repo_stars {
-  min-width: 80px;
+ // min-width: 80px;
   max-height: 40px;
   display: flex;
   justify-content: center;
@@ -28,6 +28,11 @@
   border: 1px solid black;
   border-radius: 3px;
   margin-left: 10px;
+}
+
+.repo_link {
+  text-decoration: none;
+  color: #0a0500;
 }
 
 .rep_stars__action {

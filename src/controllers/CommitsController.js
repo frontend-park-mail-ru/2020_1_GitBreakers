@@ -80,9 +80,6 @@ export default class CommitsController extends RepositoryController {
 
   _loadCommitList(res = []) {
     const commitList = res.slice([0], [9]);
-    commitList.forEach((item) => {
-      item.update = item.commit_author_when.substr(0, 10);
-    });
     this.data.commitList = commitList;
     this.data.branchName = this.branchName;
   }
