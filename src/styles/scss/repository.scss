@@ -22,7 +22,7 @@
 .rep_stars {
   padding-left: 5px;
   padding-right: 5px;
-  min-width: 110px;
+  min-width: 120px;
   max-height: 38px;
   display: flex;
   justify-content: space-between;
@@ -39,8 +39,8 @@
     }
     p:before {
       content: "\2605";
-      margin-right: 5px;
-      font-size: 175%;
+      margin-right: px;
+      font-size: 150%;
     }
   }
 
@@ -48,6 +48,7 @@
   }
 
   &__item {
+    text-align: center;
   }
 }
 
