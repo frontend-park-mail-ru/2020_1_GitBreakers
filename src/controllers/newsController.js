@@ -97,7 +97,6 @@ export default class NewsController extends RepositoryController {
         newItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
         // newItem.date = item.created_at.substr(0, 10);
-
         if (authUser.getUserId === item.author_id) {
           newItem.author = authUser.getUser;
           newItem.image = authUser.getImage;
@@ -105,6 +104,7 @@ export default class NewsController extends RepositoryController {
           newItem.author = "Неизвестно";
         }
         return newItem;
+
       });
     }
     this.data.author = this.author;
