@@ -91,10 +91,10 @@ export default class NewsController extends RepositoryController {
   async _loadNewsList(newsList) {
     if (newsList) {
       newsList.forEach((item) => {
-        item.date = item.created_at.substr(0, 10);
 
-        if (authUser.getUserId === item.author_id) {
+        if (authUser.getUserId === item.author_id) { // TODO: GeUserById
           item.author = authUser.getUser;
+         // item.image = authUser.getImage;
         } else {
           item.author = "Неизвестно";
         }

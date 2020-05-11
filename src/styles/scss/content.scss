@@ -57,7 +57,8 @@
 
   &__title {
     display: flex;
-    word-break: break-all;
+    flex-wrap: wrap;
+  //  word-break: break-all;
   }
 
   &__main {

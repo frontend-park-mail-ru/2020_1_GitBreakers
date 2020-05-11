@@ -72,7 +72,7 @@ export default class CodeTheme {
         },
 
         '.ol.linenums li': {
-          color: '#93a1a1',
+          color: '#ffffff',
         },
         '.com': {
           color: '#655f6d',

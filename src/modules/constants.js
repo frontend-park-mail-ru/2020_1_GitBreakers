@@ -5,7 +5,7 @@ const constants = {
   CODELANG: [
     'bsh', 'c', 'cc', 'cpp', 'cs',
     'csh', 'cyc', 'cv', 'go', 'htm', 'html',
-    'java', 'js', 'm', 'mxml', 'perl',
+    'java', 'js', 'm', 'md', 'mxml', 'perl',
     'pl', 'pm', 'py', 'rb', 'sh',
     'xhtml', 'xml', 'xsl',
   ],

@@ -16,7 +16,8 @@ block content
         div.repository__list
             div.repository__list__group
                 each commit in commitList
-                    div.repository__list__group_title обновлено: #{commit.update}
+                    - let updated = new Date(commit.commit_author_when)
+                    div.repository__list__group_title обновлено: !{updated.toLocaleDateString()} !{updated.toLocaleTimeString().slice(0,-3)}
                     div.repository__list__group_content
                         div.repository__list__item
                             div.repository__list__item_title #{commit.commit_hash}
