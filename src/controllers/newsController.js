@@ -98,6 +98,7 @@ export default class NewsController extends RepositoryController {
 
         if (authUser.getUserId === item.author_id) {
           newItem.author = authUser.getUser;
+          newItem.image = authUser.getImage;
         } else {
           newItem.author = "Неизвестно";
         }
