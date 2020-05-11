@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { FILEVIEW } from 'Modules/events';
 import CodeTheme from 'Modules/codeTheme';
 import 'Modules/prettify/prettify';

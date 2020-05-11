@@ -3,8 +3,6 @@ import RepositoryModel from "Models/repositoryModel";
 import { NEWS, UPLOAD } from "Modules/events";
 import RepNewsView from "Views/repNews";
 import authUser from "Modules/authUser";
-// import StarsView from 'Views/starsView';
-// import template from 'Components/news/news.pug';
 
 export default class NewsController extends RepositoryController {
   constructor(root, eventBus, router) {

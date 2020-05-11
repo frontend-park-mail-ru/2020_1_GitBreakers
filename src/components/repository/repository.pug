@@ -2,15 +2,19 @@
 div.section
     div.card
         div.section__title
-            h2.title Репозиторий: #{author}/#{repName}
-            
-            .repo_stars
-                a.rep_stars__action  
-                    if (vote  === 'send') 
-                      p Добавить
-                    else
-                      p Удалить
-                a.route.rep_stars__counter(data-section=`/${author}/${repName}/stargazers` data-vote=vote data-id=id) !{stars}
+            .section__title__item
+                h2.title Репозиторий: #{author} / #{repName}
+            .section__title__item
+                .rep_stars
+                    .rep_stars__item.tooltip
+                        a.rep_stars__action  
+                            if (vote  === 'send') 
+                                p Добавить
+                            else
+                                p Удалить
+                    .rep_stars__item.tooltip
+                        a.route.rep_stars__counter(data-section=`/${author}/${repName}/stargazers` data-vote=vote data-id=id) !{stars}
+                        .tooltip__text Посмотреть все звезды репозитория
                     //- if stars
                     //-     p !{stars}
                     //- else
