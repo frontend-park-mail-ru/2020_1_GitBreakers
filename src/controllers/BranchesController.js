@@ -23,7 +23,7 @@ export default class BranchesController extends RepositoryController {
     this.setRepository();
 
     await this._setStars();
-    
+
     const data = {
       repName: this.repositoryName,
     };
@@ -52,13 +52,19 @@ export default class BranchesController extends RepositoryController {
 
 
   _loadBranchList(branchList) {
+    let branchListTmp = branchList;
 
-    if (branchList) {
-      branchList.forEach((item) => {
-        item.commit.update = item.commit.commit_author_when.substr(0, 10);
+    if (branchListTmp) {
+      branchListTmp = branchListTmp.map((item) => {
+        const newItem = item;
+        const date = new Date(item.commit.commit_author_when);
+        newItem.commit.update = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+
+        // newItem.commit.update = item.commit.commit_author_when.substr(0, 10);
+        return newItem;
       });
     }
-    this.data.branchList = branchList;
+    this.data.branchList = branchListTmp;
     this.data.author = this.author;
     this.data.repName = this.repository;
   }

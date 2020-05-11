@@ -18,7 +18,7 @@ export default class SignInController extends Controller {
     if (authUser.getLoadStatus) {
       this.onFinishLoadWhoAmI();
     } else {
-      this.view.renderLoader();
+      // this.view.renderLoader();
       this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
   }
@@ -40,10 +40,10 @@ export default class SignInController extends Controller {
         this.eventBus.emit(SIGNIN.fail, { message: 'Уже авторизован!' });
         break;
       case 401:
-        this.eventBus.emit(SIGNIN.fail, { message: 'Неверный пароль!' });
+        this.eventBus.emit(SIGNIN.fail, { message: 'Неверные данные!' });
         break;
       case 404:
-        this.eventBus.emit(SIGNIN.fail, { message: 'Неверный логин!' });
+        this.eventBus.emit(SIGNIN.fail, { message: 'Неверные данные!' });
         break;
       default:
         this.eventBus.emit(SIGNIN.fail, { message: 'Неизвестная ошибка!' });

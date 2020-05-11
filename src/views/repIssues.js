@@ -30,18 +30,19 @@ export default class RepIssuesView extends RepositoryBaseView {
 
 
   _onRender(data) {
-    super.render(data);
+    const dataTmp = data;
+    super.render(dataTmp);
 
     // while (!this.isRender) {
     //   console.log('wait');
     // }
 
-    const issueUnresolvedList = RepIssuesView.listToHtml(data.unresolved);
-    const issueResolvedList = RepIssuesView.listToHtml(data.resolved);
+    const issueUnresolvedList = RepIssuesView.listToHtml(dataTmp.unresolved);
+    const issueResolvedList = RepIssuesView.listToHtml(dataTmp.resolved);
 
     const list = document.getElementById('repository__list__issues');
     list.innerHTML = issueUnresolvedList;
-    this.setLinkListener(data);
+    this.setLinkListener(dataTmp);
 
     const menu = document.getElementsByClassName('repository__top__menu_link');
     for (let i = 0; i < menu.length; i += 1) {
@@ -50,12 +51,12 @@ export default class RepIssuesView extends RepositoryBaseView {
         const { target } = event;
         if (target.id === 'openedLink') {
           list.innerHTML = issueUnresolvedList;
-          data.tab = 'unresolved';
+          dataTmp.tab = 'unresolved';
         } else {
           list.innerHTML = issueResolvedList;
-          data.tab = 'resolved';
+          dataTmp.tab = 'resolved';
         }
-        this.setLinkListener(data);
+        this.setLinkListener(dataTmp);
       }
 
       menu[i].addEventListener('change', func);
@@ -63,8 +64,8 @@ export default class RepIssuesView extends RepositoryBaseView {
     }
 
 
-    if (data.msg) {
-      RepIssuesView._successMessage({ message: data.msg });
+    if (dataTmp.msg) {
+      RepIssuesView._successMessage({ message: dataTmp.msg });
     }
 
     const newIssueButton = document.getElementById('newIssue');
@@ -72,19 +73,19 @@ export default class RepIssuesView extends RepositoryBaseView {
     const func = (event) => {
       event.preventDefault();
 
-      if (data.newIssueForm === 'true') {
-        data.newIssueForm = 'false';
+      if (dataTmp.newIssueForm === 'true') {
+        dataTmp.newIssueForm = 'false';
       } else {
-        data.newIssueForm = 'true';
+        dataTmp.newIssueForm = 'true';
       }
-      newIssueButton.dataset.active = data.newIssueForm;
+      newIssueButton.dataset.active = dataTmp.newIssueForm;
       newIssueButton.dataset.section = window.location.pathname;
     }
 
     newIssueButton.addEventListener('click', func);
     this.eventCollector.addEvent(newIssueButton, 'click', func);
 
-    this._createNewIssueListener(data);
+    this._createNewIssueListener(dataTmp);
 
   }
 
@@ -120,10 +121,8 @@ export default class RepIssuesView extends RepositoryBaseView {
   }
 
   static listToHtml(itemList) {
-    let htmlStr = '';
-    for (const [key, item] of Object.entries(itemList)) {
-      const date = new Date(item.created_at);
-      const str = `
+    const issueItem = (item) => {
+      return `
       <div id="issueitem_${item.id}">
       <div class="repository__list__item">
       <a class="issueLink repository__list__item_title" data-id =${item.id}>${item.title}</a>
@@ -133,8 +132,16 @@ export default class RepIssuesView extends RepositoryBaseView {
       <div class="repository__list__item__buttonField" id="issueButtons_${item.id}"></div>
       </div>
       <hr class="line-separator line-separator_extra-thin">`;
-      htmlStr += str;
     }
+    let htmlStr = '';
+
+    Object.entries(itemList).forEach((item) => {
+      const value = item[1];
+      htmlStr += issueItem(value);
+    })
+    // for (const [key, item] of Object.entries(itemList)) {
+    //   htmlStr += issueItem(item);
+    // }
     return htmlStr;
   }
 

@@ -80,7 +80,7 @@ export default class FileController extends RepositoryController {
 
     const regRes = this.data.fileName.match('(?<=.)[\\w_-]+$');
     if (regRes) {
-      this.data.type = regRes[0];
+      [this.data.type] = regRes;
     }
 
     this.data.fileContent = content;

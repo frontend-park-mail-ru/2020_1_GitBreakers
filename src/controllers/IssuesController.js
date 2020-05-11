@@ -91,12 +91,14 @@ export default class IssuesController extends RepositoryController {
 
     if (issueList) {
       issueList.forEach((item) => {
-        item.date = item.created_at.substr(0, 10);
+        const modItem = item;
+        const date = new Date(modItem.created_at);
+        modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
-        if (item.is_closed) {
-          resolved[item.id] = item;
+        if (modItem.is_closed) {
+          resolved[modItem.id] = modItem;
         } else {
-          unresolved[item.id] = item;
+          unresolved[modItem.id] = modItem;
         }
       });
     }

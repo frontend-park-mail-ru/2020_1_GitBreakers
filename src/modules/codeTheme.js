@@ -100,20 +100,29 @@ export default class CodeTheme {
     };
   }
 
-  _cssObjectToString(cssObject) {
+  static _cssObjectToString(cssObject) {
     let cssString = '';
-    for (const selector in cssObject) {
-      cssString += `${selector} {`;
-      for (const key in cssObject[selector]) {
-        cssString += `${key} : ${cssObject[selector][key]}; `;
+    // for (const selector in cssObject) {
+    //   cssString += `${selector} {`;
+    //   for (const key in cssObject[selector]) {
+    //     cssString += `${key} : ${cssObject[selector][key]}; `;
+    //   }
+    //   cssString += '} ';
+    // }
+    Object.entries(cssObject).forEach((key, value) => {
+      cssString += `${key} {`;
+      if (value) {
+        Object.entries(value).forEach((key2, value2) => {
+          cssString += `${key2} : ${value2}; `;
+        })
       }
       cssString += '} ';
-    }
+    })
     return cssString;
   }
 
   createCodeTheme(themeName) {
-    const cssString = this._cssObjectToString(this._codeTheme[themeName]);
+    const cssString = CodeTheme._cssObjectToString(this._codeTheme[themeName]);
     const codeStyleTag = document.createElement('style');
     codeStyleTag.innerText = cssString;
     document.head.appendChild(codeStyleTag);

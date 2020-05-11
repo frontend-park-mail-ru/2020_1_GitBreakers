@@ -39,7 +39,7 @@ if ('serviceWorker' in navigator) {
 const header = document.createElement('div');
 header.id = 'header';
 
-window.onload = function () {
+window.onload = () => {
   const application = document.getElementById('content');
   application.before(header);
 };

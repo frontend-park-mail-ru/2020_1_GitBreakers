@@ -6,7 +6,6 @@ import constants from 'Modules/constants';
 export default class AuthModel {
   static csrf() {
     return Api.get(`${constants.HOST}/api/v1/csrftoken `).then((res) => {
-      console.log('1');
       if (res.ok) {
         const csrfToken = res.headers.get('X-Csrf-Token');
         localStorage.setItem('csrf_token', csrfToken);

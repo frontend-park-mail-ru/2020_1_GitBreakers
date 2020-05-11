@@ -58,7 +58,8 @@
   &__title {
     display: flex;
     flex-wrap: wrap;
-  //  word-break: break-all;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__main {

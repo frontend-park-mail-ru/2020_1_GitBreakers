@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 import { FILEVIEW } from 'Modules/events';
 import CodeTheme from 'Modules/codeTheme';
+import 'Modules/prettify/prettify';
 import RepositoryBaseView from './repositoryBaseView';
 import template from '../components/fileView/fileView.pug';
-import 'Modules/prettify/prettify';
 
 
 export default class FileView extends RepositoryBaseView {
@@ -20,24 +21,25 @@ export default class FileView extends RepositoryBaseView {
   }
 
   _onRender(data) {
-    super.render(data);
+    const dataTmp = data;
+    super.render(dataTmp);
     prettyPrint();
 
     const theme = document.getElementById('themeStyle');
     theme.innerText = 'Тёмная тема';
-    this.codeTheme.createCodeTheme(data.themeStyle);
+    this.codeTheme.createCodeTheme(dataTmp.themeStyle);
 
     const func = (event) => {
       event.preventDefault();
 
-      if (data.themeStyle === 'Light') {
+      if (dataTmp.themeStyle === 'Light') {
         theme.innerText = `Светлая тема`;
-        data.themeStyle = 'Dark';
+        dataTmp.themeStyle = 'Dark';
       } else {
         theme.innerText = `Тёмная тема`;
-        data.themeStyle = 'Light';
+        dataTmp.themeStyle = 'Light';
       }
-      this.codeTheme.createCodeTheme(data.themeStyle);
+      this.codeTheme.createCodeTheme(dataTmp.themeStyle);
     }
 
     theme.addEventListener('click', func);

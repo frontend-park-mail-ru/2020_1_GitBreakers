@@ -1,5 +1,5 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
-import { REPSTARS, REPOSITORY } from 'Modules/events';
+import { REPSTARS } from 'Modules/events';
 import template from 'Components/repStars/repStars.pug';
 
 export default class RepositoryStarsView extends RepositoryBaseView {

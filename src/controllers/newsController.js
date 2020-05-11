@@ -3,8 +3,6 @@ import RepositoryModel from "Models/repositoryModel";
 import { NEWS, UPLOAD } from "Modules/events";
 import RepNewsView from "Views/repNews";
 import authUser from "Modules/authUser";
-// import StarsView from 'Views/starsView';
-// import template from 'Components/news/news.pug';
 
 export default class NewsController extends RepositoryController {
   constructor(root, eventBus, router) {
@@ -89,21 +87,26 @@ export default class NewsController extends RepositoryController {
 
 
   async _loadNewsList(newsList) {
-    if (newsList) {
-      newsList.forEach((item) => {
+    let newsListChanged = newsList;
+    if (newsListChanged) {
+      newsListChanged = newsListChanged.map((item) => {
+        const newItem = item;
+        const date = new Date(newItem.created_at);
+        newItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
-        if (authUser.getUserId === item.author_id) { // TODO: GeUserById
-          item.author = authUser.getUser;
-         // item.image = authUser.getImage;
+        // newItem.date = item.created_at.substr(0, 10);
+
+        if (authUser.getUserId === item.author_id) {
+          newItem.author = authUser.getUser;
         } else {
-          item.author = "Неизвестно";
+          newItem.author = "Неизвестно";
         }
-
+        return newItem;
       });
     }
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.repId = this.repId;
-    this.data.newsList = newsList;
+    this.data.newsList = newsListChanged;
   }
 }
