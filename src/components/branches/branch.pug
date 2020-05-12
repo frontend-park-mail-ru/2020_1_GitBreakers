@@ -2,7 +2,23 @@ extends ../repository/repository.pug
 block content
     div.repository__list
         if (!branchList)
-            div.repository__list__item_info В этом репозитории пока что нет веток
+            //- div.repository__list__item_info В этом репозитории пока что нет веток
+            div.repository__list__item_info Создайте новый репозиторий в командной строке
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | echo "# !{repName}" >> README.md
+                    | git init
+                    | git add README.md
+                    | git commit -m "first commit"
+                    | git remote add origin http://89.208.198.186:5000/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin
+            div.repository__list__item_info Или запуште репозиторий через командную строку
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | git remote add origin http://89.208.198.186:5000/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin
         else
             each branch in branchList
                 hr.line-separator.line-separator_extra-thin
@@ -11,7 +27,7 @@ block content
                     div.repository__list__item_info обновлено: #{branch.commit.update} - #{branch.commit.commit_author_name}
                     div.repository__list__item_button
                         //input.route.deleteBranch.button.button-colored.button-small(name=branch.name type='button' value="Delete")
-        hr.line-separator.line-separator_extra-thin
+        //- hr.line-separator.line-separator_extra-thin
 block button
     div.repository__top_button
        // button.route.private.newBranch.button.button-small(type="submit") Новая ветка

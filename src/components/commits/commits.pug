@@ -28,4 +28,21 @@ block content
 
     else
         div
-            span.repository__list__item_info В этом репозитории пока что нет веток и коммитов
+            //- span.repository__list__item_info В этом репозитории пока что нет веток и коммитов
+            div.repository__list__item_info Создайте новый репозиторий в командной строке
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | echo "# !{repName}" >> README.md
+                    | git init
+                    | git add README.md
+                    | git commit -m "first commit"
+                    | git remote add origin http://89.208.198.186:5000/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin
+            div.repository__list__item_info Или запуште репозиторий через командную строку
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | git remote add origin http://89.208.198.186:5000/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin
+
