@@ -1,48 +1,45 @@
 @import "constants";
 
 .fileField {
-    background-color: $file-field-background-color;
-    min-height: 100px;
-    border: 1px solid $file-field-small-border-color;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+  background-color: $file-field-background-color;
+  min-height: 100px;
+  border: 1px solid $file-field-small-border-color;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+
+  box-shadow: inset 40px 5px 0 0 $file-field-borger-color,
+    inset 41px 6px 0 0 $file-field-small-border-color;
+
+  &__top {
     display: flex;
-    flex-direction: column;
-    margin-top: 20px;
+    align-items: end;
+    font-size: 80%;
+  }
 
-    box-shadow: inset 40px 5px 0 0 $file-field-borger-color, inset 41px 6px 0 0 $file-field-small-border-color;
+  &__link {
+    align-self: center;
+    margin: 0 auto;
+    color: $font-light-color;
+  }
 
+  &__content {
+    padding-left: 50px;
+    margin: 30px 60px;
+    font-size: 90%;
+    word-break: break-all;
+  }
 
-    &__top {
-        display: flex;
-        align-items: end;
-        font-size: 80%;
-    }
-
+  &__message {
+    word-break: break-all;
+    margin: 15px auto 0 auto;
+    font-size: 80%;
 
     &__link {
-        align-self: center;
-        margin: 0 auto;
-        color: $font-light-color;
+      display: flex;
+      margin: 10px 0;
     }
-
-    &__content {
-        margin: 30px 60px;
-        font-size: 90%;
-        word-break: break-all;
-    }
-
-    &__message {
-        word-break: break-all;
-        margin: 15px auto 0 auto;
-        font-size: 80%;
-
-        &__link {
-            display: flex;
-            margin: 10px 0;
-        }
-    }
+  }
 }
-
-
-

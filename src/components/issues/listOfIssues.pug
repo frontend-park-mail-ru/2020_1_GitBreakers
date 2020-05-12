@@ -1,12 +1,12 @@
 //- mixin issue(item)
 - const date = new Date(item.created_at);
-div(id=`issueitem__${item.id}`)
+div(id=`issueitem_${item.id}`)
   .repository__list__item
     a.issueLink.repository__list__item_title(data-id=item.id) #{item.title}
     .repository__list__item_info #{date.toLocaleDateString()} #{date.toLocaleTimeString().slice(0, -3)}
-    .repository__list__item_info-label Метка: #{item.label}
-    .repository__list__item_message(id=`issuemsg_${item.id}` data-opened="false")
-    .repository__list__item__buttonField(id=`issueButtons_${item.id}`)
+  .repository__list__item_info-label Метка: #{item.label}
+  .repository__list__item_message(id=`issuemsg_${item.id}` data-opened="false")
+  .repository__list__item__buttonField(id=`issueButtons_${item.id}`)
 hr.line-separator.line-separator_extra-thin
 
 //- + issue(item);
