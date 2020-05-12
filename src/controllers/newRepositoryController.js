@@ -26,7 +26,7 @@ export default class NewRepositoryController extends Controller {
   async createNewRepository(body = {}) {
     const result = await NewRepositoryModel.createNewRepository(body);
     if (result.success) {
-      this.redirect({ path: `/profile/${authUser.getUser}` });
+      this.redirect({ path: `/${authUser.getUser}/${body.name}/branches` });
       return;
     }
     switch (result.status) {
