@@ -17,7 +17,10 @@ block content
               div.repository__list__item_button
                 div
                   span.repository__list__item_info автор:
-                    a.repository__list__item_info_link(href = `../../profile/${news.author}`) #{news.author}
+                    if news.author == null
+                      span.repository__list__item_info_link Неизвестно
+                    else
+                      a.repository__list__item_info_link(href = `../../profile/${news.author}`) #{news.author}
                   image.repository__list__item_avatar(width='30' hight='30' src=news.image onError="this.style.display='none'")
                 // button.button.button-colored.button-small(type='submit') *
 

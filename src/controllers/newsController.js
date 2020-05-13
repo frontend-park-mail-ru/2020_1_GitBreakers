@@ -127,7 +127,7 @@ export default class NewsController extends RepositoryController {
           newItem.author = authUser.getUser;
           newItem.image = authUser.getImage;
         } else {
-          newItem.author = "Неизвестно";
+          newItem.author = null;
         }
         return newItem;
 
