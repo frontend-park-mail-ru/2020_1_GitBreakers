@@ -1,12 +1,12 @@
 import EventBusCollector from "Modules/eventBusCollector";
 
-/** Базовый класс котроллера */
+/** Base controller class */
 export default class Controller {
   /**
    * 
-   * @param {HTMLDivElement} root - тег куда будет вставляться весь контент
-   * @param {EventBus} eventBus - eventBus
-   * @param {Router} router - роутер
+   * @param {HTMLDivElement} root - tag where all content will be inserted
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
    */
   constructor(root, eventBus, router) {
     this.root = root;
@@ -16,20 +16,20 @@ export default class Controller {
   }
 
   /**
-   * Перенаправляет на другой route
+   * Redirects to another route
    *
-   * @param {object} param0 - содержит в себе path
+   * @param {object} param0 - contains the path
    */
   redirect({ path = '/' } = {}) {
     this.router.go(path);
   }
 
-  /** Открывает view */
+  /** Open view */
   open() {
     this.view.render();
   }
 
-  /** Закрывает view и удаляет все подписки из eventBus */
+  /** Close view и remove all subscriptions from eventBus. */
   close() {
     this.view.hide();
     this.eventBusCollector.clean();

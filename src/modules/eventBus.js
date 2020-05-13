@@ -1,5 +1,5 @@
 
-/** Отвечает за подписки, генерирование событий и оповещение слушателей */
+/** Responsible for subscriptions, generating events, and notifying listeners. */
 class EventBus {
   /**
    * @constructor
@@ -9,9 +9,9 @@ class EventBus {
   }
 
   /**
-   * Подписка на событие
-   * @param {string} event - событие для подписки
-   * @param {*} callback - функция callback
+   * Subscribing to an event
+   * @param {string} event - subscription event
+   * @param {*} callback.
    */
   on(event, callback) {
     // подписываемся на событие
@@ -22,9 +22,9 @@ class EventBus {
   }
 
   /**
-   * Отписка от события
-   * @param {string} event - событие для отписки
-   * @param {*} callback - функция, которую передали при подписке.
+   *Unsubscribe from an event
+   * @param {string} event - event to unsubscribe
+   * @param {*} callback - function that was passed when subscribing.
    */
   off(event, callback) {
     if (this.listeners[event]) {
@@ -33,9 +33,9 @@ class EventBus {
   }
 
   /**
-   * Оповещение слушателей о событии
-   * @param {string} event - название события 
-   * @param {Object} data - данные для отправки пользователю 
+   * Notifying listeners of an event
+   * @param {string} event - event name 
+   * @param {Object} data - data to send to the user
    */
   emit(event, data) {
     if (!this.listeners[event]) {

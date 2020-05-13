@@ -1,4 +1,4 @@
-/** Класс для изменения визуальной темы отображаемого кода */
+/** Class for changing the visual theme of displayed code. */
 export default class CodeTheme {
   /**
    * @constructor
@@ -104,10 +104,10 @@ export default class CodeTheme {
   }
 
   /**
-   * Преобразует объект в строку
+   *Converts an object to a string.
    * @static 
-   * @param {object} cssObject - содержит стили темы
-   * @return {string} cтрока с css
+   * @param {object} cssObject - contains the theme styles
+   * @return {string} string with css
    */
   static _cssObjectToString(cssObject) {
     let cssString = '';
@@ -127,8 +127,8 @@ export default class CodeTheme {
   }
 
   /**
-   * Добавляет нужную тему в DOM
-   * @param {string} themeName - Название темы
+   * Adds the desired theme to the DOM.
+   * @param {string} themeName - theme name
    */
   createCodeTheme(themeName) {
     const cssString = CodeTheme._cssObjectToString(this._codeTheme[themeName]);

@@ -2,8 +2,12 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
 
-
+/** Class responsible for authorization, registration, current user, and csrf */
 export default class AuthModel {
+  /**
+   * Retrieves the csrf and saves it.
+   * @static
+   */
   static csrf() {
     return Api.get(`${constants.HOST}/api/v1/csrftoken `).then((res) => {
       if (res.ok) {
@@ -16,7 +20,11 @@ export default class AuthModel {
       });
   }
 
-
+  /**
+   * Requests and returns information about the current user.
+   * @static
+   * @return {Promise}
+   */
   static getWhoAmI() {
     return Api.get(`${constants.HOST}/user/profile`)
       .then((res) => {
@@ -36,7 +44,11 @@ export default class AuthModel {
       });
   }
 
-
+  /**
+   * Sends data for user registration and returns a response.
+   * @param {object} body - request body
+   * @return {Promise}
+   */
   static signUp(body) {
     return Api.post(`${constants.HOST}/user/profile`, body)
       .then((res) => {
@@ -56,6 +68,11 @@ export default class AuthModel {
       });
   }
 
+  /**
+   * Sends authorization data and returns a response.
+   * @param {object} param0 - request body
+   * @return {Promise}
+   */
   static signIn({ body = {} } = {}) {
     return Api.post(`${constants.HOST}/session`, body)
       .then((res) => {
@@ -75,7 +92,9 @@ export default class AuthModel {
       });
   }
 
-
+  /** Deletes a session
+   * @return {Promise}
+   */
   static logout() {
     return Api.delete(`${constants.HOST}/session`, {})
       .then((res) => {

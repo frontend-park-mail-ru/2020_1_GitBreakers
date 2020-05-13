@@ -1,4 +1,4 @@
-/** Позволяет отслеживать все eventListener и удалять их */
+/** Allows you to track all eventListener and delete them. */
 export default class EventListenerCollector {
   /**
    * @constructor
@@ -8,11 +8,11 @@ export default class EventListenerCollector {
   }
 
   /**
-   * Подписка на отслеживание события
-   * @param {HTMLElement} target - цель, на которую вешаем событие
-   * @param {string} action - cобытие
-   * @param {strign} func - функция
-   * @param  {...any} other - доп. опции
+   * Subscribing to event tracking
+   * @param {HTMLElement} target - the goal to hang the event on
+   * @param {string} action
+   * @param {strign} func - function
+   * @param  {...any} other 
    */
   addEvent(target, action, func, ...other) {
     if (other.length === 1) {
@@ -23,7 +23,7 @@ export default class EventListenerCollector {
   }
 
   /**
-   * Отписка от всех событий.
+   * Unsubscribe from all events.
    */
   removeEvents() {
     this.collector.forEach((item) => {

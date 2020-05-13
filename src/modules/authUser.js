@@ -3,12 +3,12 @@ import eventBus from 'Modules/eventBus';
 import AuthModel from 'Models/authModel';
 
 /**
- *  Класс отвечает за хранение и передачу данных о текущем пользователе
+ *  This class is responsible for storing and transmitting data about the current user.
  */
 class AuthUser {
   /**
    * @constructor
-   * @param {EventBus} _eventBus 
+   * @param {EventBus} _eventBus - EventBus
    */
   constructor(_eventBus) {
     this.eventBus = _eventBus;
@@ -19,7 +19,7 @@ class AuthUser {
   }
 
   /**
-   * Возвращает статус загрузки информации о пользователе
+   * Returns the status of loading user information
    * @return {boolean}
    */
   get getLoadStatus() {
@@ -27,7 +27,7 @@ class AuthUser {
   }
 
   /**
-   * Возвращает текущий статус пользователя об авторизации
+   * Returns the user's current authorization status.
    * @return {boolean}
    */
   get isAuth() {
@@ -35,7 +35,7 @@ class AuthUser {
   }
 
   /**
-   * Возвращает логин текущего пользователя
+   * Returns the username of the current user.
    * @return {string}
    */
   get getUser() {
@@ -43,7 +43,7 @@ class AuthUser {
   }
 
   /**
-   * Возвращает id текущего пользователя
+   * Returns the id of the current user.
    * @return {number}
    */
   get getUserId() {
@@ -51,7 +51,7 @@ class AuthUser {
   }
 
   /**
-   * Возвращает url на аватар текущего пользователя
+   * Returns the url to the current user's avatar.
    * @return {string}
    */
   get getImage() {
@@ -59,7 +59,7 @@ class AuthUser {
   }
 
   /**
-   * Загружает информацию о текущем пользователе
+   * Loads information about the current user.
    */
   async loadWhoAmI() {
     this.loadStatus = false;

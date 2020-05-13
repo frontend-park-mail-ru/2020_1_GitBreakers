@@ -1,4 +1,4 @@
-/** Следит за текущими подписками и позволяет, проще отписываться при закрытии view и controller */
+/** Monitors current subscriptions and makes it easier to unsubscribe when closing view and controller */
 export default class EventBusCollector {
   /**
    * @constructor
@@ -10,16 +10,16 @@ export default class EventBusCollector {
   }
 
   /**
-   * Подписка на событие
-  * @param {string} event - событие для подписки
-   * @param {*} callback - функция callback
+   * Subscribing to an event
+  * @param {string} event - subscription event
+   * @param {*} callback .
    */
   on(event, func) {
     this.listOfEvents.push([event, func]);
     this.eventBus.on(event, func);
   }
 
-  /** Отписка от всех событий */
+  /** Unsubscribe from all events */
   clean() {
     this.listOfEvents.forEach((item) => {
       this.eventBus.off(...item);

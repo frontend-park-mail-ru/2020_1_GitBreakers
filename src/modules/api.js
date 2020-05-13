@@ -1,17 +1,17 @@
 /**
- *  Класс упрощающий взаимодействие с fetch
+ *  A class that simplifies interaction with fetch.
  */
 export default class Api {
   /**
-   *  Отправляет запрос на сервер и возвращает ответ
+   * Sends a request to the server and returns a response.
    *  
    * @private
    * @static
-   * @param {string} path - URL для отправки запроса
-   * @param {string} method - HTTP метод 
-   * @param {object} header - Объект с заголовками 
-   * @param {object} body - тело запроса
-   * @return {Promise} - ответ от сервера
+   * @param {string} path - URL for sending the request
+   * @param {string} method - HTTP method
+   * @param {object} header - Object with headers
+   * @param {object} body - request body
+   * @return {Promise} - server response
    */
   static request(path, method, header, body) {
     const headers = header;
@@ -35,23 +35,23 @@ export default class Api {
   }
 
   /**
-   *  Отправляет GET запрос на сервер и возвращает ответ
+   *  Sends a GET request to the server and returns a response.
    *
    * @static
-   * @param {string} path - URL для отправки запроса
-   * @return {Promise} - ответ от сервера
+   * @param {string} path - URL for sending the request
+   * @return {Promise} - server response
    */
   static get(path) {
     return Api.request(path, 'GET');
   }
 
   /**
-   *  Отправляет POST запрос на сервер и возвращает ответ
+   *  Sends a POST request to the server and returns a response.
    *
    * @static
-   * @param {string} path - URL для отправки запроса
-   * @param {object} body - тело запроса
-   * @return {Promise} - ответ от сервера
+   * @param {string} path - URL for sending the request
+   * @param {object} body - request body
+   * @return {Promise} - server response
    */
   static post(path, body) {
     const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
@@ -59,12 +59,12 @@ export default class Api {
   }
 
   /**
-   *  Отправляет DELETE запрос на сервер и возвращает ответ
+   *  Sends a DELETE request to the server and returns a response.
    *
    * @static
-   * @param {string} path - URL для отправки запроса
-   * @param {object} body - тело запроса
-   * @return {Promise} - ответ от сервера
+   * @param {string} path - URL for sending the request
+   * @param {object} body - request body
+   * @return {Promise} - server response
    */
   static delete(path, body) {
     const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
@@ -72,12 +72,12 @@ export default class Api {
   }
 
   /**
-   *  Отправляет PUT запрос на сервер и возвращает ответ
+   *  Sends a PUT request to the server and returns a response.
    *
    * @static
-   * @param {string} path - URL для отправки запроса
-   * @param {object} body - тело запроса
-   * @return {Promise} - ответ от сервера
+   * @param {string} path - URL for sending the request
+   * @param {object} body - request body
+   * @return {Promise} - server response
    */
   static put(path, body) {
     const headers = { 'Content-Type': 'application/json; charset=UTF-8' };
@@ -85,11 +85,11 @@ export default class Api {
   }
 
   /**
-   * Отправляет PUT запрос на изменение avatar и возвращает ответ
+   * Sends a PUT request to change avatar and returns a response.
    * 
-   * @param {string} path - URL для отправки запроса
-   * @param {object} body - форма с avatar
-   * @return {Promise} - ответ от сервера
+   * @param {string} path - URL for sending the request
+   * @param {object} body - form with avatar
+   * @return {Promise} - server response
    */
   static setAvatar(path = '/', body) {
 

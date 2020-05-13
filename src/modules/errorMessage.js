@@ -1,6 +1,6 @@
 /**
- *  Возвращает строку с html для вывода сообщения об ошибку
- * @param {string} message Строка с текстом ошибки
+ *  Returns a string with html to output an error message.
+ * @param {string} message - error text
  * @return {string}
  */
 const errorMessage = (message) => `

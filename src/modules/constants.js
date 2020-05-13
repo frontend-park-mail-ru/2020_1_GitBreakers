@@ -1,4 +1,4 @@
-/** Содержит в себе основые константы */
+/** Contains the main constants */
 const constants = {
   // * сервак "http://89.208.198.186:8080"
   HOST: 'http://89.208.198.186:8080', // * prod
