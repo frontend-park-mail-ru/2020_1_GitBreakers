@@ -1,5 +1,8 @@
-
+/** Класс для изменения визуальной темы отображаемого кода */
 export default class CodeTheme {
+  /**
+   * @constructor
+   */
   constructor() {
     this._codeTheme = {
       Light: {
@@ -100,6 +103,12 @@ export default class CodeTheme {
     };
   }
 
+  /**
+   * Преобразует объект в строку
+   * @static 
+   * @param {object} cssObject - содержит стили темы
+   * @return {string} cтрока с css
+   */
   static _cssObjectToString(cssObject) {
     let cssString = '';
 
@@ -117,6 +126,10 @@ export default class CodeTheme {
     return cssString;
   }
 
+  /**
+   * Добавляет нужную тему в DOM
+   * @param {string} themeName - Название темы
+   */
   createCodeTheme(themeName) {
     const cssString = CodeTheme._cssObjectToString(this._codeTheme[themeName]);
     const codeStyleTag = document.createElement('style');

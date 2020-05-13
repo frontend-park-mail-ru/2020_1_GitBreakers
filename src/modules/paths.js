@@ -1,3 +1,4 @@
+/** Регулярные выражения для роутинга */
 const paths = {
   profileSettings: /^\/settings$/i,
   newRepository: /^\/new$/i,

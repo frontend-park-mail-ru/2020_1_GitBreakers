@@ -1,12 +1,20 @@
 import eventBus from 'Modules/eventBus';
 import { UPLOAD } from 'Modules/events';
 
-
+/** Отвечает за роутинг приложения. */
 class Router {
+  /**
+   * @constructor
+   */
   constructor() {
     this.routes = [];
   }
 
+  /**
+   * Получение нового контроллера, закрытие старого, добавление записи в HistoryAPI
+   * @param {string} newUrl - url 
+   * @param {object} data - необходимые данные
+   */
   go(newUrl = '/', data = {}) {
     this.prevController = this.controller
     if (this.prevController) {
@@ -29,6 +37,9 @@ class Router {
     }
   }
 
+  /**
+   * Получение текущего pathname, подписка на необходимые события
+   */
   start() {
     const currentUrl = window.location.pathname;
     this.go(currentUrl);
@@ -53,6 +64,11 @@ class Router {
     });
   }
 
+  /**
+   * Получение контроллера по роуту
+   * @param {string} url - роут
+   * @return {Controller} 
+   */
   getController(url) {
     const result = this.routes.find((route) => url.match(route.url));
     if (result) {
@@ -62,6 +78,11 @@ class Router {
   }
 
 
+  /**
+   * Добавления роута и контролера
+   * @param {RegExp} url - регулярное выражение для url 
+   * @param {*} controller - котроллер 
+   */
   register(url, controller) {
     this.routes.push({
       url,
