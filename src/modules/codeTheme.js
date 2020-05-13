@@ -102,22 +102,18 @@ export default class CodeTheme {
 
   static _cssObjectToString(cssObject) {
     let cssString = '';
-    for (const selector in cssObject) {
-      cssString += `${selector} {`;
-      for (const key in cssObject[selector]) {
-        cssString += `${key} : ${cssObject[selector][key]}; `;
+
+    Object.entries(cssObject).forEach((selectorItem) => {
+      const [key, value] = selectorItem;
+      cssString += `${key} {`;
+      if (value) {
+        Object.entries(value).forEach((item) => {
+          const [key2, value2] = item;
+          cssString += `${key2} : ${value2}; `;
+        })
       }
       cssString += '} ';
-    }
-    // Object.entries(cssObject).forEach((key, value) => {
-    //   cssString += `${key} {`;
-    //   if (value) {
-    //     Object.entries(value).forEach((key2, value2) => {
-    //       cssString += `${key2} : ${value2}; `;
-    //     })
-    //   }
-    //   cssString += '} ';
-    // })
+    })
     return cssString;
   }
 

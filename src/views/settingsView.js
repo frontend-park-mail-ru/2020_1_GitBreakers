@@ -1,5 +1,5 @@
 import View from 'Modules/view';
-import { SETTINGS, ACTIONS } from 'Modules/events';
+import { SETTINGS } from 'Modules/events';
 import template from 'Components/updateProfile/updateProfile2.pug';
 import CustomValidation from 'Modules/validation/customValidation';
 import { oldPasswordValidityChecks, passwordValidityChecks } from 'Modules/validation/validationParams';
