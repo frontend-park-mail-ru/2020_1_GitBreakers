@@ -57,6 +57,7 @@
         display: flex;
         flex-direction: row;
         justify-content: left;
+        align-items: center;
         flex-wrap: wrap;
 
         &_item {
@@ -106,7 +107,8 @@
 }
 
 .col2-height {
-  height: 60vh;
+  // height: 60vh;
+  min-height: 60vh;
 }
 
 .img__container {

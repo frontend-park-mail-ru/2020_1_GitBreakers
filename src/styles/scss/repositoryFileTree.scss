@@ -1,57 +1,56 @@
 @import "constants";
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 td {
-    border-bottom: 1px solid $table-border-color;
-    height: 40px;
+  border-bottom: 1px solid $table-border-color;
+  height: 40px;
 }
 
 .repository__tree {
+  .repository__tree__item {
+    margin: 10px 0;
 
-    .repository__tree__item {
-        margin: 10px 0;
-
-        &_icon{
-            height: 12px;
-            width: 12px;
-            margin: auto 5px;
-        }
-
-        &_title {
-            text-decoration: none;
-            color: $font-light-color;
-        }
-
-        &_commit {
-            font-size: 85%;
-            margin: auto 0;
-        }
-
-        &_info {
-            font-size: 95%;
-        }
+    &_icon {
+      height: 18px;
+      width: 18px;
+      object-fit: cover;
+      margin: auto 5px;
     }
+
+    &_title {
+      text-decoration: none;
+      color: $font-light-color;
+    }
+
+    &_commit {
+      font-size: 85%;
+      margin: auto 0;
+    }
+
+    &_info {
+      font-size: 95%;
+    }
+  }
 }
 
 .column {
-
-    &-thin {
-        width: 25%;
-    }
-    &-thick {
-        width: 60%;
-    }
-    &-very-thin {
-        width: 15%;
-        text-align: right;
-    }
+  &-thin {
+    width: 25%;
+  }
+  &-thick {
+    width: 60%;
+  }
+  &-very-thin {
+    width: 15%;
+    text-align: right;
+  }
 }
 
 .bright__link {
-    text-decoration: none;
-    font-weight: bold;
-    color: $font-color;
+  text-decoration: none;
+  font-weight: bold;
+  color: $font-color;
 }
