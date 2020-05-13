@@ -5,21 +5,36 @@ import 'Modules/prettify/prettify';
 import RepositoryBaseView from './repositoryBaseView';
 import template from '../components/fileView/fileView.pug';
 
-
+/**
+ * Class representing a file view.
+ * @extends RepositoryBaseView
+ */
 export default class FileView extends RepositoryBaseView {
+
+  /**
+   * Initialize code theme and template for file page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
 
     this.codeTheme = new CodeTheme();
-
   }
 
+  /**
+   * Load information about file.
+   */
   render() {
     this.eventBusCollector.on(FILEVIEW.render, this._onRender.bind(this));
-
     this.eventBus.emit(FILEVIEW.loadFile, {});
   }
 
+  /**
+   * Render a file page
+   * @param {Object} data.
+   * @private
+   */
   _onRender(data) {
     const dataTmp = data;
     super.render(dataTmp);

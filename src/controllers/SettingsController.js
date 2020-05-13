@@ -5,14 +5,27 @@ import ProfileModel from 'Models/profileModel';
 import authUser from 'Modules/authUser';
 import AuthModel from 'Models/authModel';
 
-
+/**
+ * Class representing a settings controller.
+ * @extends Controller
+ */
 export default class SettingsController extends Controller {
+
+  /**
+   * Initialize view for settings page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.view = new SettingsView(root, eventBus);
   }
 
+  /**
+   * Open page view.
+   */
   open() {
     this.eventBusCollector.on(SETTINGS.load, this._loadProfile.bind(this));
     this.eventBusCollector.on(SETTINGS.submitProfile, this._updateProfile.bind(this));
@@ -27,7 +40,12 @@ export default class SettingsController extends Controller {
     }
   }
 
-
+  /**
+   * Update user's avatar.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _updateAvatar(body = {}) {
     const result = await ProfileModel.setAvatar({ body: body.form });
     if (result.success) {
@@ -49,6 +67,12 @@ export default class SettingsController extends Controller {
     }
   }
 
+  /**
+   * Update profile information.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _updateProfile(body = {}) {
     const result = await ProfileModel.updateProfile({ body });
     if (result.success) {
@@ -70,6 +94,12 @@ export default class SettingsController extends Controller {
     }
   }
 
+  /**
+   * Update user's password.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _updatePassword(body = {}) {
     const result = await ProfileModel.updateProfile({ body });
     if (result.success) {
@@ -91,6 +121,11 @@ export default class SettingsController extends Controller {
     }
   }
 
+  /**
+   * Check user identity and load settings page.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _loadProfile() {
     // const result = ProfileModel.getProfile({ profile: authUser.getUser });
     const result = await AuthModel.getWhoAmI();
@@ -100,6 +135,9 @@ export default class SettingsController extends Controller {
     }
   }
 
+  /**
+   * Open Sign In page if user is not logged in.
+   */
   onFinishLoadWhoAmI() {
     if (!authUser.isAuth) {
       this.redirect({ path: '/signin' });

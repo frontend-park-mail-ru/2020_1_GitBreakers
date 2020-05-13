@@ -4,14 +4,27 @@ import Controller from 'Modules/controller';
 import authUser from 'Modules/authUser';
 import NewRepositoryModel from '../models/newRepositoryModel';
 
-
+/**
+ * Class representing a new repository controller.
+ * @extends Controller
+ */
 export default class NewRepositoryController extends Controller {
+
+  /**
+   * Initialize view for new repository page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.view = new NewRepositoryView(root, eventBus);
   }
 
+  /**
+   * Check user identity.
+   */
   open() {
     this.eventBusCollector.on(NEWREPOSITORY.submit, this.createNewRepository.bind(this));
 
@@ -23,6 +36,11 @@ export default class NewRepositoryController extends Controller {
     }
   }
 
+  /**
+   * Create new repository.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   */
   async createNewRepository(body = {}) {
     const result = await NewRepositoryModel.createNewRepository(body);
     if (result.success) {
@@ -45,6 +63,9 @@ export default class NewRepositoryController extends Controller {
     }
   }
 
+  /**
+   * Open Sign In page if user is not logged in.
+   */
   onFinishLoadWhoAmI() {
     if (!authUser.isAuth) {
       this.redirect({ path: '/signin' });

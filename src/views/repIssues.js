@@ -5,12 +5,24 @@ import { ISSUES, REPOSITORY } from 'Modules/events';
 import authUser from 'Modules/authUser';
 import issue from 'Components/issues/listOfIssues.pug'
 
-
+/**
+ * Class representing a issues page view.
+ * @extends RepositoryBaseView
+ */
 export default class RepIssuesView extends RepositoryBaseView {
+
+  /**
+   * Initialize template for issues page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
   }
 
+  /**
+   * Load information about issues page.
+   */
   render() {
     this.eventBusCollector.on(ISSUES.render, this._onRender.bind(this));
     this.eventBusCollector.on(ISSUES.showMessage, RepIssuesView._errorMessage);
@@ -18,18 +30,32 @@ export default class RepIssuesView extends RepositoryBaseView {
     this.eventBus.emit(REPOSITORY.getInfo, {});
   }
 
+  /**
+   * Add error messages to the page.
+   * @param {Object} data.
+   * @private
+   */
   static _errorMessage(data) {
     const message = document.getElementById('message');
     message.innerText = data.message;
   }
 
+  /**
+   * Add success message to the page.
+   * @param {Object} data.
+   * @private
+   */
   static _successMessage(data) {
     console.log(data);
     const successMessage = document.getElementById('successMessage');
     successMessage.innerText = data.message;
   }
 
-
+  /**
+   * Render issues page.
+   * @param {Object} data.
+   * @private
+   */
   _onRender(data) {
     const dataTmp = data;
     super.render(dataTmp);
@@ -90,7 +116,10 @@ export default class RepIssuesView extends RepositoryBaseView {
 
   }
 
-
+  /**
+   * Add listeners to issues titles.
+   * @param {Object} data.
+   */
   setLinkListener(data) {
     const issueLinkList = document.getElementsByClassName('issueLink');
     for (let i = 0; i < issueLinkList.length; i += 1) {
@@ -121,6 +150,11 @@ export default class RepIssuesView extends RepositoryBaseView {
     }
   }
 
+  /**
+   * Add html-strings for issues
+   * @param {Object} itemList.
+   * @returns {string}
+   */
   static listToHtml(itemList) {
     // const issueItem = (item) => {
     //   const date = new Date(item.created_at);
@@ -149,7 +183,12 @@ export default class RepIssuesView extends RepositoryBaseView {
     return htmlStr;
   }
 
-
+  /**
+   * Add buttons for update and close for issues.
+   * @param root
+   * @param id
+   * @param data
+   */
   addButtons(root, id, data) {
     const buttonUpdate = document.createElement('button');
     buttonUpdate.classList.add('repository__list__item__buttonField_button', 'button', 'button-extra-small');
@@ -190,6 +229,11 @@ export default class RepIssuesView extends RepositoryBaseView {
   }
 
 
+  /**
+   * Add listener for button New Issue.
+   * @param {Object} data.
+   * @private
+   */
   _createNewIssueListener(data) {
     const createIssue = document.getElementById('CreateIssue');
     if (!createIssue) return;
@@ -213,7 +257,12 @@ export default class RepIssuesView extends RepositoryBaseView {
     this.eventCollector.addEvent(createIssue, 'click', func);
   }
 
-
+  /**
+   * Add listener for button Update Issue.
+   * @param {Object} data.
+   * @param {number} id.
+   * @private
+   */
   _createUpdateIssueListener(data, id) {
     const createIssue = document.getElementById('CreateIssue');
     if (!createIssue) return;

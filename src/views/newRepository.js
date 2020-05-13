@@ -5,13 +5,24 @@ import errorMessage from 'Modules/errorMessage';
 import CustomValidation from 'Modules/validation/customValidation';
 import { repNameValidityChecks } from 'Modules/validation/validationParams';
 
-
+/**
+ * Class representing a new repository view.
+ * @extends View
+ */
 export default class newRepositoryView extends View {
+
+  /**
+   * Initialize template for new repository page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
-
   }
 
+  /**
+   * Load information about new repository page.
+   */
   render() {
     this.eventBusCollector.on(NEWREPOSITORY.fail, newRepositoryView._fail);
 
@@ -21,7 +32,6 @@ export default class newRepositoryView extends View {
 
     const nameInput = form['rep-name'];
     const descriptionInputValue = form['rep-description'].value;
-
 
     nameInput.CustomValidation = new CustomValidation(nameInput);
     nameInput.CustomValidation.validityChecks = repNameValidityChecks;
@@ -52,6 +62,11 @@ export default class newRepositoryView extends View {
     this.eventCollector.addEvent(document.forms.newRepository, 'submit', submitFunc, false);
   }
 
+  /**
+   * Add error text to the page
+   * @param {string} message
+   * @private
+   */
   static _fail({ message = '' }) {
     document.getElementById('newRepositoryMessage').innerHTML = errorMessage(message);
   }

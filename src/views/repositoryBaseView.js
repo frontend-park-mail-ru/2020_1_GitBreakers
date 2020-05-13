@@ -1,8 +1,15 @@
 import View from 'Modules/view';
 import { REPOSITORY } from 'Modules/events';
 
-
+/**
+ * Class representing a repository view.
+ * @extends View
+ */
 export default class RepositoryBaseView extends View {
+
+  /**
+   * Add listeners for repository buttons.
+   */
   render(data) {
     this.eventBusCollector.on(REPOSITORY.updatedStar, this._changeStarStatus.bind(this));
 
@@ -95,6 +102,11 @@ export default class RepositoryBaseView extends View {
     this.eventCollector.addEvent(document.querySelector('button.link__copy'), 'click', copyLinkFunc);
   }
 
+  /**
+   * Change star status on the page.
+   * @param {number} stars.
+   * @private
+   */
   _changeStarStatus({ stars = -1 } = {}) {
 
     const { vote } = this.root.querySelector('.rep_stars__counter').dataset;

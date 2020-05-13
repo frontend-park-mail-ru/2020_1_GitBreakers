@@ -5,19 +5,37 @@ import constants from 'Modules/constants';
 import RepositoryModel from 'Models/repositoryModel';
 
 
+/**
+ * Class representing a file controller.
+ * @extends RepositoryController
+ */
 export default class FileController extends RepositoryController {
+
+  /**
+   * Initialize view for file page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.view = new FileView(root, eventBus);
   }
 
+  /**
+   * Open page view.
+   */
   open() {
     this.eventBusCollector.on(FILEVIEW.loadFile, this._getFileContent.bind(this));
-
     super.open();
   }
 
+  /**
+   * Get a file.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getFileContent() {
     this.setRepository();
     this.setBranchName();
@@ -50,7 +68,11 @@ export default class FileController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Process data about file and its content.
+   * @param {Object} res.
+   * @private
+   */
   _loadFileContent(res) {
     this.data.author = this.author;
     this.data.repName = this.repository;

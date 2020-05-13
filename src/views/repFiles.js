@@ -2,17 +2,35 @@ import RepositoryBaseView from 'Views/repositoryBaseView';
 import template from 'Components/fileTree/fileTree.pug';
 import { TREEPAGE } from 'Modules/events';
 
+/**
+ * Class representing a file tree page view.
+ * @extends RepositoryBaseView
+ */
 export default class RepBranchesView extends RepositoryBaseView {
+
+  /**
+   * Initialize template for branches page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
   }
 
+  /**
+   * Load information about file tree page.
+   */
   render() {
     this.eventBusCollector.on(TREEPAGE.render, this._onRender.bind(this));
 
     this.eventBus.emit(TREEPAGE.getBranchList, {});
   }
 
+  /**
+   * Render file tree page.
+   * @param {Object} data.
+   * @private
+   */
   _onRender(data) {
     super.render(data);
 

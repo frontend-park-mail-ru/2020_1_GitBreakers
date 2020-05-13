@@ -3,17 +3,34 @@ import template from 'Components/profileStars/profileStars.pug';
 import { STARS } from 'Modules/events';
 import authUser from 'Modules/authUser';
 
-
+/**
+ * Class representing a stars view.
+ * @extends View
+ */
 export default class StarsView extends View {
+
+  /**
+   * Initialize template for stars view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
   }
 
+  /**
+   * Load information about stars.
+   */
   render() {
     this.eventBusCollector.on(STARS.render, this._onRender.bind(this));
     this.eventBus.emit(STARS.load, {});
   }
 
+  /**
+   * Render user stars.
+   * @param {Object} data.
+   * @private
+   */
   _onRender(data = {}) {
     super.render({
       auth: (authUser.isAuth) ? authUser.getUser : null,
