@@ -4,22 +4,38 @@ import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
 import StarsModel from '../models/starsModel';
 
-
+/**
+ * Class representing a repository controller.
+ * @extends Controller
+ */
 export default class RepositoryController extends Controller {
+  /**
+   * Create a repository controller, initialize root and data.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.root = root;
     this.data = {
-      branchName: 'master', // кыш
+      branchName: 'master',
     };
   }
 
+  /**
+   * Open page 404 if current page is not found.
+   * @param {string} msg.
+   */
   pageNotFound(msg) {
     console.log(msg);
     this.eventBus.emit(UPLOAD.changePath, '/404');
   }
 
+  /**
+   * Open page view.
+   */
   open() {
     this.eventBusCollector.on(REPOSITORY.updateStar, this._updateStar.bind(this));
     this.eventBusCollector.on(UPLOAD.notFound, this.pageNotFound.bind(this));
@@ -27,6 +43,9 @@ export default class RepositoryController extends Controller {
     super.open();
   }
 
+  /**
+   * Parse path to get author name and repository title.
+   */
   setRepository() {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
@@ -37,6 +56,11 @@ export default class RepositoryController extends Controller {
     this.defaultBranch = RepositoryController._getDefaultBranch();
   }
 
+  /**
+   * Get information about user's stars.
+   * @returns {Promise<void>}.
+   * @private
+   */
   async _setStars() {
     this.setRepository();
     const rep = this.repository;
@@ -66,8 +90,9 @@ export default class RepositoryController extends Controller {
     }
   }
 
-
-
+  /**
+   * Parse path to get branch name.
+   */
   setBranchName() {
     const path = window.location.pathname;
     const name = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/)[0];
@@ -79,7 +104,9 @@ export default class RepositoryController extends Controller {
     }
   }
 
-
+  /**
+   * Parse path to get repository path to a folder.
+   */
   setRepPath() {
     const path = window.location.pathname;
     this.repPath = null;
@@ -92,6 +119,9 @@ export default class RepositoryController extends Controller {
     }
   }
 
+  /**
+   * Parse path to get repository path to a file.
+   */
   setFilePath() {
     const path = window.location.pathname;
     this.filePath = null;
@@ -103,11 +133,23 @@ export default class RepositoryController extends Controller {
     }
   }
 
+  /**
+   * Get name of a default branch.
+   * @returns {string}.
+   * @private
+   */
   static _getDefaultBranch() {
     // RepositoryModel.loadDefaultBranch()
     return 'master';
   }
 
+  /**
+   * Update repository stars.
+   * @param {boolean} vote.
+   * @param {number} id.
+   * @returns {Promise<void>}.
+   * @private
+   */
   async _updateStar({ vote = true, id = 0 } = {}) {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;

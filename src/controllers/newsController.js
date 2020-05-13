@@ -4,14 +4,26 @@ import { NEWS, UPLOAD, ACTIONS } from "Modules/events";
 import RepNewsView from "Views/repNews";
 import authUser from "Modules/authUser";
 
+/**
+ * Class representing a news controller.
+ * @extends RepositoryController
+ */
 export default class NewsController extends RepositoryController {
+
+  /**
+   * Initialize view for news page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepNewsView(root, eventBus);
-
-
   }
 
+  /**
+   * Open page view.
+   */
   open() {
     this.eventBusCollector.on(NEWS.getInfo, this._getRepository.bind(this));
     this.eventBusCollector.on(NEWS.getNewsList, this._getNewsList.bind(this));
@@ -19,6 +31,11 @@ export default class NewsController extends RepositoryController {
     super.open();
   }
 
+  /**
+   * Get information about this repository.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getRepository() {
     this.setRepository();
 
@@ -50,7 +67,11 @@ export default class NewsController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Get list of this repository news.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getNewsList() {
     const data = {
       repName: this.repositoryName,
@@ -87,7 +108,12 @@ export default class NewsController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Process data from news list.
+   * @param newsList
+   * @returns {Promise<void>}
+   * @private
+   */
   async _loadNewsList(newsList) {
     let newsListChanged = newsList;
     if (newsListChanged) {
@@ -101,7 +127,7 @@ export default class NewsController extends RepositoryController {
           newItem.author = authUser.getUser;
           newItem.image = authUser.getImage;
         } else {
-          newItem.author = "Неизвестно";
+          newItem.author = null;
         }
         return newItem;
 

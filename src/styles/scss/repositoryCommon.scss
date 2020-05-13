@@ -46,6 +46,10 @@
                 font-weight: bold;
                 margin: auto 30px auto 0;
                 word-break: break-all;
+
+                &-link {
+                    text-decoration: none;
+                }
             }
 
             &_info {

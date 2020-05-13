@@ -4,13 +4,27 @@ import { COMMITSPAGE, UPLOAD } from 'Modules/events';
 import RepositoryModel from 'Models/repositoryModel';
 
 
+/**
+ * Class representing a commits controller.
+ * @extends RepositoryController
+ */
 export default class CommitsController extends RepositoryController {
+
+  /**
+   * Initialize view for commits page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepCommitsView(root, eventBus);
 
   }
 
+  /**
+   * Open page view.
+   */
   open() {
     this.eventBusCollector.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
     this.eventBusCollector.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
@@ -18,6 +32,11 @@ export default class CommitsController extends RepositoryController {
     super.open();
   }
 
+  /**
+   * Get list of this repository branches.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getBranchList() {
 
     this.setRepository();
@@ -58,7 +77,11 @@ export default class CommitsController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Get list of the branch commits.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getCommitList() {
     this.setBranchName();
 
@@ -77,7 +100,11 @@ export default class CommitsController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Process data from commits list.
+   * @param res
+   * @private
+   */
   _loadCommitList(res = []) {
     let commitList = res.slice([0], [9]);
     commitList = commitList.map((item) => {

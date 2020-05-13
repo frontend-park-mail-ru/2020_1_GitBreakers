@@ -20,7 +20,8 @@ block content
                     div.repository__list__group_title обновлено: !{updated.toLocaleDateString()} !{updated.toLocaleTimeString().slice(0,-3)}
                     div.repository__list__group_content
                         div.repository__list__item
-                            div.repository__list__item_title #{commit.commit_hash}
+                            dev.repository__list__item_title
+                                a.repository__list__item_title-link(href = `../../../${author}/${repName}/branch/${commit.commit_hash}`) #{commit.commit_hash}
                             div.repository__list__item_info автор: #{commit.commit_author_name}
 
                             div.repository__list__item_button

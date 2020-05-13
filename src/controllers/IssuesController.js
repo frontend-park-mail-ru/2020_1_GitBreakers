@@ -4,14 +4,27 @@ import RepIssuesView from 'Views/repIssues';
 
 import RepositoryModel from 'Models/repositoryModel';
 
-
+/**
+ * Class representing a issues controller.
+ * @extends RepositoryController
+ */
 export default class IssuesController extends RepositoryController {
+
+  /**
+   * Initialize view for issues page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepIssuesView(root, eventBus);
 
   }
 
+  /**
+   * Open page view.
+   */
   open(data) {
     this.eventBusCollector.on(REPOSITORY.getInfo, this._getRepository.bind(this));
     this.eventBusCollector.on(ISSUES.getIssueList, this._getIssueList.bind(this));
@@ -24,6 +37,11 @@ export default class IssuesController extends RepositoryController {
     super.open();
   }
 
+  /**
+   * Get information about this repository.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getRepository() {
     this.setRepository();
 
@@ -60,7 +78,11 @@ export default class IssuesController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Get list of this repository issues.
+   * @returns {Promise<void>}.
+   * @private
+   */
   async _getIssueList() {
     const data = {
       repId: this.repId,
@@ -87,6 +109,12 @@ export default class IssuesController extends RepositoryController {
     }
   }
 
+  /**
+   * Process data from issue list to get information about opened and closed ones.
+   * @param issueList
+   * @returns {Promise<void>}
+   * @private
+   */
   async _loadIssueList(issueList) {
     const resolved = {};
     const unresolved = {};
@@ -112,9 +140,12 @@ export default class IssuesController extends RepositoryController {
     this.data.tab = "unresolved";
   }
 
-
-
-
+  /**
+   * Validate information about new issue.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _createIssue(body) {
 
     if (body.formData.title.length === 0) {
@@ -152,8 +183,12 @@ export default class IssuesController extends RepositoryController {
     }
   }
 
-
-
+  /**
+   * Validate information about changing issue.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _updateIssue(body) {
 
     if (body.formData.title.length === 0) {
@@ -189,8 +224,12 @@ export default class IssuesController extends RepositoryController {
     }
   }
 
-
-
+  /**
+   * Detele one issue.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _deleteIssue(body) {
 
     const result = await RepositoryModel.deleteIssue({

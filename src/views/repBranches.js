@@ -5,12 +5,24 @@ import {
 } from 'Modules/events';
 import errorMessage from 'Modules/errorMessage';
 
-
+/**
+ * Class representing a branches page view.
+ * @extends RepositoryBaseView
+ */
 export default class RepBranchesView extends RepositoryBaseView {
+
+  /**
+   * Initialize template for branches page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
   }
 
+  /**
+   * Load information about branches page.
+   */
   render() {
     this.eventBusCollector.on(BRANCHESPAGE.render, this._onRender.bind(this));
     this.eventBusCollector.on(NEWBRANCH.fail, RepBranchesView._fail);
@@ -19,7 +31,11 @@ export default class RepBranchesView extends RepositoryBaseView {
     this.eventBus.emit(BRANCHESPAGE.getBranchList, {});
   }
 
-
+  /**
+   * Render branches page.
+   * @param {Object} data.
+   * @private
+   */
   _onRender(data) {
     const dataTmp = data;
     super.render(dataTmp);
@@ -102,12 +118,21 @@ export default class RepBranchesView extends RepositoryBaseView {
     }
   }
 
-
+  /**
+   * Add success message to the page.
+   * @param {Object} data.
+   * @private
+   */
   static _success(data) {
     console.log(data.message);
     this.eventBus.emit(UPLOAD.changePath, data.path);
   }
 
+  /**
+   * Add error messages to the page.
+   * @param {Object} errors.
+   * @private
+   */
   static _fail(errors = {}) {
     errors.data.forEach((item) => {
       document.getElementById(`${item.item}Error`).innerHTML = errorMessage(item.message);

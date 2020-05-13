@@ -6,12 +6,27 @@ import { oldPasswordValidityChecks, passwordValidityChecks } from 'Modules/valid
 import errorMessage from 'Components/message/errorMessage.pug';
 import successMessage from 'Components/message/successMessage.pug';
 
-
+/**
+ * Class representing a settings page view.
+ * @extends View
+ */
 export default class SettingsView extends View {
+
+  /**
+   * Initialize template for settings page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
   }
 
+  /**
+   * Add the status of password change to the page.
+   * @param {string} message.
+   * @param {boolean} success.
+   * @private
+   */
   static _passwordMessage({ message = '', success = false } = {}) {
     if (!success) {
       document.getElementById('passwordMessage').innerHTML = errorMessage({ message });
@@ -20,6 +35,12 @@ export default class SettingsView extends View {
     }
   }
 
+  /**
+   * Add the status of avatar change to the page.
+   * @param {string} message.
+   * @param {boolean} success.
+   * @private
+   */
   static _avatarMessage({ message = '', success = false } = {}) {
     if (!success) {
       document.getElementById('avatarMessage').innerHTML = errorMessage({ message });
@@ -28,6 +49,12 @@ export default class SettingsView extends View {
     }
   }
 
+  /**
+   * Add the status of profile information change to the page.
+   * @param {string} message.
+   * @param {boolean} success.
+   * @private
+   */
   static _profileMessage({ message = '', success = false } = {}) {
     if (!success) {
       document.getElementById('profileMessage').innerHTML = errorMessage({ message });
@@ -36,6 +63,9 @@ export default class SettingsView extends View {
     }
   }
 
+  /**
+   * Load information about settings page.
+   */
   render() {
     // this.renderLoader();
 
@@ -50,6 +80,11 @@ export default class SettingsView extends View {
     this.eventBus.emit(SETTINGS.load, {});
   }
 
+  /**
+   * Render settings page.
+   * @param {Object} body.
+   * @private
+   */
   _onRender(body = {}) {
     super.render(body);
 
@@ -58,6 +93,11 @@ export default class SettingsView extends View {
     this._setPasswordForm();
   }
 
+  /**
+   * Change all avatar views on the page.
+   * @param {string} url.
+   * @private
+   */
   static _onChangeAvatar({ url = '' } = {}) {
     const imageTags = document.querySelectorAll('img[alt="avatar"]');
 
@@ -66,6 +106,10 @@ export default class SettingsView extends View {
     }
   }
 
+  /**
+   * Set avatar form.
+   * @private
+   */
   _setAvatarForm() {
     const form = document.forms.setAvatar;
 
@@ -84,6 +128,10 @@ export default class SettingsView extends View {
     this.eventCollector.addEvent(form, 'change', func);
   }
 
+  /**
+   * Set profile form.
+   * @private
+   */
   _setProfileForm() {
     const form = document.forms.setProfile;
 
@@ -100,6 +148,11 @@ export default class SettingsView extends View {
     this.eventCollector.addEvent(form, 'submit', func);
   }
 
+  /**
+   * Set password form.
+   * @returns {boolean}.
+   * @private
+   */
   _setPasswordForm() {
     const form = document.forms.setPassword;
 

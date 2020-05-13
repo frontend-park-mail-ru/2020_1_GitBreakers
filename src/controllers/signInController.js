@@ -5,13 +5,26 @@ import AuthModel from 'Models/authModel';
 import { SIGNIN, HEADER, ACTIONS } from 'Modules/events';
 import SignInView from 'Views/signInView';
 
-
+/**
+ * Class representing a sign in controller.
+ * @extends Controller
+ */
 export default class SignInController extends Controller {
+
+  /**
+   * Initialize view for sign in page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new SignInView(root, eventBus);
   }
 
+  /**
+   * Open page view.
+   */
   open() {
     this.eventBusCollector.on(SIGNIN.submit, this._submitSignIn.bind(this));
 
@@ -23,6 +36,12 @@ export default class SignInController extends Controller {
     }
   }
 
+  /**
+   * Check user authorization.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _submitSignIn(body = {}) {
     const result = await AuthModel.signIn({ body });
     if (result.success) {
@@ -51,6 +70,9 @@ export default class SignInController extends Controller {
     }
   }
 
+  /**
+   * Open profile page if user is logged in.
+   */
   onFinishLoadWhoAmI() {
     if (authUser.isAuth) {
       this.redirect({ path: `/profile/${authUser.getUser}` });

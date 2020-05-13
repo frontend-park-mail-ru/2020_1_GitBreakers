@@ -3,12 +3,24 @@ import View from 'Modules/view';
 import errorMessage from 'Modules/errorMessage';
 import template from 'Components/signIn/signIn.pug';
 
-
+/**
+ * Class representing a sing in page view.
+ * @extends View
+ */
 export default class SignInView extends View {
+
+  /**
+   * Initialize template for sing in page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
   }
 
+  /**
+   * Render sing in page.
+   */
   render() {
     super.render();
 
@@ -29,6 +41,11 @@ export default class SignInView extends View {
     this.eventCollector.addEvent(document.forms.SignIn, 'submit', func, false);
   }
 
+  /**
+   * Add sing in error to the page.
+   * @param {string} message
+   * @private
+   */
   static _fail({ message = {} } = {}) {
     document.getElementById('signInMessage').innerHTML = errorMessage(message);
   }
