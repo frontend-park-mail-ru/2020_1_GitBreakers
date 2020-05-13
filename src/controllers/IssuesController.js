@@ -240,7 +240,7 @@ export default class IssuesController extends RepositoryController {
     });
 
     if (result.success) {
-      this.open({ active: "false", msg: "Задача удалена" });
+      this.open({ active: "false", msg: "Задача закрыта" });
       return;
     }
     switch (result.status) {
