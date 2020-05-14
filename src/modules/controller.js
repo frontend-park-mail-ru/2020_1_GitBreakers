@@ -20,8 +20,8 @@ export default class Controller {
    *
    * @param {object} param0 - contains the path
    */
-  redirect({ path = '/' } = {}) {
-    this.router.go(path);
+  redirect({ path = '/', replace = false } = {}) {
+    this.router.go(path, {}, replace);
   }
 
   /** Open view */

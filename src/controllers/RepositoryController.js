@@ -178,6 +178,7 @@ export default class RepositoryController extends Controller {
       }
     }
 
+    // TODO: Поправить для 401
     switch (updateRes.status) {
       case 409:
         this.eventBus.emit(REPOSITORY.updatedStar, {});
@@ -185,9 +186,10 @@ export default class RepositoryController extends Controller {
       case 401:
         this.redirect({ path: '/signin' });
         break;
-      case 400:
-        break;
       case 403:
+        this.redirect({ path: '/signin' });
+        break;
+      case 400:
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, {});

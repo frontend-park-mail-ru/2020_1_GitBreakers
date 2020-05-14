@@ -49,7 +49,7 @@ export default class NewRepositoryController extends Controller {
     }
     switch (result.status) {
       case 401:
-        this.redirect('/signin');
+        this.redirect({ path: '/signin', replace: true });
         break;
       case 400:
         this.eventBus.emit(NEWREPOSITORY.fail, { message: 'Неверные данные!' });
@@ -68,7 +68,7 @@ export default class NewRepositoryController extends Controller {
    */
   onFinishLoadWhoAmI() {
     if (!authUser.isAuth) {
-      this.redirect({ path: '/signin' });
+      this.redirect({ path: '/signin', replace: true });
     } else {
       super.open();
     }

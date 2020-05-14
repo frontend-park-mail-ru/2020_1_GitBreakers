@@ -164,6 +164,8 @@ export default class IssuesController extends RepositoryController {
       this.open({ active: "false", msg: body.msg });
       return;
     }
+    // TODO: 403 и 401
+
     switch (result.status) {
       case 401:
         this.redirect({ path: '/signin' });
@@ -175,7 +177,8 @@ export default class IssuesController extends RepositoryController {
         this.eventBus.emit(UPLOAD.changePath, '/404');
         break;
       case 403:
-        alert('Это приватный репозиторий!');
+        this.redirect({ path: '/signin' });
+        // alert('Это приватный репозиторий!');
         break;
       default:
         // this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
@@ -206,6 +209,8 @@ export default class IssuesController extends RepositoryController {
       this.open({ active: "false", msg: body.msg });
       return;
     }
+    // TODO: 403 и 401
+
     switch (result.status) {
       case 401:
         this.redirect({ path: '/signin' });
@@ -217,7 +222,8 @@ export default class IssuesController extends RepositoryController {
         this.eventBus.emit(UPLOAD.changePath, '/404');
         break;
       case 403:
-        alert('Это приватный репозиторий!');
+        this.redirect({ path: '/signin' });
+        // alert('Это приватный репозиторий!');
         break;
       default:
         this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
@@ -243,6 +249,8 @@ export default class IssuesController extends RepositoryController {
       this.open({ active: "false", msg: "Задача закрыта" });
       return;
     }
+
+    // TODO: 403 и 401
     switch (result.status) {
       case 401:
         this.redirect({ path: '/signin' });
@@ -254,7 +262,8 @@ export default class IssuesController extends RepositoryController {
         this.eventBus.emit(ISSUES.showMessage, { message: 'Ошибка: задача не найдена' });
         break;
       case 403:
-        alert('Это приватный репозиторий!');
+        this.redirect({ path: '/signin' });
+        // alert('Это приватный репозиторий!');
         break;
       default:
         this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });

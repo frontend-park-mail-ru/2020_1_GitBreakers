@@ -68,7 +68,7 @@ export default class SignUpController extends Controller {
    */
   onFinishLoadWhoAmI() {
     if (authUser.isAuth) {
-      this.redirect({ path: `/profile/${authUser.getUser}` });
+      this.redirect({ path: `/profile/${authUser.getUser}`, replace: true });
     } else {
       super.open();
     }

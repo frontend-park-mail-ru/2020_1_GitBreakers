@@ -72,7 +72,10 @@ export default class StarsController extends Controller {
     }
     switch (deleteStarRes.status) {
       case 401:
-        this.redirect('/signin');
+        this.redirect({ path: '/signin' });
+        break;
+      case 403:
+        this.redirect({ path: '/signin' });
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, {});

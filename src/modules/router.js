@@ -15,7 +15,7 @@ class Router {
    * @param {string} newUrl - url 
    * @param {object} data - необходимые данные
    */
-  go(newUrl = '/', data = {}) {
+  go(newUrl = '/', data = {}, replace = false) {
     this.prevController = this.controller
     if (this.prevController) {
       this.prevController.close();
@@ -27,7 +27,11 @@ class Router {
       this.controller = this.getController('/404')
     }
     if ((window.location.pathname !== newUrl) && (newUrl !== '/404')) {
-      window.history.pushState(null, null, newUrl);
+      if (replace) {
+        window.history.replaceState(null, null, newUrl)
+      } else {
+        window.history.pushState(null, null, newUrl);
+      }
     }
     if (this.controller) {
       // window.location.pathname = newUrl;

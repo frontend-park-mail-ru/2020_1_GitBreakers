@@ -2,7 +2,6 @@ import RepositoryController from 'Controllers/RepositoryController';
 import RepositoryModel from "Models/repositoryModel";
 import { NEWS, UPLOAD, ACTIONS } from "Modules/events";
 import RepNewsView from "Views/repNews";
-import authUser from "Modules/authUser";
 import NewsModel from 'Models/newsModel';
 
 /**
@@ -93,7 +92,7 @@ export default class NewsController extends RepositoryController {
           alert('Неверные данные!')
           break;
         case 401:
-          this.redirect({ path: '/signin' });
+          this.redirect({ path: '/signin', replace: true });
           break;
         case 404:
           this.eventBus.emit(UPLOAD.changePath, '/404');
