@@ -1,5 +1,5 @@
 import View from 'Modules/view';
-import template from 'Components/page/page.pug';
+import template from 'Components/welcomePage/welcomePage.pug';
 
 /**
  * Class representing a main page view.
@@ -21,11 +21,5 @@ export default class mainPageView extends View {
    */
   render(data) {
     super.render(data);
-
-    const msg = document.createElement('div');
-    msg.textContent = 'Welcome :)';
-    msg.className = 'section';
-    const content = document.getElementsByClassName('content')[0];
-    content.appendChild(msg);
   }
 }
