@@ -3,7 +3,12 @@ div.section
     div.card
         div.section__title
             .section__title__item
-                h2.title Репозиторий: #{author} / #{repName}
+                h2.title Репозиторий: 
+                    span 
+                        a.route(href='#' data-section=`/profile/${author}`) #{author}
+                    span  / 
+                    span
+                        a.route(href='#' data-section=`/${author}/${repName}/branches`) #{repName}
             .section__title__item
                 .rep_stars
                     .rep_stars__item.tooltip
