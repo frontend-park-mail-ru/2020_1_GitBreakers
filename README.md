@@ -25,7 +25,7 @@ npm run build
 Запуск dev сервера
 
 ```
-npm run devServer
+npm start
 ```
 
 ## Состав

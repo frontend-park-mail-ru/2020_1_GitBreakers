@@ -6,10 +6,9 @@
   "scripts": {
     "lint": "eslint --debug src/",
     "lint:write": "eslint --debug src/ --fix",
-    "start": "node server",
-    "devServer": "webpack-dev-server --mode development --open",
-    "build": "webpack --config webpack.config.js",
-    "watchBuild": "webpack -w --config webpack.config.js"
+    "start": "webpack-dev-server --mode development --open",
+    "server": "node server",
+    "build": "webpack --config webpack.config.js"
   },
   "browserslist": "> 0.25%, not dead",
   "repository": {
