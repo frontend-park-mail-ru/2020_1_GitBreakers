@@ -3,6 +3,7 @@ import RepositoryModel from "Models/repositoryModel";
 import { NEWS, UPLOAD, ACTIONS } from "Modules/events";
 import RepNewsView from "Views/repNews";
 import authUser from "Modules/authUser";
+import NewsModel from 'Models/newsModel';
 
 /**
  * Class representing a news controller.
@@ -77,7 +78,8 @@ export default class NewsController extends RepositoryController {
       repName: this.repositoryName,
       repId: this.repId,
     };
-    const result = await RepositoryModel.loadIssueList(data);
+    // const result = await RepositoryModel.loadIssueList(data);
+    const result = await NewsModel.getRepositoryNews({ data });
 
     console.log("3. list = ", result);
     if (result.success) {
@@ -119,7 +121,7 @@ export default class NewsController extends RepositoryController {
     if (newsListChanged) {
       newsListChanged = newsListChanged.map((item) => {
         const newItem = item;
-        const date = new Date(newItem.created_at);
+        const date = new Date(newItem.date);
         newItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
         // newItem.date = item.created_at.substr(0, 10);

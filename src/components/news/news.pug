@@ -6,8 +6,7 @@ block content
     div.repository__list
       div.repository__list__group
         each news in newsList
-          - let date = new Date(news.created_at)
-          div.repository__list__group_title дата: !{date.toLocaleDateString()} !{date.toLocaleTimeString().slice(0,-3)}
+          div.repository__list__group_title дата: #{news.date}
           div.repository__list__group_content
             div.repository__list__item
               div.repository__list__item_title #{news.message}

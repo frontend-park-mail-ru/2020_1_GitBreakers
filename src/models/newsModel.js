@@ -9,7 +9,7 @@ export default class NewsModel {
    * @returns {Promise}
    */
   static getRepositoryNews({ data = {}, offset = 0, limit = 20 } = {}) {
-    Api.get(`${constants.HOST}/func/repo/${data.repId}/news?limit=${limit}&offset=${offset}`)
+    return Api.get(`${constants.HOST}/func/repo/${data.repId}/news?limit=${limit}&offset=${offset}`)
       .then((res) => {
         if (res.ok) {
           return {
