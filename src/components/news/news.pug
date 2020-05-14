@@ -16,11 +16,8 @@ block content
               div.repository__list__item_button
                 div
                   span.repository__list__item_info автор:
-                    if news.author == null
-                      span.repository__list__item_info_link Неизвестно
-                    else
-                      a.route.repository__list__item_info_link(href ='#' data-section =`/profile/${news.author}`) #{news.author}
-                  image.repository__list__item_avatar(width='30' hight='30' src=news.image onError="this.style.display='none'")
+                    a.route.repository__list__item_info_link(href ='#' data-section =`/profile/${news.author_login}`) #{news.author_login}
+                  image.repository__list__item_avatar(width='30' hight='30' src=news.author_image onError="this.style.display='none'")
                 // button.button.button-colored.button-small(type='submit') *
 
   else
