@@ -4,12 +4,12 @@ import EventCollector from 'Modules/eventCollector';
 import EventBusCollector from 'Modules/eventBusCollector';
 import { ACTIONS } from 'Modules/events';
 
-/** Базовый класс отображения */
+/** Base display class */
 export default class View {
   /**
    * 
-   * @param {HTMLElement} root - тег куда будет вставляться весь контент
-   * @param {function} template - функция отрисовки отображения
+   * @param {HTMLElement} root - tag where all content will be inserted
+   * @param {function} template - display rendering function
    * @param {EventBus} eventBus - EventBus 
    */
   constructor(root, template, eventBus) {
@@ -20,7 +20,7 @@ export default class View {
     this.eventBusCollector = new EventBusCollector(eventBus);
   }
 
-  /** Удаляет все подписки */
+  /** Deletes all subscriptions */
   hide() {
     this.eventCollector.removeEvents();
     this.eventBusCollector.clean();
@@ -28,20 +28,20 @@ export default class View {
   }
 
   /**
-   * Отрисовывает все данные
-   * @param {object} data - данные для отрисовки
+   * Draw all data
+   * @param {object} data -data for drawing
    */
   render(data = {}) {
     this.root.innerHTML = this.template(data);
     this.eventBusCollector.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
   }
 
-  /** Отрисовывает лоадер */
+  /** Draw loader */
   renderLoader() {
     this.root.innerHTML = loader();
   }
 
-  /** Выводит popup */
+  /** Output popup */
   showOfflinePopUp() {
     this._popUp = document.querySelector('.popup');
     if (!this._popUp) {
@@ -54,15 +54,15 @@ export default class View {
     document.querySelector('.popup__content__close-button').addEventListener('click', this.popUpCloseOnClick.bind(this));
   }
 
-  /** Удаляет popup */
+  /** Remove popup */
   close() {
     if (this._popUp) {
       this._popUp.querySelector('.popup__content__close-button').removeEventListener('click', this.popUpCloseOnClick.bind(this));
     }
 
   }
-  
-  /** Скрывает offline popup */
+
+  /** Hides offline popup */
   popUpCloseOnClick() {
     this._popUp.classList.add('popup-hidden')
   }

@@ -11,9 +11,9 @@ class Router {
   }
 
   /**
-   * Получение нового контроллера, закрытие старого, добавление записи в HistoryAPI
+   * Getting a new controller, closing the old one, adding a record to HistoryAPI
    * @param {string} newUrl - url 
-   * @param {object} data - необходимые данные
+   * @param {object} data - request data
    */
   go(newUrl = '/', data = {}, replace = false) {
     this.prevController = this.controller
@@ -42,7 +42,7 @@ class Router {
   }
 
   /**
-   * Получение текущего pathname, подписка на необходимые события
+   * Getting the current pathname and subscribing to the required events
    */
   start() {
     const currentUrl = window.location.pathname;
@@ -69,8 +69,8 @@ class Router {
   }
 
   /**
-   * Получение контроллера по роуту
-   * @param {string} url - роут
+   * Getting the controller over the router
+   * @param {string} url - url
    * @return {Controller} 
    */
   getController(url) {
@@ -83,9 +83,9 @@ class Router {
 
 
   /**
-   * Добавления роута и контролера
-   * @param {RegExp} url - регулярное выражение для url 
-   * @param {*} controller - котроллер 
+   * Adding a router and controller
+   * @param {RegExp} url - regular expression for URLs 
+   * @param {*} controller - controller
    */
   register(url, controller) {
     this.routes.push({
@@ -95,5 +95,4 @@ class Router {
   }
 }
 
-// const router = new Router();
 export default Router;

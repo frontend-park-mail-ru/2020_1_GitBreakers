@@ -4,6 +4,12 @@ div(id=`issueitem_${item.id}`)
   .repository__list__item
     a.issueLink.repository__list__item_title(data-id=item.id) #{item.title}
     .repository__list__item_info #{date.toLocaleDateString()} #{date.toLocaleTimeString().slice(0, -3)}
+    div.repository__list__item_button
+      div
+        span.repository__list__item_info автор:
+          a.route.repository__list__item_info_link(href ='#' data-section =`/profile/${item.author_login}`) #{item.author_login}
+        image.repository__list__item_avatar(width='30' hight='30' src=item.author_image onError="this.style.display='none'")
+
   .repository__list__item_info-label Метка: #{item.label}
   .repository__list__item_message(id=`issuemsg_${item.id}` data-opened="false")
   .repository__list__item__buttonField(id=`issueButtons_${item.id}`)
