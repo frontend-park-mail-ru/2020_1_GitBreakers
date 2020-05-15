@@ -33,7 +33,7 @@ export default class HeadetController extends Controller {
   async _logout() {
     const result = await AuthModel.logout();
     if (result.success) {
-      this.redirect({ path: '/signin' });
+      // this.redirect({ path: '/signin' });
       super.open();
     }
   }

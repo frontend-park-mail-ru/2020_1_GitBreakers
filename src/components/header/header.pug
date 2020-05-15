@@ -11,7 +11,7 @@ div.header
     div.header__menu
         if auth
             a.route.header__menu_item(data-section=`/profile/${user}`) Мой профиль
-            a#logout.route.header__menu_item  Выйти
+            a#logout.header__menu_item(href='#')  Выйти
             image.header__avatar(width='32' hight='32' src=image alt='avatar')
         else
             a.route.header__menu_item(data-section='/signup') Регистрация
