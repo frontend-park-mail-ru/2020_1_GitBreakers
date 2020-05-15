@@ -38,7 +38,7 @@ module.exports = {
     ]),
   ],
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.ts'],
     alias: {
       Views: path.resolve(__dirname, 'src/views/'),
       Components: path.resolve(__dirname, 'src/components/'),
@@ -84,6 +84,11 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ],
   },
