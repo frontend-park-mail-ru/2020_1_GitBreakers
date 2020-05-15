@@ -5,7 +5,6 @@ export default class CustomValidation {
     this.validityChecks = [];
     this.inputNode = input;
 
-    // Trigger method to attach the listener.
     this.registerListener();
   }
 
@@ -24,22 +23,10 @@ export default class CustomValidation {
         this.addInvalidity(validityCheck.invalidityMessage);
       }
 
-      // const requirementElement = document.querySelector(validityCheck.selector);
-
-      // if (requirementElement) {
-      //   if (isInvalid) {
-      //     requirementElement.classList.add('invalid');
-      //     requirementElement.classList.remove('valid');
-      //   } else {
-      //     requirementElement.classList.remove('invalid');
-      //     requirementElement.classList.add('valid');
-      //   }
-      // }
     });
   }
 
   checkInput() {
-    // checkInput() now encapsulated.
 
     this.inputNode.CustomValidation.invalidities = [];
     this.checkValidity(this.inputNode);

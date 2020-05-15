@@ -1,39 +1,90 @@
 import View from 'Modules/view';
-import { SETTINGS, ACTIONS } from 'Modules/events';
+import { SETTINGS } from 'Modules/events';
 import template from 'Components/updateProfile/updateProfile2.pug';
-import errorMessage from 'Modules/errorMessage';
 import CustomValidation from 'Modules/validation/customValidation';
 import { oldPasswordValidityChecks, passwordValidityChecks } from 'Modules/validation/validationParams';
+import errorMessage from 'Components/message/errorMessage.pug';
+import successMessage from 'Components/message/successMessage.pug';
 
+/**
+ * Class representing a settings page view.
+ * @extends View
+ */
 export default class SettingsView extends View {
+
+  /**
+   * Initialize template for settings page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
-    this.eventBus.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
-    this.eventBus.on(SETTINGS.render, this._onRender.bind(this));
-    this.eventBus.on(SETTINGS.passwordFail, SettingsView._passwordFail);
-    this.eventBus.on(SETTINGS.avatarFail, SettingsView._avatarFail);
-    this.eventBus.on(SETTINGS.profileFail, SettingsView._profileFail);
-    this.eventBus.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
   }
 
-
-  static _passwordFail({ message = '' } = {}) {
-    document.getElementById('passwordMessage').innerHTML = errorMessage(message);
+  /**
+   * Add the status of password change to the page.
+   * @param {string} message.
+   * @param {boolean} success.
+   * @private
+   */
+  static _passwordMessage({ message = '', success = false } = {}) {
+    if (!success) {
+      document.getElementById('passwordMessage').innerHTML = errorMessage({ message });
+    } else {
+      document.getElementById('passwordMessage').innerHTML = successMessage({ message });
+    }
   }
 
-  static _avatarFail({ message = '' } = {}) {
-    document.getElementById('avatarMessage').innerHTML = errorMessage(message);
+  /**
+   * Add the status of avatar change to the page.
+   * @param {string} message.
+   * @param {boolean} success.
+   * @private
+   */
+  static _avatarMessage({ message = '', success = false } = {}) {
+    if (!success) {
+      document.getElementById('avatarMessage').innerHTML = errorMessage({ message });
+    } else {
+      document.getElementById('avatarMessage').innerHTML = successMessage({ message });
+    }
   }
 
-  static _profileFail({ message = '' } = {}) {
-    document.getElementById('profileMessage').innerHTML = errorMessage(message);
+  /**
+   * Add the status of profile information change to the page.
+   * @param {string} message.
+   * @param {boolean} success.
+   * @private
+   */
+  static _profileMessage({ message = '', success = false } = {}) {
+    if (!success) {
+      document.getElementById('profileMessage').innerHTML = errorMessage({ message });
+    } else {
+      document.getElementById('profileMessage').innerHTML = successMessage({ message });
+    }
   }
 
+  /**
+   * Load information about settings page.
+   */
   render() {
-    this.renderLoader();
+    // this.renderLoader();
+
+    this.eventBusCollector.on(SETTINGS.changeAvatar, SettingsView._onChangeAvatar.bind(this));
+    this.eventBusCollector.on(SETTINGS.changeAvatar, SettingsView._avatarMessage);
+    this.eventBusCollector.on(SETTINGS.render, this._onRender.bind(this));
+    this.eventBusCollector.on(SETTINGS.passwordFail, SettingsView._passwordMessage);
+    this.eventBusCollector.on(SETTINGS.avatarFail, SettingsView._avatarMessage);
+    this.eventBusCollector.on(SETTINGS.profileFail, SettingsView._profileMessage);
+    // this.eventBusCollector.on(ACTIONS.offline, this.showOfflinePopUp.bind(this));
+
     this.eventBus.emit(SETTINGS.load, {});
   }
 
+  /**
+   * Render settings page.
+   * @param {Object} body.
+   * @private
+   */
   _onRender(body = {}) {
     super.render(body);
 
@@ -42,6 +93,11 @@ export default class SettingsView extends View {
     this._setPasswordForm();
   }
 
+  /**
+   * Change all avatar views on the page.
+   * @param {string} url.
+   * @private
+   */
   static _onChangeAvatar({ url = '' } = {}) {
     const imageTags = document.querySelectorAll('img[alt="avatar"]');
 
@@ -50,27 +106,53 @@ export default class SettingsView extends View {
     }
   }
 
+  /**
+   * Set avatar form.
+   * @private
+   */
   _setAvatarForm() {
     const form = document.forms.setAvatar;
 
-    form.addEventListener('submit', (event) => {
+    const func1 = (event) => {
+      event.preventDefault();
+      document.forms.setAvatar.avatar.click();
+    }
+    document.querySelector('a.fileLoad').addEventListener('click', func1);
+    this.eventCollector.addEvent(document.querySelector('a.fileLoad'), 'click', func1);
+
+    const func = (event) => {
       event.preventDefault();
       this.eventBus.emit(SETTINGS.submitAvatar, { form });
-    });
+    }
+    form.avatar.addEventListener('change', func);
+    this.eventCollector.addEvent(form, 'change', func);
   }
 
+  /**
+   * Set profile form.
+   * @private
+   */
   _setProfileForm() {
     const form = document.forms.setProfile;
 
-    form.addEventListener('submit', (event) => {
+    const func = (event) => {
       event.preventDefault();
       this.eventBus.emit(SETTINGS.submitProfile, {
         name: form.name.value,
         email: form.email.value,
       });
-    });
+    }
+
+    form.addEventListener('submit', func);
+
+    this.eventCollector.addEvent(form, 'submit', func);
   }
 
+  /**
+   * Set password form.
+   * @returns {boolean}.
+   * @private
+   */
   _setPasswordForm() {
     const form = document.forms.setPassword;
 
@@ -103,14 +185,20 @@ export default class SettingsView extends View {
       });
     };
 
-    document.querySelector('button[type="submit"]').addEventListener('click', validate, false);
+    const target = document.querySelector('button[type="submit"]');
+    target.addEventListener('click', validate, false);
 
-    document.forms.setPassword.addEventListener('submit', (event) => {
+    this.eventCollector.addEvent(document.forms.setPassword, 'submit', validate, false);
+
+    const send = (event) => {
       validate();
       event.preventDefault();
       this.eventBus.emit(SETTINGS.submitPassword, {
         password: form.password.value,
       });
-    }, false);
+    };
+
+    document.forms.setPassword.addEventListener('submit', send);
+    this.eventCollector.addEvent(document.forms.setPassword, 'submit', send, false);
   }
 }

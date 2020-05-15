@@ -1,3 +1,4 @@
+@import "constants";
 .repository {
   &__flex_container {
     display: flex;
@@ -18,24 +19,68 @@
   }
 }
 
-.repo_stars {
-  min-width: 80px;
-  max-height: 40px;
+.rep_stars {
+  padding-left: 5px;
+  padding-right: 5px;
+  min-width: 120px;
+  max-height: 38px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   border: 1px solid black;
   border-radius: 3px;
   margin-left: 10px;
+
+  &__action {
+    height: 38px;
+    p {
+      height: 38px;
+      margin: 0;
+    }
+    p:before {
+      content: "\2605";
+      margin-right: px;
+      font-size: 150%;
+    }
+  }
+
+  &__counter {
+  }
+
+  &__item {
+    text-align: center;
+  }
 }
 
-.rep_stars__action {
-  margin-right: 10px;
-  max-height: 40px;
-  border-right: 1px solid black;
-  background-color: blanchedalmond;
-}
+.link {
+  &__copy {
+    border: 1px solid $button-border-color;
+    background-color: white;
+    color: $font-color;
+    border-radius: 0px 10px 10px 0px;
+    font-size: 95%;
+    height: 38px;
+    margin-left: 0px;
+    &:hover {
+      cursor: pointer;
+      color: grey;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
 
-.rep_stars__counter {
-  max-height: 40px;
+  &__box {
+    margin-right: 0px;
+    border: 1px solid;
+    border-color: $button-border-color;
+    // height: 28px;
+    border-radius: 10px 0px 0px 10px;
+    font-size: 95%;
+    height: 34px;
+
+    &:focus {
+      outline: none;
+    }
+  }
 }

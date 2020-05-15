@@ -2,20 +2,44 @@ import RepositoryController from "Controllers/RepositoryController";
 import RepositoryStarsView from "Views/repStarsView";
 import StarsModel from 'Models/starsModel';
 import RepositoryModel from 'Models/repositoryModel';
-import { REPSTARS, REPOSITORY, ACTIONS } from 'Modules/events';
+import { REPSTARS } from 'Modules/events';
 
+/**
+ * Class representing a stars controller.
+ * @extends RepositoryController
+ */
 export default class RepositoryStarsController extends RepositoryController {
+
+  /**
+   * Initialize view for stars.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.view = new RepositoryStarsView(root, eventBus);
-    this.eventBus.on(REPSTARS.load, this._load.bind(this));
-    this.eventBus.on(REPOSITORY.updateStar, this._updateStar.bind(this));
   }
 
+  /**
+   * Open page view.
+   */
+  open() {
+    this.eventBusCollector.on(REPSTARS.load, this._load.bind(this));
+    super.open();
+  }
+
+  /**
+   * Get information about repository and its stars.
+   * @param {string} profile.
+   * @param {string} repository.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _load({ profile = '', repository = '' } = {}) {
     const repositoryRes = await RepositoryModel.getRepository({ profile, repository });
-
+    await this._setStars();
 
     if (repositoryRes.success) {
       this.setRepository();
@@ -33,48 +57,5 @@ export default class RepositoryStarsController extends RepositoryController {
       }
     }
 
-  }
-
-  async _updateStar({ vote = true, id = 0 } = {}) {
-    const path = window.location.pathname;
-    const reg = /[\w_]+/g;
-
-    const [author, repository] = path.match(reg);
-    const data = {
-      body: {
-        // repo_id: id,
-        vote,
-      },
-      repositoryId: id,
-    }
-    const updateRes = StarsModel.updateOrDeleterepoStar(data);
-    let repoRes = {};
-    if (updateRes.success) {
-      repoRes = await RepositoryModel.getRepository({ repository, profile: author });
-
-      if (repoRes.success) {
-        const repo = await repoRes.body;
-
-        this.eventBus.emit(REPOSITORY.updatedStar, {
-          success: true,
-          stars: repo.stars,
-        });
-        return;
-      }
-
-    }
-    if (!(updateRes.success && repoRes.success))
-      switch (repoRes.status) {
-        case 409:
-          this.eventBus.emit(REPOSITORY.updatedStar, { success: false });
-          // return;
-          break;
-        case 401:
-          break;
-        case 400:
-          break;
-        default:
-          this.eventBus.emit(ACTIONS.offline, {});
-      }
   }
 }

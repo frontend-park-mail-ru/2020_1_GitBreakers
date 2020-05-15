@@ -1,19 +1,37 @@
 import eventBus from 'Modules/eventBus';
 import { UPLOAD } from 'Modules/events';
 
+/** Отвечает за роутинг приложения. */
 class Router {
+  /**
+   * @constructor
+   */
   constructor() {
     this.routes = [];
   }
 
-  go(newUrl = '/', data = {}) {
+  /**
+   * Getting a new controller, closing the old one, adding a record to HistoryAPI
+   * @param {string} newUrl - url 
+   * @param {object} data - request data
+   */
+  go(newUrl = '/', data = {}, replace = false) {
+    this.prevController = this.controller
+    if (this.prevController) {
+      this.prevController.close();
+    }
     this.controller = this.getController(newUrl);
     if (!this.controller) {
       console.log('newUrl =', newUrl, 'Контроллер не найден');
-      this.controller = this.getController(newUrl);
+      // this.controller = this.getController(newUrl);
+      this.controller = this.getController('/404')
     }
     if ((window.location.pathname !== newUrl) && (newUrl !== '/404')) {
-      window.history.pushState(null, null, newUrl);
+      if (replace) {
+        window.history.replaceState(null, null, newUrl)
+      } else {
+        window.history.pushState(null, null, newUrl);
+      }
     }
     if (this.controller) {
       // window.location.pathname = newUrl;
@@ -23,6 +41,9 @@ class Router {
     }
   }
 
+  /**
+   * Getting the current pathname and subscribing to the required events
+   */
   start() {
     const currentUrl = window.location.pathname;
     this.go(currentUrl);
@@ -41,8 +62,17 @@ class Router {
       const url = window.location.pathname;
       this.go(url);
     });
+
+    eventBus.on(UPLOAD.changePath, (newUrl) => {
+      this.go(newUrl);
+    });
   }
 
+  /**
+   * Getting the controller over the router
+   * @param {string} url - url
+   * @return {Controller} 
+   */
   getController(url) {
     const result = this.routes.find((route) => url.match(route.url));
     if (result) {
@@ -52,16 +82,17 @@ class Router {
   }
 
 
+  /**
+   * Adding a router and controller
+   * @param {RegExp} url - regular expression for URLs 
+   * @param {*} controller - controller
+   */
   register(url, controller) {
     this.routes.push({
       url,
       controller,
     });
-    eventBus.on(UPLOAD.changePath, (newUrl) => {
-      this.go(newUrl);
-    });
   }
 }
 
-// const router = new Router();
 export default Router;

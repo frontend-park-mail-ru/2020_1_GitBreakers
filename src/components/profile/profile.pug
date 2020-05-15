@@ -19,12 +19,13 @@ div.section
           div.card.col2-height
             div.profile__data__top
               div.profile__data__top__menu
-                div.profile__data__top__menu_item
-                  a.route.profile__menu__link(href='' data-section=('/profile/'+login)) Репозитории
-                .profile__dsta__top__menu_item
-                  a.route.profile__menu__link(href='' data-section=('/profile/' + login + '/stars')) Звезды !{Stars}
-                div.profile__data__top__menu_item
-                  button.route.button(type='submit' data-section='/new') Создать репозиторий
+                .profile__data__top__menu_item
+                  a.route.profile__menu__link(href='' data-section=`/profile/${login}`) Репозитории
+                .profile__data__top__menu_item
+                  a.route.profile__menu__link(href='' data-section=`/profile/${login}/stars`) Звезды !{Stars}
+                if (auth === login)
+                  div.profile__data__top__menu_item
+                    button.route.button(type='submit' data-section='/new') Создать репозиторий
             hr.line-separator.line-separator_thin
             div.profile__data__main
               block content

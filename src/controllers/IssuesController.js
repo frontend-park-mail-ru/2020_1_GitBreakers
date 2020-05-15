@@ -1,25 +1,52 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import {ISSUES, REPOSITORY, UPLOAD} from 'Modules/events';
+import { ISSUES, REPOSITORY, UPLOAD, ACTIONS } from 'Modules/events';
 import RepIssuesView from 'Views/repIssues';
 
 import RepositoryModel from 'Models/repositoryModel';
 
-
+/**
+ * Class representing a issues controller.
+ * @extends RepositoryController
+ */
 export default class IssuesController extends RepositoryController {
+
+  /**
+   * Initialize view for issues page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepIssuesView(root, eventBus);
 
-    this.eventBus.on(REPOSITORY.getInfo, this._getRepository.bind(this));
-    this.eventBus.on(ISSUES.getIssueList, this._getIssueList.bind(this));
-    this.eventBus.on(ISSUES.submitNewIssue, this._createIssue.bind(this));
-    this.eventBus.on(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
-    this.eventBus.on(ISSUES.deleteIssue, this._deleteIssue.bind(this));
   }
 
+  /**
+   * Open page view.
+   */
+  open(data) {
+    this.eventBusCollector.on(REPOSITORY.getInfo, this._getRepository.bind(this));
+    this.eventBusCollector.on(ISSUES.getIssueList, this._getIssueList.bind(this));
+    this.eventBusCollector.on(ISSUES.submitNewIssue, this._createIssue.bind(this));
+    this.eventBusCollector.on(ISSUES.submitUpdateIssue, this._updateIssue.bind(this));
+    this.eventBusCollector.on(ISSUES.deleteIssue, this._deleteIssue.bind(this));
 
+    this.data.newIssueForm = data.active;
+    this.data.msg = data.msg;
+    super.open();
+  }
+
+  /**
+   * Get information about this repository.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getRepository() {
     this.setRepository();
+
+    await this._setStars();
+
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;
@@ -43,13 +70,19 @@ export default class IssuesController extends RepositoryController {
           alert('Это приватный репозиторий!');
           break;
         default:
-          console.log('Неизвестная ошибка ', result.status);
+          // console.log('Неизвестная ошибка ', result.status);
+          this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
+
           break;
       }
     }
   }
 
-
+  /**
+   * Get list of this repository issues.
+   * @returns {Promise<void>}.
+   * @private
+   */
   async _getIssueList() {
     const data = {
       repId: this.repId,
@@ -76,18 +109,26 @@ export default class IssuesController extends RepositoryController {
     }
   }
 
+  /**
+   * Process data from issue list to get information about opened and closed ones.
+   * @param issueList
+   * @returns {Promise<void>}
+   * @private
+   */
   async _loadIssueList(issueList) {
-    let resolved = {};
-    let unresolved = {};
+    const resolved = {};
+    const unresolved = {};
 
     if (issueList) {
       issueList.forEach((item) => {
-        item.date = item.created_at.substr(0, 10);
+        const modItem = item;
+        const date = new Date(modItem.created_at);
+        modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
-        if (item.is_closed) {
-          resolved[item.id] = item;
+        if (modItem.is_closed) {
+          resolved[modItem.id] = modItem;
         } else {
-          unresolved[item.id] = item;
+          unresolved[modItem.id] = modItem;
         }
       });
     }
@@ -99,31 +140,32 @@ export default class IssuesController extends RepositoryController {
     this.data.tab = "unresolved";
   }
 
-  open(data) {
-    this.data.newIssueForm = data.active;
-    this.data.msg = data.msg;
-    super.open();
-  }
-
-
+  /**
+   * Validate information about new issue.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _createIssue(body) {
 
     if (body.formData.title.length === 0) {
-      this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
+      this.eventBus.emit(ISSUES.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
       return;
     }
 
     const result = await RepositoryModel.createIssue({
-      data : {
+      data: {
         repId: this.repId,
       },
-      body : body.formData,
+      body: body.formData,
     });
 
     if (result.success) {
-      this.open({active: "false", msg: body.msg});
+      this.open({ active: "false", msg: body.msg });
       return;
     }
+    // TODO: 403 и 401
+
     switch (result.status) {
       case 401:
         this.redirect({ path: '/signin' });
@@ -135,32 +177,40 @@ export default class IssuesController extends RepositoryController {
         this.eventBus.emit(UPLOAD.changePath, '/404');
         break;
       case 403:
-        alert('Это приватный репозиторий!');
+        this.redirect({ path: '/signin' });
+        // alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+        // this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
+        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 
-
-
+  /**
+   * Validate information about changing issue.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _updateIssue(body) {
 
     if (body.formData.title.length === 0) {
-      this.eventBus.emit(ISSUES.showMessage, {message: 'Необходимо заполнить поле заголовка!'});
+      this.eventBus.emit(ISSUES.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
       return;
     }
     const result = await RepositoryModel.updateIssue({
-      data : {
+      data: {
         repId: this.repId,
       },
-      body : body.formData,
+      body: body.formData,
     });
 
     if (result.success) {
-      this.open({active: "false", msg: body.msg});
+      this.open({ active: "false", msg: body.msg });
       return;
     }
+    // TODO: 403 и 401
+
     switch (result.status) {
       case 401:
         this.redirect({ path: '/signin' });
@@ -172,28 +222,35 @@ export default class IssuesController extends RepositoryController {
         this.eventBus.emit(UPLOAD.changePath, '/404');
         break;
       case 403:
-        alert('Это приватный репозиторий!');
+        this.redirect({ path: '/signin' });
+        // alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+        this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
     }
   }
 
-
-
+  /**
+   * Detele one issue.
+   * @param {Object} body.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _deleteIssue(body) {
 
     const result = await RepositoryModel.deleteIssue({
-      data : {
+      data: {
         repId: this.repId,
       },
       body,
     });
 
     if (result.success) {
-      this.open({active: "false", msg: "Задача удалена"});
+      this.open({ active: "false", msg: "Задача закрыта" });
       return;
     }
+
+    // TODO: 403 и 401
     switch (result.status) {
       case 401:
         this.redirect({ path: '/signin' });
@@ -202,13 +259,14 @@ export default class IssuesController extends RepositoryController {
         alert('Ошибка: неверные данные!');
         break;
       case 404:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Ошибка: задача не найдена'});
+        this.eventBus.emit(ISSUES.showMessage, { message: 'Ошибка: задача не найдена' });
         break;
       case 403:
-        alert('Это приватный репозиторий!');
+        this.redirect({ path: '/signin' });
+        // alert('Это приватный репозиторий!');
         break;
       default:
-        this.eventBus.emit(ISSUES.showMessage, {message: 'Неизвестная ошибка!'});
+        this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
     }
   }
 

@@ -11,7 +11,7 @@ block content
             each folder in folderList
                 tr.repository__tree__item
                     td.column-thin
-                        //img.repository__tree__item_icon(src="styles/img/folder.png")
+                        img.repository__tree__item_icon(src="/img/folder.png")
                         a.route.repository__tree__item_title.folder(name=folder.name) #{folder.name}
                     td.column-thick
                        // div.repository__tree__item_commit #{folder.commit} commit_info
@@ -22,7 +22,7 @@ block content
             each file in fileList
                 tr.repository__tree__item
                     td.column-thin
-                        //img.repository__tree__item_icon(src="styles/img/file.png")
+                        img.repository__tree__item_icon(src="/img/file.png")
                         a.route.repository__tree__item_title.file(name=file.name) #{file.name}
                     td.column-thick
                         // div.repository__tree__item_commit #{file.commit} commit_info

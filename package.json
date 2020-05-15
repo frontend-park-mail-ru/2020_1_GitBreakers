@@ -6,10 +6,9 @@
   "scripts": {
     "lint": "eslint --debug src/",
     "lint:write": "eslint --debug src/ --fix",
-    "start": "node server",
-    "devServer": "webpack-dev-server --mode development --open",
-    "build": "webpack --config webpack.config.js",
-    "watchBuild": "webpack -w --config webpack.config.js"
+    "start": "webpack-dev-server --mode development --open",
+    "server": "node server",
+    "build": "webpack --config webpack.config.js"
   },
   "browserslist": "> 0.25%, not dead",
   "repository": {
@@ -39,6 +38,8 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-dotall-regex": "^7.8.3",
+    "acorn": "^5.7.4",
+    "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -57,7 +58,6 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "acorn": "^5.7.4",
     "yargs": "^14.2.1"
   }
 }

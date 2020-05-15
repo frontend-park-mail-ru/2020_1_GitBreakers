@@ -29,7 +29,6 @@
   padding: 15px 20px;
 }
 
-
 .content {
   clear: both;
   min-width: 400px;
@@ -42,7 +41,6 @@
   justify-content: center;
   //align-items: center;
 }
-
 
 .section {
   width: 85vw;
@@ -57,10 +55,11 @@
   // margin-left: auto;
   // margin-right: auto;
 
-
   &__title {
     display: flex;
-    word-break: break-all;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__main {
@@ -95,7 +94,13 @@ a:hover {
 }
 
 .error-msg {
-  color: $font-light-color;
+  color: red;
   font-weight: bold;
-  font-size: 90%;
+  font-size: 150%;
+}
+
+.success-msg {
+  color: rgb(106, 202, 68);
+  font-weight: bold;
+  font-size: 150%;
 }

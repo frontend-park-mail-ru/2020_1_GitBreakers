@@ -4,7 +4,18 @@ import Controller from 'Modules/controller';
 import HeaderView from 'Views/headerView';
 import { HEADER } from 'Modules/events';
 
+/**
+ * Class representing a header controller.
+ * @extends Controller
+ */
 export default class HeadetController extends Controller {
+
+  /**
+   * Initialize view for header.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
@@ -14,6 +25,11 @@ export default class HeadetController extends Controller {
     this.eventBus.on(HEADER.rerender, this.open.bind(this));
   }
 
+  /**
+   * Log out user from his profile.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _logout() {
     const result = await AuthModel.logout();
     if (result.success) {
@@ -22,6 +38,11 @@ export default class HeadetController extends Controller {
     }
   }
 
+  /**
+   * Get information about current user.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _loadStatus() {
     await authUser.loadWhoAmI();
     this.eventBus.emit(HEADER.render, {

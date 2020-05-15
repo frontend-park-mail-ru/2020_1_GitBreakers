@@ -11,7 +11,7 @@ pre {
     word-break: break-all;
     word-wrap: break-word;
     white-space: pre-wrap;
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
     -webkit-border-radius: 4px;
     border-radius: 4px;
 
@@ -41,7 +41,7 @@ ol.linenums {
 
     & li {
         padding-left: 12px;
-        color: #93a1a1;
+        color: #ffffff;
         line-height: 20px;
         list-style: decimal;
     }

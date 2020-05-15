@@ -2,12 +2,12 @@ div.header
     div.header__logo
         h1
             if auth
-                a.route.header__logo_name(data-section=`/profile/${user}`) Git
+                a.route.header__logo_name(data-section=`/profile/${user}`) CodeHub
             else
-                a.route.header__logo_name(data-section='/') Git
+                a.route.header__logo_name(data-section='/') CodeHub
     div.header__search
-        form.search(action='#')
-            input.header__search_input(name='search' placeholder="Search..." type='text')
+        //- form.search(action='#')
+        input.header__search_input(name='search' placeholder="Search..." type='text')
     div.header__menu
         if auth
             a.route.header__menu_item(data-section=`/profile/${user}`) Мой профиль

@@ -3,19 +3,43 @@ import RepFilesView from 'Views/repFiles';
 import { TREEPAGE, UPLOAD } from 'Modules/events';
 import RepositoryModel from 'Models/repositoryModel';
 
-
+/**
+ * Class representing a file tree controller.
+ * @extends RepositoryController
+ */
 export default class FileTreeController extends RepositoryController {
+
+  /**
+   * Initialize view for file tree page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepFilesView(root, eventBus);
 
-    this.eventBus.on(TREEPAGE.getFiles, this._getFileList.bind(this));
-    this.eventBus.on(TREEPAGE.getBranchList, this._getBranchList.bind(this));
   }
 
+  /**
+   * Open page view.
+   */
+  open() {
+    this.eventBusCollector.on(TREEPAGE.getFiles, this._getFileList.bind(this));
+    this.eventBusCollector.on(TREEPAGE.getBranchList, this._getBranchList.bind(this));
 
+    super.open();
+  }
+
+  /**
+   * Get list of this repository branches.
+   * @returns {Promise<void>}.
+   * @private
+   */
   async _getBranchList() {
     this.setRepository();
+
+    await this._setStars();
 
     this.data.folderList = [];
     this.data.fileList = [];
@@ -52,7 +76,11 @@ export default class FileTreeController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Get list of the branch files and folders.
+   * @returns {Promise<void>}.
+   * @private
+   */
   async _getFileList() {
     this.setBranchName();
     this.setRepPath();
@@ -74,6 +102,11 @@ export default class FileTreeController extends RepositoryController {
     }
   }
 
+  /**
+   * Process data from file tree list to get information about files and folders.
+   * @param {Object} list.
+   * @private
+   */
   _loadFileList(list) {
     const folders = [];
     const files = [];

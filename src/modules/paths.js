@@ -1,3 +1,4 @@
+/** Regular expressions for routing */
 const paths = {
   profileSettings: /^\/settings$/i,
   newRepository: /^\/new$/i,
@@ -10,6 +11,7 @@ const paths = {
 
   news: /^\/[\w-_]+\/[\w-_]+\/news$/i,
   issues: /^\/[\w-_]+\/[\w-_]+\/issues$/i,
+  // news: /^\/[\w-_]+\/[\w-_]+\/news$/i,
   commits: /^\/[\w-_]+\/[\w-_]+\/commits\/[\w-_]+$/i,
   repository: /^\/[\w-_]+\/[\w-_]+$/,
   repoStars: /^\/[\w-_]+\/[\w-_]+\/stargazers$/,

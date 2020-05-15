@@ -5,15 +5,28 @@ import template from 'Components/signUp/signUp.pug';
 import CustomValidation from 'Modules/validation/customValidation';
 import { loginValidityChecks, passwordValidityChecks } from 'Modules/validation/validationParams';
 
+/**
+ * Class representing a sing up page view.
+ * @extends View
+ */
 export default class SignUpView extends View {
+
+  /**
+   * Initialize template for sing up page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
-
-    this.eventBus.on(SIGNUP.fail, SignUpView._fail);
-    this.eventBus.on(SIGNUP.success, SignUpView._success);
   }
 
+  /**
+   * Render sing up page.
+   */
   render() {
+    this.eventBusCollector.on(SIGNUP.fail, SignUpView._fail);
+    this.eventBusCollector.on(SIGNUP.success, SignUpView._success);
+
     super.render();
 
     const form = document.forms.signUp;
@@ -61,6 +74,11 @@ export default class SignUpView extends View {
     }, false);
   }
 
+  /**
+   * Add sing up error to the page.
+   * @param {string} message
+   * @private
+   */
   static _fail({ message = '' } = {}) {
     document.getElementById('signUpMessage').innerHTML = errorMessage(message);
   }

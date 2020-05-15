@@ -1,75 +1,98 @@
 import Controller from 'Modules/controller';
-import { UPLOAD, REPOSITORY } from 'Modules/events';
-import StarsModel from '../models/starsModel';
+import { UPLOAD, REPOSITORY, ACTIONS } from 'Modules/events';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
-import { ACTIONS } from '../modules/events';
+import StarsModel from '../models/starsModel';
 
+/**
+ * Class representing a repository controller.
+ * @extends Controller
+ */
 export default class RepositoryController extends Controller {
+  /**
+   * Create a repository controller, initialize root and data.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.root = root;
     this.data = {
-      branchName: 'master', // кыш
+      branchName: 'master',
     };
-    this.eventBus.on(UPLOAD.notFound, ((msg) => { console.log(msg); this.eventBus.emit(UPLOAD.changePath, '/404'); }));
-
   }
 
+  /**
+   * Open page 404 if current page is not found.
+   * @param {string} msg.
+   */
+  pageNotFound(msg) {
+    console.log(msg);
+    this.eventBus.emit(UPLOAD.changePath, '/404');
+  }
 
+  /**
+   * Open page view.
+   */
+  open() {
+    this.eventBusCollector.on(REPOSITORY.updateStar, this._updateStar.bind(this));
+    this.eventBusCollector.on(UPLOAD.notFound, this.pageNotFound.bind(this));
+
+    super.open();
+  }
+
+  /**
+   * Parse path to get author name and repository title.
+   */
   setRepository() {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
-    // this.author = path.match(reg)[0];
-    // this.repository = path.match(reg)[1];
     [this.author, this.repository] = path.match(reg);
-    this._setStarsStatus();
     this.repositoryName = `${this.author}/${this.repository}`;
 
-    this.defaultBranch = this._getDefaultBranch();
-
-
-    this._getStarsCount();
+    this.defaultBranch = RepositoryController._getDefaultBranch();
   }
 
-  async _setStarsStatus() {
-    this.data.vote = 'send';
-    await authUser.loadWhoAmI()
-    const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
-    if (listOfRepoRes.success) {
-      const listOfRepo = await listOfRepoRes.body;
-      if (listOfRepo) {
-        listOfRepo.forEach((item) => {
-          if (item.name === this.repository) {
-            this.data.vote = 'delete';
-          }
-        })
-      }
-
-
-      const message = (this.data.vote !== 'send') ? 'Убрать' : ' сохранить';
-
-      const kek = this.root.querySelector('.rep_stars__counter');
-      kek.dataset = this.data.vote;
-      this.root.querySelector('.rep_stars__action').innertHTNL = message;
-    }
-
-
-  }
-
-  async _getStarsCount() {
+  /**
+   * Get information about user's stars.
+   * @returns {Promise<void>}.
+   * @private
+   */
+  async _setStars() {
+    this.setRepository();
     const rep = this.repository;
     const repoRes = await RepositoryModel.getRepository({ repository: rep, profile: this.author });
 
+    const kek = 1;
+    console.log(kek);
     if (repoRes.success) {
       const repo = await repoRes.body;
       this.data.stars = repo.stars;
       this.data.id = repo.id;
+
+
+      this.data.vote = 'send';
+      await authUser.loadWhoAmI()
+      const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
+      if (listOfRepoRes.success) {
+        const listOfRepo = await listOfRepoRes.body;
+        if (listOfRepo) {
+          listOfRepo.forEach((item) => {
+            if (item.name === this.repository) {
+              this.data.vote = 'delete';
+            }
+          })
+        }
+      }
     }
   }
 
+  /**
+   * Parse path to get branch name.
+   */
   setBranchName() {
     const path = window.location.pathname;
     const name = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/)[0];
@@ -81,7 +104,9 @@ export default class RepositoryController extends Controller {
     }
   }
 
-
+  /**
+   * Parse path to get repository path to a folder.
+   */
   setRepPath() {
     const path = window.location.pathname;
     this.repPath = null;
@@ -94,6 +119,9 @@ export default class RepositoryController extends Controller {
     }
   }
 
+  /**
+   * Parse path to get repository path to a file.
+   */
   setFilePath() {
     const path = window.location.pathname;
     this.filePath = null;
@@ -105,8 +133,67 @@ export default class RepositoryController extends Controller {
     }
   }
 
-  _getDefaultBranch() {
+  /**
+   * Get name of a default branch.
+   * @returns {string}.
+   * @private
+   */
+  static _getDefaultBranch() {
     // RepositoryModel.loadDefaultBranch()
     return 'master';
   }
+
+  /**
+   * Update repository stars.
+   * @param {boolean} vote.
+   * @param {number} id.
+   * @returns {Promise<void>}.
+   * @private
+   */
+  async _updateStar({ vote = true, id = 0 } = {}) {
+    const path = window.location.pathname;
+    const reg = /[\w_]+/g;
+
+    const [author, repository, page] = path.match(reg);
+    const data = {
+      body: {
+        vote,
+      },
+      repositoryId: id,
+    }
+    const updateRes = await StarsModel.updateOrDeleterepoStar(data);
+    if (updateRes.success) {
+      const repoRes = await RepositoryModel.getRepository({ repository, profile: author });
+
+      if (repoRes.success) {
+        const repo = await repoRes.body;
+        if (page === 'stargazers') {
+          this.redirect({ path });
+          return;
+        }
+        this.eventBus.emit(REPOSITORY.updatedStar, {
+          stars: repo.stars,
+        });
+        return;
+      }
+    }
+
+    // TODO: Поправить для 401
+    switch (updateRes.status) {
+      case 409:
+        this.eventBus.emit(REPOSITORY.updatedStar, {});
+        break;
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 403:
+        this.redirect({ path: '/signin' });
+        break;
+      case 400:
+        break;
+      default:
+        this.eventBus.emit(ACTIONS.offline, {});
+    }
+  }
+
 }

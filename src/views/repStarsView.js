@@ -1,16 +1,28 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
-import { REPSTARS, REPOSITORY } from 'Modules/events';
+import { REPSTARS } from 'Modules/events';
 import template from 'Components/repStars/repStars.pug';
 
+/**
+ * Class representing a stars page view.
+ * @extends RepositoryBaseView
+ */
 export default class RepositoryStarsView extends RepositoryBaseView {
+
+  /**
+   * Initialize template for stars page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
-    this.eventBus.on(REPOSITORY.updatedStar, this._changeStarStatus.bind(this));
-    // this.view = new (root, eventBus);
-    this.eventBus.on(REPSTARS.render, this.onRender.bind(this))
   }
 
+  /**
+   * Load information about repository stars.
+   */
   render() {
+    this.eventBusCollector.on(REPSTARS.render, this._onRender.bind(this));
+
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
@@ -18,16 +30,12 @@ export default class RepositoryStarsView extends RepositoryBaseView {
     this.eventBus.emit(REPSTARS.load, { profile, repository });
   }
 
-  onRender(data = {}) {
+  /**
+   * Render repository stars.
+   * @param {Object} data.
+   * @private
+   */
+  _onRender(data = {}) {
     super.render(data);
-  }
-
-  _changeStarStatus() {
-    const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
-
-    const message = (vote === 'send') ? 'Убрать' : ' сохранить';
-
-    this.root.querySelector('.rep_stars__counter').dataset = (vote === 'send');
-    this.root.querySelector('.rep_stars__action').innertHTNL = message;
   }
 }

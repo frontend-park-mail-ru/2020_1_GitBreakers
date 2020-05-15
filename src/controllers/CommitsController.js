@@ -4,18 +4,45 @@ import { COMMITSPAGE, UPLOAD } from 'Modules/events';
 import RepositoryModel from 'Models/repositoryModel';
 
 
+/**
+ * Class representing a commits controller.
+ * @extends RepositoryController
+ */
 export default class CommitsController extends RepositoryController {
+
+  /**
+   * Initialize view for commits page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepCommitsView(root, eventBus);
 
-    this.eventBus.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
-    this.eventBus.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
   }
 
+  /**
+   * Open page view.
+   */
+  open() {
+    this.eventBusCollector.on(COMMITSPAGE.getBranchList, this._getBranchList.bind(this));
+    this.eventBusCollector.on(COMMITSPAGE.getCommitList, this._getCommitList.bind(this));
 
+    super.open();
+  }
+
+  /**
+   * Get list of this repository branches.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getBranchList() {
+
     this.setRepository();
+
+    await this._setStars();
+
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;
@@ -50,7 +77,11 @@ export default class CommitsController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Get list of the branch commits.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getCommitList() {
     this.setBranchName();
 
@@ -69,11 +100,19 @@ export default class CommitsController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Process data from commits list.
+   * @param res
+   * @private
+   */
   _loadCommitList(res = []) {
-    const commitList = res.slice([0], [9]);
-    commitList.forEach((item) => {
-      item.update = item.commit_author_when.substr(0, 10);
+    let commitList = res.slice([0], [9]);
+    commitList = commitList.map((item) => {
+      const newItem = item;
+      const date = new Date(item.commit_author_when);
+      newItem.update = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+      // newItem.update = item.commit_author_when.substr(0, 10);
+      return newItem;
     });
     this.data.commitList = commitList;
     this.data.branchName = this.branchName;

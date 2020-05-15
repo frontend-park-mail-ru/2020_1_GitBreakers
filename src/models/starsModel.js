@@ -1,8 +1,14 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
 
+/** Class for working with stars */
 export default class StarsModel {
 
+  /**
+   *  Signs or unsubscribes a user from the repository.
+   * @param {object} param0 - request data
+   * @returns {Promise}
+   */
   static updateOrDeleterepoStar({ body = {}, repositoryId = '' } = {}) {
     return Api.put(`${constants.HOST}/func/repo/${repositoryId}/stars`, body)
       .then((res) => {
@@ -15,13 +21,19 @@ export default class StarsModel {
           success: false,
           status: res.status,
         };
-      }).catch(() => {
+      })
+      .catch(() => {
         return {
           success: false,
         };
       });
   }
 
+  /**
+ *  Return list of repositors in user stars.
+ * @param {object} param0 - request data
+ * @returns {Promise}
+ */
   static getListOfUserStars({ profile = '' } = {}) {
     return Api.get(`${constants.HOST}/func/repo/${profile}/stars`)
       .then((res) => {
@@ -42,6 +54,11 @@ export default class StarsModel {
       });
   }
 
+  /**
+ *  Return list of users in repository stars.
+ * @param {object} param0 - request data
+ * @returns {Promise}
+ */
   static getListOfUsersWhoStarRepository({
     repositoryId = '',
     offset = 0,

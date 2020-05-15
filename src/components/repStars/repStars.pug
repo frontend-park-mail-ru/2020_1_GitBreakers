@@ -1,6 +1,4 @@
 extends ../repository/repository.pug
-
-
 block content 
 
   mixin userCard(user)
@@ -8,9 +6,9 @@ block content
       img.user_card__icon_avatar(src=user.image)
       a.route.title(data-section=`/profile/${user.login}`) !{user.login}
 
-
+  h2.title Звезды
   div.rep-list
-    if users
+    if (users && users.length > 0)
       each user in users
         +userCard(user)
     else

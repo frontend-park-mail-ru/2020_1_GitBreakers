@@ -1,9 +1,15 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
 
+/** Work with repository news */
 export default class NewsModel {
-  static getRepositoryNews({ repositoryId = '', offset = 0, limit = 20 } = {}) {
-    Api.get(`${constants.HOST}/func/repo/${repositoryId}/news?limit=${limit}&offset=${offset}`)
+  /**
+   * return array of repository news
+   * @param {object} param0 - data for requests.
+   * @returns {Promise}
+   */
+  static getRepositoryNews({ data = {}, offset = 0, limit = 20 } = {}) {
+    return Api.get(`${constants.HOST}/func/repo/${data.repId}/news?limit=${limit}&offset=${offset}`)
       .then((res) => {
         if (res.ok) {
           return {

@@ -3,14 +3,38 @@ import ProfileView from 'Views/profileView';
 import ProfileModel from 'Models/profileModel';
 import { PROFILE } from 'Modules/events';
 
+/**
+ * Class representing a profile controller.
+ * @extends Controller
+ */
 export default class ProfileController extends Controller {
+
+  /**
+   * Initialize view for profile page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
 
     this.view = new ProfileView(root, eventBus);
-    this.eventBus.on(PROFILE.load, this.loadPage.bind(this));
   }
 
+
+  /**
+   * Open page view.
+   */
+  open() {
+    this.eventBusCollector.on(PROFILE.load, this.loadPage.bind(this));
+
+    super.open();
+  }
+
+  /**
+   * Get information about profile page.
+   * @returns {Promise<void>}.
+   */
   async loadPage() {
     const path = window.location.pathname;
     const profile = path.split('/')[path.split('/').length - 1];

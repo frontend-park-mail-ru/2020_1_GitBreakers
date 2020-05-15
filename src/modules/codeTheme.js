@@ -1,5 +1,8 @@
-
+/** Class for changing the visual theme of displayed code. */
 export default class CodeTheme {
+  /**
+   * @constructor
+   */
   constructor() {
     this._codeTheme = {
       Light: {
@@ -72,7 +75,7 @@ export default class CodeTheme {
         },
 
         '.ol.linenums li': {
-          color: '#93a1a1',
+          color: '#ffffff',
         },
         '.com': {
           color: '#655f6d',
@@ -100,20 +103,35 @@ export default class CodeTheme {
     };
   }
 
-  _cssObjectToString(cssObject) {
+  /**
+   *Converts an object to a string.
+   * @static 
+   * @param {object} cssObject - contains the theme styles
+   * @return {string} string with css
+   */
+  static _cssObjectToString(cssObject) {
     let cssString = '';
-    for (const selector in cssObject) {
-      cssString += `${selector} {`;
-      for (const key in cssObject[selector]) {
-        cssString += `${key} : ${cssObject[selector][key]}; `;
+
+    Object.entries(cssObject).forEach((selectorItem) => {
+      const [key, value] = selectorItem;
+      cssString += `${key} {`;
+      if (value) {
+        Object.entries(value).forEach((item) => {
+          const [key2, value2] = item;
+          cssString += `${key2} : ${value2}; `;
+        })
       }
       cssString += '} ';
-    }
+    })
     return cssString;
   }
 
+  /**
+   * Adds the desired theme to the DOM.
+   * @param {string} themeName - theme name
+   */
   createCodeTheme(themeName) {
-    const cssString = this._cssObjectToString(this._codeTheme[themeName]);
+    const cssString = CodeTheme._cssObjectToString(this._codeTheme[themeName]);
     const codeStyleTag = document.createElement('style');
     codeStyleTag.innerText = cssString;
     document.head.appendChild(codeStyleTag);

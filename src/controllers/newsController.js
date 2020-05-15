@@ -1,26 +1,52 @@
 import RepositoryController from 'Controllers/RepositoryController';
 import RepositoryModel from "Models/repositoryModel";
-import {ISSUES, NEWS, UPLOAD} from "Modules/events";
-// import StarsView from 'Views/starsView';
-// import template from 'Components/news/news.pug';
+import { NEWS, UPLOAD, ACTIONS } from "Modules/events";
+import RepNewsView from "Views/repNews";
+import NewsModel from 'Models/newsModel';
 
-class NewsController extends RepositoryController {
+/**
+ * Class representing a news controller.
+ * @extends RepositoryController
+ */
+export default class NewsController extends RepositoryController {
+
+  /**
+   * Initialize view for news page.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   * @param {Router} router.
+   */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
-
-    this.eventBus.on(NEWS.getInfo, this._getRepository.bind(this));
-    this.eventBus.on(NEWS.getNewsList, this._getNewsList.bind(this));
-    // this.view = new StarsView(root, eventBus);
+    this.view = new RepNewsView(root, eventBus);
   }
 
+  /**
+   * Open page view.
+   */
+  open() {
+    this.eventBusCollector.on(NEWS.getInfo, this._getRepository.bind(this));
+    this.eventBusCollector.on(NEWS.getNewsList, this._getNewsList.bind(this));
 
+    super.open();
+  }
+
+  /**
+   * Get information about this repository.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getRepository() {
     this.setRepository();
+
+    await this._setStars();
+
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;
 
-    const result = await RepositoryModel.loadRepository({repName: this.repositoryName,});
+    const result = await RepositoryModel.loadRepository({ repName: this.repositoryName, });
+    console.log("2. repa", result);
 
     if (result.success) {
       this.repId = result.body.id;
@@ -41,17 +67,24 @@ class NewsController extends RepositoryController {
     }
   }
 
-
+  /**
+   * Get list of this repository news.
+   * @returns {Promise<void>}
+   * @private
+   */
   async _getNewsList() {
     const data = {
       repName: this.repositoryName,
       repId: this.repId,
     };
-    const result = await RepositoryModel.loadIssueList(data);
+    // const result = await RepositoryModel.loadIssueList(data);
+    const result = await NewsModel.getRepositoryNews({ data });
 
+    console.log("3. list = ", result);
     if (result.success) {
 
       await this._loadNewsList(await result.body);
+      console.log("4. ready data", this.data);
       this.eventBus.emit(NEWS.render, this.data);
     } else {
       switch (result.status) {
@@ -59,7 +92,7 @@ class NewsController extends RepositoryController {
           alert('Неверные данные!')
           break;
         case 401:
-          this.redirect({ path: '/signin' });
+          this.redirect({ path: '/signin', replace: true });
           break;
         case 404:
           this.eventBus.emit(UPLOAD.changePath, '/404');
@@ -68,29 +101,42 @@ class NewsController extends RepositoryController {
           alert('Это приватный репозиторий!');
           break;
         default:
-          console.log('Неизвестная ошибка ', result.status);
+          // console.log('Неизвестная ошибка ', result.status);
+          this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
+
           break;
       }
     }
   }
 
-
+  /**
+   * Process data from news list.
+   * @param newsList
+   * @returns {Promise<void>}
+   * @private
+   */
   async _loadNewsList(newsList) {
+    let newsListChanged = newsList;
+    if (newsListChanged) {
+      newsListChanged = newsListChanged.map((item) => {
+        const newItem = item;
+        const date = new Date(newItem.date);
+        newItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
-    if (newsList) {
-      newsList.forEach((item) => {
-        item.date = item.created_at.substr(0, 10);
+        // newItem.date = item.created_at.substr(0, 10);
+        // if (authUser.getUserId === item.author_id) {
+        //   newItem.author = authUser.getUser;
+        //   newItem.image = authUser.getImage;
+        // } else {
+        //   newItem.author = null;
+        // }
+        return newItem;
 
-    if (authUser.getUserId === item.author_id)
-              {
-                item.author = authUser.getUser;
-              } else {
-                item.author = "Неизвестно";
-              }        
       });
     }
     this.data.author = this.author;
     this.data.repName = this.repository;
     this.data.repId = this.repId;
+    this.data.newsList = newsListChanged;
   }
 }

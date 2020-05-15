@@ -6,3 +6,4 @@ components/**/*.js
 components/**/*.html
 .vscode
 dist
+nohup.out

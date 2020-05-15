@@ -1,41 +1,63 @@
+/* eslint-disable no-undef */
 import { FILEVIEW } from 'Modules/events';
 import CodeTheme from 'Modules/codeTheme';
+import 'Modules/prettify/prettify';
 import RepositoryBaseView from './repositoryBaseView';
 import template from '../components/fileView/fileView.pug';
-import 'Modules/prettify/prettify';
 
-
+/**
+ * Class representing a file view.
+ * @extends RepositoryBaseView
+ */
 export default class FileView extends RepositoryBaseView {
+
+  /**
+   * Initialize code theme and template for file page view.
+   * @param {HTMLElement} root.
+   * @param {EventBus} eventBus.
+   */
   constructor(root, eventBus) {
     super(root, template, eventBus);
 
     this.codeTheme = new CodeTheme();
-    this.eventBus.on(FILEVIEW.render, this._onRender.bind(this));
   }
 
+  /**
+   * Load information about file.
+   */
   render() {
+    this.eventBusCollector.on(FILEVIEW.render, this._onRender.bind(this));
     this.eventBus.emit(FILEVIEW.loadFile, {});
   }
 
+  /**
+   * Render a file page
+   * @param {Object} data.
+   * @private
+   */
   _onRender(data) {
-    super.render(data);
+    const dataTmp = data;
+    super.render(dataTmp);
     prettyPrint();
 
     const theme = document.getElementById('themeStyle');
     theme.innerText = 'Тёмная тема';
-    this.codeTheme.createCodeTheme(data.themeStyle);
+    this.codeTheme.createCodeTheme(dataTmp.themeStyle);
 
-    theme.addEventListener('click', (event) => {
+    const func = (event) => {
       event.preventDefault();
 
-      if (data.themeStyle === 'Light') {
+      if (dataTmp.themeStyle === 'Light') {
         theme.innerText = `Светлая тема`;
-        data.themeStyle = 'Dark';
+        dataTmp.themeStyle = 'Dark';
       } else {
         theme.innerText = `Тёмная тема`;
-        data.themeStyle = 'Light';
+        dataTmp.themeStyle = 'Light';
       }
-      this.codeTheme.createCodeTheme(data.themeStyle);
-    });
+      this.codeTheme.createCodeTheme(dataTmp.themeStyle);
+    }
+
+    theme.addEventListener('click', func);
+    this.eventCollector.addEvent(theme, 'click', func);
   }
 }
