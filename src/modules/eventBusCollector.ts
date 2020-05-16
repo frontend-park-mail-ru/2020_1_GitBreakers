@@ -1,11 +1,11 @@
-/** Monitors current subscriptions and makes it easier to unsubscribe when closing view and controller */
+import { IEventBus } from "./eventBus";
 
-interface IEventBus {
-  off(event: string, callback: any): void;
-  on(event: string, callback: any): void;
-  emit(event: string, data: object): void;
+export interface IEventBusCollector {
+  on(event: string, func: any): void;
+  clean(): void;
 }
 
+/** Monitors current subscriptions and makes it easier to unsubscribe when closing view and controller */
 export default class EventBusCollector {
   eventBus: IEventBus;
   listOfEvents: { event: string; func: any }[];

@@ -1,0 +1,16 @@
+import Controller from "../modules/controller";
+import { IEventBus } from "../modules/eventBus";
+import Router from "../modules/router";
+
+class searchController extends Controller {
+  constructor(root: HTMLElement, eventBus: IEventBus, router: Router) {
+    super(root, eventBus, router);
+  }
+
+  open() {
+    super.open();
+    // this.eventBusCollector.on();
+  }
+
+  async searchAll(data: object) {}
+}

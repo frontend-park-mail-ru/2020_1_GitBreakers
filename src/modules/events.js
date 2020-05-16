@@ -131,3 +131,10 @@ export const NEWS = {
   render: 'News : render',
   getNewsList: 'News : Get news list',
 }
+
+export const SEARCH = {
+  loadPage: 'loadPage : Search',
+  loadPageSuccess: 'loadPageSucces: Search',
+  submitSearch: 'Submit Search: Search',
+  submitSearchSuccess: 'Submit Search Success: Search',
+}

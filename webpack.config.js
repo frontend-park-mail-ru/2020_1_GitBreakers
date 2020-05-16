@@ -94,7 +94,7 @@ module.exports = {
   },
   devServer: {
     hot: true,
-    port: 3000,
+    port: 443,
     contentBase: path.join(__dirname, 'dist'),
     historyApiFallback: true,
   },

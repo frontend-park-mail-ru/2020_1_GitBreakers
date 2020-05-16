@@ -2,6 +2,7 @@
 const paths = {
   profileSettings: /^\/settings$/i,
   newRepository: /^\/new$/i,
+  search: /^search{\/[\w-_]+|\/[\w-_]+?type=[\w-_]+|}$/,
   main: /^\/$/,
   signup: /^\/signup$/i,
   signin: /^\/signin$/i,
