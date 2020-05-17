@@ -4,7 +4,7 @@ import { IEventBusCollector } from "../modules/eventBusCollector";
 import EventBusCollector from "../modules/eventBusCollector";
 
 export interface IController {
-  open(): void;
+  open(data?: object): void;
   close(): void;
   redirect(): void;
 }
@@ -39,8 +39,8 @@ export default class Controller {
   }
 
   /** Open view */
-  open() {
-    this.view.render();
+  open(data = {}) {
+    this.view.render(data);
   }
 
   /** Close view и remove all subscriptions from eventBus. */

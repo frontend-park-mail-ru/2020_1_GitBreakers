@@ -45,7 +45,7 @@ class Router {
     }
     if (this.controller) {
       // window.location.pathname = newUrl;
-      this.controller.open();
+      this.controller.open(data);
     } else {
       console.log("Router error!");
     }
