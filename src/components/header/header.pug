@@ -6,8 +6,9 @@ div.header
             else
                 a.route.header__logo_name(data-section='/') CodeHub
     div.header__search
-        form.search(action='#')
-            input.header__search_input(name='search' placeholder="Поиск..." type='text')
+        form.search(action='#').tooltip
+            input.header__search_input(name='search' placeholder="Поиск..." type='text' pattern="[0-9a-zA-Z_-]+")
+            .tooltip__text Можно использовать буквы латинского алфавита, цифры , - и _
     div.header__menu
         if auth
             a.route.header__menu_item(data-section=`/profile/${user}`) Мой профиль

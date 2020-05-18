@@ -18,6 +18,10 @@
     border: 1px solid #fca311;
     border-radius: 3px;
 
+    .open {
+      border-left: 2px solid salmon;
+    }
+
     &__item {
       display: flex;
       flex-direction: row;
