@@ -51,6 +51,9 @@ export default class SearchView extends View {
           });
         }
         content.innerHTML = html || "Репозитории не найдены!";
+        document
+          .querySelector(".search__menu__item:nth-child(1)")
+          .classList.add("open");
         break;
       case "allusers":
         if (data.allUsers) {
@@ -59,6 +62,9 @@ export default class SearchView extends View {
           });
         }
         content.innerHTML = html || "Пользователи не найдены!";
+        document
+          .querySelector(".search__menu__item:nth-child(2)")
+          .classList.add("open");
         break;
       case "myrepo":
         if (data.myRepo) {
@@ -67,6 +73,9 @@ export default class SearchView extends View {
           });
         }
         content.innerHTML = html || "Репозитории не найдены!";
+        document
+          .querySelector(".search__menu__item:nth-child(3)")
+          .classList.add("open");
         break;
       case "starredrepo":
         if (data.starredRepo) {
@@ -75,6 +84,9 @@ export default class SearchView extends View {
           });
         }
         content.innerHTML = html || "Репозитории не найдены!";
+        document
+          .querySelector(".search__menu__item:nth-child(4)")
+          .classList.add("open");
         break;
     }
   }

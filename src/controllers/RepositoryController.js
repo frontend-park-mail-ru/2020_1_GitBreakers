@@ -219,11 +219,11 @@ export default class RepositoryController extends Controller {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
-    let [author, repository] = path.match(reg);
+    const [author, repository] = path.match(reg);
     num += 1;
-    let newRepository = `${repository}_${num}`;
+    const newRepository = `${repository}_${num}`;
 
-    let res = await ForkModel.fork({
+    const res = await ForkModel.fork({
       from_author_name: author,
       from_repo_name: repository,
       new_name: newRepository,

@@ -19,7 +19,7 @@
     border-radius: 3px;
 
     .open {
-      border-left: 2px solid salmon;
+      border-left: 3px solid salmon;
     }
 
     &__item {
@@ -31,6 +31,7 @@
       text-decoration: none;
       border-bottom: 1px solid #fca311;
       background-color: white;
+      color: black;
 
       &:hover {
         background-color: $background-color;

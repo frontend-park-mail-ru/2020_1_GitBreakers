@@ -1,6 +1,6 @@
 import AuthModel from 'Models/authModel';
 import authUser from 'Modules/authUser';
-import Controller from 'Modules/controller';
+import Controller from '../modules/controller';
 import HeaderView from 'Views/headerView';
 import { HEADER } from 'Modules/events';
 

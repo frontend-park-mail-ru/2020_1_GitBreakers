@@ -6,7 +6,7 @@
 
 ## Ссылка на проект
 
-[GitBreakers](http://89.208.198.186:3000/)
+[CodeHub](https://code-hub.space/)
 
 ## Установка и запуск
 

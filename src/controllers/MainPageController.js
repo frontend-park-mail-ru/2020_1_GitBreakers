@@ -1,4 +1,4 @@
-import Controller from 'Modules/controller';
+import Controller from '../modules/controller';
 import MainPageView from 'Views/mainPage';
 
 /**
