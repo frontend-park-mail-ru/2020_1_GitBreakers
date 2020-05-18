@@ -84,7 +84,8 @@ router.register(paths.branch, fileTreeController); // открыта любая 
 router.register(paths.repositoryBranches, branchesController); // все ветки
 router.register(paths.commits, commitsController); // все коммиты ветки
 router.register(paths.fileView, fileController);
-router.register(paths.main, mainPageController);
+router.register(paths.main, signInController);
+// router.register(paths.main, mainPageController);
 router.register(/\/404/, create404Page);
 router.register(paths.issues, issuesController);
 router.register(paths.news, newsController);
