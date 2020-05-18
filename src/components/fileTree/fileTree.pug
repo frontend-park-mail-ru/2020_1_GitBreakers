@@ -17,7 +17,7 @@ block content
                        // div.repository__tree__item_commit #{folder.commit} commit_info
                     td.column-very-thin
                         //div.repository__tree__item_info #{folder.update} yesterday
-                        div.repository__tree__item_info #{folder.update} folder
+                        div.repository__tree__item_info #{folder.update} папка
 
             each file in fileList
                 tr.repository__tree__item
@@ -28,9 +28,10 @@ block content
                         // div.repository__tree__item_commit #{file.commit} commit_info
                     td.column-very-thin
                         //div.repository__tree__item_info #{file.update} yesterday
-                        div.repository__tree__item_info #{file.update} file
+                        div.repository__tree__item_info #{file.update} файл
 
     else
         div
-            span There are no branches in this repository yet. You can create a new branch &nbsp
-            a.bright__link(href = '/'+author+'/'+repName+'/branches') here
+            span В этом репозитории пока что ничего нет.
+            // span Вы можете создать новую ветку &nbsp
+            // a.bright__link(href = '/'+author+'/'+repName+'/branches') здесь

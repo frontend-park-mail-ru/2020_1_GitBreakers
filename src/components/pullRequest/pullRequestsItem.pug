@@ -1,0 +1,10 @@
+div.repository__list
+    hr.line-separator.line-separator_extra-thin
+    div.repository__list__item
+        a.route.branchLink.repository__list__item_title #{item.title}
+        div.repository__list__item_info открыт: #{item.date}
+        div.repository__list__item_info #{item.branch_from} -> #{item.branch_to}
+    div.repository__list__item_info-label Метка: #{item.label}
+    div.repository__list__item_message(id=`issuemsg_${item.message}`) #{item.message}
+
+    div.repository__list__item__buttonField(id=`button_${item.id}`)

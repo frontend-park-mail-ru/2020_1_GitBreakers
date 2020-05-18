@@ -1,5 +1,5 @@
 import Controller from 'Modules/controller';
-import { UPLOAD, REPOSITORY, ACTIONS } from 'Modules/events';
+import {UPLOAD, REPOSITORY, ACTIONS, BRANCHESPAGE} from 'Modules/events';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
 import StarsModel from '../models/starsModel';
@@ -56,7 +56,7 @@ export default class RepositoryController extends Controller {
     [this.author, this.repository] = path.match(reg);
     this.repositoryName = `${this.author}/${this.repository}`;
 
-    this.defaultBranch = RepositoryController._getDefaultBranch();
+    this.defaultBranch = this._getDefaultBranch();
   }
 
   /**
@@ -75,8 +75,6 @@ export default class RepositoryController extends Controller {
     const rep = this.repository;
     const repoRes = await RepositoryModel.getRepository({ repository: rep, profile: this.author });
 
-    const kek = 1;
-    console.log(kek);
     if (repoRes.success) {
       const repo = await repoRes.body;
       this.data.stars = repo.stars;
@@ -108,10 +106,10 @@ export default class RepositoryController extends Controller {
    */
   setBranchName() {
     const path = window.location.pathname;
-    const name = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/)[0];
+    const name = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/);
 
     if (name) {
-      this.branchName = name;
+      this.branchName = name[0];
     } else {
       this.branchName = this.defaultBranch;
     }
@@ -151,9 +149,35 @@ export default class RepositoryController extends Controller {
    * @returns {string}.
    * @private
    */
-  static _getDefaultBranch() {
-    // RepositoryModel.loadDefaultBranch()
-    return 'master';
+  async _getDefaultBranch() {
+    const data = {
+      repName: this.repositoryName,
+    };
+
+    const result = await RepositoryModel.loadDefaultBranch(data);
+
+    if (result.success) {
+      const res = await result.body.commit.commit_hash;
+      this.defaultBranch = res;
+      return;
+    }
+
+    switch (result.status) {
+      case 204:
+        this.branchName = null;
+        console.log("no branches yet");
+        break;
+      case 404:
+        this.eventBus.emit(UPLOAD.changePath, '/404');
+        break;
+      case 403:
+        alert('Это приватный репозиторий!');
+        break;
+      default:
+        console.log('Неизвестная ошибка ', result.status);
+        break;
+    }
+    return null;
   }
 
   /**
