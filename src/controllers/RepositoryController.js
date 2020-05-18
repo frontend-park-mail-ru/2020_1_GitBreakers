@@ -81,6 +81,10 @@ export default class RepositoryController extends Controller {
       const repo = await repoRes.body;
       this.data.stars = repo.stars;
       this.data.id = repo.id;
+      this.data.is_fork = repo.is_fork;
+      this.data.parent_repository_info = repo.parent_repository_info;
+      this.data.descripton = repo.descripton;
+      this.data.forks = repo.forks;
 
 
       this.data.vote = 'send';
@@ -205,6 +209,12 @@ export default class RepositoryController extends Controller {
     }
   }
 
+  /**
+   * Fork repository.
+   * @param {object} params.
+   * @returns {Promise<void>}.
+   * @private
+   */
   async fork({ num = 0 }) {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
@@ -235,4 +245,5 @@ export default class RepositoryController extends Controller {
         this.eventBus.emit(ACTIONS.offline, {});
     }
   }
+
 }
