@@ -37,7 +37,9 @@ export default class HeaderView extends View {
       event.preventDefault();
       const { target } = event;
       // target.search.dataset.section = target.search.value;
-      this.eventBus.emit(HEADER.redirect, { path: `/search/${target.search.value}` })
+      if (target.search.value.length > 0) {
+        this.eventBus.emit(HEADER.redirect, { path: `/search/${target.search.value}` })
+      }
     }
 
     document.querySelector('form.search').addEventListener('submit', setData);
