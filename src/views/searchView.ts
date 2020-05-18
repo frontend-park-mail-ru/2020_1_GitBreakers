@@ -3,7 +3,7 @@ import { IEventBus } from "../modules/eventBus";
 import template from "../components/search/search.pug";
 import repositoryCard from "../components/search/repoItem.pug";
 import userCard from "../components/search/userItem.pug";
-import { SEARCH } from "../Modules/events";
+import { SEARCH } from "../modules/events";
 
 export default class SearchView extends View {
   data: object;

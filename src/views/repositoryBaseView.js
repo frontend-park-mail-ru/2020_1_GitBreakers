@@ -1,6 +1,5 @@
 import View from 'Modules/view';
 import { REPOSITORY, ACTIONS } from 'Modules/events';
-import authUser from '../Modules/authUser';
 
 /**
  * Class representing a repository view.
