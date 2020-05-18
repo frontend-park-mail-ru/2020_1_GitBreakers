@@ -3,6 +3,8 @@ import { UPLOAD, REPOSITORY, ACTIONS } from 'Modules/events';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
 import StarsModel from '../models/starsModel';
+import ForkModel from '../models/forkModel';
+
 
 /**
  * Class representing a repository controller.
@@ -39,6 +41,7 @@ export default class RepositoryController extends Controller {
   open() {
     this.eventBusCollector.on(REPOSITORY.updateStar, this._updateStar.bind(this));
     this.eventBusCollector.on(UPLOAD.notFound, this.pageNotFound.bind(this));
+    this.eventBusCollector.on(REPOSITORY.fork, this.fork.bind(this));
 
     super.open();
   }
@@ -62,6 +65,12 @@ export default class RepositoryController extends Controller {
    * @private
    */
   async _setStars() {
+    if (authUser.loadStatus === false) {
+      await authUser.loadWhoAmI();
+      this.data.authUser = authUser.getUser;
+    } else {
+      this.data.authUser = authUser.getUser;
+    }
     this.setRepository();
     const rep = this.repository;
     const repoRes = await RepositoryModel.getRepository({ repository: rep, profile: this.author });
@@ -196,4 +205,34 @@ export default class RepositoryController extends Controller {
     }
   }
 
+  async fork({ num = 0 }) {
+    const path = window.location.pathname;
+    const reg = /[\w_]+/g;
+
+    let [author, repository] = path.match(reg);
+    num += 1;
+    let newRepository = `${repository}_${num}`;
+
+    let res = await ForkModel.fork({
+      from_author_name: author,
+      from_repo_name: repository,
+      new_name: newRepository,
+    });
+
+    if (res.success) {
+      this.redirect({ path: `/${authUser.getUser}/${newRepository}/branches` });
+      return;
+    }
+
+    switch (res.status) {
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 409:
+        this.fork({ num });
+        break
+      default:
+        this.eventBus.emit(ACTIONS.offline, {});
+    }
+  }
 }

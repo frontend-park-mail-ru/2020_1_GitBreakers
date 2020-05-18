@@ -10,20 +10,23 @@ div.section
                     span
                         a.route(href='#' data-section=`/${author}/${repName}/branches`) #{repName}
             .section__title__item
-                .rep_stars
-                    .rep_stars__item.tooltip
-                        a.rep_stars__action  
-                            if (vote  === 'send') 
-                                p Добавить
-                            else
-                                p Удалить
-                    .rep_stars__item.tooltip
-                        a.route.rep_stars__counter(data-section=`/${author}/${repName}/stargazers` data-vote=vote data-id=id) !{stars}
-                        .tooltip__text Посмотреть все звезды репозитория
-                    //- if stars
-                    //-     p !{stars}
-                    //- else
-                    //-     p 0
+                .other__container
+                    .rep_stars
+                        .rep_stars__item.tooltip
+                            a.rep_stars__action  
+                                if (vote  === 'send') 
+                                    p Добавить
+                                else
+                                    p Удалить
+                        .rep_stars__item.tooltip
+                            a.route.rep_stars__counter(data-section=`/${author}/${repName}/stargazers` data-vote=vote data-id=id) !{stars}
+                            .tooltip__text Посмотреть все звезды репозитория
+
+                    .rep_fork
+                        .rep_fork__item
+                            a.rep_fork__action(href='#') Форкнуть
+                        .rep_fork__item.tooltip
+                            span.route.rep_stars__counter 
 
         div.section__main
             div.rep-menu

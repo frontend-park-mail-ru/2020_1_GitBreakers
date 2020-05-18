@@ -23,6 +23,7 @@ export default class HeadetController extends Controller {
     this.eventBus.on(HEADER.load, this._loadStatus.bind(this));
     this.eventBus.on(HEADER.logout, this._logout.bind(this));
     this.eventBus.on(HEADER.rerender, this.open.bind(this));
+    this.eventBus.on(HEADER.redirect, this.redirect.bind(this));
   }
 
   /**
@@ -43,12 +44,13 @@ export default class HeadetController extends Controller {
    * @returns {Promise<void>}
    * @private
    */
-  async _loadStatus() {
-    await authUser.loadWhoAmI();
-    this.eventBus.emit(HEADER.render, {
-      auth: authUser.isAuth,
-      user: authUser.getUser,
-      image: authUser.getImage,
-    });
+  _loadStatus() {
+    authUser.loadWhoAmI().then(() => {
+      this.eventBus.emit(HEADER.render, {
+        auth: authUser.isAuth,
+        user: authUser.getUser,
+        image: authUser.getImage,
+      });
+    })
   }
 }

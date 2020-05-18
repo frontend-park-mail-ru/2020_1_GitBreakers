@@ -31,7 +31,6 @@ export default class newRepositoryView extends View {
     const form = document.forms.newRepository;
 
     const nameInput = form['rep-name'];
-    const descriptionInputValue = form['rep-description'].value;
 
     nameInput.CustomValidation = new CustomValidation(nameInput);
     nameInput.CustomValidation.validityChecks = repNameValidityChecks;
@@ -50,6 +49,7 @@ export default class newRepositoryView extends View {
     const submitFunc = (e) => {
       validate();
       e.preventDefault();
+      const descriptionInputValue = form['rep-description'].value;  
       const isPublicInputValue = form['rep-status'].value;
       this.eventBus.emit(NEWREPOSITORY.submit, {
         name: nameInput.value,

@@ -21,7 +21,7 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html'),
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].[hash].css',
     }),
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, '/src/sw.js'),
@@ -69,10 +69,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.pug/,
-        use: 'pug-loader',
-      },
-      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -86,9 +82,13 @@ module.exports = {
         },
       },
       {
-        test: /\.tsx?$/,
+        test: /\.ts$/,
         use: 'ts-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.pug/,
+        use: 'pug-loader',
       },
     ],
   },

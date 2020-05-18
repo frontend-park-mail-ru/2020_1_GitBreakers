@@ -14,6 +14,7 @@ import FileController from 'Controllers/FileController';
 import MainPageController from 'Controllers/MainPageController';
 import IssuesController from "Controllers/IssuesController";
 import NewsController from "Controllers/newsController";
+import SearchController from 'Controllers/searchController';
 
 import Create404Page from 'Controllers/404';
 
@@ -51,6 +52,7 @@ const router = new Router();
 const headerController = new HeaderController(header, eventBus, router);
 headerController.open();
 
+const searchController = new SearchController(application, eventBus, router);
 const starsController = new StarsController(application, eventBus, router);
 const settingsController = new SettingsController(application, eventBus, router);
 const newRepositoryController = new NewRepositoryController(application, eventBus, router);
@@ -69,6 +71,7 @@ const newsController = new NewsController(application, eventBus, router);
 
 const create404Page = new Create404Page();
 
+router.register(paths.search, searchController);
 router.register(paths.repoStars, repositoryStarsController);
 router.register(paths.stars, starsController);
 router.register(paths.profileSettings, settingsController);

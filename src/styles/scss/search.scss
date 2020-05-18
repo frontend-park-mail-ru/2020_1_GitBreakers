@@ -1,0 +1,137 @@
+@import "SCSS/constants";
+
+.search {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  &__menu {
+    margin-right: 20px;
+    max-width: 250px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+
+    border: 1px solid #fca311;
+    border-radius: 3px;
+
+    &__item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-bottom: 1px solid #fca311;
+      background-color: white;
+
+      &:hover {
+        background-color: $background-color;
+        text-decoration: none;
+      }
+
+      &:last-child {
+        border-bottom: 0;
+      }
+      span {
+        display: inline-block;
+        padding: 2px 5px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1;
+        color: #586069;
+        background-color: rgba(27, 31, 35, 0.08);
+        border-radius: 20px;
+      }
+    }
+  }
+
+  &__content {
+    flex-grow: 4;
+    max-width: 80%;
+
+    &__item {
+      border-bottom: 1px solid #fca311;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+      &__user {
+        margin: 10px 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .title {
+          padding-left: 20px;
+          text-decoration: none;
+          color: black;
+
+          &:hover {
+            color: grey;
+            text-decoration: underline;
+          }
+        }
+
+        // &:hover {
+        //   background-color: $background-color;
+        //   text-decoration: none;
+        // }
+
+        &__item {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          text-decoration: none;
+
+          &__avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+      }
+
+      &__repository {
+        &__item {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          padding: 10px 0px;
+
+          &__name {
+            font-size: 140%;
+          }
+
+          &__descripton {
+            // line-clamp: 2;
+            // text-overflow: ellipsis;
+            // overflow: hidden;
+            white-space: nowrap; /* Отменяем перенос текста */
+            overflow: hidden; /* Обрезаем содержимое */
+            padding: 5px; /* Поля */
+            text-overflow: ellipsis; /* Многоточие */
+          }
+
+          &__other {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            &__stars {
+              &::before {
+                content: "\2606";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

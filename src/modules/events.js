@@ -22,6 +22,7 @@ export const SIGNIN = {
 
 export const HEADER = {
   render: 'Render: Header',
+  redirect: 'Redirect : header',
   load: 'Load: Header',
   logout: 'Logout: Header',
 };
@@ -108,7 +109,8 @@ export const REPOSITORY = {
   updateStar: 'update Stars: Repository',
   updatedStar: 'updated Stars: Repository',
   loadStars: 'load Stars: Repository',
-  loadStarsSuccess: 'load Stars Success: Repository'
+  loadStarsSuccess: 'load Stars Success: Repository',
+  fork: 'fork : Repository',
 };
 
 export const ISSUES = {
@@ -133,6 +135,7 @@ export const NEWS = {
 }
 
 export const SEARCH = {
+  reload: 'Reload: search',
   loadPage: 'loadPage : Search',
   loadPageSuccess: 'loadPageSucces: Search',
   submitSearch: 'Submit Search: Search',

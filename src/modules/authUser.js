@@ -81,5 +81,4 @@ class AuthUser {
   }
 }
 
-const authUser = new AuthUser(eventBus);
-export default authUser;
+export default new AuthUser(eventBus);

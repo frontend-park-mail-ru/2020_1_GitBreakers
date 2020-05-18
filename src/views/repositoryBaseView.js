@@ -1,5 +1,6 @@
 import View from 'Modules/view';
-import { REPOSITORY } from 'Modules/events';
+import { REPOSITORY, ACTIONS } from 'Modules/events';
+import authUser from '../Modules/authUser';
 
 /**
  * Class representing a repository view.
@@ -100,6 +101,18 @@ export default class RepositoryBaseView extends View {
 
     document.querySelector('button.link__copy').addEventListener('click', copyLinkFunc);
     this.eventCollector.addEvent(document.querySelector('button.link__copy'), 'click', copyLinkFunc);
+
+    const forkFunc = (event) => {
+      event.preventDefault();
+      this.eventBus.emit(REPOSITORY.fork, {});
+    }
+
+    document.querySelector('a.rep_fork__action').addEventListener('click', forkFunc);
+    this.eventCollector.addEvent(document.querySelector('a.rep_fork__action'), 'click', forkFunc);
+
+    if (data.authUser === data.author || !data.authUser) {
+      document.querySelector('.rep_fork').classList.add('hidden');
+    }
   }
 
   /**

@@ -1,10 +1,16 @@
+import { IReturnPromise } from "./../modules/IModel";
 import Api from "../modules/api";
 import constants from "../modules/constants";
 
-class SearchModel {
-  static search(params: string, query: string, limit: number, offset: number) {
+export default class SearchModel {
+  static search(
+    params: string,
+    query: string,
+    limit = 20,
+    offset = 0
+  ): Promise<IReturnPromise> {
     return Api.get(
-      `/func/search/${params}?query=${query}&limit=${limit}&offset=${offset}`
+      `${constants.HOST}/func/search/${params}?query=${query}&limit=${limit}&offset=${offset}`
     )
       .then((res) => {
         if (res.ok) {
@@ -18,8 +24,11 @@ class SearchModel {
           status: res.status,
         };
       })
-      .catch((err) => {
-        return {};
+      .catch(() => {
+        return {
+          success: false,
+          status: 0,
+        };
       });
   }
 }
