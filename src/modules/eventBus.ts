@@ -1,6 +1,13 @@
-
 /** Responsible for subscriptions, generating events, and notifying listeners. */
+
+export interface IEventBus {
+  off(event: string, callback: any): void;
+  on(event: string, callback: any): void;
+  emit(event: string, data: object): void;
+}
+
 class EventBus {
+  private listeners: any;
   /**
    * @constructor
    */
@@ -13,7 +20,7 @@ class EventBus {
    * @param {string} event - subscription event
    * @param {*} callback.
    */
-  on(event, callback) {
+  on(event: string, callback: any) {
     // подписываемся на событие
     if (!this.listeners[event]) {
       this.listeners[event] = [];
@@ -26,22 +33,24 @@ class EventBus {
    * @param {string} event - event to unsubscribe
    * @param {*} callback - function that was passed when subscribing.
    */
-  off(event, callback) {
+  off(event: string, callback: any) {
     if (this.listeners[event]) {
-      this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
+      this.listeners[event] = this.listeners[event].filter(
+        (listener: any) => listener !== callback
+      );
     }
   }
 
   /**
    * Notifying listeners of an event
-   * @param {string} event - event name 
+   * @param {string} event - event name
    * @param {Object} data - data to send to the user
    */
-  emit(event, data) {
+  emit(event: string, data: {}) {
     if (!this.listeners[event]) {
       return;
     }
-    this.listeners[event].forEach((listener) => {
+    this.listeners[event].forEach((listener: any) => {
       listener(data);
     });
   }

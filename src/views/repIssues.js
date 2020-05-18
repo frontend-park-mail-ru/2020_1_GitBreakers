@@ -156,30 +156,14 @@ export default class RepIssuesView extends RepositoryBaseView {
    * @returns {string}
    */
   static listToHtml(itemList) {
-    // const issueItem = (item) => {
-    //   const date = new Date(item.created_at);
-    //   return `
-    //   <div id="issueitem_${item.id}">
-    //   <div class="repository__list__item">
-    //   <a class="issueLink repository__list__item_title" data-id =${item.id}>${item.title}</a>
-    //   <div class="repository__list__item_info"> ${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)} </div></div>
-    //   <div class="repository__list__item_info-label">Метка: ${item.label}</div>
-    //   <div class="repository__list__item_message" id="issuemsg_${item.id}" data-opened="false"></div>
-    //   <div class="repository__list__item__buttonField" id="issueButtons_${item.id}"></div>
-    //   </div>
-    //   <hr class="line-separator line-separator_extra-thin">`;
-    // }
     let htmlStr = '';
 
     Object.entries(itemList).forEach((item) => {
       const value = item[1];
-      // htmlStr += issueItem(value);
       htmlStr += issue({ item: value });
 
     })
-    // for (const [key, item] of Object.entries(itemList)) {
-    //   htmlStr += issueItem(item);
-    // }
+
     return htmlStr;
   }
 
@@ -219,11 +203,9 @@ export default class RepIssuesView extends RepositoryBaseView {
 
     const closeFunc = (event) => {
       event.preventDefault();
-      console.log('тык по кнопочке Закрыть, id задачи = ', id);
       this.eventBus.emit(ISSUES.deleteIssue, { id: (Number.parseInt(id, 10)), });
 
     }
-
     buttonClose.addEventListener('click', closeFunc);
     this.eventCollector.addEvent(buttonClose, 'click', closeFunc);
   }

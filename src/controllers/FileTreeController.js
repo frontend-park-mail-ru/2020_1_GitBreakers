@@ -55,7 +55,7 @@ export default class FileTreeController extends RepositoryController {
     if (result.success) {
       this.data.branchList = await result.body;
 
-      if (Object.keys(this.data.branchList).length === 0) {
+      if (!this.data.branchList || Object.keys(this.data.branchList).length === 0) {
         this.data.branchList = null;
         this.eventBus.emit(TREEPAGE.render, this.data);
       } else {

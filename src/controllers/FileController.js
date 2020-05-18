@@ -54,7 +54,6 @@ export default class FileController extends RepositoryController {
 
     if (result.success) {
       await this._loadFileContent(await result.body);
-      console.log(this.data);
       this.eventBus.emit(FILEVIEW.render, this.data);
     } else {
       switch (result.status) {

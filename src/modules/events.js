@@ -22,6 +22,7 @@ export const SIGNIN = {
 
 export const HEADER = {
   render: 'Render: Header',
+  redirect: 'Redirect : header',
   load: 'Load: Header',
   logout: 'Logout: Header',
 };
@@ -108,7 +109,8 @@ export const REPOSITORY = {
   updateStar: 'update Stars: Repository',
   updatedStar: 'updated Stars: Repository',
   loadStars: 'load Stars: Repository',
-  loadStarsSuccess: 'load Stars Success: Repository'
+  loadStarsSuccess: 'load Stars Success: Repository',
+  fork: 'fork : Repository',
 };
 
 export const ISSUES = {
@@ -130,4 +132,22 @@ export const NEWS = {
   getInfo: 'News: get info',
   render: 'News : render',
   getNewsList: 'News : Get news list',
+}
+
+export const SEARCH = {
+  reload: 'Reload: search',
+  loadPage: 'loadPage : Search',
+  loadPageSuccess: 'loadPageSucces: Search',
+  submitSearch: 'Submit Search: Search',
+  submitSearchSuccess: 'Submit Search Success: Search',
+}
+
+export const PULLREQUEST = {
+  render: 'Pull requests : render',
+  getRequestsList : 'Pull requests : get requests list',
+  getBranchList: 'Pull requests : get branch list',
+  submitNewRequest: 'Pull requests : submit',
+  showMessage: 'Pull requests : message',
+  delete: 'Pull requests : delete',
+  accept: 'Pull requests : accept',
 }

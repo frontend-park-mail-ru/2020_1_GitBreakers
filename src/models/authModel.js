@@ -9,7 +9,7 @@ export default class AuthModel {
    * @static
    */
   static csrf() {
-    return Api.get(`${constants.HOST}/api/v1/csrftoken `).then((res) => {
+    return Api.get(`${constants.HOST}/csrftoken`).then((res) => {
       if (res.ok) {
         const csrfToken = res.headers.get('X-Csrf-Token');
         localStorage.setItem('csrf_token', csrfToken);

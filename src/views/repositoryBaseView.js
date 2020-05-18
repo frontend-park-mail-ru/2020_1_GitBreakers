@@ -1,5 +1,5 @@
 import View from 'Modules/view';
-import { REPOSITORY } from 'Modules/events';
+import { REPOSITORY, ACTIONS } from 'Modules/events';
 
 /**
  * Class representing a repository view.
@@ -82,6 +82,18 @@ export default class RepositoryBaseView extends View {
       this.eventCollector.addEvent(buttonNewsList[i], 'click', func);
     }
 
+    const buttonRequestsList = document.getElementsByClassName('requests');
+    for (let i = 0; i < buttonRequestsList.length; i += 1) {
+
+      const func = (event) => {
+        event.preventDefault();
+        buttonRequestsList[i].dataset.section = `/${data.author}/${data.repName}/pull_request`;
+      }
+
+      buttonRequestsList[i].addEventListener('click', func);
+      this.eventCollector.addEvent(buttonRequestsList[i], 'click', func);
+    }
+
     const updateStarsFunc = (event) => {
       event.preventDefault();
       const { vote, id } = document.querySelector('.rep_stars__counter').dataset;
@@ -100,6 +112,18 @@ export default class RepositoryBaseView extends View {
 
     document.querySelector('button.link__copy').addEventListener('click', copyLinkFunc);
     this.eventCollector.addEvent(document.querySelector('button.link__copy'), 'click', copyLinkFunc);
+
+    const forkFunc = (event) => {
+      event.preventDefault();
+      this.eventBus.emit(REPOSITORY.fork, {});
+    }
+
+    document.querySelector('a.rep_fork__action').addEventListener('click', forkFunc);
+    this.eventCollector.addEvent(document.querySelector('a.rep_fork__action'), 'click', forkFunc);
+
+    if (data.authUser === data.author || !data.authUser) {
+      document.querySelector('.rep_fork').classList.add('hidden');
+    }
   }
 
   /**

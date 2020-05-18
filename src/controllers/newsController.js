@@ -80,11 +80,9 @@ export default class NewsController extends RepositoryController {
     // const result = await RepositoryModel.loadIssueList(data);
     const result = await NewsModel.getRepositoryNews({ data });
 
-    console.log("3. list = ", result);
     if (result.success) {
 
       await this._loadNewsList(await result.body);
-      console.log("4. ready data", this.data);
       this.eventBus.emit(NEWS.render, this.data);
     } else {
       switch (result.status) {

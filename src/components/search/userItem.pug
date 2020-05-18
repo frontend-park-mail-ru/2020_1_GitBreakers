@@ -1,0 +1,6 @@
+.search__content__item
+  .search__content__item__user
+    .search__content__item__user__item
+      img.search__content__item__user__item__avatar(src=`https://code-hub.space${item.image}`)
+      a.route.title(href='#' data-section=`/profile/${item.login}`) #{item.login}
+    span Зарегистрировался #{(new Date(item.created_at).toLocaleDateString())}

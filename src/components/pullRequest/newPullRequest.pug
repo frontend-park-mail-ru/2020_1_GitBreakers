@@ -1,0 +1,35 @@
+mixin newPullRequest()
+    div#message.error-msg
+    form.form_large.requestForm(action='#' name='newRequest')
+        div.form__item
+            label.form_large__item__label(for="requestTitle")
+                span.form__item__span Заголовок
+                input#requestTitle.form__item__input.issueForm_input(type="text" name="requestTitle" required)
+
+        div.form__item
+            label.form-horizontal__item__label(for="branchName")
+                select#branchNameFrom.form__item__input(name="branchNameFrom" required)
+                    each branch in branchList
+                        option(value=branch.name) #{branch.name}
+
+            label.form-horizontal__item__label(for="branchName") -> основная ветка: &nbsp&nbsp
+                select#branchNameTo.form__item__input(name="branchNameTo" required)
+                    each branch in branchList
+                        option(value=branch.name) #{branch.name}
+
+
+
+        div.form__item
+            label.form_large__item__label(for="requestMsg") Текст
+            textarea#requestMsg.form__item__input_long.issueForm_input-text(name="requestMsg")
+
+
+        div.form__item
+            label.form_large__item__label(for="issueLabel")
+                span.form__item__span Метка
+                input#requestLabel.form__item__input.issueForm_input(type="text" name="requestLabel")
+
+        button#CreateRequest.button.button-colored.button-small.issueButton Сохранить
+        hr.line-separator.line-separator
+
++ newPullRequest()

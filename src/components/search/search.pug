@@ -1,0 +1,22 @@
+
+.section
+    .card
+        .section__title
+          h2.title Поиск: #{query}
+        .section__main
+          .search
+            .search__menu
+              a.route.search__menu__item(href='#' data-section=`/search/${query}/allrepo`) 
+                | Репозитории
+                span #{(allRepo)? allRepo.length: 0}
+              a.route.search__menu__item(href='#' data-section=`/search/${query}/allusers`) 
+                | Пользователи
+                span #{(allUsers)?allUsers.length: 0}
+              a.route.search__menu__item(href='#' data-section=`/search/${query}/myrepo`) 
+                | Мои Репозитории
+                span #{(myRepo)?myRepo.length: 0}
+              a.route.search__menu__item(href='#' data-section=`/search/${query}/starredrepo`)
+                | Избранное
+                span #{(starredRepo)?starredRepo.length: 0}
+            .search__content
+              span content

@@ -1,8 +1,10 @@
 import Controller from 'Modules/controller';
-import { UPLOAD, REPOSITORY, ACTIONS } from 'Modules/events';
+import {UPLOAD, REPOSITORY, ACTIONS, BRANCHESPAGE} from 'Modules/events';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
 import StarsModel from '../models/starsModel';
+import ForkModel from '../models/forkModel';
+
 
 /**
  * Class representing a repository controller.
@@ -39,6 +41,7 @@ export default class RepositoryController extends Controller {
   open() {
     this.eventBusCollector.on(REPOSITORY.updateStar, this._updateStar.bind(this));
     this.eventBusCollector.on(UPLOAD.notFound, this.pageNotFound.bind(this));
+    this.eventBusCollector.on(REPOSITORY.fork, this.fork.bind(this));
 
     super.open();
   }
@@ -53,7 +56,7 @@ export default class RepositoryController extends Controller {
     [this.author, this.repository] = path.match(reg);
     this.repositoryName = `${this.author}/${this.repository}`;
 
-    this.defaultBranch = RepositoryController._getDefaultBranch();
+    this.defaultBranch = this._getDefaultBranch();
   }
 
   /**
@@ -62,16 +65,24 @@ export default class RepositoryController extends Controller {
    * @private
    */
   async _setStars() {
+    if (authUser.loadStatus === false) {
+      await authUser.loadWhoAmI();
+      this.data.authUser = authUser.getUser;
+    } else {
+      this.data.authUser = authUser.getUser;
+    }
     this.setRepository();
     const rep = this.repository;
     const repoRes = await RepositoryModel.getRepository({ repository: rep, profile: this.author });
 
-    const kek = 1;
-    console.log(kek);
     if (repoRes.success) {
       const repo = await repoRes.body;
       this.data.stars = repo.stars;
       this.data.id = repo.id;
+      this.data.is_fork = repo.is_fork;
+      this.data.parent_repository_info = repo.parent_repository_info;
+      this.data.descripton = repo.descripton;
+      this.data.forks = repo.forks;
 
 
       this.data.vote = 'send';
@@ -95,10 +106,10 @@ export default class RepositoryController extends Controller {
    */
   setBranchName() {
     const path = window.location.pathname;
-    const name = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/)[0];
+    const name = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/);
 
     if (name) {
-      this.branchName = name;
+      this.branchName = name[0];
     } else {
       this.branchName = this.defaultBranch;
     }
@@ -138,9 +149,35 @@ export default class RepositoryController extends Controller {
    * @returns {string}.
    * @private
    */
-  static _getDefaultBranch() {
-    // RepositoryModel.loadDefaultBranch()
-    return 'master';
+  async _getDefaultBranch() {
+    const data = {
+      repName: this.repositoryName,
+    };
+
+    const result = await RepositoryModel.loadDefaultBranch(data);
+
+    if (result.success) {
+      const res = await result.body.commit.commit_hash;
+      this.defaultBranch = res;
+      return;
+    }
+
+    switch (result.status) {
+      case 204:
+        this.branchName = null;
+        console.log("no branches yet");
+        break;
+      case 404:
+        this.eventBus.emit(UPLOAD.changePath, '/404');
+        break;
+      case 403:
+        alert('Это приватный репозиторий!');
+        break;
+      default:
+        console.log('Неизвестная ошибка ', result.status);
+        break;
+    }
+    return null;
   }
 
   /**
@@ -191,6 +228,43 @@ export default class RepositoryController extends Controller {
         break;
       case 400:
         break;
+      default:
+        this.eventBus.emit(ACTIONS.offline, {});
+    }
+  }
+
+  /**
+   * Fork repository.
+   * @param {object} params.
+   * @returns {Promise<void>}.
+   * @private
+   */
+  async fork({ num = 0 }) {
+    const path = window.location.pathname;
+    const reg = /[\w_]+/g;
+
+    const [author, repository] = path.match(reg);
+    num += 1;
+    const newRepository = `${repository}_${num}`;
+
+    const res = await ForkModel.fork({
+      from_author_name: author,
+      from_repo_name: repository,
+      new_name: newRepository,
+    });
+
+    if (res.success) {
+      this.redirect({ path: `/${authUser.getUser}/${newRepository}/branches` });
+      return;
+    }
+
+    switch (res.status) {
+      case 401:
+        this.redirect({ path: '/signin' });
+        break;
+      case 409:
+        this.fork({ num });
+        break
       default:
         this.eventBus.emit(ACTIONS.offline, {});
     }

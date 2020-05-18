@@ -4,16 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-// const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
   mode: 'development',
-  // context: path.resolve(__dirname, 'src'),
   devtool: 'source-map',
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: '[name].[hash].js',
     publicPath: '/',
   },
   plugins: [
@@ -21,7 +19,7 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html'),
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].[hash].css',
     }),
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, '/src/sw.js'),
@@ -38,7 +36,7 @@ module.exports = {
     ]),
   ],
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.ts'],
     alias: {
       Views: path.resolve(__dirname, 'src/views/'),
       Components: path.resolve(__dirname, 'src/components/'),
@@ -57,7 +55,6 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               hmr: true,
-
             },
           },
           // Creates `style` nodes from JS strings
@@ -67,10 +64,6 @@ module.exports = {
           // Compiles Sass to CSS
           'sass-loader',
         ],
-      },
-      {
-        test: /\.pug/,
-        use: 'pug-loader',
       },
       {
         test: /\.js$/,
@@ -84,6 +77,15 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.pug/,
+        use: 'pug-loader',
       },
     ],
   },
