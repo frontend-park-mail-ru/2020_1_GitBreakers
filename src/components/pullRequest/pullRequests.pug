@@ -1,0 +1,16 @@
+extends ../repository/repository.pug
+block content
+    input#openedLink.repository__top__menu_link(type="radio" name = "requestLink" "checked")
+    label.repository__top__menu_label(for="openedLink") Открытые
+    input#closedLink.repository__top__menu_link(type="radio" name = "requestLink")
+    label.repository__top__menu_label(for="closedLink") Закрытые
+    span#requestMessage.issue_info_message #{successMsg}
+
+    hr.line-separator.line-separator_extra-thin(style="margin-top: 4px")
+    div#repository__list__requests
+        hr.line-separator.line-separator_extra-thin
+
+block button
+    div.repository__top_button
+        button#newRequest.button.button-small(type="submit") Создать пулл реквест
+    span#successMessage.success-msg

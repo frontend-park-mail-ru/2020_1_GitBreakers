@@ -23,6 +23,8 @@ import ProfileController from 'Controllers/profileController';
 import SettingsController from 'Controllers/SettingsController';
 import RepositoryStarsController from 'Controllers/repositoryStarsController';
 
+import PullRequestController from 'Controllers/PullRequestController.js';
+
 /** Регистрация сервис воркера */
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js', {
@@ -66,6 +68,7 @@ const fileTreeController = new FileTreeController(application, eventBus, router)
 const commitsController = new CommitsController(application, eventBus, router);
 const mainPageController = new MainPageController(application, eventBus, router);
 const newsController = new NewsController(application, eventBus, router);
+const pullRequestController = new PullRequestController(application, eventBus, router);
 
 const create404Page = new Create404Page();
 
@@ -76,7 +79,7 @@ router.register(paths.newRepository, newRepositoryController);
 router.register(paths.profile, profileController);
 router.register(paths.signup, signUpController);
 router.register(paths.signin, signInController);
-// router.register(paths.repository, fileTreeController); // открыта дефолтная ветка
+router.register(paths.repository, fileTreeController); // открыта дефолтная ветка
 router.register(paths.branch, fileTreeController); // открыта любая другая ветка
 router.register(paths.repositoryBranches, branchesController); // все ветки
 router.register(paths.commits, commitsController); // все коммиты ветки
@@ -85,5 +88,8 @@ router.register(paths.main, mainPageController);
 router.register(/\/404/, create404Page);
 router.register(paths.issues, issuesController);
 router.register(paths.news, newsController);
+router.register(paths.pullRequest, pullRequestController);
 
 router.start();
+
+

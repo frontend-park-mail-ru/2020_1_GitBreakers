@@ -3,17 +3,17 @@ div.section
     div.card
         div.section__title
             .section__title__item
-                h2.title Репозиторий: 
-                    span 
+                h2.title Репозиторий: &nbsp
+                    span
                         a.route(href='#' data-section=`/profile/${author}`) #{author}
-                    span  / 
+                    span  /
                     span
                         a.route(href='#' data-section=`/${author}/${repName}/branches`) #{repName}
             .section__title__item
                 .rep_stars
                     .rep_stars__item.tooltip
-                        a.rep_stars__action  
-                            if (vote  === 'send') 
+                        a.rep_stars__action
+                            if (vote  === 'send')
                                 p Добавить
                             else
                                 p Удалить
@@ -38,6 +38,8 @@ div.section
                         button.route.issues.button(type='submit') Задачи
                     div.rep-menu__item
                         button.route.news.button(type='submit') Новости
+                    div.rep-menu__item
+                        button.route.requests.button(type='submit') Пулл реквесты
                     .rep-menu__item
                         input.link__box( value=`https://code-hub.space/${author}/${repName}.git` readonly)
                         button.link__copy(type='submit') Скопировать

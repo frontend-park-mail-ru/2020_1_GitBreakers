@@ -82,6 +82,18 @@ export default class RepositoryBaseView extends View {
       this.eventCollector.addEvent(buttonNewsList[i], 'click', func);
     }
 
+    const buttonRequestsList = document.getElementsByClassName('requests');
+    for (let i = 0; i < buttonRequestsList.length; i += 1) {
+
+      const func = (event) => {
+        event.preventDefault();
+        buttonRequestsList[i].dataset.section = `/${data.author}/${data.repName}/pull_request`;
+      }
+
+      buttonRequestsList[i].addEventListener('click', func);
+      this.eventCollector.addEvent(buttonRequestsList[i], 'click', func);
+    }
+
     const updateStarsFunc = (event) => {
       event.preventDefault();
       const { vote, id } = document.querySelector('.rep_stars__counter').dataset;

@@ -1,0 +1,33 @@
+div.welcome
+  div.welcome__col1
+    div.welcome__col1__text
+      div.welcome__col1__text_title
+        h2 Создан для разработчиков
+      div.welcome__col1__text_content
+        |CodeHub - это платформа для для управления
+        |разработкой программного обеспечения, включая систему управления репозиториями Git.
+        |Вы можете загружать и просматривать код,
+        |осуществлять планирование и управление проектами, тестировать и создавать ПО.
+        |Git репозиторий обеспечивает инструменты для управления ветками и
+        |доступом к проектам, предоставляя единую среду совместного доступа к коду и проектам.
+  div.welcome__col2
+    div.card-small
+      div.section__title
+        h2.title Авторизация
+      div.section__main
+        form.form#SignIn(action='#' name='signIn')
+          div#signInMessage
+          div.form__item
+            label.form__item__label(for='username')
+              span.form__item__span Логин или email
+              input.form__item__input(type='text' name='username' autofocus required)
+          div.form__item
+            label.form__item__label(for='password')
+              span.form__item__span Пароль
+              input.form__item__input(type='password' name='password' minlength='8' maxlength='100' required)
+          div.form__button
+            button.button#login( type='submit' ) Войти
+          //- div.form__item
+          //-     a#forgot.form__link(href='#') Forgot your password?
+          div.form__item
+            a.route.form__link(href='#' data-section='/signup') Зарегистрироваться!

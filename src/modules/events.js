@@ -138,3 +138,13 @@ export const SEARCH = {
   submitSearch: 'Submit Search: Search',
   submitSearchSuccess: 'Submit Search Success: Search',
 }
+
+export const PULLREQUEST = {
+  render: 'Pull requests : render',
+  getRequestsList : 'Pull requests : get requests list',
+  getBranchList: 'Pull requests : get branch list',
+  submitNewRequest: 'Pull requests : submit',
+  showMessage: 'Pull requests : message',
+  delete: 'Pull requests : delete',
+  accept: 'Pull requests : accept',
+}

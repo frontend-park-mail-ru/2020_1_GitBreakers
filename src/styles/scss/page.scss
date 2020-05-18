@@ -74,3 +74,54 @@ body {
     flex-direction: column;
   }
 }
+
+
+.welcome {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  // background-color: rgba(52, 75, 85, 0.75);
+  padding: 0 100px 0 100px;
+
+  &__col1 {
+    grid-auto-flow: row;
+
+    &__text {
+      width: 60%;
+      margin: 20% 25% 0 15%;
+      //color: white;
+      color: rgb(36, 51, 59);
+
+      &_content {
+        font-size: 90%;
+      }
+    }
+  }
+
+  &__col2 {
+    padding: 45px;
+    //background-color: #66a0e7;
+    grid-auto-flow: row;
+  }
+}
+
+
+@media (max-width: 800px) {
+  .welcome {
+    grid-template-columns: 100%;
+
+    &__col1, &__col2 {
+      margin-left: auto;
+    }
+
+    &__col1__text {
+      width: 80%;
+      margin: 20% 5% 0 15%;
+    }
+  }
+}
+
+@media (max-width: 470px) {
+  .welcome__col1, .welcome__col2 {
+    margin-right: -100px;
+  }
+}

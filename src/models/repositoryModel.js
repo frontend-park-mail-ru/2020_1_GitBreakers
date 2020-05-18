@@ -171,7 +171,7 @@ export default class RepositoryModel {
   }
 
   /**
-   * Return file 
+   * Return file
    * @param {object} data - requset data
    * @return {Promise}
    */
@@ -325,5 +325,133 @@ export default class RepositoryModel {
       return {};
     });
   }
-}
 
+  /**
+   * return repository default branch
+   * @param {object} data - request data
+   * @return {Promise}
+   */
+  static loadDefaultBranch(data) {
+    const path = `${constants.HOST}/repo/${data.repName}/head`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+            .then((result) => ({
+              success: true,
+              body: result,
+            }), () => ({
+              success: false,
+              status: 'Something wrong with json',
+            }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+        .catch(() => {
+          console.log('Model: getDefaultBranch: something goes wrong');
+          return {};
+        });
+  }
+
+  static loadRequestsList(data) {
+      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=10&offset=0`;
+      console.log(path);
+      return Api.get(path).then((res) => {
+        if (res.ok) {
+          return res.json()
+              .then((result) => ({
+                success: true,
+                body: result,
+              }), () => ({
+                success: false,
+                status: 'Something wrong with json',
+              }));
+        }
+        return {
+          success: false,
+          status: res.status,
+        };
+      })
+          .catch(() => {
+            console.log('Model: getPullRequestsList: something goes wrong');
+            return {};
+          });
+    }
+
+
+
+  /**
+   * Create new pull request.
+   * @param {object} data - request data
+   * @returns {Promise}
+   */
+  static createRequest(data) {
+    const path = `${constants.HOST}/func/repo/pullrequests`;
+    return Api.post(path, data.body).then((res) => {
+      if (res.ok) {
+        return {
+          success: true,
+        };
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    }).catch((err) => {
+      console.log('Model: New  Pull Request Erorr!', err);
+      return {};
+    });
+  }
+
+
+  /**
+   * Delete repository pull request
+   * @param {object} data - request data
+   * @returns {Promise}
+   */
+  static deleteRequest(data) {
+    const path = `${constants.HOST}/func/repo/pullrequests`;
+    console.log(path, data.body);
+    return Api.delete(path, data.body).then((res) => {
+      if (res.ok) {
+        return {
+          success: true,
+        };
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    }).catch((err) => {
+      console.log('Model: Delete Pull Request Erorr!', err);
+      return {};
+    });
+  }
+
+
+  /**
+   * Update request data
+   * @param {object} data - request data
+   * @returns {Promise}
+   */
+  static acceptRequest(data) {
+    console.log("body = ", data.body);
+    const path = `${constants.HOST}/func/repo/pullrequests`;
+    return Api.put(path, data.body).then((res) => {
+      if (res.ok) {
+        return {
+          success: true,
+        };
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    }).catch((err) => {
+      console.log('Model: Update (accept) Pull Request Erorr!', err);
+      return {};
+    });
+  }
+}
