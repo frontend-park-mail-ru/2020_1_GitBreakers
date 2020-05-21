@@ -49,7 +49,7 @@ export default class HeadetController extends Controller {
       this.eventBus.emit(HEADER.render, {
         auth: authUser.isAuth,
         user: authUser.getUser,
-        image: authUser.getImage,
+        image: authUser.getImage, 
       });
     })
   }

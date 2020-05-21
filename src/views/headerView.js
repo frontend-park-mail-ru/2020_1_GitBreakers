@@ -15,13 +15,13 @@ export default class HeaderView extends View {
    */
   constructor(root, eventBus) {
     super(root, template, eventBus);
+    this.eventBusCollector.on(HEADER.render, this._onRender.bind(this));
   }
 
   /**
    * Load information about header.
    */
   render() {
-    this.eventBusCollector.on(HEADER.render, this._onRender.bind(this));
     this.eventBus.emit(HEADER.load, {});
   }
 
