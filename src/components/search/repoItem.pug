@@ -4,6 +4,6 @@
       a.route.search__content__item__repository__item__name(data-section=`/${item.author_login}/${item.name}/branches`) #{item.author_login} / #{item.name}
       span.search__content__item__repository__item__descripton #{(item.description)}
       .search__content__item__repository__item__other
-        a.route.search__content__item__repository__item__other__stars(href='#' data-section='/${item.author_login}/${item.name}/stargazers') #{item.stars}
+        a.route.search__content__item__repository__item__other__stars( data-section=`/${item.author_login}/${item.name}/stargazers`) #{item.stars}
         span.search__content__item__repository__item__other__date Создан #{(new Date(item.created_at).toLocaleDateString())}
 

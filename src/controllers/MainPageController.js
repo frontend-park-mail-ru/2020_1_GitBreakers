@@ -1,7 +1,7 @@
-import Controller from '../modules/controller';
 import MainPageView from 'Views/mainPage';
 import ProfileView from 'Views/profileView';
 import authUser from 'Modules/authUser';
+import Controller from '../modules/controller';
 
 /**
  * Class representing a main page controller.

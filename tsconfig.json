@@ -7,6 +7,11 @@
     "target": "es5",
     "allowJs": true
   },
-  "include": ["./src/**/*"],
+  "include": [
+    "./src/controllers/*.ts",
+    "./src/views/*.ts",
+    "./src/models/*.ts",
+    "./src/modules/*.ts",
+    ],
   "exclude": ["./dist/"]
 }

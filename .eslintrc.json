@@ -3,15 +3,31 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["airbnb-base", "prettier"],
-  "plugins": ["prettier"],
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    // Базовый набор правил eslint
+    // "eslint:recommended",
+    // Отключаем правила из базового набора
+    // "plugin:@typescript-eslint/eslint-recommended",
+    // Базовые правила для TypeScript
+    "plugin:@typescript-eslint/recommended",
+    // Правила TS, требующие инфо о типах
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  // "parser": "@typescript-eslint/parser",
+  // Плагин с наборами правил для TypeScript
+  "plugins": ["prettier", "@typescript-eslint"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module"
+    "sourceType": "module",
+    // Движку нужен проект TS для правил с типами
+    "project": "tsconfig.json",
+    "tsconfigRootDir": "."
   },
   "rules": {
     "no-underscore-dangle": "off",

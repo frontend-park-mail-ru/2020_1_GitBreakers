@@ -32,7 +32,7 @@ export default class NewRepositoryController extends Controller {
       this.onFinishLoadWhoAmI();
     } else {
       // this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+      this.eventBusCollector.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
   }
 

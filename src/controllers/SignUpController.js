@@ -72,6 +72,6 @@ export default class SignUpController extends Controller {
     } else {
       super.open();
     }
-    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    // this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
   }
 }

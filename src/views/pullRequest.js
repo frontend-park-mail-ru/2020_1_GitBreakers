@@ -69,12 +69,12 @@ export default class RepPullRequestsView extends RepositoryBaseView {
       menu[i].addEventListener('change', func);
       this.eventCollector.addEvent(menu[i], 'change', func);
     }
-//*********************************************************************
+//* ********************************************************************
 
 
 
 
-    //=========================================================
+    //= ========================================================
 
     const newRequestBottom = document.getElementById('newRequest');
 
@@ -84,7 +84,7 @@ export default class RepPullRequestsView extends RepositoryBaseView {
       const rep = document.getElementsByClassName('repository')[0];
 
       if (dataTmp.formShow === 'true') {
-        //rep.innerHTML = pullRequests();
+        // rep.innerHTML = pullRequests();
         dataTmp.formShow = 'false';
 
       } else {
@@ -97,7 +97,7 @@ export default class RepPullRequestsView extends RepositoryBaseView {
     newRequestBottom.addEventListener('click', func);
     this.eventCollector.addEvent(newRequestBottom, 'click', func);
 
-    //=======================================================================
+    //= ======================================================================
   }
 
 
@@ -207,5 +207,5 @@ export default class RepPullRequestsView extends RepositoryBaseView {
 
 
 
-//TODO: открывать отдельную страницу с ПЛ с полной информацией о нём
-//нужны ручки для получения инфы о пользователе и репозитории по айдишникам
+// TODO: открывать отдельную страницу с ПЛ с полной информацией о нём
+// нужны ручки для получения инфы о пользователе и репозитории по айдишникам
