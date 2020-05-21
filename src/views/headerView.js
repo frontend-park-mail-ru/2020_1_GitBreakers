@@ -33,20 +33,18 @@ export default class HeaderView extends View {
   _onRender(data = {}) {
     super.render(data);
 
-    const setData = (event) => {
-      event.preventDefault();
-      const { target } = event;
-      // target.search.dataset.section = target.search.value;
-      if (target.search.value.length > 0) {
-        this.eventBus.emit(HEADER.redirect, { path: `/search/${target.search.value}` })
-      }
-    }
-
-    document.querySelector('form.search').addEventListener('submit', setData);
-    this.eventCollector.addEvent(document.querySelector('form.search'), 'submit', setData);
-
-
     if (data.auth) {
+      const setData = (event) => {
+        event.preventDefault();
+        const { target } = event;
+        // target.search.dataset.section = target.search.value;
+        if (target.search.value.length > 0) {
+          this.eventBus.emit(HEADER.redirect, { path: `/search/${target.search.value}` })
+        }
+      }
+
+      document.querySelector('form.search').addEventListener('submit', setData);
+      this.eventCollector.addEvent(document.querySelector('form.search'), 'submit', setData);
 
       const func = (event) => {
         event.preventDefault();
