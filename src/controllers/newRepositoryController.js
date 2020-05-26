@@ -1,6 +1,6 @@
 import NewRepositoryView from 'Views/newRepository';
 import { NEWREPOSITORY, ACTIONS } from 'Modules/events';
-import Controller from 'Modules/controller';
+import Controller from 'Modules/controller.ts';
 import authUser from 'Modules/authUser';
 import NewRepositoryModel from '../models/newRepositoryModel';
 
@@ -9,7 +9,6 @@ import NewRepositoryModel from '../models/newRepositoryModel';
  * @extends Controller
  */
 export default class NewRepositoryController extends Controller {
-
   /**
    * Initialize view for new repository page.
    * @param {HTMLElement} root.

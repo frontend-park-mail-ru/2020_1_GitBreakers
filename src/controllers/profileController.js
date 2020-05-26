@@ -1,4 +1,4 @@
-import Controller from 'Modules/controller';
+import Controller from 'Modules/controller.ts';
 import ProfileView from 'Views/profileView';
 import ProfileModel from 'Models/profileModel';
 import { PROFILE } from 'Modules/events';
@@ -8,7 +8,6 @@ import { PROFILE } from 'Modules/events';
  * @extends Controller
  */
 export default class ProfileController extends Controller {
-
   /**
    * Initialize view for profile page.
    * @param {HTMLElement} root.

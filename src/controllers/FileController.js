@@ -10,7 +10,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class FileController extends RepositoryController {
-
   /**
    * Initialize view for file page.
    * @param {HTMLElement} root.
@@ -94,7 +93,7 @@ export default class FileController extends RepositoryController {
     }
     if (res.file_info.is_binary) {
       this.data.fileType = 'fileForLoad';
-      this.data.message = "Файл недоступен для предпросмотра";
+      this.data.message = 'Файл недоступен для предпросмотра';
       console.log('binary');
       return;
     }

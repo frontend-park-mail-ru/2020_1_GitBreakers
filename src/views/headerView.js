@@ -1,5 +1,5 @@
 import template from 'Components/header/header.pug';
-import View from 'Modules/view';
+import View from 'Modules/view.ts';
 import { HEADER } from 'Modules/events';
 
 /**
@@ -7,7 +7,6 @@ import { HEADER } from 'Modules/events';
  * @extends View
  */
 export default class HeaderView extends View {
-
   /**
    * Initialize template for header view.
    * @param {HTMLElement} root.
@@ -39,9 +38,9 @@ export default class HeaderView extends View {
         const { target } = event;
         // target.search.dataset.section = target.search.value;
         if (target.search.value.length > 0) {
-          this.eventBus.emit(HEADER.redirect, { path: `/search/${target.search.value}` })
+          this.eventBus.emit(HEADER.redirect, { path: `/search/${target.search.value}` });
         }
-      }
+      };
 
       document.querySelector('form.search').addEventListener('submit', setData);
       this.eventCollector.addEvent(document.querySelector('form.search'), 'submit', setData);
@@ -49,7 +48,7 @@ export default class HeaderView extends View {
       const func = (event) => {
         event.preventDefault();
         this.eventBus.emit(HEADER.logout);
-      }
+      };
 
       document.getElementById('logout').addEventListener('click', func);
       this.eventCollector.addEvent(document.getElementById('logout'), 'click', func);

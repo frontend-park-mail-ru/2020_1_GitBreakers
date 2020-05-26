@@ -1,4 +1,4 @@
-import View from 'Modules/view';
+import View from 'Modules/view.ts';
 import { SETTINGS } from 'Modules/events';
 import template from 'Components/updateProfile/updateProfile2.pug';
 import CustomValidation from 'Modules/validation/customValidation';
@@ -11,7 +11,6 @@ import successMessage from 'Components/message/successMessage.pug';
  * @extends View
  */
 export default class SettingsView extends View {
-
   /**
    * Initialize template for settings page view.
    * @param {HTMLElement} root.
@@ -116,14 +115,14 @@ export default class SettingsView extends View {
     const func1 = (event) => {
       event.preventDefault();
       document.forms.setAvatar.avatar.click();
-    }
+    };
     document.querySelector('a.fileLoad').addEventListener('click', func1);
     this.eventCollector.addEvent(document.querySelector('a.fileLoad'), 'click', func1);
 
     const func = (event) => {
       event.preventDefault();
       this.eventBus.emit(SETTINGS.submitAvatar, { form });
-    }
+    };
     form.avatar.addEventListener('change', func);
     this.eventCollector.addEvent(form, 'change', func);
   }
@@ -141,7 +140,7 @@ export default class SettingsView extends View {
         name: form.name.value,
         email: form.email.value,
       });
-    }
+    };
 
     form.addEventListener('submit', func);
 

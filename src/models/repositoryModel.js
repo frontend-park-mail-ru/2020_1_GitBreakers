@@ -4,7 +4,6 @@ import { NEWBRANCH } from 'Modules/events';
 
 /** class for working with the repository */
 export default class RepositoryModel {
-
   /**
    * Return repository infomation
    * @param {object} data - request body
@@ -264,17 +263,15 @@ export default class RepositoryModel {
           return {
             success: true,
             body: res.json(),
-          }
+          };
         }
         return {
           success: false,
           status: res.status,
-        }
-      }).catch(() => {
-        return {
-          success: false,
-        }
-      });
+        };
+      }).catch(() => ({
+        success: false,
+      }));
   }
 
   /**
@@ -283,7 +280,7 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static updateIssue(data) {
-    console.log("body = ", data.body);
+    console.log('body = ', data.body);
     const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
     return Api.put(path, data.body).then((res) => {
       if (res.ok) {
@@ -308,7 +305,7 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static deleteIssue(data) {
-    console.log("delete body = ", data.body);
+    console.log('delete body = ', data.body);
     const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
     return Api.delete(path, data.body).then((res) => {
       if (res.ok) {
@@ -336,50 +333,49 @@ export default class RepositoryModel {
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
-            .then((result) => ({
-              success: true,
-              body: result,
-            }), () => ({
-              success: false,
-              status: 'Something wrong with json',
-            }));
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
       }
       return {
         success: false,
         status: res.status,
       };
     })
-        .catch(() => {
-          console.log('Model: getDefaultBranch: something goes wrong');
-          return {};
-        });
+      .catch(() => {
+        console.log('Model: getDefaultBranch: something goes wrong');
+        return {};
+      });
   }
 
   static loadRequestsList(data) {
-      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=10&offset=0`;
-      console.log(path);
-      return Api.get(path).then((res) => {
-        if (res.ok) {
-          return res.json()
-              .then((result) => ({
-                success: true,
-                body: result,
-              }), () => ({
-                success: false,
-                status: 'Something wrong with json',
-              }));
-        }
-        return {
-          success: false,
-          status: res.status,
-        };
-      })
-          .catch(() => {
-            console.log('Model: getPullRequestsList: something goes wrong');
-            return {};
-          });
-    }
-
+    const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=10&offset=0`;
+    console.log(path);
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsList: something goes wrong');
+        return {};
+      });
+  }
 
 
   /**
@@ -437,7 +433,7 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static acceptRequest(data) {
-    console.log("body = ", data.body);
+    console.log('body = ', data.body);
     const path = `${constants.HOST}/func/repo/pullrequests`;
     return Api.put(path, data.body).then((res) => {
       if (res.ok) {

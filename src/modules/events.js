@@ -132,7 +132,7 @@ export const NEWS = {
   getInfo: 'News: get info',
   render: 'News : render',
   getNewsList: 'News : Get news list',
-}
+};
 
 export const SEARCH = {
   reload: 'Reload: search',
@@ -140,14 +140,14 @@ export const SEARCH = {
   loadPageSuccess: 'loadPageSucces: Search',
   submitSearch: 'Submit Search: Search',
   submitSearchSuccess: 'Submit Search Success: Search',
-}
+};
 
 export const PULLREQUEST = {
   render: 'Pull requests : render',
-  getRequestsList : 'Pull requests : get requests list',
+  getRequestsList: 'Pull requests : get requests list',
   getBranchList: 'Pull requests : get branch list',
   submitNewRequest: 'Pull requests : submit',
   showMessage: 'Pull requests : message',
   delete: 'Pull requests : delete',
   accept: 'Pull requests : accept',
-}
+};

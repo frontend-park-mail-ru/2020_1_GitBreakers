@@ -15,17 +15,14 @@ export default class NewsModel {
           return {
             success: true,
             body: res.json(),
-          }
+          };
         }
         return {
           success: false,
           status: res.status,
-        }
-
-      }).catch(() => {
-        return {
-          success: false,
-        }
-      });
+        };
+      }).catch(() => ({
+        success: false,
+      }));
   }
 }

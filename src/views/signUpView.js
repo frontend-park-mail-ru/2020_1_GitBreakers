@@ -1,5 +1,5 @@
 import { SIGNUP } from 'Modules/events';
-import View from 'Modules/view';
+import View from 'Modules/view.ts';
 import errorMessage from 'Modules/errorMessage';
 import template from 'Components/signUp/signUp.pug';
 import CustomValidation from 'Modules/validation/customValidation';
@@ -10,7 +10,6 @@ import { loginValidityChecks, passwordValidityChecks } from 'Modules/validation/
  * @extends View
  */
 export default class SignUpView extends View {
-
   /**
    * Initialize template for sing up page view.
    * @param {HTMLElement} root.

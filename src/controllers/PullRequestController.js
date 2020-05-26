@@ -1,5 +1,7 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import {PULLREQUEST, UPLOAD, ACTIONS, REPOSITORY} from 'Modules/events';
+import {
+  PULLREQUEST, UPLOAD, ACTIONS, REPOSITORY,
+} from 'Modules/events';
 import RepPullRequestsView from 'Views/pullRequest';
 
 import RepositoryModel from 'Models/repositoryModel';
@@ -9,7 +11,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class PullRequestController extends RepositoryController {
-
   /**
    * Initialize view for pull request page.
    * @param {HTMLElement} root.
@@ -19,13 +20,12 @@ export default class PullRequestController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepPullRequestsView(root, eventBus);
-
   }
 
   /**
    * Open page view.
    */
-  open(data) {
+  open() {
     this.eventBusCollector.on(REPOSITORY.getInfo, this._getRepository.bind(this));
     this.eventBusCollector.on(PULLREQUEST.getBranchList, this._getBranchList.bind(this));
     this.eventBusCollector.on(PULLREQUEST.getRequestsList, this._getRequestsList.bind(this));
@@ -43,7 +43,6 @@ export default class PullRequestController extends RepositoryController {
    * @private
    */
   async _getRepository() {
-
     this.setRepository();
     await this._setStars();
 
@@ -76,15 +75,12 @@ export default class PullRequestController extends RepositoryController {
   }
 
 
-
-
   /**
    * Get list of this repository branches.
    * @returns {Promise<void>}
    * @private
    */
   async _getBranchList() {
-
     const data = {
       repName: this.repositoryName,
     };
@@ -114,17 +110,12 @@ export default class PullRequestController extends RepositoryController {
   }
 
 
-
-
-
-
   /**
    * Get list of this repository requests.
    * @returns {Promise<void>}.
    * @private
    */
   async _getRequestsList() {
-
     const data = {
       repId: this.repId,
     };
@@ -132,7 +123,6 @@ export default class PullRequestController extends RepositoryController {
     const result = await RepositoryModel.loadRequestsList(data);
 
     if (result.success) {
-
       this.data.author = this.author;
       this.data.repName = this.repository;
 
@@ -184,9 +174,8 @@ export default class PullRequestController extends RepositoryController {
     this.data.repId = this.repId;
     this.data.resolved = resolved;
     this.data.unresolved = unresolved;
-    this.data.tab = "unresolved";
+    this.data.tab = 'unresolved';
   }
-
 
 
   /**
@@ -196,7 +185,6 @@ export default class PullRequestController extends RepositoryController {
    * @private
    */
   async _createRequest(body) {
-
     if (body.formData.title.length === 0) {
       this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
       return;
@@ -208,7 +196,7 @@ export default class PullRequestController extends RepositoryController {
 
     if (result.success) {
       this.open();
-      console.log("created successfully");
+      console.log('created successfully');
       return;
     }
 
@@ -239,8 +227,7 @@ export default class PullRequestController extends RepositoryController {
    * @private
    */
   async _deleteRequest(body) {
-
-    const result = await RepositoryModel.deleteRequest({body});
+    const result = await RepositoryModel.deleteRequest({ body });
 
     if (result.success) {
       this.open();
@@ -275,11 +262,10 @@ export default class PullRequestController extends RepositoryController {
    * @private
    */
   async _acceptRequest(body) {
-
-    const result = await RepositoryModel.acceptRequest({body});
+    const result = await RepositoryModel.acceptRequest({ body });
 
     if (result.success) {
-      this.open({ active: "false", msg: " Пулл реквест принят" });
+      this.open({ active: 'false', msg: ' Пулл реквест принят' });
       console.log('accept ok');
       return;
     }

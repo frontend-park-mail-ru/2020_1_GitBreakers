@@ -1,5 +1,5 @@
-import RepositoryController from "Controllers/RepositoryController";
-import RepositoryStarsView from "Views/repStarsView";
+import RepositoryController from 'Controllers/RepositoryController';
+import RepositoryStarsView from 'Views/repStarsView';
 import StarsModel from 'Models/starsModel';
 import RepositoryModel from 'Models/repositoryModel';
 import { REPSTARS } from 'Modules/events';
@@ -9,7 +9,6 @@ import { REPSTARS } from 'Modules/events';
  * @extends RepositoryController
  */
 export default class RepositoryStarsController extends RepositoryController {
-
   /**
    * Initialize view for stars.
    * @param {HTMLElement} root.
@@ -44,18 +43,21 @@ export default class RepositoryStarsController extends RepositoryController {
     if (repositoryRes.success) {
       this.setRepository();
       const repositoryBody = await repositoryRes.body;
-      const usersListRes = await StarsModel.getListOfUsersWhoStarRepository({ repositoryId: repositoryBody.id });
+      const usersListRes = await StarsModel.getListOfUsersWhoStarRepository(
+        {
+          repositoryId: repositoryBody.id,
+        },
+      );
       if (usersListRes.success) {
         const data = {
           author: this.author,
           repName: this.repository,
           users: await usersListRes.body,
           ...this.data,
-          stars: repositoryBody.stars
-        }
+          stars: repositoryBody.stars,
+        };
         this.eventBus.emit(REPSTARS.render, data);
       }
     }
-
   }
 }

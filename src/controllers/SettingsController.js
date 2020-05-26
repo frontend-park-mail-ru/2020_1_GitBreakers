@@ -1,4 +1,5 @@
-import Controller from 'Modules/controller';
+// eslint-disable-next-line import/named
+import { Controller } from 'Modules/controller.ts';
 import SettingsView from 'Views/settingsView';
 import { SETTINGS, ACTIONS } from 'Modules/events';
 import ProfileModel from 'Models/profileModel';
@@ -10,7 +11,6 @@ import AuthModel from 'Models/authModel';
  * @extends Controller
  */
 export default class SettingsController extends Controller {
-
   /**
    * Initialize view for settings page.
    * @param {HTMLElement} root.
@@ -63,7 +63,6 @@ export default class SettingsController extends Controller {
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
-
     }
   }
 

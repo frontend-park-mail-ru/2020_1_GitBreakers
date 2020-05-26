@@ -105,7 +105,7 @@ export default class CodeTheme {
 
   /**
    *Converts an object to a string.
-   * @static 
+   * @static
    * @param {object} cssObject - contains the theme styles
    * @return {string} string with css
    */
@@ -119,10 +119,10 @@ export default class CodeTheme {
         Object.entries(value).forEach((item) => {
           const [key2, value2] = item;
           cssString += `${key2} : ${value2}; `;
-        })
+        });
       }
       cssString += '} ';
-    })
+    });
     return cssString;
   }
 

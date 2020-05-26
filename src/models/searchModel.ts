@@ -1,6 +1,6 @@
-import { IReturnPromise } from "./../modules/IModel";
-import Api from "../modules/api";
-import constants from "../modules/constants";
+import ReturnPromise from 'Modules/IModel.ts';
+import Api from 'Modules/api';
+import constants from 'Modules/constants';
 
 export default class SearchModel {
   static search(
@@ -8,7 +8,7 @@ export default class SearchModel {
     query: string,
     limit = 20,
     offset = 0
-  ): Promise<IReturnPromise> {
+  ): Promise<ReturnPromise> {
     return Api.get(
       `${constants.HOST}/func/search/${params}?query=${query}&limit=${limit}&offset=${offset}`
     )
@@ -24,11 +24,9 @@ export default class SearchModel {
           status: res.status,
         };
       })
-      .catch(() => {
-        return {
-          success: false,
-          status: 0,
-        };
-      });
+      .catch(() => ({
+        success: false,
+        status: 0,
+      }));
   }
 }

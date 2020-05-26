@@ -1,12 +1,11 @@
-import View from 'Modules/view';
-import { REPOSITORY, ACTIONS } from 'Modules/events';
+import { REPOSITORY } from 'Modules/events';
+import View from 'Modules/view.ts';
 
 /**
  * Class representing a repository view.
  * @extends View
  */
 export default class RepositoryBaseView extends View {
-
   /**
    * Add listeners for repository buttons.
    */
@@ -17,7 +16,6 @@ export default class RepositoryBaseView extends View {
 
     const buttonCodeList = document.getElementsByClassName('code');
     for (let i = 0; i < buttonCodeList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
 
@@ -28,7 +26,7 @@ export default class RepositoryBaseView extends View {
           codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;
         }
         buttonCodeList[i].dataset.section = codePath;
-      }
+      };
 
       buttonCodeList[i].addEventListener('click', func);
       this.eventCollector.addEvent(buttonCodeList[i], 'click', func);
@@ -36,11 +34,10 @@ export default class RepositoryBaseView extends View {
 
     const buttonBranchesList = document.getElementsByClassName('branches');
     for (let i = 0; i < buttonBranchesList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
         buttonBranchesList[i].dataset.section = `/${data.author}/${data.repName}/branches`;
-      }
+      };
 
       buttonBranchesList[i].addEventListener('click', func);
       this.eventCollector.addEvent(buttonBranchesList[i], 'click', func);
@@ -48,11 +45,10 @@ export default class RepositoryBaseView extends View {
 
     const buttonCommitsList = document.getElementsByClassName('commits');
     for (let i = 0; i < buttonCommitsList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
         buttonCommitsList[i].dataset.section = `/${data.author}/${data.repName}/commits/master`;
-      }
+      };
 
       buttonCommitsList[i].addEventListener('click', func);
       this.eventCollector.addEvent(buttonCommitsList[i], 'click', func);
@@ -60,11 +56,10 @@ export default class RepositoryBaseView extends View {
 
     const buttonIssuesList = document.getElementsByClassName('issues');
     for (let i = 0; i < buttonIssuesList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
         buttonIssuesList[i].dataset.section = `/${data.author}/${data.repName}/issues`;
-      }
+      };
 
       buttonIssuesList[i].addEventListener('click', func);
       this.eventCollector.addEvent(buttonIssuesList[i], 'click', func);
@@ -72,11 +67,10 @@ export default class RepositoryBaseView extends View {
 
     const buttonNewsList = document.getElementsByClassName('news');
     for (let i = 0; i < buttonNewsList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
         buttonNewsList[i].dataset.section = `/${data.author}/${data.repName}/news`;
-      }
+      };
 
       buttonNewsList[i].addEventListener('click', func);
       this.eventCollector.addEvent(buttonNewsList[i], 'click', func);
@@ -84,11 +78,10 @@ export default class RepositoryBaseView extends View {
 
     const buttonRequestsList = document.getElementsByClassName('requests');
     for (let i = 0; i < buttonRequestsList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
         buttonRequestsList[i].dataset.section = `/${data.author}/${data.repName}/pull_request`;
-      }
+      };
 
       buttonRequestsList[i].addEventListener('click', func);
       this.eventCollector.addEvent(buttonRequestsList[i], 'click', func);
@@ -98,7 +91,7 @@ export default class RepositoryBaseView extends View {
       event.preventDefault();
       const { vote, id } = document.querySelector('.rep_stars__counter').dataset;
       this.eventBus.emit(REPOSITORY.updateStar, { vote: (vote === 'send'), id });
-    }
+    };
 
     document.querySelector('a.rep_stars__action').addEventListener('click', updateStarsFunc);
     this.eventCollector.addEvent(document.querySelector('a.rep_stars__action'), 'click', updateStarsFunc);
@@ -107,8 +100,8 @@ export default class RepositoryBaseView extends View {
       event.preventDefault();
       const text = document.querySelector('input.link__box');
       text.select();
-      document.execCommand("copy");
-    }
+      document.execCommand('copy');
+    };
 
     document.querySelector('button.link__copy').addEventListener('click', copyLinkFunc);
     this.eventCollector.addEvent(document.querySelector('button.link__copy'), 'click', copyLinkFunc);
@@ -116,7 +109,7 @@ export default class RepositoryBaseView extends View {
     const forkFunc = (event) => {
       event.preventDefault();
       this.eventBus.emit(REPOSITORY.fork, {});
-    }
+    };
 
     document.querySelector('a.rep_fork__action').addEventListener('click', forkFunc);
     this.eventCollector.addEvent(document.querySelector('a.rep_fork__action'), 'click', forkFunc);
@@ -132,15 +125,13 @@ export default class RepositoryBaseView extends View {
    * @private
    */
   _changeStarStatus({ stars = -1 } = {}) {
-
     const { vote } = this.root.querySelector('.rep_stars__counter').dataset;
     const message = (vote === 'send') ? '<p> Удалить </p>' : '<p> Добавить </p>';
 
     if (stars > -1) {
-      this.root.querySelector('.rep_stars__counter').innerHTML = stars
+      this.root.querySelector('.rep_stars__counter').innerHTML = stars;
     }
     this.root.querySelector('.rep_stars__counter').dataset.vote = (vote === 'send') ? 'delete' : 'send';
     this.root.querySelector('.rep_stars__action').innerHTML = message;
   }
-
 }

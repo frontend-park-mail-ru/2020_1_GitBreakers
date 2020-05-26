@@ -10,7 +10,6 @@ import template from '../components/fileView/fileView.pug';
  * @extends RepositoryBaseView
  */
 export default class FileView extends RepositoryBaseView {
-
   /**
    * Initialize code theme and template for file page view.
    * @param {HTMLElement} root.
@@ -48,14 +47,14 @@ export default class FileView extends RepositoryBaseView {
       event.preventDefault();
 
       if (dataTmp.themeStyle === 'Light') {
-        theme.innerText = `Светлая тема`;
+        theme.innerText = 'Светлая тема';
         dataTmp.themeStyle = 'Dark';
       } else {
-        theme.innerText = `Тёмная тема`;
+        theme.innerText = 'Тёмная тема';
         dataTmp.themeStyle = 'Light';
       }
       this.codeTheme.createCodeTheme(dataTmp.themeStyle);
-    }
+    };
 
     theme.addEventListener('click', func);
     this.eventCollector.addEvent(theme, 'click', func);

@@ -3,7 +3,6 @@ import constants from 'Modules/constants';
 
 /** Class for working with stars */
 export default class StarsModel {
-
   /**
    *  Signs or unsubscribes a user from the repository.
    * @param {object} param0 - request data
@@ -22,11 +21,9 @@ export default class StarsModel {
           status: res.status,
         };
       })
-      .catch(() => {
-        return {
-          success: false,
-        };
-      });
+      .catch(() => ({
+        success: false,
+      }));
   }
 
   /**
@@ -47,11 +44,9 @@ export default class StarsModel {
           success: false,
           status: res.status,
         };
-      }).catch(() => {
-        return {
-          success: false,
-        };
-      });
+      }).catch(() => ({
+        success: false,
+      }));
   }
 
   /**
@@ -70,17 +65,14 @@ export default class StarsModel {
           return {
             success: true,
             body: res.json(),
-          }
+          };
         }
         return {
           success: false,
           status: res.status,
-        }
-      }).catch(() => {
-        return {
-          success: false,
-        }
-      });
+        };
+      }).catch(() => ({
+        success: false,
+      }));
   }
-
 }

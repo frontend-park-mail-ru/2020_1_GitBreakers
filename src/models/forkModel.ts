@@ -1,5 +1,5 @@
-import Api from "../modules/api";
-import constants from "../modules/constants";
+import Api from '../modules/api';
+import constants from '../modules/constants';
 
 export default class ForkModel {
   static fork(body: object): Promise<object> {
@@ -15,7 +15,7 @@ export default class ForkModel {
           status: res.status,
         };
       })
-      .catch((err) => {
+      .catch(() => {
         return {};
       });
   }

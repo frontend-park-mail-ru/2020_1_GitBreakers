@@ -4,14 +4,28 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "es6",
-    "target": "es5",
-    "allowJs": true
+    "target": "es6",
+    "allowJs": true,
+    "baseUrl": "./src/",
+    "paths": {
+      "/*": ["/*"],
+      "Models/*": ["models/*"],
+      "Components/*": ["components/*"],
+      "Views/*": ["views/*"],
+      "Controllers/*": ["controllers/*"],
+      "Modules/*": ["modules/*"]
+    }
   },
-  "include": [
-    "./src/controllers/*.ts",
-    "./src/views/*.ts",
-    "./src/models/*.ts",
-    "./src/modules/*.ts",
-    ],
+  "files": [
+    "./src/controllers/searchController.ts",
+    "./src/views/searchView.ts",
+    "./src/models/forkModel.ts",
+    "./src/models/searchModel.ts",
+    "./src/modules/controller.ts",
+    "./src/modules/eventBus.ts",
+    "./src/modules/eventBusCollector.ts",
+    "./src/modules/Imodel.ts",
+    "./src/modules/view.ts"
+  ],
   "exclude": ["./dist/"]
 }

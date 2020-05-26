@@ -1,9 +1,9 @@
 import './main.scss';
 
 import SignUpController from 'Controllers/SignUpController';
-import eventBus from 'Modules/eventBus';
+import eventBus from 'Modules/eventBus.ts';
 import SignInController from 'Controllers/signInController';
-import Router from 'Modules/router';
+import Router from 'Modules/router.ts';
 import paths from 'Modules/paths';
 
 import HeaderController from 'Controllers/headerController';
@@ -11,10 +11,10 @@ import BranchesController from 'Controllers/BranchesController';
 import FileTreeController from 'Controllers/FileTreeController';
 import CommitsController from 'Controllers/CommitsController';
 import FileController from 'Controllers/FileController';
-import MainPageController from 'Controllers/MainPageController';
-import IssuesController from "Controllers/IssuesController";
-import NewsController from "Controllers/newsController";
-import SearchController from 'Controllers/searchController';
+// import MainPageController from 'Controllers/MainPageController';
+import IssuesController from 'Controllers/IssuesController';
+import NewsController from 'Controllers/newsController';
+import SearchController from 'Controllers/searchController.ts';
 
 import Create404Page from 'Controllers/404';
 
@@ -24,7 +24,7 @@ import ProfileController from 'Controllers/profileController';
 import SettingsController from 'Controllers/SettingsController';
 import RepositoryStarsController from 'Controllers/repositoryStarsController';
 
-import PullRequestController from 'Controllers/PullRequestController.js';
+import PullRequestController from 'Controllers/PullRequestController';
 
 /** Регистрация сервис воркера */
 if ('serviceWorker' in navigator) {
@@ -68,7 +68,7 @@ const repositoryStarsController = new RepositoryStarsController(application, eve
 const branchesController = new BranchesController(application, eventBus, router);
 const fileTreeController = new FileTreeController(application, eventBus, router);
 const commitsController = new CommitsController(application, eventBus, router);
-const mainPageController = new MainPageController(application, eventBus, router);
+// const mainPageController = new MainPageController(application, eventBus, router);
 const newsController = new NewsController(application, eventBus, router);
 const pullRequestController = new PullRequestController(application, eventBus, router);
 
@@ -95,5 +95,3 @@ router.register(paths.news, newsController);
 router.register(paths.pullRequest, pullRequestController);
 
 router.start();
-
-

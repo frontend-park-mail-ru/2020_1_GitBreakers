@@ -8,7 +8,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class BranchesController extends RepositoryController {
-
   /**
    * Initialize view for branches page.
    * @param {HTMLElement} root.
@@ -18,7 +17,6 @@ export default class BranchesController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepBranchesView(root, eventBus);
-
   }
 
   /**

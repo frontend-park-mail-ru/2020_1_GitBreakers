@@ -8,7 +8,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class FileTreeController extends RepositoryController {
-
   /**
    * Initialize view for file tree page.
    * @param {HTMLElement} root.
@@ -18,7 +17,6 @@ export default class FileTreeController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepFilesView(root, eventBus);
-
   }
 
   /**

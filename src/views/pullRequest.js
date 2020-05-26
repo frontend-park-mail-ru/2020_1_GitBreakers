@@ -1,13 +1,13 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
 import {
-  UPLOAD, PULLREQUEST, REPOSITORY, ISSUES,
+  PULLREQUEST, REPOSITORY,
 } from 'Modules/events';
-import errorMessage from 'Modules/errorMessage';
+// import errorMessage from 'Modules/errorMessage';
 import newPullRequest from 'Components/pullRequest/newPullRequest.pug';
 import pullRequests from 'Components/pullRequest/pullRequests.pug';
 import pullRequestsItem from 'Components/pullRequest/pullRequestsItem.pug';
-import authUser from "Modules/authUser";
-import issue from "Components/issues/listOfIssues.pug";
+import authUser from 'Modules/authUser';
+// import issue from "Components/issues/listOfIssues.pug";
 
 
 /**
@@ -15,7 +15,6 @@ import issue from "Components/issues/listOfIssues.pug";
  * @extends RepositoryBaseView
  */
 export default class RepPullRequestsView extends RepositoryBaseView {
-
   /**
    * Initialize template for pull requests page view.
    * @param {HTMLElement} root.
@@ -30,7 +29,10 @@ export default class RepPullRequestsView extends RepositoryBaseView {
    */
   render() {
     this.eventBusCollector.on(PULLREQUEST.render, this._onRender.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.showMessage, RepPullRequestsView._errorMessage.bind(this));
+    this.eventBusCollector.on(
+      PULLREQUEST.showMessage,
+      RepPullRequestsView._errorMessage.bind(this),
+    );
 
     this.eventBus.emit(REPOSITORY.getInfo, {});
   }
@@ -65,13 +67,11 @@ export default class RepPullRequestsView extends RepositoryBaseView {
           list.innerHTML = requestClosedList;
           dataTmp.tab = 'resolved';
         }
-      }
+      };
       menu[i].addEventListener('change', func);
       this.eventCollector.addEvent(menu[i], 'change', func);
     }
-//* ********************************************************************
-
-
+    //* ********************************************************************
 
 
     //= ========================================================
@@ -86,20 +86,18 @@ export default class RepPullRequestsView extends RepositoryBaseView {
       if (dataTmp.formShow === 'true') {
         // rep.innerHTML = pullRequests();
         dataTmp.formShow = 'false';
-
       } else {
         rep.innerHTML = newPullRequest(dataTmp);
         dataTmp.formShow = 'true';
 
         this._createRequestListener(dataTmp);
       }
-    }
+    };
     newRequestBottom.addEventListener('click', func);
     this.eventCollector.addEvent(newRequestBottom, 'click', func);
 
     //= ======================================================================
   }
-
 
 
   /**
@@ -114,20 +112,19 @@ export default class RepPullRequestsView extends RepositoryBaseView {
       const value = item[1];
       value.userId = authUser.getUserId;
       htmlStr += pullRequestsItem({ item: value });
-    })
+    });
     return htmlStr;
   }
 
 
   static _errorMessage(data) {
-    console.log("_err ", data);
+    console.log('_err ', data);
     const message = document.getElementById('message');
     message.innerText = data.message;
   }
 
 
   _createRequestListener(data) {
-
     const createRequest = document.getElementById('CreateRequest');
     if (!createRequest) return;
 
@@ -140,7 +137,7 @@ export default class RepPullRequestsView extends RepositoryBaseView {
       const branchTo = document.getElementById('branchNameTo');
 
       if (branchFrom.value === branchTo.value) {
-        this.eventBus.emit(PULLREQUEST.showMessage, {message: 'Выбраны одинаковые ветки!'});
+        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Выбраны одинаковые ветки!' });
       } else {
         const formData = {
           author_id: authUser.getUserId,
@@ -151,21 +148,20 @@ export default class RepPullRequestsView extends RepositoryBaseView {
           label: newRequestForm.requestLabel.value,
           branch_from: branchFrom.value,
           branch_to: branchTo.value,
-        }
-        this.eventBus.emit(PULLREQUEST.submitNewRequest, {formData, msg: 'Пулл реквест успешно создан'});
+        };
+        this.eventBus.emit(PULLREQUEST.submitNewRequest, { formData, msg: 'Пулл реквест успешно создан' });
       }
-    }
+    };
     createRequest.addEventListener('click', func);
     this.eventCollector.addEvent(createRequest, 'click', func);
   }
 
 
   _addButtons(data) {
-
     Object.entries(data.unresolved).forEach((item) => {
       const value = item[1];
       if (value.author_id === value.userId) {
-        const buttonEl = document.getElementById(`button_${value.id}`)
+        const buttonEl = document.getElementById(`button_${value.id}`);
 
         const acceptButton = document.createElement('button');
         acceptButton.classList.add('repository__list__item__buttonField_button', 'button', 'button-extra-small', 'button-colored');
@@ -183,28 +179,22 @@ export default class RepPullRequestsView extends RepositoryBaseView {
 
         const deleteFunc = (event) => {
           event.preventDefault();
-          this.eventBus.emit(PULLREQUEST.delete, { id: value.id, to_repo_id: data.repId});
-        }
+          this.eventBus.emit(PULLREQUEST.delete, { id: value.id, to_repo_id: data.repId });
+        };
         deleteButton.addEventListener('click', deleteFunc);
         this.eventCollector.addEvent(deleteButton, 'click', deleteFunc);
 
 
         const acceptFunc = (event) => {
           event.preventDefault();
-          this.eventBus.emit(PULLREQUEST.accept, { id: value.id, to_repo_id: data.repId});
-        }
+          this.eventBus.emit(PULLREQUEST.accept, { id: value.id, to_repo_id: data.repId });
+        };
         acceptButton.addEventListener('click', acceptFunc);
         this.eventCollector.addEvent(acceptButton, 'click', acceptFunc);
       }
-    })
+    });
   }
-
-
-
-
 }
-
-
 
 
 // TODO: открывать отдельную страницу с ПЛ с полной информацией о нём

@@ -4,7 +4,7 @@
 export default class Api {
   /**
    * Sends a request to the server and returns a response.
-   *  
+   *
    * @private
    * @static
    * @param {string} path - URL for sending the request
@@ -86,13 +86,12 @@ export default class Api {
 
   /**
    * Sends a PUT request to change avatar and returns a response.
-   * 
+   *
    * @param {string} path - URL for sending the request
    * @param {object} body - form with avatar
    * @return {Promise} - server response
    */
   static setAvatar(path = '/', body) {
-
     const csrf = localStorage.getItem('csrf_token');
     const headers = { 'X-Csrf-Token': csrf };
     return fetch(path, {
