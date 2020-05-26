@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/named
-import { Controller } from 'Modules/controller.ts';
+import Controller from 'Modules/controller.ts';
 import SettingsView from 'Views/settingsView';
 import { SETTINGS, ACTIONS } from 'Modules/events';
 import ProfileModel from 'Models/profileModel';

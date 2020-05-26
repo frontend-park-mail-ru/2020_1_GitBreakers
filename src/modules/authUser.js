@@ -1,5 +1,5 @@
 import { ACTIONS } from 'Modules/events';
-import eventBus from 'Modules/eventBus.ts';
+import  eventBus  from 'Modules/eventBus.ts';
 import AuthModel from 'Models/authModel';
 
 /**

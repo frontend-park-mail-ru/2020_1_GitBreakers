@@ -3,7 +3,7 @@ import AuthModel from 'Models/authModel';
 import authUser from 'Modules/authUser';
 import HeaderView from 'Views/headerView';
 import { HEADER } from 'Modules/events';
-import { Controller } from 'Modules/controller.ts';
+import Controller from 'Modules/controller.ts';
 
 /**
  * Class representing a header controller.

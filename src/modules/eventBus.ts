@@ -50,4 +50,5 @@ export class EventBus {
   }
 }
 
-export const eventBus = new EventBus();
+const eventBus = new EventBus();
+export default eventBus;

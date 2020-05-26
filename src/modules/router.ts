@@ -1,4 +1,4 @@
-import { eventBus } from 'Modules/eventBus.ts';
+import eventBus from 'Modules/eventBus.ts';
 import { UPLOAD } from 'Modules/events';
 import Controller from 'Modules/controller.ts';
 
