@@ -21,12 +21,7 @@ export default class RepositoryBaseView extends View {
       const func = (event) => {
         event.preventDefault();
 
-        let codePath = '/';
-        if (data.branchName === data.defaultBranch) {
-          codePath = `/${data.author}/${data.repName}`;
-        } else {
-          codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;
-        }
+        const codePath = `/${data.author}/${data.repName}`;
         buttonCodeList[i].dataset.section = codePath;
       }
 
@@ -80,18 +75,6 @@ export default class RepositoryBaseView extends View {
 
       buttonNewsList[i].addEventListener('click', func);
       this.eventCollector.addEvent(buttonNewsList[i], 'click', func);
-    }
-
-    const buttonRequestsList = document.getElementsByClassName('requests');
-    for (let i = 0; i < buttonRequestsList.length; i += 1) {
-
-      const func = (event) => {
-        event.preventDefault();
-        buttonRequestsList[i].dataset.section = `/${data.author}/${data.repName}/pull_request`;
-      }
-
-      buttonRequestsList[i].addEventListener('click', func);
-      this.eventCollector.addEvent(buttonRequestsList[i], 'click', func);
     }
 
     const updateStarsFunc = (event) => {

@@ -38,13 +38,11 @@ td {
 
 .column {
   &-thin {
-    width: 25%;
+    width: 80%;
   }
-  &-thick {
-    width: 60%;
-  }
+
   &-very-thin {
-    width: 15%;
+    width: 20%;
     text-align: right;
   }
 }

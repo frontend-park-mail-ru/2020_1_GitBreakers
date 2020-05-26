@@ -19,8 +19,10 @@ const paths = {
   repositoryBranches: /^\/[\w-_]+\/[\w-_]+\/branches$/i,
   fileView: /^\/[\w-_]+\/[\w-_]+\/file(\/([\w-_.]+))+$/i,
 
-  pullRequest: /^\/[\w-_]+\/[\w-_]+\/pull_request$/i,
-  onePullRequest: /^\/[\w-_]+\/[\w-_]+\/pull_request\/[\w-_]+$/i,
+  pullRequest: /^\/user\/[\w-_]+\/pull_requests$/i,
+  pullRequestRepo: /^\/user\/[\w-_]+\/pull_requests\/repository\/[\w-_]+$/i,
+  newPullRequest: /^\/user\/[\w-_]+\/pull_requests\/repository\/[\w-_]+\/new$/i,
+  onePullRequest: /^\/user\/[\w-_]+\/pull_request\/[\w-_]+$/i,
 
   upload: /^\/[\w-_]+\/[\w-_]+\/upload\/[\w-_]+$/i,
 };

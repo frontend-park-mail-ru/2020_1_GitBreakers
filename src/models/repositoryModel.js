@@ -11,7 +11,7 @@ export default class RepositoryModel {
    * @return {Promise}
    */
   static loadRepository(data) {
-    const path = `${constants.HOST}/repo/${data.repName}`;
+    const path = `${constants.HOST}/repo/${data.author}/${data.repName}`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -355,7 +355,7 @@ export default class RepositoryModel {
         });
   }
 
-  static loadRequestsList(data) {
+  static loadRepRequestsList(data) {
       const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=10&offset=0`;
       console.log(path);
       return Api.get(path).then((res) => {
@@ -375,10 +375,40 @@ export default class RepositoryModel {
         };
       })
           .catch(() => {
-            console.log('Model: getPullRequestsList: something goes wrong');
+            console.log('Model: getRepositoryPullRequestsList: something goes wrong');
             return {};
           });
-    }
+  }
+
+
+
+
+  static loadAllRequestsList() {
+    const path = `${constants.HOST}/user/pullrequests?limit=10&offset=0`;
+    console.log("get path = ", path);
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+            .then((result) => ({
+              success: true,
+              body: result,
+            }), () => ({
+              success: false,
+              status: 'Something wrong with json',
+            }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+        .catch(() => {
+          console.log('Model: getAllPullRequestsList: something goes wrong');
+          return {};
+        });
+  }
+
+
 
 
 

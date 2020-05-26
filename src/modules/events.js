@@ -144,10 +144,23 @@ export const SEARCH = {
 
 export const PULLREQUEST = {
   render: 'Pull requests : render',
+  getRepList: 'Pull requests : get repository list',
   getRequestsList : 'Pull requests : get requests list',
-  getBranchList: 'Pull requests : get branch list',
-  submitNewRequest: 'Pull requests : submit',
-  showMessage: 'Pull requests : message',
-  delete: 'Pull requests : delete',
-  accept: 'Pull requests : accept',
+
+
+
+
+  //showMessage: 'Pull requests : message',
+  //delete: 'Pull requests : delete',
+  //accept: 'Pull requests : accept',
+}
+
+export const NEWPULLREQUEST = {
+  render: 'New pull request : render',
+  getBranchList: 'New pull requests : get branch list',
+  getParentBranchList: 'New pull requests : get parent branch list',
+
+  submitNewRequest: 'New pull requests : submit',
+
+  //showMessage: 'New pull requests : message',
 }
