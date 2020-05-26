@@ -23,7 +23,11 @@ div.section
                   a.route.profile__menu__link(href='' data-section=`/profile/${login}`) Репозитории
                 .profile__data__top__menu_item
                   a.route.profile__menu__link(href='' data-section=`/profile/${login}/stars`) Звезды !{Stars}
+
+
                 if (auth === login)
+                  .profile__data__top__menu_item
+                    a.route.profile__menu__link(href='' data-section=`/user/${login}/pull_requests`) Пулл реквесты
                   div.profile__data__top__menu_item
                     button.route.button(type='submit' data-section='/new') Создать репозиторий
             hr.line-separator.line-separator_thin

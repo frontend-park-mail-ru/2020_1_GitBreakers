@@ -1,20 +1,20 @@
-import RepositoryBaseView from 'Views/repositoryBaseView';
+import View from 'Modules/view.ts';
 import {
-  PULLREQUEST, REPOSITORY,
+  UPLOAD, PULLREQUEST,
 } from 'Modules/events';
 // import errorMessage from 'Modules/errorMessage';
-import newPullRequest from 'Components/pullRequest/newPullRequest.pug';
 import pullRequests from 'Components/pullRequest/pullRequests.pug';
 import pullRequestsItem from 'Components/pullRequest/pullRequestsItem.pug';
-import authUser from 'Modules/authUser';
-// import issue from "Components/issues/listOfIssues.pug";
+import authUser from "Modules/authUser";
+
 
 
 /**
  * Class representing a pull requests page view.
  * @extends RepositoryBaseView
  */
-export default class RepPullRequestsView extends RepositoryBaseView {
+export default class RepPullRequestsView extends View {
+
   /**
    * Initialize template for pull requests page view.
    * @param {HTMLElement} root.
@@ -34,7 +34,8 @@ export default class RepPullRequestsView extends RepositoryBaseView {
       RepPullRequestsView._errorMessage.bind(this),
     );
 
-    this.eventBus.emit(REPOSITORY.getInfo, {});
+    console.log("1. view");
+    this.eventBus.emit(PULLREQUEST.getRepList, {});
   }
 
   /**
@@ -45,58 +46,59 @@ export default class RepPullRequestsView extends RepositoryBaseView {
   _onRender(data) {
     const dataTmp = data;
     super.render(dataTmp);
-    dataTmp.formShow = false;
 
 
-    const requestOpenedList = RepPullRequestsView.listToHtml(dataTmp.unresolved);
-    const requestClosedList = RepPullRequestsView.listToHtml(dataTmp.resolved);
+    const rep = document.getElementById('repName');
+    if (rep) {
+
+      const func = () => {
+        const repName = rep.value;
+        const path = `/user/${data.author}/pull_requests/repository/${repName}`;
+        this.eventBus.emit(UPLOAD.changePath, path);
+      }
+
+      rep.addEventListener('change', func);
+      this.eventCollector.addEvent(rep, 'change', func);
+    }//---------------------------------------------------------------
+
+
+    const requestOpenedList = RepPullRequestsView.listToHtml(dataTmp.opened);
+    const requestAcceptedList = RepPullRequestsView.listToHtml(dataTmp.accepted);
+    const requestDeletedList = RepPullRequestsView.listToHtml(dataTmp.deleted);
 
     const list = document.getElementById('repository__list__requests');
     list.innerHTML = requestOpenedList;
-    this._addButtons(dataTmp);
 
     const menu = document.getElementsByClassName('repository__top__menu_link');
     for (let i = 0; i < menu.length; i += 1) {
       const func = (event) => {
         const { target } = event;
-        if (target.id === 'openedLink') {
-          list.innerHTML = requestOpenedList;
-          dataTmp.tab = 'unresolved';
-          this._addButtons(dataTmp);
-        } else {
-          list.innerHTML = requestClosedList;
-          dataTmp.tab = 'resolved';
+
+        switch (target.id) {
+          case 'openedLink':
+            list.innerHTML = requestOpenedList;
+            dataTmp.tab = 'opened';
+            // this._addButtons(dataTmp);
+            break;
+
+          case 'acceptedLink':
+            list.innerHTML = requestAcceptedList;
+            dataTmp.tab = 'accepted';
+            break;
+
+          case 'deletedLink':
+            list.innerHTML = requestDeletedList;
+            dataTmp.tab = 'deleted';
+            break;
+          default:
+            console.log('Error!');
         }
       };
       menu[i].addEventListener('change', func);
       this.eventCollector.addEvent(menu[i], 'change', func);
     }
-    //* ********************************************************************
 
 
-    //= ========================================================
-
-    const newRequestBottom = document.getElementById('newRequest');
-
-    const func = (event) => {
-      event.preventDefault();
-
-      const rep = document.getElementsByClassName('repository')[0];
-
-      if (dataTmp.formShow === 'true') {
-        // rep.innerHTML = pullRequests();
-        dataTmp.formShow = 'false';
-      } else {
-        rep.innerHTML = newPullRequest(dataTmp);
-        dataTmp.formShow = 'true';
-
-        this._createRequestListener(dataTmp);
-      }
-    };
-    newRequestBottom.addEventListener('click', func);
-    this.eventCollector.addEvent(newRequestBottom, 'click', func);
-
-    //= ======================================================================
   }
 
 
@@ -195,7 +197,3 @@ export default class RepPullRequestsView extends RepositoryBaseView {
     });
   }
 }
-
-
-// TODO: открывать отдельную страницу с ПЛ с полной информацией о нём
-// нужны ручки для получения инфы о пользователе и репозитории по айдишникам

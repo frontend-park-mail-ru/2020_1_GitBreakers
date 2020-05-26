@@ -1,6 +1,6 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
 import template from 'Components/fileTree/fileTree.pug';
-import { TREEPAGE } from 'Modules/events';
+import TREEPAGE from 'Modules/events';
 
 /**
  * Class representing a file tree page view.
@@ -72,6 +72,16 @@ export default class RepBranchesView extends RepositoryBaseView {
 
       fileLinkList[i].addEventListener('click', func);
       this.eventCollector.addEvent(fileLinkList[i], 'click', func);
+    }
+
+    const buttonNewRequest = document.getElementById('newRequest');
+    if (buttonNewRequest) {
+      const func = (event) => {
+        event.preventDefault();
+        buttonNewRequest.dataset.section = `/user/${data.author}/pull_requests/repository/${data.repName}/new`;
+      }
+      buttonNewRequest.addEventListener('click', func);
+      this.eventCollector.addEvent(buttonNewRequest, 'click', func);
     }
   }
 }

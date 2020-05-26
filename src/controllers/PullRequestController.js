@@ -1,10 +1,11 @@
 import RepositoryController from 'Controllers/RepositoryController';
 import {
-  PULLREQUEST, UPLOAD, ACTIONS, REPOSITORY,
+  PULLREQUEST, UPLOAD, ACTIONS,
 } from 'Modules/events';
 import RepPullRequestsView from 'Views/pullRequest';
 
 import RepositoryModel from 'Models/repositoryModel';
+import ProfileModel from "Models/profileModel";
 
 /**
  * Class representing a pull request controller.
@@ -26,86 +27,36 @@ export default class PullRequestController extends RepositoryController {
    * Open page view.
    */
   open() {
-    this.eventBusCollector.on(REPOSITORY.getInfo, this._getRepository.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.getBranchList, this._getBranchList.bind(this));
+    this.eventBusCollector.on(PULLREQUEST.getRepList, this._getRepositoryList.bind(this));
     this.eventBusCollector.on(PULLREQUEST.getRequestsList, this._getRequestsList.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.submitNewRequest, this._createRequest.bind(this));
-
-    this.eventBusCollector.on(PULLREQUEST.delete, this._deleteRequest.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.accept, this._acceptRequest.bind(this));
 
     super.open();
   }
 
-  /**
-   * Get information about this repository.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _getRepository() {
-    this.setRepository();
-    await this._setStars();
 
-    this.data.author = this.author;
-    this.data.repName = this.repository;
-    this.data.defaultBranch = this.defaultBranch;
+  async _getRepositoryList() {
 
-    const data = {
-      repName: this.repositoryName,
-    };
+    const path = window.location.pathname;
+    const profile = path.split('/')[2];
+    this.data.author = profile;
 
-    const result = await RepositoryModel.loadRepository(data);
+    const result = await ProfileModel.getRepositories({ profile });
+    console.log("2. rep list = ", result);
 
     if (result.success) {
-      this.repId = result.body.id;
-      this.eventBus.emit(PULLREQUEST.getBranchList, {});
-    } else {
-      switch (result.status) {
-        case 404:
-          this.eventBus.emit(UPLOAD.changePath, '/404');
-          break;
-        case 403:
-          alert('Это приватный репозиторий!');
-          break;
-        default:
-          this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
-          break;
+      const resList = await result.body;
+      if (resList === [] || resList === null) {
+        console.log("у юзера нет реп", resList);
+        this.data.repList = null;
+        this.eventBus.emit(PULLREQUEST.render, this.data);
+        return;
       }
-    }
-  }
 
-
-  /**
-   * Get list of this repository branches.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _getBranchList() {
-    const data = {
-      repName: this.repositoryName,
-    };
-
-    const result = await RepositoryModel.loadBranchList(data);
-
-    if (result.success) {
-      this.data.branchList = await result.body;
-
-      if (!this.data.branchList || Object.keys(this.data.branchList).length === 0) {
-        this.data.branchList = null;
-      }
+      this.data.repList = resList;
+      console.log("у юзера есть репы: ", resList);
       this.eventBus.emit(PULLREQUEST.getRequestsList, {});
     } else {
-      switch (result.status) {
-        case 404:
-          this.eventBus.emit(UPLOAD.changePath, '/404');
-          break;
-        case 403:
-          alert('Это приватный репозиторий!');
-          break;
-        default:
-          console.log('Неизвестная ошибка ', result.status);
-          break;
-      }
+      this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
     }
   }
 
@@ -116,17 +67,36 @@ export default class PullRequestController extends RepositoryController {
    * @private
    */
   async _getRequestsList() {
-    const data = {
-      repId: this.repId,
-    };
 
-    const result = await RepositoryModel.loadRequestsList(data);
+    console.log('3. try to get list');
+
+    const path = window.location.pathname;
+    const repName = path.split('/repository/')[1];
+
+    let result;
+    if (repName) { // если указан конкретный репозиторий
+      this.data.repName = repName;
+      const rep = this.data.repList.find((item) => item.name === repName);
+      if (!rep) {
+        this.eventBus.emit(UPLOAD.changePath, '/404');
+        return;
+      }
+      const repId = rep.id;
+      console.log(repId);
+
+      result = await RepositoryModel.loadRepRequestsList({ repId });
+
+    } else { // если список всех репозиториев
+      this.data.repName = null;
+      result = await RepositoryModel.loadAllRequestsList();
+    }
+
+    console.log("custom res = ", result);
 
     if (result.success) {
-      this.data.author = this.author;
-      this.data.repName = this.repository;
 
       await this._loadRequestList(await result.body);
+      console.log("4. before render data = ", this.data);
 
       this.eventBus.emit(PULLREQUEST.render, this.data);
     } else {
@@ -147,6 +117,8 @@ export default class PullRequestController extends RepositoryController {
     }
   }
 
+
+
   /**
    * Process data from pull requests list to get information about opened and closed ones.
    * @param requestList
@@ -154,8 +126,9 @@ export default class PullRequestController extends RepositoryController {
    * @private
    */
   async _loadRequestList(requestList) {
-    const resolved = {};
-    const unresolved = {};
+    const opened = {};
+    const accepted = {};
+    const deleted = {};
 
     if (requestList) {
       requestList.forEach((item) => {
@@ -163,61 +136,24 @@ export default class PullRequestController extends RepositoryController {
         const date = new Date(modItem.created_at);
         modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
-        if (modItem.is_closed) {
-          resolved[modItem.id] = modItem;
-        } else {
-          unresolved[modItem.id] = modItem;
+        if (!modItem.is_closed) {
+          opened[modItem.id] = modItem;
+        } else if (modItem.is_accepted) {
+          accepted[modItem.id] = modItem;
+        }
+        else {
+          deleted[modItem.id] = modItem;
         }
       });
     }
 
-    this.data.repId = this.repId;
-    this.data.resolved = resolved;
-    this.data.unresolved = unresolved;
-    this.data.tab = 'unresolved';
+    this.data.opened = opened;
+    this.data.accepted = accepted;
+    this.data.deleted = deleted;
+    this.data.tab = "opened";
   }
 
-
-  /**
-   * Validate information about new pull request.
-   * @param {Object} body.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _createRequest(body) {
-    if (body.formData.title.length === 0) {
-      this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
-      return;
-    }
-
-    const result = await RepositoryModel.createRequest({
-      body: body.formData,
-    });
-
-    if (result.success) {
-      this.open();
-      console.log('created successfully');
-      return;
-    }
-
-    switch (result.status) {
-      case 401:
-        this.redirect({ path: '/signin' });
-        break;
-      case 400:
-        alert('Ошибка: неверные данные!');
-        break;
-      case 404:
-        this.eventBus.emit(UPLOAD.changePath, '/404');
-        break;
-      case 403:
-        this.redirect({ path: '/signin' });
-        // alert('Это приватный репозиторий!');
-        break;
-      default:
-        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
-    }
-  }
+  //= ====================================================
 
 
   /**

@@ -25,6 +25,7 @@ import SettingsController from 'Controllers/SettingsController';
 import RepositoryStarsController from 'Controllers/repositoryStarsController';
 
 import PullRequestController from 'Controllers/PullRequestController';
+import NewPullRequestController from 'Controllers/newPullRequestController';
 
 /** Регистрация сервис воркера */
 if ('serviceWorker' in navigator) {
@@ -71,6 +72,7 @@ const commitsController = new CommitsController(application, eventBus, router);
 // const mainPageController = new MainPageController(application, eventBus, router);
 const newsController = new NewsController(application, eventBus, router);
 const pullRequestController = new PullRequestController(application, eventBus, router);
+const newPullRequestController = new NewPullRequestController(application, eventBus, router);
 
 const create404Page = new Create404Page();
 
@@ -93,5 +95,7 @@ router.register(/\/404/, create404Page);
 router.register(paths.issues, issuesController);
 router.register(paths.news, newsController);
 router.register(paths.pullRequest, pullRequestController);
+router.register(paths.pullRequestRepo, pullRequestController);
+router.register(paths.newPullRequest, newPullRequestController);
 
 router.start();
