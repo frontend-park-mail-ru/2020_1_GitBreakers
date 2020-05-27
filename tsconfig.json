@@ -24,7 +24,7 @@
     "./src/modules/controller.ts",
     "./src/modules/eventBus.ts",
     "./src/modules/eventBusCollector.ts",
-    "./src/modules/Imodel.ts",
+    "./src/modules/IModel.ts",
     "./src/modules/view.ts"
   ],
   "exclude": ["./dist/"]
