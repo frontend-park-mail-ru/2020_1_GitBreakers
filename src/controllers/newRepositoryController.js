@@ -9,6 +9,7 @@ import NewRepositoryModel from '../models/newRepositoryModel';
  * @extends Controller
  */
 export default class NewRepositoryController extends Controller {
+
   /**
    * Initialize view for new repository page.
    * @param {HTMLElement} root.
@@ -43,7 +44,7 @@ export default class NewRepositoryController extends Controller {
   async createNewRepository(body = {}) {
     const result = await NewRepositoryModel.createNewRepository(body);
     if (result.success) {
-      this.redirect({ path: `/${authUser.getUser}/${body.name}/branches` });
+      this.redirect({ path: `/${authUser.getUser}/${body.name}` });
       return;
     }
     switch (result.status) {

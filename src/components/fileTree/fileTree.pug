@@ -33,6 +33,22 @@ block content
     else
         div
             hr.line-separator.line-separator_extra-thin(style="margin-bottom: 20px")
-            span В этом репозитории пока что ничего нет.
+            //- span В этом репозитории пока что ничего нет.
             // span Вы можете создать новую ветку &nbsp
             // a.bright__link(href = '/'+author+'/'+repName+'/branches') здесь
+            div.repository__list__item_info Создайте новый репозиторий в командной строке
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | echo "# !{repName}" >> README.md
+                    | git init
+                    | git add README.md
+                    | git commit -m "first commit"
+                    | git remote add origin https://code-hub.space/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin
+            div.repository__list__item_info Или запуште репозиторий через командную строку
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | git remote add origin https://code-hub.space/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin

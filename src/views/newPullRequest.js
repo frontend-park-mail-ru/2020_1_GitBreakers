@@ -62,8 +62,8 @@ export default class NewRepPullRequestsView extends View {
       dataTmp.selectedBranchFrom = dataTmp.repList[dataTmp.thisRepId].branchList[0].name;
       dataTmp.selectedBranchTo = dataTmp.repList[dataTmp.thisRepId].branchList[1].name;
 
-      branchNameFrom.innerHTML = this._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepFrom].branchList);
-      branchNameTo.innerHTML = this._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepTo].branchList, dataTmp.selectedBranchFrom);
+      branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepFrom].branchList);
+      branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepTo].branchList, dataTmp.selectedBranchFrom);
 
     } else {
 
@@ -79,9 +79,9 @@ export default class NewRepPullRequestsView extends View {
       dataTmp.selectedBranchFrom = dataTmp.repList[dataTmp.selectedRepFrom].branchList[0].name;
 
       repNameFrom.innerHTML = NewRepPullRequestsView._addRepSelectList(dataTmp.repList, dataTmp.repList[dataTmp.selectedRepFrom].repName);
-      branchNameFrom.innerHTML = this._addBranchSelectList(dataTmp.selectedBranchListFrom);
+      branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
       repNameTo.innerHTML = NewRepPullRequestsView._addRepSelectList(dataTmp.repList);
-      branchNameTo.innerHTML = this._addBranchSelectList(dataTmp.selectedBranchListFrom);
+      branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
     }
 
 
@@ -89,9 +89,9 @@ export default class NewRepPullRequestsView extends View {
     const branchNameFromFunc = () => {
       dataTmp.selectedBranchFrom = branchNameFrom.value;
       if (dataTmp.selectedRepTo === dataTmp.selectedRepFrom) {
-        branchNameTo.innerHTML = this._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepTo].branchList, dataTmp.selectedBranchFrom, dataTmp.selectedBranchTo);
+        branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepTo].branchList, dataTmp.selectedBranchFrom, dataTmp.selectedBranchTo);
       } else {
-        branchNameTo.innerHTML = this._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepTo].branchList, '', dataTmp.selectedBranchTo);
+        branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepTo].branchList, '', dataTmp.selectedBranchTo);
       }
     }
     branchNameFrom.addEventListener('change', branchNameFromFunc);
@@ -102,9 +102,9 @@ export default class NewRepPullRequestsView extends View {
     const branchNameToFunc = () => {
       dataTmp.selectedBranchTo = branchNameTo.value;
       if (dataTmp.selectedRepTo === dataTmp.selectedRepFrom) {
-        branchNameFrom.innerHTML = this._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepFrom].branchList, dataTmp.selectedBranchTo, dataTmp.selectedBranchFrom);
+        branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepFrom].branchList, dataTmp.selectedBranchTo, dataTmp.selectedBranchFrom);
       } else {
-        branchNameFrom.innerHTML = this._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepFrom].branchList, '', dataTmp.selectedBranchFrom);
+        branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.repList[dataTmp.selectedRepFrom].branchList, '', dataTmp.selectedBranchFrom);
       }
     }
     branchNameTo.addEventListener('change', branchNameToFunc);
@@ -120,9 +120,9 @@ export default class NewRepPullRequestsView extends View {
         dataTmp.selectedBranchListFrom = dataTmp.repList[dataTmp.selectedRepFrom].branchList;
 
         if (dataTmp.selectedRepTo === dataTmp.selectedRepFrom) {
-          branchNameFrom.innerHTML = this._addBranchSelectList(dataTmp.selectedBranchListFrom, dataTmp.selectedBranchTo, dataTmp.selectedBranchFrom);
+          branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom, dataTmp.selectedBranchTo, dataTmp.selectedBranchFrom);
         } else {
-          branchNameFrom.innerHTML = this._addBranchSelectList(dataTmp.selectedBranchListFrom);
+          branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
         }
       }
       repNameFrom.addEventListener('change', repNameFromFunc);
@@ -137,9 +137,9 @@ export default class NewRepPullRequestsView extends View {
         dataTmp.selectedBranchListTo = dataTmp.repList[dataTmp.selectedRepTo].branchList;
 
         if (dataTmp.selectedRepTo === dataTmp.selectedRepFrom) {
-          branchNameTo.innerHTML = this._addBranchSelectList(dataTmp.selectedBranchListTo, dataTmp.selectedBranchFrom, dataTmp.selectedBranchTo);
+          branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListTo, dataTmp.selectedBranchFrom, dataTmp.selectedBranchTo);
         } else {
-          branchNameTo.innerHTML = this._addBranchSelectList(dataTmp.selectedBranchListTo);
+          branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListTo);
         }
       }
       repNameTo.addEventListener('change', repNameToFunc);
