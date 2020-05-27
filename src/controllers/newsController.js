@@ -44,7 +44,7 @@ export default class NewsController extends RepositoryController {
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;
 
-    const result = await RepositoryModel.loadRepository({ repName: this.repositoryName });
+    const result = await RepositoryModel.loadRepository({ repName: this.repository, author: this.author });
     console.log('2. repa', result);
 
     if (result.success) {

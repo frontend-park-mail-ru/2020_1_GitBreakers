@@ -1,6 +1,6 @@
 import RepositoryBaseView from 'Views/repositoryBaseView';
 import template from 'Components/fileTree/fileTree.pug';
-import TREEPAGE from 'Modules/events';
+import { TREEPAGE } from 'Modules/events';
 
 /**
  * Class representing a file tree page view.

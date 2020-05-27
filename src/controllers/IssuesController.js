@@ -43,7 +43,7 @@ export default class IssuesController extends RepositoryController {
    * @private
    */
   async _getRepository() {
-    this.setRepository();
+    await this.setRepository();
 
     await this._setStars();
 
@@ -52,7 +52,8 @@ export default class IssuesController extends RepositoryController {
     this.data.defaultBranch = this.defaultBranch;
 
     const data = {
-      repName: this.repositoryName,
+      repName: this.repository,
+      author: this.author,
     };
 
     const result = await RepositoryModel.loadRepository(data);
