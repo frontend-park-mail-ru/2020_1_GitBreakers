@@ -10,18 +10,24 @@ div.section
         div.section__main
             hr.line-separator.line-separator_thin
             div.repository
-                if repList
+                if reqList
                     form.form-horizontal(action='#' name="selectRep")
                         div.form-horizontal__item(style="margin-left: -1px")
-                            label.form-horizontal__item__label(for="repName") репозиторий:
+                            label.form-horizontal__item__label(for="repName")
                             select#repName.form__item__input(name="repName")
-                                if !repName
-                                    option(hidden value="")
-                                each rep in repList
-                                    if repName === rep.name
-                                        option(selected value=repName) #{repName}
-                                    else
-                                        option(value=rep.name) #{rep.name}
+                                if !dir
+                                    option(selected value='all') Все
+                                else
+                                    option(value='all') Все
+                                if dir === 'to'
+                                    option(selected value='to') Принимаемые
+                                else
+                                    option(value='to') Принимаемые
+                                if dir === 'from'
+                                    option(selected value='from') Созданные
+                                else
+                                    option(value='from') Созданные
+
 
                     hr.line-separator.line-separator_extra-thin(style="margin-bottom: 15px")
 

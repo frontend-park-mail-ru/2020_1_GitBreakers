@@ -48,10 +48,13 @@ export default class RepPullRequestsView extends View {
 
     const rep = document.getElementById('repName');
     if (rep) {
-
       const func = () => {
-        const repName = rep.value;
-        const path = `/user/${data.author}/pull_requests/repository/${repName}`;
+        const dir = rep.value;
+        let path;
+        if (dir==='all')
+          path = `/user/${data.author}/pull_requests`;
+        else
+          path = `/user/${data.author}/pull_requests/${dir}`;
         this.eventBus.emit(UPLOAD.changePath, path);
       }
 
@@ -138,77 +141,5 @@ export default class RepPullRequestsView extends View {
     console.log('_err ', data);
     const message = document.getElementById('message');
     message.innerText = data.message;
-  }
-
-
-  _createRequestListener(data) {
-    const createRequest = document.getElementById('CreateRequest');
-    if (!createRequest) return;
-
-
-    const func = (event) => {
-      event.preventDefault();
-      const newRequestForm = document.newRequest;
-
-      const branchFrom = document.getElementById('branchNameFrom');
-      const branchTo = document.getElementById('branchNameTo');
-
-      if (branchFrom.value === branchTo.value) {
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Выбраны одинаковые ветки!' });
-      } else {
-        const formData = {
-          author_id: authUser.getUserId,
-          from_repo_id: data.repId,
-          to_repo_id: data.repId,
-          title: newRequestForm.requestTitle.value,
-          message: newRequestForm.requestMsg.value,
-          label: newRequestForm.requestLabel.value,
-          branch_from: branchFrom.value,
-          branch_to: branchTo.value,
-        };
-        this.eventBus.emit(PULLREQUEST.submitNewRequest, { formData, msg: 'Пулл реквест успешно создан' });
-      }
-    };
-    createRequest.addEventListener('click', func);
-    this.eventCollector.addEvent(createRequest, 'click', func);
-  }
-
-
-  _addButtons(data) {
-    Object.entries(data.unresolved).forEach((item) => {
-      const value = item[1];
-      if (value.author_id === value.userId) {
-        const buttonEl = document.getElementById(`button_${value.id}`);
-
-        const acceptButton = document.createElement('button');
-        acceptButton.classList.add('repository__list__item__buttonField_button', 'button', 'button-extra-small', 'button-colored');
-        acceptButton.id = `requestAccept_${item.id}`;
-        acceptButton.innerHTML = 'Принять';
-
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('repository__list__item__buttonField_button', 'button', 'button-extra-small');
-        deleteButton.id = `requestDelete_${item.id}`;
-        deleteButton.innerHTML = 'Удалить';
-
-        buttonEl.appendChild(acceptButton);
-        buttonEl.appendChild(deleteButton);
-
-
-        const deleteFunc = (event) => {
-          event.preventDefault();
-          this.eventBus.emit(PULLREQUEST.delete, { id: value.id, to_repo_id: data.repId });
-        };
-        deleteButton.addEventListener('click', deleteFunc);
-        this.eventCollector.addEvent(deleteButton, 'click', deleteFunc);
-
-
-        const acceptFunc = (event) => {
-          event.preventDefault();
-          this.eventBus.emit(PULLREQUEST.accept, { id: value.id, to_repo_id: data.repId });
-        };
-        acceptButton.addEventListener('click', acceptFunc);
-        this.eventCollector.addEvent(acceptButton, 'click', acceptFunc);
-      }
-    });
   }
 }
