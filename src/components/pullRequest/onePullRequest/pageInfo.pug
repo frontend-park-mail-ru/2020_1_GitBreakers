@@ -69,8 +69,8 @@ if RequestState === 'opened' && (RequestInfo.status === 'ok' || RequestInfo.stat
             div.request__border_text-warn.request__border_text
                 span.request__border_text-warn-bold !&nbsp
                 span Изменения не обнаружены &nbsp
-    div.request__buttonField
-        button#Accept.route.button.button-colored.button_long(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Принять пулл реквест
+        if user === RequestInfo.from_author_login
+            button#Accept.route.button.button-colored.button_long(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Принять пулл реквест
         button#Delete.route.button(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Удалить
 
 if RequestState === 'opened' && (RequestInfo.status === 'conflict' || RequestInfo.status === 'up_to_date')

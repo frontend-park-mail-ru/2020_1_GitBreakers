@@ -33,13 +33,14 @@ export default class OnePullRequestController extends RepositoryController {
       if (!authUser.isAuth) {
         this.redirect({ path: '/signin' });
       }
+      this.data.user = authUser.getUser;
     })
 
     this.eventBusCollector.on(ONEPULLREQUEST.getRequestInfo, this._getRequestInfo.bind(this));
     this.eventBusCollector.on(ONEPULLREQUEST.getRequestDiff, this._getRequestDiff.bind(this));
     this.eventBusCollector.on(ONEPULLREQUEST.delete, this._deleteRequest.bind(this));
     this.eventBusCollector.on(ONEPULLREQUEST.accept, this._acceptRequest.bind(this));
-    
+
     super.open();
   }
 

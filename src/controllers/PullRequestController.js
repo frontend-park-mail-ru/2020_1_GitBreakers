@@ -85,8 +85,8 @@ export default class PullRequestController extends RepositoryController {
     }
 
     if (result.success) {
-
       await this._loadRequestList(await result.body);
+      console.log(result);
 
       this.eventBus.emit(PULLREQUEST.render, this.data);
     } else {
