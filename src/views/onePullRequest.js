@@ -65,5 +65,39 @@ export default class RepOnePullRequestsView extends View {
       this.eventCollector.addEvent(menu[i], 'change', func);
     }
 
+    const acceptRequest = document.getElementById('Accept');
+    if (acceptRequest) {
+      const funcAccept = (event) => {
+        console.log('тык по кнопке Принять');
+
+        event.preventDefault();
+        const { target } = event;
+
+        const requestId = Number.parseInt(target.dataset.id, 10);
+        const toRepId = Number.parseInt(target.dataset.rep_id, 10);
+
+        this.eventBus.emit(ONEPULLREQUEST.accept, { id: requestId, to_repo_id: toRepId});
+      }
+      acceptRequest.addEventListener('click', funcAccept);
+      this.eventCollector.addEvent(acceptRequest, 'click', funcAccept);
+    }
+
+
+    const deleteRequest = document.getElementById('Delete');
+    if (deleteRequest) {
+      const funcDelete = (event) => {
+        console.log('тык по кнопке Delete');
+
+        event.preventDefault();
+        const { target } = event;
+
+        const requestId = Number.parseInt(target.dataset.id, 10);
+        const toRepId = Number.parseInt(target.dataset.rep_id, 10);
+
+        this.eventBus.emit(ONEPULLREQUEST.delete, { id: requestId, to_repo_id: toRepId});
+      }
+      deleteRequest.addEventListener('click', funcDelete);
+      this.eventCollector.addEvent(deleteRequest, 'click', funcDelete);
+    }
   }
 }

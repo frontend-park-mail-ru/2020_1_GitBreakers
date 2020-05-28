@@ -183,6 +183,7 @@ export default class NewPullRequestController extends RepositoryController {
       body: body.formData,
     });
 
+    console.log("res = ", result);
     if (result.success) {
       const resultInfo = await result.body;
       const path = `/user/${this.data.author}/pull_request/${resultInfo.id}`;

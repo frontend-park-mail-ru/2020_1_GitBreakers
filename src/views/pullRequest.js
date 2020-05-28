@@ -97,7 +97,6 @@ export default class RepPullRequestsView extends View {
     }
 
 
-
     const requestLinkList = document.getElementsByClassName('requestLink');
     for (let i = 0; i < requestLinkList.length; i += 1) {
       const linkFunc = (event) => {
@@ -106,7 +105,7 @@ export default class RepPullRequestsView extends View {
         const requestId = Number.parseInt(target.id, 10);
 
         const requestPath = `/user/${dataTmp.author}/pull_request/${requestId}`;
-        console.log('reqPath = ', requestPath);
+
         requestLinkList[i].dataset.section = requestPath;
       };
 

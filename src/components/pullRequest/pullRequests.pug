@@ -8,9 +8,7 @@ div.section
                     span
 
         div.section__main
-
             hr.line-separator.line-separator_thin
-
             div.repository
                 if repList
                     form.form-horizontal(action='#' name="selectRep")
@@ -32,8 +30,10 @@ div.section
                     input#acceptedLink.repository__top__menu_link(type="radio" name = "requestLink")
                     label.repository__top__menu_label(for="acceptedLink") Принятые
                     input#deletedLink.repository__top__menu_link(type="radio" name = "requestLink")
-                    label.repository__top__menu_label(for="deletedLink") Отклонённые
+                    label.repository__top__menu_label(for="deletedLink") Удалённые
                     span#requestMessage.issue_info_message #{successMsg}
+
+                    span#requestMessage.request_info_message #{message}
 
                     hr.line-separator.line-separator_extra-thin(style="margin-top: 4px")
                     div#repository__list__requests

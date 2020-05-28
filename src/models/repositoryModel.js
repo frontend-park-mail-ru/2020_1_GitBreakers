@@ -538,4 +538,27 @@ export default class RepositoryModel {
   }
 
 
+  static loadBranchByName(data) {
+    const path = `${constants.HOST}/repo/${data.author}/${data.repName}/branch/${data.branchName}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsListInfo: something goes wrong');
+        return {};
+      });
+  }
 }

@@ -182,7 +182,9 @@ export default class NewRepPullRequestsView extends View {
         branch_from: dataTmp.selectedBranchFrom,
         branch_to: dataTmp.selectedBranchTo,
       }
+
       this.eventBus.emit(NEWPULLREQUEST.submitNewRequest, { formData });
+
     }
     createRequest.addEventListener('click', func);
     this.eventCollector.addEvent(createRequest, 'click', func);

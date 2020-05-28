@@ -159,7 +159,6 @@ export const ONEPULLREQUEST = {
   render: 'One pull request : render',
   getRequestInfo: 'One pull request : get request info',
   getRequestDiff: 'One pull request : get diff',
-
-  // delete: 'Pull requests : delete',
-  // accept: 'Pull requests : accept',
+  delete: 'Pull requests : delete',
+  accept: 'Pull requests : accept',
 }

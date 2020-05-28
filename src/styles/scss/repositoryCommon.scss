@@ -166,6 +166,54 @@
 
 .request {
 
+
+    &_info_message {
+        font-weight: bold;
+    }
+
+    &__state {
+        position: relative;
+    }
+
+    &__status {
+        height: 30px;
+        border-radius: 7px;
+        position: absolute;
+        right: 20px;
+        top: 4px;
+
+        &_text {
+            font-size: 90%;
+            font-weight: bold;
+            margin: 7px 15px 0 15px;
+
+            &-green {
+                color: #16580f;
+            }
+
+            &-grey {
+                color: #707979;
+            }
+        }
+
+        &-green {
+            border: 2px solid #4eb843;
+            background-color: #98f58f;
+        }
+
+        &-grey {
+            border: 2px solid #b3bdbd;
+            background-color: #c9d0d0;
+        }
+    }
+
+    &__buttonField {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 105%;
+    }
+  
     &__message {
 
         &__title {
@@ -230,6 +278,93 @@
             font-size: 85%;
         }
     }
+
+    &__border {
+
+        border-radius: 5px;
+        width: 50vw;
+        padding: 10px;
+
+        &__link {
+            text-decoration: none;
+            font-weight: bold;
+
+            &-deleted {
+                color: #707979;
+            }
+
+            &-accepted {
+                color: #356c55;
+            }
+        }
+
+
+        &-deleted {
+            border: 2px solid #b3bdbd;
+            background-color: #c9d0d0;
+        }
+
+        &-accepted {
+            border: 2px solid #95d7bb;
+            background-color: #c8fae5;
+        }
+
+        &-error {
+            margin: 30px 0 30px 15px;
+            border: 2px solid #e86666;
+        }
+
+        &-ok {
+            border: 2px solid #4eb843;
+        }
+
+        &-problem {
+            border: 2px solid #e86666;
+        }
+
+
+        &_text {
+            margin: 0 20px 0 20px;
+
+            &-deleted {
+                color: #707979;
+            }
+
+            &-accepted {
+                color: #356c55;
+            }
+
+            &-ok {
+                color: #16580f;
+            }
+
+            &-problem {
+                color: #992f2f;
+            }
+
+            &-warn {
+                color: #58480f;
+
+                &-bold {
+                    color: #cda823;
+                    font-weight: bold;
+                }
+            }
+
+            &-error {
+                margin-left: 10px;
+                margin-top: -10px;
+
+                &-bold {
+                    margin: 12px 0 10px 0;
+                    font-weight: bold;
+                    color: #992f2f;
+                }
+            }
+        }
+    }
+
+
 }
 
 .issue_info_message {
