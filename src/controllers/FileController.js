@@ -85,7 +85,7 @@ export default class FileController extends RepositoryController {
     const blob = new Blob([content]);
     this.data.fileUrl = URL.createObjectURL(blob);
 
-    const maxSize = 10000;
+    const maxSize = 500000;
     if (res.file_info.file_size > maxSize) {
       this.data.fileType = 'fileForLoad';
       this.data.message = 'Файл слишком большой для отображения';
@@ -98,7 +98,7 @@ export default class FileController extends RepositoryController {
       return;
     }
 
-    const regRes = this.data.fileName.match('(?<=.)[\\w_-]+$');
+    const regRes = this.data.fileName.match('[\\w-]+(?<=.)[\\w_-]+$');
     if (regRes) {
       [this.data.type] = regRes;
     }

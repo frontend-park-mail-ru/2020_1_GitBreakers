@@ -1,9 +1,12 @@
-/* eslint-disable no-undef */
+/* eslint-disable import/order */
+/* eslint-disable no-empty */
 import { FILEVIEW } from 'Modules/events';
 import CodeTheme from 'Modules/codeTheme';
-import 'Modules/prettify/prettify';
+import hljs from 'highlight.js';
 import RepositoryBaseView from './repositoryBaseView';
 import template from '../components/fileView/fileView.pug';
+import 'highlight.js/styles/vs.css';
+import { Remarkable } from 'remarkable';
 
 /**
  * Class representing a file view.
@@ -36,8 +39,34 @@ export default class FileView extends RepositoryBaseView {
    */
   _onRender(data) {
     const dataTmp = data;
+    if ((data.fileType !== 'fileForLoad') && (data.type !== 'md')) {
+      try {
+        dataTmp.fileContent = hljs.highlight(data.type, data.fileContent, true).value;
+      } catch (error) {
+        console.log('File path error!');
+      }
+    } else if (data.type === 'md') {
+      const md = new Remarkable({
+        highlight(str, lang) {
+          if (lang && hljs.getLanguage(lang)) {
+            try {
+              return hljs.highlight(lang, str).value;
+            } catch (err) { }
+          }
+
+          try {
+            return hljs.highlightAuto(str).value;
+          } catch (err) { }
+
+          return ''; // use external default escaping
+        }
+      });
+      dataTmp.fileContent = md.render(data.fileContent);
+    }
+
+
     super.render(dataTmp);
-    prettyPrint();
+
 
     const theme = document.getElementById('themeStyle');
     theme.innerText = 'Тёмная тема';

@@ -8,6 +8,7 @@ div.section
                 - let updated = new Date(RequestInfo.created_at)
                 div.request__title_data Дата создания: !{updated.toLocaleDateString()}
 
+
         div.section__main
             hr.line-separator.line-separator_thin
 
@@ -31,6 +32,7 @@ div.section
                     input#infoLink.repository__top__menu_link(type="radio" name = "requestLink" "checked")
                     label.repository__top__menu_label(for="infoLink") Информация
                     input#diffLink.repository__top__menu_link(type="radio" name = "requestLink")
+
 
                     if RequestInfo.RequestState !== 'error'
                         label.repository__top__menu_label(for="diffLink") Изменения

@@ -166,6 +166,7 @@
 
 .request {
 
+
     &_info_message {
         font-weight: bold;
     }
@@ -212,7 +213,7 @@
         justify-content: space-between;
         font-size: 105%;
     }
-
+  
     &__message {
 
         &__title {
@@ -277,7 +278,6 @@
             font-size: 85%;
         }
     }
-
 
     &__border {
 
@@ -363,8 +363,6 @@
             }
         }
     }
-
-
 
 
 }

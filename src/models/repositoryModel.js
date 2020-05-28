@@ -538,8 +538,6 @@ export default class RepositoryModel {
   }
 
 
-
-
   static loadBranchByName(data) {
     const path = `${constants.HOST}/repo/${data.author}/${data.repName}/branch/${data.branchName}`;
     return Api.get(path).then((res) => {
@@ -563,6 +561,4 @@ export default class RepositoryModel {
         return {};
       });
   }
-
-
 }

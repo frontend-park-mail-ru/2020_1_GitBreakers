@@ -105,6 +105,7 @@ export default class RepPullRequestsView extends View {
         const requestId = Number.parseInt(target.id, 10);
 
         const requestPath = `/user/${dataTmp.author}/pull_request/${requestId}`;
+
         requestLinkList[i].dataset.section = requestPath;
       };
 

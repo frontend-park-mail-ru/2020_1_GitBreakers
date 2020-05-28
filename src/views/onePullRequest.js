@@ -65,7 +65,6 @@ export default class RepOnePullRequestsView extends View {
       this.eventCollector.addEvent(menu[i], 'change', func);
     }
 
-
     const acceptRequest = document.getElementById('Accept');
     if (acceptRequest) {
       const funcAccept = (event) => {
@@ -100,7 +99,5 @@ export default class RepOnePullRequestsView extends View {
       deleteRequest.addEventListener('click', funcDelete);
       this.eventCollector.addEvent(deleteRequest, 'click', funcDelete);
     }
-
-
   }
 }

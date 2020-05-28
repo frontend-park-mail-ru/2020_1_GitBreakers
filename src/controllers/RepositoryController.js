@@ -246,8 +246,14 @@ export default class RepositoryController extends Controller {
 
     const [author, repository] = path.match(reg);
     let numItem = num;
-    numItem += 1;
-    const newRepository = `${repository}_${num}`;
+    let newRepository;
+    if (numItem === 0) {
+      newRepository = repository;
+    } else {
+      numItem += 1;
+      newRepository = `${repository}_${num}`;
+    }
+
 
     const res = await ForkModel.fork({
       from_author_name: author,

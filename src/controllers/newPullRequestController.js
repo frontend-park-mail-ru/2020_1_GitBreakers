@@ -179,7 +179,6 @@ export default class NewPullRequestController extends RepositoryController {
    */
   async _createRequest(body) {
 
-    console.log("тык");
     const result = await RepositoryModel.createRequest({
       body: body.formData,
     });

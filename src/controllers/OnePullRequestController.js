@@ -7,6 +7,7 @@ import authUser from 'Modules/authUser';
 import profileModel from 'Models/profileModel';
 import RepositoryModel from 'Models/repositoryModel';
 
+
 /**
  * Class representing a pull request controller.
  * @extends RepositoryController
@@ -36,10 +37,9 @@ export default class OnePullRequestController extends RepositoryController {
 
     this.eventBusCollector.on(ONEPULLREQUEST.getRequestInfo, this._getRequestInfo.bind(this));
     this.eventBusCollector.on(ONEPULLREQUEST.getRequestDiff, this._getRequestDiff.bind(this));
-
     this.eventBusCollector.on(ONEPULLREQUEST.delete, this._deleteRequest.bind(this));
     this.eventBusCollector.on(ONEPULLREQUEST.accept, this._acceptRequest.bind(this));
-
+    
     super.open();
   }
 
@@ -59,6 +59,7 @@ export default class OnePullRequestController extends RepositoryController {
 
     if (result.success) {
       this.data.RequestInfo = await result.body;
+
 
       this.data.RequestInfo.author_name = "Неизвестно";
       this.data.RequestInfo.closer_author_name = "Неизвестно";
@@ -118,6 +119,7 @@ export default class OnePullRequestController extends RepositoryController {
         case 'ok':
         case 'conflict':
         case 'no_changes':
+
         case 'up_to_date':
           this.data.RequestState = 'opened';
           break;
@@ -184,7 +186,7 @@ export default class OnePullRequestController extends RepositoryController {
     if (result.success) {
 
       this.data.RequestDiff = await result.body;
-      console.log("render 2", this.data);
+
       this.eventBus.emit(ONEPULLREQUEST.render, this.data);
     } else {
       switch (result.status) {
@@ -213,6 +215,7 @@ export default class OnePullRequestController extends RepositoryController {
    */
   async _deleteRequest(body) {
     const result = await RepositoryModel.deleteRequest({ body });
+
     console.log(body);
     console.log(result);
 
@@ -251,8 +254,7 @@ export default class OnePullRequestController extends RepositoryController {
   async _acceptRequest(body) {
     const result = await RepositoryModel.acceptRequest({ body });
 
-    console.log(body);
-    console.log(result);
+
     if (result.success) {
       this.redirect({ path: `/user/${this.data.RequestInfo.author_name}/pull_requests` });
       console.log('accept ok');
