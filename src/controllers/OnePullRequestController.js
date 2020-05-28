@@ -55,7 +55,7 @@ export default class OnePullRequestController extends RepositoryController {
     const RequestId = path.split('/pull_request/')[1];
     this.RequestId = RequestId;
 
-    const result = await RepositoryModel.loadPullRequestInfo({RequestId});
+    const result = await RepositoryModel.loadPullRequestInfo({ RequestId });
 
     if (result.success) {
       this.data.RequestInfo = await result.body;
@@ -117,8 +117,14 @@ export default class OnePullRequestController extends RepositoryController {
 
       switch (this.data.RequestInfo.status) {
         case 'ok':
+          this.data.RequestState = 'opened';
+          break;
         case 'conflict':
+          this.data.RequestState = 'opened';
+          break;
         case 'no_changes':
+          this.data.RequestState = 'opened';
+          break;
 
         case 'up_to_date':
           this.data.RequestState = 'opened';
@@ -181,7 +187,7 @@ export default class OnePullRequestController extends RepositoryController {
    */
   async _getRequestDiff() {
 
-    const result = await RepositoryModel.loadPullRequestDiff({RequestId : this.RequestId});
+    const result = await RepositoryModel.loadPullRequestDiff({ RequestId: this.RequestId });
 
     if (result.success) {
 
