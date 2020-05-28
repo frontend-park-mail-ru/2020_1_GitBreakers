@@ -3,6 +3,8 @@ import { ONEPULLREQUEST } from 'Modules/events';
 import onePullRequest from 'Components/pullRequest/onePullRequest/onePullRequest.pug';
 import pageInfo from 'Components/pullRequest/onePullRequest/pageInfo.pug';
 import pageDiff from 'Components/pullRequest/onePullRequest/pageDiff.pug';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/vs.css';
 
 /**
  * Class representing a pull request page view.
@@ -34,6 +36,10 @@ export default class RepOnePullRequestsView extends View {
    */
   _onRender(data) {
     const dataTmp = data;
+
+    dataTmp.RequestDiff.diff = hljs.highlight('diff', dataTmp.RequestDiff.diff, true).value
+
+
     super.render(dataTmp);
 
     const requestPage = document.getElementById('requestPage');
