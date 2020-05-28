@@ -97,21 +97,21 @@ export default class RepPullRequestsView extends View {
     }
 
 
-    const requestLinkList = document.getElementsByClassName('requestLink');
-    for (let i = 0; i < requestLinkList.length; i += 1) {
-      const linkFunc = (event) => {
-        event.preventDefault();
-        const { target } = event;
-        const requestId = Number.parseInt(target.id, 10);
+    // const requestLinkList = document.getElementsByClassName('requestLink');
+    // for (let i = 0; i < requestLinkList.length; i += 1) {
+    //   const linkFunc = (event) => {
+    //     event.preventDefault();
+    //     const { target } = event;
+    //     const requestId = Number.parseInt(target.id, 10);
 
-        const requestPath = `/user/${dataTmp.author}/pull_request/${requestId}`;
+    //     const requestPath = `/user/${dataTmp.author}/pull_request/${requestId}`;
 
-        requestLinkList[i].dataset.section = requestPath;
-      };
+    //     requestLinkList[i].dataset.section = requestPath;
+    //   };
 
-      requestLinkList[i].addEventListener('click', linkFunc);
-      this.eventCollector.addEvent(requestLinkList[i], 'click', linkFunc);
-    }
+    //   requestLinkList[i].addEventListener('click', linkFunc);
+    //   this.eventCollector.addEvent(requestLinkList[i], 'click', linkFunc);
+    // }
 
 
   }
@@ -128,7 +128,7 @@ export default class RepPullRequestsView extends View {
     Object.entries(itemList).forEach((item) => {
       const value = item[1];
       value.userId = authUser.getUserId;
-      htmlStr += pullRequestsItem({ item: value });
+      htmlStr += pullRequestsItem({ item: value, author: itemList.author });
     });
     return htmlStr;
   }

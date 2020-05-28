@@ -2,7 +2,7 @@ div.repository__list
     hr.line-separator.line-separator_extra-thin
     div.repository__list__item
         h3
-            a.route.requestLink.repository__list__item_title(id = item.id) #{item.title}
+            a.route.requestLink.repository__list__item_title(id = item.id data-section=`/user/${author}/pull_request/${item.id}`) #{item.title}
         div.repository__list__item_info открыт: #{item.date}
         div.repository__list__item_info
             span #{item.from_author_login}/#{item.from_repo_name} &nbsp
