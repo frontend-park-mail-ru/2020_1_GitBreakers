@@ -22,7 +22,7 @@ const paths = {
   pullRequest: /^\/user\/[\w-_]+\/pull_requests$/i,
   pullRequestRepo: /^\/user\/[\w-_]+\/pull_requests\/repository\/[\w-_]+$/i,
   newPullRequest: /^\/user\/[\w-_]+\/pull_requests\/repository\/[\w-_]+\/new$/i,
-  onePullRequest: /^\/user\/[\w-_]+\/pull_request\/[\w-_]+$/i,
+  onePullRequest: /^\/user\/[\w-_]+\/pull_request\/[\d]+$/i,
 
   upload: /^\/[\w-_]+\/[\w-_]+\/upload\/[\w-_]+$/i,
 };

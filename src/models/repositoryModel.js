@@ -280,7 +280,6 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static updateIssue(data) {
-    console.log('body = ', data.body);
     const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
     return Api.put(path, data.body).then((res) => {
       if (res.ok) {
@@ -382,7 +381,6 @@ export default class RepositoryModel {
 
   static loadAllRequestsList() {
     const path = `${constants.HOST}/user/pullrequests?limit=10&offset=0`;
-    console.log("get path = ", path);
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -407,8 +405,6 @@ export default class RepositoryModel {
 
 
 
-
-
   /**
    * Create new pull request.
    * @param {object} data - request data
@@ -418,9 +414,14 @@ export default class RepositoryModel {
     const path = `${constants.HOST}/func/repo/pullrequests`;
     return Api.post(path, data.body).then((res) => {
       if (res.ok) {
-        return {
-          success: true,
-        };
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
       }
       return {
         success: false,
@@ -481,4 +482,87 @@ export default class RepositoryModel {
       return {};
     });
   }
+
+
+
+
+
+  static loadPullRequestInfo(data) {
+    const path = `${constants.HOST}/func/repo/pullrequest/${data.RequestId}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsListInfo: something goes wrong');
+        return {};
+      });
+  }
+
+
+  static loadPullRequestDiff(data) {
+    const path = `${constants.HOST}/func/repo/pullrequest/${data.RequestId}/diff`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsListDiff: something goes wrong');
+        return {};
+      });
+  }
+
+
+
+
+  static loadBranchByName(data) {
+    const path = `${constants.HOST}/repo/${data.author}/${data.repName}/branch/${data.branchName}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsListInfo: something goes wrong');
+        return {};
+      });
+  }
+
+
 }

@@ -161,6 +161,7 @@ export default class RepositoryController extends Controller {
       this.defaultBranch = res;
       return true;
     }
+    console.log('def branch = ', this.defaultBranch);
 
     switch (result.status) {
       case 204:

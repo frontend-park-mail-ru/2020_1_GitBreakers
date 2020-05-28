@@ -1,7 +1,8 @@
 div.repository__list
     hr.line-separator.line-separator_extra-thin
     div.repository__list__item
-        h2.branchLink.repository__list__item_title() #{item.title}
+        h3
+            a.route.requestLink.repository__list__item_title(id = item.id) #{item.title}
         div.repository__list__item_info открыт: #{item.date}
         div.repository__list__item_info #{item.branch_from} -> #{item.branch_to}
     //div.repository__list__item_info-label Автор: #{item.author_id}

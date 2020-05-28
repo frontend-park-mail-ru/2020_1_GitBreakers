@@ -3,7 +3,6 @@ import {NEWPULLREQUEST, UPLOAD, ACTIONS, REPOSITORY} from 'Modules/events';
 import NewRepPullRequestsView from 'Views/newPullRequest';
 
 import RepositoryModel from 'Models/repositoryModel';
-
 import authUser from "Modules/authUser";
 
 /**
@@ -171,7 +170,6 @@ export default class NewPullRequestController extends RepositoryController {
     }
   }
 
-// TODO: проверить работу с сервером, когда он перестанет возвращать null
 
   /**
    * Validate information about new pull request.
@@ -181,16 +179,16 @@ export default class NewPullRequestController extends RepositoryController {
    */
   async _createRequest(body) {
 
-    console.log('тык по _createRequest');
-
+    console.log("тык");
     const result = await RepositoryModel.createRequest({
       body: body.formData,
     });
 
+    console.log("res = ", result);
     if (result.success) {
-      this.open();
-      console.log("created successfully");
-      // редирект на страничку реквеста
+      const resultInfo = await result.body;
+      const path = `/user/${this.data.author}/pull_request/${resultInfo.id}`;
+      this.redirect({ path });
       return;
     }
 

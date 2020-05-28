@@ -146,18 +146,19 @@ export const PULLREQUEST = {
   render: 'Pull requests : render',
   getRepList: 'Pull requests : get repository list',
   getRequestsList: 'Pull requests : get requests list',
-
-  // showMessage: 'Pull requests : message',
-  // delete: 'Pull requests : delete',
-  // accept: 'Pull requests : accept',
 }
 
 export const NEWPULLREQUEST = {
   render: 'New pull request : render',
   getBranchList: 'New pull requests : get branch list',
   getParentBranchList: 'New pull requests : get parent branch list',
-
   submitNewRequest: 'New pull requests : submit',
+}
 
-  // showMessage: 'New pull requests : message',
+export const ONEPULLREQUEST = {
+  render: 'One pull request : render',
+  getRequestInfo: 'One pull request : get request info',
+  getRequestDiff: 'One pull request : get diff',
+  delete: 'Pull requests : delete',
+  accept: 'Pull requests : accept',
 }

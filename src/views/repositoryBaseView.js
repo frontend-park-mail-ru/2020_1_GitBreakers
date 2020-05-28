@@ -19,12 +19,7 @@ export default class RepositoryBaseView extends View {
       const func = (event) => {
         event.preventDefault();
 
-        let codePath = '/';
-        if (data.branchName === data.defaultBranch) {
-          codePath = `/${data.author}/${data.repName}`;
-        } else {
-          codePath = `/${data.author}/${data.repName}/branch/${data.branchName}`;
-        }
+        const codePath = `/${data.author}/${data.repName}`;
         buttonCodeList[i].dataset.section = codePath;
       };
 

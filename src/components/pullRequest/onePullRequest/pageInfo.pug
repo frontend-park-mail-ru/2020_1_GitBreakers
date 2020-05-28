@@ -1,0 +1,83 @@
+div
+    span Создан пользователем &nbsp
+    if RequestInfo.author_id
+        a.route.request_link.request_link-large(href='#' data-section=`/profile/${RequestInfo.author_name}`) #{RequestInfo.author_name}
+    else
+        span.request_link.request_link-large Неизвестно
+    span &nbsp от ветки &nbsp
+    if RequestInfo.from_repo_id !== RequestInfo.to_repo_id
+        a.route.request_link(href='#' data-section=`/${RequestInfo.from_author_login}/${RequestInfo.from_repo_name}`) #{RequestInfo.from_author_login}/#{RequestInfo.from_repo_name}&nbsp
+
+    if RequestInfo.branch_from_hash
+        a.route.request_link(href='#' data-section=`/${RequestInfo.from_author_login}/${RequestInfo.from_repo_name}/branch/${RequestInfo.branch_from_hash}`) #{RequestInfo.branch_from}
+    else
+        span #{RequestInfo.branch_from}
+
+
+    span &nbsp к &nbsp
+    if RequestInfo.from_repo_id !== RequestInfo.to_repo_id
+        a.route.request_link(href='#' data-section=`/${RequestInfo.to_author_login}/${RequestInfo.to_repo_name}`) #{RequestInfo.to_author_login}/#{RequestInfo.to_repo_name}&nbsp
+
+    if RequestInfo.branch_to_hash
+        a.route.request_link(href='#' data-section=`/${RequestInfo.to_author_login}/${RequestInfo.to_repo_name}/branch/${RequestInfo.branch_to_hash}`) #{RequestInfo.branch_to}
+    else
+        span #{RequestInfo.branch_to}
+
+div.request__message
+    div.div.request__message__title
+        image.repository__list__item_avatar.request__message__title_avatar(width='30' hight='30' src=RequestInfo.author_image onError="this.src='https://pm1.narvii.com/7213/dbae0375735815e77e4ef90fac4736b99ab409e2r1-750-631v2_128.jpg'")
+        if RequestInfo.author_id
+            a.route.request__message__title_info(href='#' data-section=`/profile/${RequestInfo.author_name}`) #{RequestInfo.author_name}
+        else
+            span.request__message__title_info Неизвестно
+        span &nbsp ocтавил комментарий:
+
+    if RequestInfo.message
+        div.request__message__text #{RequestInfo.message}
+    else
+        div.request__message__text.request__message__text-light Нет описания
+
+
+if RequestState === 'deleted'
+    div.request__border.request__border-deleted
+        div.request__border_text-deleted.request__border_text
+            span Пулл реквест был удалён &nbsp
+
+            if RequestInfo.closer_user_id
+                span пользователем &nbsp
+                a.route.request__border__link.request__border__link-deleted(href='#' data-section=`/profile/${RequestInfo.closer_author_name}`) #{RequestInfo.closer_author_name}
+
+if RequestState === 'accepted'
+    div.request__border.request__border-accepted
+        div.request__border_text-accepted.request__border_text
+            span Пулл реквест был принят &nbsp
+
+            if RequestInfo.closer_user_id
+                span пользователем &nbsp
+                a.route.request__border__link.request__border__link-accepted(href='#' data-section=`/profile/${RequestInfo.closer_author_name}`) #{RequestInfo.closer_author_name}
+
+if RequestState === 'opened' && (RequestInfo.status === 'ok' || RequestInfo.status === 'no_changes')
+    if RequestInfo.status === 'ok'
+        div.request__border.request__border-ok
+            div.request__border_text-ok.request__border_text
+                span Конфликты не обнаружены &nbsp
+
+    if RequestInfo.status === 'no_changes'
+        div.request__border.request__border-ok
+            div.request__border_text-warn.request__border_text
+                span.request__border_text-warn-bold !&nbsp
+                span Изменения не обнаружены &nbsp
+    div.request__buttonField
+        button#Accept.route.button.button-colored.button_long(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Принять пулл реквест
+        button#Delete.route.button(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Удалить
+
+if RequestState === 'opened' && (RequestInfo.status === 'conflict' || RequestInfo.status === 'up_to_date')
+    div.request__border.request__border-problem
+        div.request__border_text-problem.request__border_text
+            if RequestInfo.status === 'conflict'
+                span Обнаружены конфликты. Невозможно создать пулл реквест &nbsp
+            if RequestInfo.status === 'up_to_date'
+                span Невозможно создать пулл реквест, так как изменения уже находятся в целевой ветке &nbsp
+
+    div.request__buttonField
+        button#Delete.route.button(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Удалить пулл реквест

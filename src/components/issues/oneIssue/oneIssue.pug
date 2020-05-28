@@ -9,13 +9,13 @@ form.form_large.issueForm(action='#' name='newIssue')
         label.form_large__item__label(for="issueMsg") Текст
         textarea#issueMsg.form__item__input_long.issueForm_input-text(name="issueMsg") #{oldMsg}
 
-    if oldTitle
-        span.form__item__span Метка: #{oldLabel}
-    else
-        div.form__item
-            label.form_large__item__label(for="issueLabel")
-                span.form__item__span Метка
-                input#issueLabel.form__item__input.issueForm_input(type="text" name="issueLabel" value=oldLabel)
+    //if oldTitle
+    //    span.form__item__span Метка: #{oldLabel}
+    //else
+    //    div.form__item
+    //        label.form_large__item__label(for="issueLabel")
+    //            span.form__item__span Метка
+    //            input#issueLabel.form__item__input.issueForm_input(type="text" name="issueLabel" value=oldLabel)
 
     button#CreateIssue.button.button-colored.button-small.issueButton Сохранить
     hr.line-separator.line-separator
