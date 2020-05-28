@@ -1,6 +1,6 @@
 import RepositoryController from 'Controllers/RepositoryController';
 import {
-  ONEPULLREQUEST, UPLOAD, ACTIONS,
+  ONEPULLREQUEST, UPLOAD, ACTIONS, PULLREQUEST
 } from 'Modules/events';
 import RepOnePullRequestsView from 'Views/onePullRequest';
 

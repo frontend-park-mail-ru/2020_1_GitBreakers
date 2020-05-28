@@ -187,7 +187,7 @@ export default class RepIssuesView extends RepositoryBaseView {
       item.innerHTML = oneIssuetemplate({
         oldTitle: data[data.tab][id].title,
         oldMsg: data[data.tab][id].message,
-        //oldLabel: data[data.tab][id].label,
+        // oldLabel: data[data.tab][id].label,
       });
       this._createUpdateIssueListener(data, id);
     };
@@ -222,7 +222,7 @@ export default class RepIssuesView extends RepositoryBaseView {
         repo_id: data.repId,
         title: newIssueForm.issueTitle.value,
         message: newIssueForm.issueMsg.value,
-        //label: newIssueForm.issueLabel.value,
+        // label: newIssueForm.issueLabel.value,
         is_closed: false,
       };
       this.eventBus.emit(ISSUES.submitNewIssue, { formData, msg: 'Задача успешно создана!' });

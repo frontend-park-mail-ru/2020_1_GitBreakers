@@ -182,7 +182,7 @@ export default class NewRepPullRequestsView extends View {
         branch_from: dataTmp.selectedBranchFrom,
         branch_to: dataTmp.selectedBranchTo,
       }
-      this.eventBus.emit(NEWPULLREQUEST.submitNewRequest, {formData});
+      this.eventBus.emit(NEWPULLREQUEST.submitNewRequest, { formData });
     }
     createRequest.addEventListener('click', func);
     this.eventCollector.addEvent(createRequest, 'click', func);
@@ -195,23 +195,24 @@ export default class NewRepPullRequestsView extends View {
   //---------------------------------------------------------------------
   static _addBranchSelectList(branchList, selectedItem = '', currentItem = '') {
     let htmlStr = '';
-    for (const key in branchList) {
+    // for (const key in branchList) {
+    Object.keys(branchList).forEach((key) => {
       const branch = branchList[key];
-      if (branch.name === selectedItem) {
-        continue;
+      if (branch.name !== selectedItem) {
+        if (branch.name === currentItem) {
+          htmlStr += `<option value=${branch.name} selected> ${branch.name} </option>`;
+        } else {
+          htmlStr += `<option value=${branch.name}> ${branch.name} </option>`;
+        }
       }
-      if (branch.name === currentItem) {
-        htmlStr += `<option value=${branch.name} selected> ${branch.name} </option>`;
-      } else {
-        htmlStr += `<option value=${branch.name}> ${branch.name} </option>`;
-      }
-    }
+    });
     return htmlStr;
   }
 
   static _addRepSelectList(repList, selectedItem) {
     let htmlStr = '';
-    for (const key in repList) {
+    // for (const key in repList) {
+    Object.keys(repList).forEach((key) => {
       const rep = repList[key];
 
       if (rep.repName === selectedItem) {
@@ -220,7 +221,7 @@ export default class NewRepPullRequestsView extends View {
       else {
         htmlStr += `<option value=${rep.repName} data-id=${key}> ${rep.repName} </option>`;
       }
-    }
+    });
     return htmlStr;
   }
 }
