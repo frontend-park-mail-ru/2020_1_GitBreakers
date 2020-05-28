@@ -250,9 +250,9 @@ export default class RepositoryController extends Controller {
     if (numItem === 0) {
       newRepository = repository;
     } else {
-      numItem += 1;
-      newRepository = `${repository}_${num}`;
+      newRepository = `${repository}_${numItem}`;
     }
+    numItem += 1;
 
 
     const res = await ForkModel.fork({
