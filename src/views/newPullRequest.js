@@ -166,6 +166,12 @@ export default class NewRepPullRequestsView extends View {
         msg.innerText = "Поле заголовка не должно быть пустым";
         return;
       }
+
+      if (newRequestForm.requestMsg.value.length > 1000) {
+        msg.innerText = "Текст слишком большой";
+        return;
+      }
+
       const formData = {
         author_id: authUser.getUserId,
         from_repo_id: dataTmp.selectedRepFrom,
@@ -176,8 +182,7 @@ export default class NewRepPullRequestsView extends View {
         branch_from: dataTmp.selectedBranchFrom,
         branch_to: dataTmp.selectedBranchTo,
       }
-      console.log("formData = ", formData);
-      // this.eventBus.emit(NEWPULLREQUEST.submitNewRequest, {});
+      this.eventBus.emit(NEWPULLREQUEST.submitNewRequest, {formData});
     }
     createRequest.addEventListener('click', func);
     this.eventCollector.addEvent(createRequest, 'click', func);

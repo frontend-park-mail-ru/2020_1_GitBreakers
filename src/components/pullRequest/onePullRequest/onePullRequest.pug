@@ -1,0 +1,21 @@
+div.section
+    div.card
+        div.section__title
+            h2.title.request__title #{RequestInfo.title}
+            div
+                div.request__title_data Репозиторий: &nbsp
+                    a.route.request_link-none(href='#' data-section=`${RequestInfo.from_author_login}/${RequestInfo.from_repo_name}`) #{RequestInfo.from_author_login}/#{RequestInfo.from_repo_name}
+                - let updated = new Date(RequestInfo.created_at)
+                div.request__title_data Дата создания: !{updated.toLocaleDateString()}
+        div.section__main
+            hr.line-separator.line-separator_thin
+            div.repository
+                    input#infoLink.repository__top__menu_link(type="radio" name = "requestLink" "checked")
+                    label.repository__top__menu_label(for="infoLink") Информация
+                    input#diffLink.repository__top__menu_link(type="radio" name = "requestLink")
+                    label.repository__top__menu_label(for="diffLink") Изменения
+                    span#requestMessage.issue_info_message #{successMsg}
+                    hr.line-separator.line-separator_extra-thin(style="margin-top: 4px")
+
+                    div#requestPage.requestPage
+            hr.line-separator.line-separator_thin

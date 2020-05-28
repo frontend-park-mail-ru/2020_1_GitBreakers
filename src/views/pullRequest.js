@@ -33,8 +33,6 @@ export default class RepPullRequestsView extends View {
       PULLREQUEST.showMessage,
       RepPullRequestsView._errorMessage.bind(this),
     );
-
-    console.log("1. view");
     this.eventBus.emit(PULLREQUEST.getRepList, {});
   }
 
@@ -96,6 +94,24 @@ export default class RepPullRequestsView extends View {
       };
       menu[i].addEventListener('change', func);
       this.eventCollector.addEvent(menu[i], 'change', func);
+    }
+
+
+
+    const requestLinkList = document.getElementsByClassName('requestLink');
+    for (let i = 0; i < requestLinkList.length; i += 1) {
+      const linkFunc = (event) => {
+        event.preventDefault();
+        const { target } = event;
+        const requestId = Number.parseInt(target.id, 10);
+
+        const requestPath = `/user/${dataTmp.author}/pull_request/${requestId}`;
+        console.log('reqPath = ', requestPath);
+        requestLinkList[i].dataset.section = requestPath;
+      };
+
+      requestLinkList[i].addEventListener('click', linkFunc);
+      this.eventCollector.addEvent(requestLinkList[i], 'click', linkFunc);
     }
 
 
