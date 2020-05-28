@@ -1,12 +1,11 @@
-/* eslint-disable no-undef */
+/* eslint-disable import/order */
+/* eslint-disable no-empty */
 import { FILEVIEW } from 'Modules/events';
 import CodeTheme from 'Modules/codeTheme';
-// import 'Modules/prettify/prettify';
 import hljs from 'highlight.js';
 import RepositoryBaseView from './repositoryBaseView';
 import template from '../components/fileView/fileView.pug';
 import 'highlight.js/styles/vs.css';
-// import { markdown } from 'markdown';
 import { Remarkable } from 'remarkable';
 
 /**
@@ -47,7 +46,6 @@ export default class FileView extends RepositoryBaseView {
         console.log('File path error!');
       }
     } else if (data.type === 'md') {
-      // dataTmp.fileContent = markdown.toHTML(data.fileContent);
       const md = new Remarkable({
         highlight(str, lang) {
           if (lang && hljs.getLanguage(lang)) {
