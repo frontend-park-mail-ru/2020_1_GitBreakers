@@ -122,7 +122,6 @@ export default class OnePullRequestController extends RepositoryController {
         case 'up_to_date':
           this.data.RequestState = 'opened';
           break;
-
         case 'rejected':
           this.data.RequestState = 'deleted';
           break;
