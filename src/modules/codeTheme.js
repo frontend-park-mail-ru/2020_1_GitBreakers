@@ -16,7 +16,7 @@ export default class CodeTheme {
         },
 
         pre: {
-          color: '#a7a7a7',
+          color: 'black',
         },
         '.prettyprint': {
           'background-color': '#f8f8f8',
