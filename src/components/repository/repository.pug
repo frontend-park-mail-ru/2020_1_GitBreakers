@@ -31,7 +31,7 @@ div.section
         div.section__main
             if (is_fork)
                 .rep_forked
-                    | Форкнуто от
+                    | Форкнуто от &nbsp
                     a.route(href='#' data-section=`/${parent_repository_info.author_login}/${parent_repository_info.name}/branches`) #{parent_repository_info.author_login} / #{parent_repository_info.name}
             div.rep-menu
                 div.rep-menu-main
