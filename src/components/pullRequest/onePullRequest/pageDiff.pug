@@ -1,4 +1,6 @@
-div блок с диффом
+each file in RequestDiff.diffFiles
     pre.prettyprint-light
-        code !{RequestDiff.diff}
+        div.prettyprint-light_title #{file.fileName}
+        div.prettyprint-light_text
+            code !{file.fileContent}
 
