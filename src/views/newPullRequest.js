@@ -158,7 +158,6 @@ export default class NewRepPullRequestsView extends View {
       const newRequestForm = document.newRequest;
 
       if (dataTmp.selectedRepFrom === dataTmp.selectedRepTo && dataTmp.selectedBranchFrom === dataTmp.selectedBranchTo) {
-        console.log(dataTmp.selectedRepFrom, dataTmp.selectedRepTo, ' -- ', dataTmp.selectedBranchFrom, dataTmp.selectedBranchTo);
         msg.innerText = "Выбрана одна и та же ветка";
         return;
       }

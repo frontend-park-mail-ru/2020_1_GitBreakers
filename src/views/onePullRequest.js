@@ -40,10 +40,12 @@ export default class RepOnePullRequestsView extends View {
     dataTmp.RequestDiff.diff = hljs.highlight('diff', dataTmp.RequestDiff.diff, true).value
 
     dataTmp.RequestDiff.diffFiles = [];
+
     const oneFile = dataTmp.RequestDiff.diff.split('diff --git ');
+
     for (let i = 1; i < oneFile.length; i += 1) {
-      const fileName = (oneFile[i].split('\n'))[0].split('/')[2];
-      const fileContent = (oneFile[i].split(`b/${fileName}`))[1];
+      const fileName = (oneFile[i].split('a/'))[1].split('b/')[0];
+      const fileContent = (oneFile[i].split(`b/${fileName}`))[0];
       dataTmp.RequestDiff.diffFiles.push({fileName, fileContent});
     }
 

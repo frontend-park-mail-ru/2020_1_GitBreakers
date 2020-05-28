@@ -35,7 +35,6 @@ export default class OnePullRequestController extends RepositoryController {
       }
       this.data.user = authUser.getUser;
     })
-
     this.eventBusCollector.on(ONEPULLREQUEST.getRequestInfo, this._getRequestInfo.bind(this));
     this.eventBusCollector.on(ONEPULLREQUEST.getRequestDiff, this._getRequestDiff.bind(this));
     this.eventBusCollector.on(ONEPULLREQUEST.delete, this._deleteRequest.bind(this));
@@ -120,7 +119,6 @@ export default class OnePullRequestController extends RepositoryController {
         case 'ok':
         case 'conflict':
         case 'no_changes':
-
         case 'up_to_date':
           this.data.RequestState = 'opened';
           break;

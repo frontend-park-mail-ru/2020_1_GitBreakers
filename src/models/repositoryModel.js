@@ -304,7 +304,6 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static deleteIssue(data) {
-    console.log('delete body = ', data.body);
     const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
     return Api.delete(path, data.body).then((res) => {
       if (res.ok) {
@@ -352,8 +351,7 @@ export default class RepositoryModel {
   }
 
   static loadRepRequestsList(data) {
-      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=10&offset=0`;
-      console.log(path);
+      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=50&offset=0`;
       return Api.get(path).then((res) => {
         if (res.ok) {
           return res.json()
@@ -380,7 +378,7 @@ export default class RepositoryModel {
 
 
   static loadAllRequestsList() {
-    const path = `${constants.HOST}/user/pullrequests?limit=10&offset=0`;
+    const path = `${constants.HOST}/user/pullrequests?limit=50&offset=0`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -441,7 +439,6 @@ export default class RepositoryModel {
    */
   static deleteRequest(data) {
     const path = `${constants.HOST}/func/repo/pullrequests`;
-    console.log(path, data.body);
     return Api.delete(path, data.body).then((res) => {
       if (res.ok) {
         return {
@@ -465,7 +462,6 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static acceptRequest(data) {
-    console.log('body = ', data.body);
     const path = `${constants.HOST}/func/repo/pullrequests`;
     return Api.put(path, data.body).then((res) => {
       if (res.ok) {
