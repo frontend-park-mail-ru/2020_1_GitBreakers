@@ -352,8 +352,8 @@ export default class RepositoryModel {
   }
 
   static loadRepRequestsList(data) {
-      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=10&offset=0`;
-      console.log(path);
+      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=25&offset=0`;
+      console.log(data.repId);
       return Api.get(path).then((res) => {
         if (res.ok) {
           return res.json()
@@ -380,7 +380,7 @@ export default class RepositoryModel {
 
 
   static loadAllRequestsList() {
-    const path = `${constants.HOST}/user/pullrequests?limit=10&offset=0`;
+    const path = `${constants.HOST}/user/pullrequests?limit=25&offset=0`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
