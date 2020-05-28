@@ -18,13 +18,12 @@ block content
                 each commit in commitList
                     - let updated = new Date(commit.commit_author_when)
                     div.repository__list__group_title обновлено: !{updated.toLocaleDateString()} !{updated.toLocaleTimeString().slice(0,-3)}
-                    div.repository__list__group_title #{commit.message}
-
                     div.repository__list__group_content
                         div.repository__list__item
                             div.repository__list__item_title
                                 a.route.repository__list__item_title-link(href = '#' data-section=`/${author}/${repName}/branch/${commit.commit_hash}`) #{commit.commit_hash}
                             div.repository__list__item_info автор: #{commit.commit_author_name}
+                        span #{commit.message}
                             
                             //- div.repository__list__item_button
                                // button.button.button-colored.button-small(type='submit') *
