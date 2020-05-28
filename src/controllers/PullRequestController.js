@@ -41,19 +41,16 @@ export default class PullRequestController extends RepositoryController {
     this.data.author = profile;
 
     const result = await ProfileModel.getRepositories({ profile });
-    console.log("2. rep list = ", result);
 
     if (result.success) {
       const resList = await result.body;
       if (resList === [] || resList === null) {
-        console.log("у юзера нет реп", resList);
         this.data.repList = null;
         this.eventBus.emit(PULLREQUEST.render, this.data);
         return;
       }
 
       this.data.repList = resList;
-      console.log("у юзера есть репы: ", resList);
       this.eventBus.emit(PULLREQUEST.getRequestsList, {});
     } else {
       this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
@@ -68,8 +65,6 @@ export default class PullRequestController extends RepositoryController {
    */
   async _getRequestsList() {
 
-    console.log('3. try to get list');
-
     const path = window.location.pathname;
     const repName = path.split('/repository/')[1];
 
@@ -82,8 +77,6 @@ export default class PullRequestController extends RepositoryController {
         return;
       }
       const repId = rep.id;
-      console.log(repId);
-
       result = await RepositoryModel.loadRepRequestsList({ repId });
 
     } else { // если список всех репозиториев
@@ -91,12 +84,9 @@ export default class PullRequestController extends RepositoryController {
       result = await RepositoryModel.loadAllRequestsList();
     }
 
-    console.log("custom res = ", result);
-
     if (result.success) {
 
       await this._loadRequestList(await result.body);
-      console.log("4. before render data = ", this.data);
 
       this.eventBus.emit(PULLREQUEST.render, this.data);
     } else {
@@ -116,7 +106,6 @@ export default class PullRequestController extends RepositoryController {
       }
     }
   }
-
 
 
   /**
@@ -140,88 +129,14 @@ export default class PullRequestController extends RepositoryController {
           opened[modItem.id] = modItem;
         } else if (modItem.is_accepted) {
           accepted[modItem.id] = modItem;
-        }
-        else {
+        } else {
           deleted[modItem.id] = modItem;
         }
       });
     }
-
     this.data.opened = opened;
     this.data.accepted = accepted;
     this.data.deleted = deleted;
     this.data.tab = "opened";
-  }
-
-  //= ====================================================
-
-
-  /**
-   * Detele one request.
-   * @param {Object} body.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _deleteRequest(body) {
-    const result = await RepositoryModel.deleteRequest({ body });
-
-    if (result.success) {
-      this.open();
-      console.log('delete ok');
-      return;
-    }
-
-    switch (result.status) {
-      case 401:
-        this.redirect({ path: '/signin' });
-        break;
-      case 400:
-        alert('Ошибка: неверные данные!');
-        break;
-      case 404:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Ошибка: Пулл реквест не найден' });
-        break;
-      case 403:
-        this.redirect({ path: '/signin' });
-        // alert('Это приватный репозиторий!');
-        break;
-      default:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Неизвестная ошибка!' });
-    }
-  }
-
-
-  /**
-   * Accept one request.
-   * @param {Object} body.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _acceptRequest(body) {
-    const result = await RepositoryModel.acceptRequest({ body });
-
-    if (result.success) {
-      this.open({ active: 'false', msg: ' Пулл реквест принят' });
-      console.log('accept ok');
-      return;
-    }
-
-    switch (result.status) {
-      case 401:
-        this.redirect({ path: '/signin' });
-        break;
-      case 400:
-        alert('Ошибка: неверные данные!');
-        break;
-      case 404:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Ошибка: Пулл реквест не найден' });
-        break;
-      case 403:
-        this.redirect({ path: '/signin' });
-        // alert('Это приватный репозиторий!');
-        break;
-      default:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Неизвестная ошибка!' });
-    }
   }
 }

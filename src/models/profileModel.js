@@ -100,4 +100,33 @@ export default class ProfileModel {
         return {};
       });
   }
+
+
+  /**
+   * return user information by user id
+   * @param {object} param0 - raquest data
+   * @return {Promise}
+   */
+  static getUserInfoById(data) {
+    return Api.get((`${constants.HOST}/user/id/${data.userId}/profile`))
+      .then((res) => {
+        if (res.ok) {
+          return {
+            success: true,
+            body: res.json(),
+          };
+        }
+        return {
+          success: false,
+          status: res.status,
+        };
+      })
+      .catch(() => {
+        console.log('Model: LoadRepository Profile Error!');
+        return {};
+      });
+  }
+
+
+
 }

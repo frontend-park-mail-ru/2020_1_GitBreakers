@@ -1,0 +1,25 @@
+div
+    span Создан пользователем &nbsp
+    a.route.request_link.request_link-large(href='#' data-section=`/profile/${author}`) #{RequestInfo.author_name}
+    span &nbsp от ветки &nbsp
+    if RequestInfo.from_repo_id !== RequestInfo.to_repo_id
+        a.route.request_link(href='#' data-section=`${RequestInfo.from_author_login}/${RequestInfo.from_repo_name}`) #{RequestInfo.from_author_login}/#{RequestInfo.from_repo_name}&nbsp
+    span #{RequestInfo.branch_from}
+    //a.route.request_link(href='#' data-section=`ссылка на ветку`) #{RequestInfo.branch_from}
+
+    span &nbsp к &nbsp
+    if RequestInfo.from_repo_id !== RequestInfo.to_repo_id
+        a.route.request_link(href='#' data-section=`${RequestInfo.to_author_login}/${RequestInfo.to_repo_name}`) #{RequestInfo.to_author_login}/#{RequestInfo.to_repo_name}&nbsp
+    span #{RequestInfo.branch_to}
+    //a.route.request_link(href='#' data-section=`ссылка на ветку`) #{RequestInfo.branch_to}
+
+div.request__message
+    div.div.request__message__title
+        image.repository__list__item_avatar.request__message__title_avatar(width='30' hight='30' src=RequestInfo.author_image onError="this.src='https://pm1.narvii.com/7213/dbae0375735815e77e4ef90fac4736b99ab409e2r1-750-631v2_128.jpg'")
+        a.route.request__message__title_info(href='#' data-section=`/profile/${author}`) #{RequestInfo.author_name}
+        span &nbsp ocтавил комментарий:
+
+    if RequestInfo.message
+        div.request__message__text #{RequestInfo.message}
+    else
+        div.request__message__text.request__message__text-light Нет описания
