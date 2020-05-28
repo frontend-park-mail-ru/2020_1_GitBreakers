@@ -4,7 +4,7 @@ div.section
             h2.title.request__title #{RequestInfo.title}
             div
                 div.request__title_data Репозиторий: &nbsp
-                    a.route.request_link-none(href='#' data-section=`${RequestInfo.from_author_login}/${RequestInfo.from_repo_name}`) #{RequestInfo.from_author_login}/#{RequestInfo.from_repo_name}
+                    a.route.request_link-none(href='#' data-section=`/${RequestInfo.from_author_login}/${RequestInfo.from_repo_name}`) #{RequestInfo.from_author_login}/#{RequestInfo.from_repo_name}
                 - let updated = new Date(RequestInfo.created_at)
                 div.request__title_data Дата создания: !{updated.toLocaleDateString()}
 
