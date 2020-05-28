@@ -23,7 +23,7 @@ block content
                             div.repository__list__item_title
                                 a.route.repository__list__item_title-link(href = '#' data-section=`/${author}/${repName}/branch/${commit.commit_hash}`) #{commit.commit_hash}
                             div.repository__list__item_info автор: #{commit.commit_author_name}
-                        span #{commit.message}
+                        pre #{commit.message}
                             
                             //- div.repository__list__item_button
                                // button.button.button-colored.button-small(type='submit') *
