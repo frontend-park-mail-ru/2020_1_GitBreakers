@@ -5,7 +5,7 @@ import {
 import RepPullRequestsView from 'Views/pullRequest';
 
 import RepositoryModel from 'Models/repositoryModel';
-import ProfileModel from "Models/profileModel";
+import authUser from 'Modules/authUser';
 
 /**
  * Class representing a pull request controller.
@@ -27,34 +27,9 @@ export default class PullRequestController extends RepositoryController {
    * Open page view.
    */
   open() {
-    this.eventBusCollector.on(PULLREQUEST.getRepList, this._getRepositoryList.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.getRequestsList, this._getRequestsList.bind(this));
+    this.eventBusCollector.on(PULLREQUEST.getRepList, this._getRequestsList.bind(this));
 
     super.open();
-  }
-
-
-  async _getRepositoryList() {
-
-    const path = window.location.pathname;
-    const profile = path.split('/')[2];
-    this.data.author = profile;
-
-    const result = await ProfileModel.getRepositories({ profile });
-
-    if (result.success) {
-      const resList = await result.body;
-      if (resList === [] || resList === null) {
-        this.data.repList = null;
-        this.eventBus.emit(PULLREQUEST.render, this.data);
-        return;
-      }
-
-      this.data.repList = resList;
-      this.eventBus.emit(PULLREQUEST.getRequestsList, {});
-    } else {
-      this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
-    }
   }
 
 
@@ -65,29 +40,10 @@ export default class PullRequestController extends RepositoryController {
    */
   async _getRequestsList() {
 
-    const path = window.location.pathname;
-    const repName = path.split('/repository/')[1];
-
-    let result;
-    if (repName) { // если указан конкретный репозиторий
-      this.data.repName = repName;
-      const rep = this.data.repList.find((item) => item.name === repName);
-      if (!rep) {
-        this.eventBus.emit(UPLOAD.changePath, '/404');
-        return;
-      }
-      const repId = rep.id;
-      result = await RepositoryModel.loadRepRequestsList({ repId });
-
-    } else { // если список всех репозиториев
-      this.data.repName = null;
-      result = await RepositoryModel.loadAllRequestsList();
-    }
+    const result = await RepositoryModel.loadAllRequestsList();
 
     if (result.success) {
       await this._loadRequestList(await result.body);
-      console.log(result);
-
       this.eventBus.emit(PULLREQUEST.render, this.data);
     } else {
       switch (result.status) {
@@ -119,24 +75,51 @@ export default class PullRequestController extends RepositoryController {
     const accepted = {};
     const deleted = {};
 
-    if (requestList) {
-      requestList.forEach((item) => {
-        const modItem = item;
-        const date = new Date(modItem.created_at);
-        modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+    const dir = window.location.pathname.split('/pull_requests/')[1];
+    const user = window.location.pathname.split('/')[2];
+    this.data.author = user;
+    if (!requestList) return;
+    if (dir) {
+      const newRequestList = [];
 
-        if (!modItem.is_closed) {
-          opened[modItem.id] = modItem;
-        } else if (modItem.is_accepted) {
-          accepted[modItem.id] = modItem;
-        } else {
-          deleted[modItem.id] = modItem;
-        }
-      });
+      if (dir === 'to') {
+        requestList.forEach((item) => {
+          if (item.to_author_login === user)
+          {
+            newRequestList.push(item);
+          }
+        })
+      } else {
+        requestList.forEach((item) => {
+          if (item.to_author_login !== user)
+          {
+            newRequestList.push(item);
+          }
+        })
+      }
+      // eslint-disable-next-line no-param-reassign
+      requestList = newRequestList;
     }
+
+    requestList.forEach((item) => {
+      const modItem = item;
+      const date = new Date(modItem.created_at);
+      modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+
+      if (!modItem.is_closed) {
+        opened[modItem.id] = modItem;
+      } else if (modItem.is_accepted) {
+        accepted[modItem.id] = modItem;
+      } else {
+        deleted[modItem.id] = modItem;
+      }
+    });
+
     this.data.opened = opened;
     this.data.accepted = accepted;
     this.data.deleted = deleted;
+    this.data.reqList = requestList;
     this.data.tab = "opened";
+    this.data.dir = dir;
   }
 }

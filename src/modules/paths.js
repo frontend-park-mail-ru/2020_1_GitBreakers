@@ -20,7 +20,8 @@ const paths = {
   fileView: /^\/[\w-_]+\/[\w-_]+\/file(\/([\w-_.]+))+$/i,
 
   pullRequest: /^\/user\/[\w-_]+\/pull_requests$/i,
-  pullRequestRepo: /^\/user\/[\w-_]+\/pull_requests\/repository\/[\w-_]+$/i,
+  pullRequestTo: /^\/user\/[\w-_]+\/pull_requests\/to$/i,
+  pullRequestFrom: /^\/user\/[\w-_]+\/pull_requests\/from$/i,
   newPullRequest: /^\/user\/[\w-_]+\/pull_requests\/repository\/[\w-_]+\/new$/i,
   onePullRequest: /^\/user\/[\w-_]+\/pull_request\/[\d]+$/i,
 

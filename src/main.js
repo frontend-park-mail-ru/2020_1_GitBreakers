@@ -97,7 +97,8 @@ router.register(/\/404/, create404Page);
 router.register(paths.issues, issuesController);
 router.register(paths.news, newsController);
 router.register(paths.pullRequest, pullRequestController);
-router.register(paths.pullRequestRepo, pullRequestController);
+router.register(paths.pullRequestTo, pullRequestController);
+router.register(paths.pullRequestFrom, pullRequestController);
 router.register(paths.newPullRequest, newPullRequestController);
 router.register(paths.onePullRequest, onePullRequestController);
 
