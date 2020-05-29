@@ -8,7 +8,7 @@ div.section
           div.card
             h2.title Профиль
               hr.line-separator.line-separator_extra-thin
-              img.profile__avatar(src=image alt='avatar')
+              img.profile__avatar(src=image alt='avatar' onError="this.src='https://avatars.mds.yandex.net/get-pdb/2477309/7eeefbf0-f6be-4050-b311-fc00f684c488/s1200'")
               h3.profile-info__login Логин: !{login}
               h3.profile-info__email Email: !{email}
               div.profile-info__button

@@ -4,7 +4,7 @@ block content
         div.repository__top_path #{repName}/#{branchName}/#{filePath}
     if fileType === "fileForLoad"
         //- div.fileField  #{fileContent}
-        div.fileField__message  #{message} 
+        div.fileField__message  #{message}
         div.fileField__message__link
             a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
     else
@@ -22,4 +22,5 @@ block content
                 code !{fileContent}
 block button
     div.fileField__top.fileField__link
-        a#themeStyle
+        if fileType !== "fileForLoad"
+            a#themeStyle

@@ -66,6 +66,7 @@ export default class NewPullRequestController extends RepositoryController {
       this.data.repList[result.body.id] = {};
       this.data.repList[result.body.id].repName = `${author}/${result.body.name}`;
       this.data.thisRepId = result.body.id;
+      this.data.thisRepName = result.body.name;
       this.repInfo = result.body;
       this.eventBus.emit(NEWPULLREQUEST.getBranchList, {});
     } else {

@@ -19,13 +19,11 @@ div.section
                     if is_fork
                         div.form__item
                             div
-                                label.form-horizontal__item__label(for="repNameTo") основная ветка: &nbsp&nbsp
-                                    select#repNameTo.form__item__input(name="repNameTo" required)
+                                label.form-horizontal__item__label(for="repNameTo") основная ветка:
+                                    select#repNameTo.form__item__input(name="repNameTo" required style="margin-left : 10px")
                                     select#branchNameTo.form__item__input(name="branchNameTo" required style="margin-left : 10px")
-                            div
-                                label.form-horizontal__item__label(for="repNameFrom") <— &nbsp&nbsp
-                                    select#repNameFrom.form__item__input(name="repNameFrom" required)
-                                    select#branchNameFrom.form__item__input(name="branchNameFrom" required style="margin-left : 10px")
+                            div <— #{author}/#{thisRepName}
+                                select#branchNameFrom.form__item__input(name="branchNameFrom" required style="margin-left : 10px")
 
                     else
                         div.form__item.form__item-request
