@@ -57,6 +57,9 @@ export default class SettingsController extends Controller {
       case 401:
         this.redirect({ path: '/signin', replace: true });
         break;
+      case 413:
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Файл больше 6 мб!' });
+        break;
       case 400:
         this.eventBus.emit(SETTINGS.avatarFail, { message: 'Файл неподходящего формата или больше 6MB!' });
         break;
@@ -86,9 +89,6 @@ export default class SettingsController extends Controller {
         break;
       case 409:
         this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким именем уже существует!' });
-        break;
-      case 413:
-        this.eventBus.emit(SETTINGS.profileFail, { message: 'Файл больше 6 мб!' });
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
