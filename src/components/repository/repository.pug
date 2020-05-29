@@ -29,10 +29,15 @@ div.section
                             span.route.rep_stars__counter
 
         div.section__main
-            if (is_fork && parent_repository_info.author_login && parent_repository_info.name)
-                .rep_forked
-                    | Форкнуто от &nbsp
-                    a.route(href='#' data-section=`/${parent_repository_info.author_login}/${parent_repository_info.name}`) #{parent_repository_info.author_login} / #{parent_repository_info.name}
+            if (is_fork)
+                if (parent_repository_info.author_login && parent_repository_info.name)
+                    .rep_forked
+                        | Форкнуто от &nbsp
+                        a.route(href='#' data-section=`/${parent_repository_info.author_login}/${parent_repository_info.name}`) #{parent_repository_info.author_login} / #{parent_repository_info.name}
+                else
+                    .rep_forked
+                        | Форкнуто от неизвестного репозитория (репозиторий был удалён или нет доступа)
+
             div.rep-menu
                 div.rep-menu-main
                     div.rep-menu__item
