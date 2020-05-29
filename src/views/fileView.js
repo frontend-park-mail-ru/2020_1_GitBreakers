@@ -69,6 +69,7 @@ export default class FileView extends RepositoryBaseView {
 
 
     const theme = document.getElementById('themeStyle');
+    if (!theme) return;
     theme.innerText = 'Тёмная тема';
     this.codeTheme.createCodeTheme(dataTmp.themeStyle);
 
