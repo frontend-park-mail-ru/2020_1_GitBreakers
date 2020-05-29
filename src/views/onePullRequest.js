@@ -44,8 +44,8 @@ export default class RepOnePullRequestsView extends View {
     const oneFile = dataTmp.RequestDiff.diff.split('diff --git ');
 
     for (let i = 1; i < oneFile.length; i += 1) {
-      const fileName = (oneFile[i].split('a/'))[1].split('b/')[0];
-      const fileContent = (oneFile[i].split(`b/${fileName}`))[0];
+      const fileName = (oneFile[i].split('a/'))[1].split(' b/')[0];
+      const fileContent = (oneFile[i].split(`b/${fileName}\n`))[1];
       dataTmp.RequestDiff.diffFiles.push({fileName, fileContent});
     }
 
