@@ -54,7 +54,7 @@ if RequestState === 'accepted'
         div.request__border_text-accepted.request__border_text
             span Пулл реквест был принят &nbsp
 
-            if RequestInfo.closer_user_id
+            if RequestInfo.closer_author_name
                 span пользователем &nbsp
                 a.route.request__border__link.request__border__link-accepted(href='#' data-section=`/profile/${RequestInfo.closer_author_name}`) #{RequestInfo.closer_author_name}
 
@@ -71,8 +71,8 @@ if RequestState === 'opened' && (RequestInfo.status === 'ok' || RequestInfo.stat
                 span Изменения не обнаружены &nbsp
     div.request__buttonField
         if user === RequestInfo.to_author_login
-            button#Accept.route.button.button-colored.button_long(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Принять пулл реквест
-        button#Delete.route.button(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Удалить
+            button#Accept.button.button-colored.button_long(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Принять пулл реквест
+        button#Delete.button(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Удалить
 
 
 if RequestState === 'opened' && (RequestInfo.status === 'conflict' || RequestInfo.status === 'up_to_date')
@@ -84,5 +84,5 @@ if RequestState === 'opened' && (RequestInfo.status === 'conflict' || RequestInf
                 span Невозможно создать пулл реквест, так как изменения уже находятся в целевой ветке &nbsp
 
     div.request__buttonField
-        button#Delete.route.button(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Удалить пулл реквест
+        button#Delete.button(type='submit' data-id=RequestInfo.id data-rep_id=RequestInfo.to_repo_id) Удалить пулл реквест
 

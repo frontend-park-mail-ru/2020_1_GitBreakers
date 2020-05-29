@@ -29,7 +29,7 @@ export default class OnePullRequestController extends RepositoryController {
    */
   open() {
 
-    authUser.loadWhoAmI().then(() => {
+   authUser.loadWhoAmI().then(() => {
       if (!authUser.isAuth) {
         this.redirect({ path: '/signin' });
       }
@@ -60,9 +60,8 @@ export default class OnePullRequestController extends RepositoryController {
     if (result.success) {
       this.data.RequestInfo = await result.body;
 
-
       this.data.RequestInfo.author_name = "Неизвестно";
-      this.data.RequestInfo.closer_author_name = "Неизвестно";
+      this.data.RequestInfo.closer_author_name = null;
 
       if (this.data.RequestInfo.author_id) {
         const resultUser = await profileModel.getUserInfoById({ userId: this.data.RequestInfo.author_id });
@@ -218,8 +217,9 @@ export default class OnePullRequestController extends RepositoryController {
     console.log(result);
 
     if (result.success) {
-      this.redirect({ path: `/user/${this.data.RequestInfo.author_name}/pull_requests` });
-      console.log('delete ok');
+      const path = `/user/${this.data.RequestInfo.author_name}/pull_requests`;
+      this.redirect({ path });
+      console.log('delete ok', path);
       return;
     }
 
@@ -254,7 +254,9 @@ export default class OnePullRequestController extends RepositoryController {
 
 
     if (result.success) {
-      this.redirect({ path: `/user/${this.data.RequestInfo.author_name}/pull_requests` });
+
+      const path = `/user/${this.data.RequestInfo.author_name}/pull_requests`;
+      this.redirect({ path });
       console.log('accept ok');
       return;
     }

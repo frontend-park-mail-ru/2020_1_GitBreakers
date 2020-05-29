@@ -51,7 +51,7 @@ export default class RepPullRequestsView extends View {
       const func = () => {
         const dir = rep.value;
         let path;
-        if (dir === 'all')
+        if (dir==='all')
           path = `/user/${data.author}/pull_requests`;
         else
           path = `/user/${data.author}/pull_requests/${dir}`;
@@ -63,9 +63,9 @@ export default class RepPullRequestsView extends View {
     }//---------------------------------------------------------------
 
 
-    const requestOpenedList = RepPullRequestsView.listToHtml(dataTmp.opened, dataTmp.author);
-    const requestAcceptedList = RepPullRequestsView.listToHtml(dataTmp.accepted, dataTmp.author);
-    const requestDeletedList = RepPullRequestsView.listToHtml(dataTmp.deleted, dataTmp.author);
+    const requestOpenedList = RepPullRequestsView.listToHtml(dataTmp.opened);
+    const requestAcceptedList = RepPullRequestsView.listToHtml(dataTmp.accepted);
+    const requestDeletedList = RepPullRequestsView.listToHtml(dataTmp.deleted);
 
     const list = document.getElementById('repository__list__requests');
     list.innerHTML = requestOpenedList;
@@ -123,16 +123,15 @@ export default class RepPullRequestsView extends View {
   /**
    * Add html-strings for requests
    * @param {Object} itemList.
-   * @param {string} Author.
    * @returns {string}
    */
-  static listToHtml(itemList, author) {
+  static listToHtml(itemList) {
     let htmlStr = '';
 
     Object.entries(itemList).forEach((item) => {
       const value = item[1];
       value.userId = authUser.getUserId;
-      htmlStr += pullRequestsItem({ item: value, author });
+      htmlStr += pullRequestsItem({ item: value, author: itemList.author });
     });
     return htmlStr;
   }

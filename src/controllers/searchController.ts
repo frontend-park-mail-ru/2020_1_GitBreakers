@@ -6,10 +6,6 @@ import SearchModel from 'Models/searchModel.ts';
 import { SEARCH } from 'Modules/events';
 import SearchView from 'Views/searchView.ts';
 
-/**
- *  Class representing a search controller.
- * @extends Controller
- */
 export default class SearchController extends Controller {
   view: View;
 
@@ -17,22 +13,12 @@ export default class SearchController extends Controller {
 
   reload: boolean;
 
-  /**
-   * @constructor
-   * @param root - target
-   * @param eventBus - evetnBus
-   * @param router - router
-   */
   constructor(root: HTMLElement, eventBus: EventBus, router: Router) {
     super(root, eventBus, router);
     this.view = new SearchView(root, eventBus);
     this.reload = false;
   }
 
-  /**
-   * Open page
-   * @param data - page data
-   */
   open(data = {}): void {
     this.eventBusCollector.on(SEARCH.loadPage, this.searchAll.bind(this));
     this.eventBusCollector.on(SEARCH.reload, this.setReload.bind(this));
@@ -46,9 +32,6 @@ export default class SearchController extends Controller {
     // this.eventBusCollector.on();
   }
 
-  /**
-   * set reload status
-   */
   setReload(): void {
     this.reload = true;
   }
@@ -64,9 +47,6 @@ export default class SearchController extends Controller {
     return [query, param];
   }
 
-  /**
-   * Close page
-   */
   close(): void {
     if (!this.reload) {
       this.data = {};
@@ -74,9 +54,6 @@ export default class SearchController extends Controller {
     super.close();
   }
 
-  /**
-   * Search information
-   */
   async searchAll(): Promise<void> {
     const [query, param] = SearchController.getQueryAndParam();
 
@@ -110,5 +87,7 @@ export default class SearchController extends Controller {
 
       this.eventBus.emit(SEARCH.loadPageSuccess, returnSearchInfo);
     }
+
+    // TODO: Обработка ошибок
   }
 }

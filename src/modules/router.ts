@@ -34,6 +34,7 @@ export default class Router {
       this.prevController.close();
     }
     this.controller = this.getController(newUrl);
+    console.log(newUrl, this.controller);
     if (!this.controller) {
       console.log('newUrl =', newUrl, 'Контроллер не найден');
       // this.controller = this.getController(newUrl);

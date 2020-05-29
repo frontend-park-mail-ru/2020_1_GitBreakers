@@ -37,13 +37,15 @@ export default class NewRepPullRequestsView extends View {
   _onRender(data) {
     const dataTmp = data;
 
+    console.log(data);
+
     super.render(dataTmp);
     const msg = document.getElementById('message');
 
     //---------------------------------------------------------------
     const branchNameFrom = document.getElementById('branchNameFrom');
     const branchNameTo = document.getElementById('branchNameTo');
-    const repNameFrom = document.getElementById('repNameFrom');
+    const repNameFrom = dataTmp.thisRepName;
     const repNameTo = document.getElementById('repNameTo');
 
     if (!dataTmp.is_fork) {
@@ -67,7 +69,7 @@ export default class NewRepPullRequestsView extends View {
 
     } else {
 
-      if (!repNameFrom || !repNameTo || !branchNameFrom || !branchNameTo) return;
+      if (!repNameTo || !branchNameFrom || !branchNameTo) return;
 
       dataTmp.selectedRepFrom = dataTmp.thisRepId;
       dataTmp.selectedRepTo = dataTmp.parentRepId;
@@ -78,7 +80,6 @@ export default class NewRepPullRequestsView extends View {
       dataTmp.selectedBranchTo = dataTmp.repList[dataTmp.selectedRepTo].branchList[0].name;
       dataTmp.selectedBranchFrom = dataTmp.repList[dataTmp.selectedRepFrom].branchList[0].name;
 
-      repNameFrom.innerHTML = NewRepPullRequestsView._addRepSelectList(dataTmp.repList, dataTmp.repList[dataTmp.selectedRepFrom].repName);
       branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
       repNameTo.innerHTML = NewRepPullRequestsView._addRepSelectList(dataTmp.repList);
       branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
@@ -111,23 +112,7 @@ export default class NewRepPullRequestsView extends View {
     this.eventCollector.addEvent(branchNameTo, 'change', branchNameToFunc);
 
 
-    //-----------------------------------------
-    // -------repFrom----------
-    if (repNameFrom) {
-      const repNameFromFunc = () => {
 
-        dataTmp.selectedRepFrom = Number.parseInt(repNameFrom.options[repNameFrom.options.selectedIndex].dataset.id, 10);
-        dataTmp.selectedBranchListFrom = dataTmp.repList[dataTmp.selectedRepFrom].branchList;
-
-        if (dataTmp.selectedRepTo === dataTmp.selectedRepFrom) {
-          branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom, dataTmp.selectedBranchTo, dataTmp.selectedBranchFrom);
-        } else {
-          branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
-        }
-      }
-      repNameFrom.addEventListener('change', repNameFromFunc);
-      this.eventCollector.addEvent(repNameFrom, 'change', repNameFromFunc);
-    }
 
     // -------repTo----------
     if (repNameTo) {
