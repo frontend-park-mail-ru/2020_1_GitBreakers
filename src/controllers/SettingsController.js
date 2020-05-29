@@ -85,7 +85,10 @@ export default class SettingsController extends Controller {
         this.eventBus.emit(SETTINGS.profileFail, { message: 'Неверные данные!' });
         break;
       case 409:
-        this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким имененм уже существует!' });
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким именем уже существует!' });
+        break;
+      case 413:
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Файл больше 6 мб!' });
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
