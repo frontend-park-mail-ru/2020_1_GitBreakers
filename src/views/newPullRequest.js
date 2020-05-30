@@ -37,8 +37,6 @@ export default class NewRepPullRequestsView extends View {
   _onRender(data) {
     const dataTmp = data;
 
-    console.log(data);
-
     super.render(dataTmp);
     const msg = document.getElementById('message');
 
@@ -82,7 +80,7 @@ export default class NewRepPullRequestsView extends View {
 
       branchNameFrom.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
       repNameTo.innerHTML = NewRepPullRequestsView._addRepSelectList(dataTmp.repList);
-      branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListFrom);
+      branchNameTo.innerHTML = NewRepPullRequestsView._addBranchSelectList(dataTmp.selectedBranchListTo);
     }
 
 
