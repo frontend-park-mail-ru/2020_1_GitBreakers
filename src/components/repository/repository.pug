@@ -36,7 +36,8 @@ div.section
                         a.route(href='#' data-section=`/${parent_repository_info.author_login}/${parent_repository_info.name}`) #{parent_repository_info.author_login} / #{parent_repository_info.name}
                 else
                     .rep_forked
-                        | Форкнуто от неизвестного репозитория (репозиторий был удалён или нет доступа)            div.rep-menu
+                        | Форкнуто от неизвестного репозитория (репозиторий был удалён или нет доступа)
+            div.rep-menu
                 div.rep-menu-main
                     div.rep-menu__item
                         button.route.code.button(type='submit') Код
