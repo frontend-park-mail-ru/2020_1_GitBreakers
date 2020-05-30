@@ -1,6 +1,8 @@
 import template from 'Components/header/header.pug';
 import View from 'Modules/view.ts';
-import { HEADER } from 'Modules/events';
+import { HEADER, ACTIONS } from 'Modules/events';
+
+
 
 /**
  * Class representing a header view.
@@ -15,6 +17,10 @@ export default class HeaderView extends View {
   constructor(root, eventBus) {
     super(root, template, eventBus);
     this.eventBusCollector.on(HEADER.render, this._onRender.bind(this));
+    this.eventBusCollector.on(
+      ACTIONS.offline,
+      this.showOfflinePopUp.bind(this)
+    );
   }
 
   /**

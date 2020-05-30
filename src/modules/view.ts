@@ -3,7 +3,6 @@ import { EventBus } from 'Modules/eventBus.ts';
 import loader from 'Components/search/search.pug';
 import popUp from 'Components/offline/offline.pug';
 import EventCollector from 'Modules/eventCollector';
-import { ACTIONS } from 'Modules/events';
 
 /** Base display class */
 export default class View {
@@ -46,10 +45,6 @@ export default class View {
    */
   render(data = {}): void {
     this.root.innerHTML = this.template(data);
-    this.eventBusCollector.on(
-      ACTIONS.offline,
-      this.showOfflinePopUp.bind(this)
-    );
   }
 
   /** Draw loader */

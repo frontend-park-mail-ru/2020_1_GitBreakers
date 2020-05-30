@@ -1,6 +1,8 @@
 /* eslint-disable no-return-await */
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
+import eventBus from 'Modules/eventBus.ts';
+import { ACTIONS } from 'Modules/events';
 
 /** Class responsible for authorization, registration, current user, and csrf */
 export default class AuthModel {
@@ -16,6 +18,7 @@ export default class AuthModel {
       }
     })
       .catch((err) => {
+        eventBus.emit(ACTIONS.offline);
         console.log('csrf Error!', err.toString());
       });
   }
@@ -40,6 +43,7 @@ export default class AuthModel {
         };
       })
       .catch((err) => {
+        eventBus.emit(ACTIONS.offline);
         console.log('Model: who am i Error!', err.toString());
       });
   }
@@ -63,6 +67,7 @@ export default class AuthModel {
         };
       })
       .catch((err) => {
+        eventBus.emit(ACTIONS.offline);
         console.log('Model: Sign Up Error!', err.toString());
         return {};
       });
@@ -87,6 +92,7 @@ export default class AuthModel {
         };
       })
       .catch((err) => {
+        eventBus.emit(ACTIONS.offline);
         console.log('Model: Sign In Error!', err.toString());
         return {};
       });
@@ -110,6 +116,8 @@ export default class AuthModel {
         };
       })
       .catch((err) => {
+        eventBus.emit(ACTIONS.offline);
+
         console.log('Model: Logout Error!', err.toString());
         return {};
       });

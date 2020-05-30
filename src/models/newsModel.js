@@ -1,5 +1,7 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
+import eventBus from 'Modules/eventBus.ts';
+import { ACTIONS } from 'Modules/events';
 
 /** Work with repository news */
 export default class NewsModel {
@@ -21,8 +23,11 @@ export default class NewsModel {
           success: false,
           status: res.status,
         };
-      }).catch(() => ({
-        success: false,
-      }));
+      }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+        return {
+          success: false,
+        }
+      });
   }
 }

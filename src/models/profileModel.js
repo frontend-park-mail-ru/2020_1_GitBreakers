@@ -1,5 +1,7 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
+import eventBus from 'Modules/eventBus.ts';
+import { ACTIONS } from 'Modules/events';
 
 /** Class that works with user requests */
 export default class ProfileModel {
@@ -24,6 +26,7 @@ export default class ProfileModel {
       })
       .catch(() => {
         console.log('Model: LoadRepository Profile Error!');
+        eventBus.emit(ACTIONS.offline, {});
         return {};
       });
   }
@@ -49,6 +52,7 @@ export default class ProfileModel {
       })
       .catch(() => {
         console.log('Model: Load Profile Error!');
+        eventBus.emit(ACTIONS.offline, {});
         return {};
       });
   }

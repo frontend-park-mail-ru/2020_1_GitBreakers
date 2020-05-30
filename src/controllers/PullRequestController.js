@@ -5,7 +5,6 @@ import {
 import RepPullRequestsView from 'Views/pullRequest';
 
 import RepositoryModel from 'Models/repositoryModel';
-import authUser from 'Modules/authUser';
 
 /**
  * Class representing a pull request controller.

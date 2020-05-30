@@ -1,5 +1,7 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
+import eventBus from 'Modules/eventBus.ts';
+import { ACTIONS } from 'Modules/events';
 
 /** Class for working with stars */
 export default class StarsModel {
@@ -21,9 +23,13 @@ export default class StarsModel {
           status: res.status,
         };
       })
-      .catch(() => ({
-        success: false,
-      }));
+      .catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {
+          success: false,
+        }
+      });
   }
 
   /**
@@ -44,9 +50,13 @@ export default class StarsModel {
           success: false,
           status: res.status,
         };
-      }).catch(() => ({
-        success: false,
-      }));
+      }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {
+          success: false,
+        }
+      });
   }
 
   /**
@@ -71,8 +81,12 @@ export default class StarsModel {
           success: false,
           status: res.status,
         };
-      }).catch(() => ({
-        success: false,
-      }));
+      }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {
+          success: false,
+        }
+      });
   }
 }

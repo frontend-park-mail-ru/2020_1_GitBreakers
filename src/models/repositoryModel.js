@@ -1,6 +1,8 @@
 import constants from 'Modules/constants';
 import Api from 'Modules/api';
-import { NEWBRANCH } from 'Modules/events';
+import { NEWBRANCH, ACTIONS } from 'Modules/events';
+import eventBus from 'Modules/eventBus.ts';
+
 
 /** class for working with the repository */
 export default class RepositoryModel {
@@ -29,6 +31,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getRepository: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -60,6 +64,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getFileList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -116,6 +122,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getCommitList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -166,6 +174,8 @@ export default class RepositoryModel {
         if (res.statusCode === 200) {
           console.log('Deleted success');
         }
+      }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
       });
   }
 
@@ -194,6 +204,7 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getFile: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
         return {};
       });
   }
@@ -247,6 +258,7 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: New Issue Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
       return {};
     });
   }
@@ -269,9 +281,13 @@ export default class RepositoryModel {
           success: false,
           status: res.status,
         };
-      }).catch(() => ({
-        success: false,
-      }));
+      }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {
+          success: false,
+        };
+      });
   }
 
   /**
@@ -293,6 +309,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Update Issue Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -317,6 +335,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Delete Issue Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -346,32 +366,36 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getDefaultBranch: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
 
   static loadRepRequestsList(data) {
-      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=50&offset=0`;
-      return Api.get(path).then((res) => {
-        if (res.ok) {
-          return res.json()
-              .then((result) => ({
-                success: true,
-                body: result,
-              }), () => ({
-                success: false,
-                status: 'Something wrong with json',
-              }));
-        }
-        return {
-          success: false,
-          status: res.status,
-        };
-      })
-          .catch(() => {
-            console.log('Model: getRepositoryPullRequestsList: something goes wrong');
-            return {};
-          });
+    const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=50&offset=0`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getRepositoryPullRequestsList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
   }
 
 
@@ -382,23 +406,25 @@ export default class RepositoryModel {
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
-            .then((result) => ({
-              success: true,
-              body: result,
-            }), () => ({
-              success: false,
-              status: 'Something wrong with json',
-            }));
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
       }
       return {
         success: false,
         status: res.status,
       };
     })
-        .catch(() => {
-          console.log('Model: getAllPullRequestsList: something goes wrong');
-          return {};
-        });
+      .catch(() => {
+        console.log('Model: getAllPullRequestsList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
   }
 
 
@@ -427,6 +453,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: New  Pull Request Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -451,6 +479,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Delete Pull Request Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -475,6 +505,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Update (accept) Pull Request Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -503,6 +535,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getPullRequestsListInfo: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -529,6 +563,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getPullRequestsListDiff: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -554,6 +590,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getPullRequestsListInfo: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
