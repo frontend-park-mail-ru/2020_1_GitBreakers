@@ -85,33 +85,40 @@ export default class OnePullRequestController extends RepositoryController {
       }
 
 
-      const branchData = {};
-      branchData.author = this.data.RequestInfo.from_author_login;
-      branchData.repName = this.data.RequestInfo.from_repo_name;
-      branchData.branchName = this.data.RequestInfo.branch_from;
+      if (this.data.RequestInfo.status !== 'bad_from_branch') {
 
-      const branchFromRes = await RepositoryModel.loadBranchByName(branchData);
+        const branchData = {};
+        branchData.author = this.data.RequestInfo.from_author_login;
+        branchData.repName = this.data.RequestInfo.from_repo_name;
+        branchData.branchName = this.data.RequestInfo.branch_from;
 
-      if (branchFromRes.success) {
-        const branchFromInfo = await branchFromRes.body;
-        this.data.RequestInfo.branch_from_hash = branchFromInfo.commit.commit_hash;
-      } else {
-        console.log('Не удалось получить данные об исходной ветке');
-        this.data.RequestInfo.branch_from_hash = null;
+        const branchFromRes = await RepositoryModel.loadBranchByName(branchData);
+
+        if (branchFromRes.success) {
+          const branchFromInfo = await branchFromRes.body;
+          this.data.RequestInfo.branch_from_hash = branchFromInfo.commit.commit_hash;
+        } else {
+          console.log('Не удалось получить данные об исходной ветке');
+          this.data.RequestInfo.branch_from_hash = null;
+        }
       }
 
-      branchData.author = this.data.RequestInfo.to_author_login;
-      branchData.repName = this.data.RequestInfo.to_repo_name;
-      branchData.branchName = this.data.RequestInfo.branch_to;
+      if (this.data.RequestInfo.status !== 'bad_to_branch') {
 
-      const branchToRes = await RepositoryModel.loadBranchByName(branchData);
+        const branchData = {};
+        branchData.author = this.data.RequestInfo.to_author_login;
+        branchData.repName = this.data.RequestInfo.to_repo_name;
+        branchData.branchName = this.data.RequestInfo.branch_to;
 
-      if (branchToRes.success) {
-        const branchToInfo = await branchToRes.body;
-        this.data.RequestInfo.branch_to_hash = branchToInfo.commit.commit_hash;
-      } else {
-        console.log('Не удалось получить данные о целевой ветке');
-        this.data.RequestInfo.branch_to_hash = null;
+        const branchToRes = await RepositoryModel.loadBranchByName(branchData);
+
+        if (branchToRes.success) {
+          const branchToInfo = await branchToRes.body;
+          this.data.RequestInfo.branch_to_hash = branchToInfo.commit.commit_hash;
+        } else {
+          console.log('Не удалось получить данные о целевой ветке');
+          this.data.RequestInfo.branch_to_hash = null;
+        }
       }
 
       switch (this.data.RequestInfo.status) {

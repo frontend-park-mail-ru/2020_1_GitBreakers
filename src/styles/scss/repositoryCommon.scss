@@ -213,7 +213,7 @@
         justify-content: space-between;
         font-size: 105%;
     }
-  
+
     &__message {
 
         &__title {
@@ -263,6 +263,14 @@
 
         &-large {
             color: #0e1021;
+        }
+
+        &-light {
+            text-decoration: none;
+            margin-left: 9px;
+            margin-top: -5px;
+            font-style: normal;
+            font-weight: normal;
         }
 
         &-none {

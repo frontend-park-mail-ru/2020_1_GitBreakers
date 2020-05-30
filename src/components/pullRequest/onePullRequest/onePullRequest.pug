@@ -10,6 +10,7 @@ div.section
 
 
         div.section__main
+            a.route.request_link.request_link-light(href='#' data-section=`/user/${RequestInfo.author_name}/pull_requests`) Вернуться к списку
             hr.line-separator.line-separator_thin
 
             if RequestState === 'error'
