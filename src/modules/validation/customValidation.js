@@ -22,12 +22,10 @@ export default class CustomValidation {
       if (isInvalid) {
         this.addInvalidity(validityCheck.invalidityMessage);
       }
-
     });
   }
 
   checkInput() {
-
     this.inputNode.CustomValidation.invalidities = [];
     this.checkValidity(this.inputNode);
 

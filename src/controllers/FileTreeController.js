@@ -2,13 +2,13 @@ import RepositoryController from 'Controllers/RepositoryController';
 import RepFilesView from 'Views/repFiles';
 import { TREEPAGE, UPLOAD } from 'Modules/events';
 import RepositoryModel from 'Models/repositoryModel';
+import authUser from "Modules/authUser";
 
 /**
  * Class representing a file tree controller.
  * @extends RepositoryController
  */
 export default class FileTreeController extends RepositoryController {
-
   /**
    * Initialize view for file tree page.
    * @param {HTMLElement} root.
@@ -18,7 +18,6 @@ export default class FileTreeController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepFilesView(root, eventBus);
-
   }
 
   /**
@@ -95,6 +94,8 @@ export default class FileTreeController extends RepositoryController {
 
     if (result.success) {
       await this._loadFileList(await result.body);
+
+      this.data.auth = authUser.isAuth;
       this.eventBus.emit(TREEPAGE.render, this.data);
     } else {
       console.log(result.status);

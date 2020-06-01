@@ -1,14 +1,26 @@
-import { IReturnPromise } from "./../modules/IModel";
-import Api from "../modules/api";
-import constants from "../modules/constants";
+import ReturnPromise from 'Modules/IModel.ts';
+import Api from 'Modules/api';
+import constants from 'Modules/constants';
+import eventBus from 'Modules/eventBus.ts';
+import { ACTIONS } from 'Modules/events';
 
+/**
+ *  Class representing a search model.
+ */
 export default class SearchModel {
+  /**
+   * Get infomation about query in api db.
+   * @param params search place
+   * @param query - search value
+   * @param limit - limit
+   * @param offset - offset
+   */
   static search(
     params: string,
     query: string,
     limit = 20,
     offset = 0
-  ): Promise<IReturnPromise> {
+  ): Promise<ReturnPromise> {
     return Api.get(
       `${constants.HOST}/func/search/${params}?query=${query}&limit=${limit}&offset=${offset}`
     )
@@ -25,6 +37,8 @@ export default class SearchModel {
         };
       })
       .catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
         return {
           success: false,
           status: 0,

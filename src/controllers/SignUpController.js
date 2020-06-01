@@ -1,5 +1,5 @@
 import authUser from 'Modules/authUser';
-import Controller from 'Modules/controller';
+import Controller from 'Modules/controller.ts';
 import { SIGNUP, HEADER, ACTIONS } from 'Modules/events';
 import SignUp from 'Views/signUpView';
 import AuthModel from 'Models/authModel';
@@ -9,7 +9,6 @@ import AuthModel from 'Models/authModel';
  * @extends Controller
  */
 export default class SignUpController extends Controller {
-
   /**
    * Initialize view for sign in page.
    * @param {HTMLElement} root.
@@ -72,6 +71,6 @@ export default class SignUpController extends Controller {
     } else {
       super.open();
     }
-    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    // this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
   }
 }

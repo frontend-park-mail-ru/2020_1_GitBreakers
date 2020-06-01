@@ -1,4 +1,4 @@
-import View from 'Modules/view';
+import View from 'Modules/view.ts';
 import template from 'Components/profileRepositories/profileRepositories.pug';
 import { PROFILE } from 'Modules/events';
 import authUser from 'Modules/authUser';
@@ -8,7 +8,6 @@ import authUser from 'Modules/authUser';
  * @extends View
  */
 export default class ProfileView extends View {
-
   /**
    * Initialize template for profile page view.
    * @param {HTMLElement} root.
@@ -16,7 +15,6 @@ export default class ProfileView extends View {
    */
   constructor(root, eventBus) {
     super(root, template, eventBus);
-
   }
 
   /**

@@ -1,6 +1,6 @@
 import NewRepositoryView from 'Views/newRepository';
 import { NEWREPOSITORY, ACTIONS } from 'Modules/events';
-import Controller from 'Modules/controller';
+import Controller from 'Modules/controller.ts';
 import authUser from 'Modules/authUser';
 import NewRepositoryModel from '../models/newRepositoryModel';
 
@@ -32,7 +32,7 @@ export default class NewRepositoryController extends Controller {
       this.onFinishLoadWhoAmI();
     } else {
       // this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+      this.eventBusCollector.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
   }
 
@@ -44,7 +44,7 @@ export default class NewRepositoryController extends Controller {
   async createNewRepository(body = {}) {
     const result = await NewRepositoryModel.createNewRepository(body);
     if (result.success) {
-      this.redirect({ path: `/${authUser.getUser}/${body.name}/branches` });
+      this.redirect({ path: `/${authUser.getUser}/${body.name}` });
       return;
     }
     switch (result.status) {

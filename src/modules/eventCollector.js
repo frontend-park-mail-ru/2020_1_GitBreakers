@@ -12,11 +12,13 @@ export default class EventListenerCollector {
    * @param {HTMLElement} target - the goal to hang the event on
    * @param {string} action
    * @param {strign} func - function
-   * @param  {...any} other 
+   * @param  {...any} other
    */
   addEvent(target, action, func, ...other) {
     if (other.length === 1) {
-      this.collector.push({ target, action, func, option: other[0] });
+      this.collector.push({
+        target, action, func, option: other[0],
+      });
       return;
     }
     this.collector.push({ target, action, func });
@@ -27,12 +29,14 @@ export default class EventListenerCollector {
    */
   removeEvents() {
     this.collector.forEach((item) => {
-      const { target, action, func, option } = item;
+      const {
+        target, action, func, option,
+      } = item;
       if (option !== undefined) {
         target.removeEventListener(action, func, option);
       } else {
         target.removeEventListener(action, func);
       }
-    })
+    });
   }
 }

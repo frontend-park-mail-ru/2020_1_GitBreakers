@@ -7,7 +7,6 @@ import template from 'Components/repStars/repStars.pug';
  * @extends RepositoryBaseView
  */
 export default class RepositoryStarsView extends RepositoryBaseView {
-
   /**
    * Initialize template for stars page view.
    * @param {HTMLElement} root.

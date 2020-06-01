@@ -10,7 +10,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class FileController extends RepositoryController {
-
   /**
    * Initialize view for file page.
    * @param {HTMLElement} root.
@@ -19,7 +18,6 @@ export default class FileController extends RepositoryController {
    */
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
-
     this.view = new FileView(root, eventBus);
   }
 
@@ -60,12 +58,43 @@ export default class FileController extends RepositoryController {
         case 404:
           this.eventBus.emit(UPLOAD.changePath, '/404');
           break;
+        case 406:
+          console.log('Binary');
+
+          await this._getBinaryFile(await result.body);
+          this.eventBus.emit(FILEVIEW.render, this.data);
+
+          break;
         default:
           console.log('Неизвестная ошибка! ', result.status);
           break;
       }
     }
   }
+
+
+  /**
+   * Process link to get binary file.
+   * @private
+   */
+  async _getBinaryFile () {
+
+    this.data.author = this.author;
+    this.data.repName = this.repository;
+    this.data.branchTitle = this.data.branchName;
+    this.data.branchName = this.branchName;
+    this.data.defaultBranch = this.defaultBranch;
+    this.data.filePath = this.filePath;
+    this.data.themeStyle = 'Light';
+
+    const fileUrl = `${constants.HOST}/repo/${this.author}/${this.repository}/branch/${this.data.branchTitle}/tree/${this.filePath}`;
+    this.data.fileUrl = fileUrl;
+
+    this.data.fileType = 'fileForLoad';
+    this.data.message = 'Файл недоступен для предпросмотра';
+  }
+
+
 
   /**
    * Process data about file and its content.
@@ -86,7 +115,7 @@ export default class FileController extends RepositoryController {
     const blob = new Blob([content]);
     this.data.fileUrl = URL.createObjectURL(blob);
 
-    const maxSize = 10000;
+    const maxSize = 500000;
     if (res.file_info.file_size > maxSize) {
       this.data.fileType = 'fileForLoad';
       this.data.message = 'Файл слишком большой для отображения';
@@ -94,12 +123,12 @@ export default class FileController extends RepositoryController {
     }
     if (res.file_info.is_binary) {
       this.data.fileType = 'fileForLoad';
-      this.data.message = "Файл недоступен для предпросмотра";
+      this.data.message = 'Файл недоступен для предпросмотра';
       console.log('binary');
       return;
     }
 
-    const regRes = this.data.fileName.match('(?<=.)[\\w_-]+$');
+    const regRes = this.data.fileName.match('[\\w-]+(?<=.)[\\w_-]+$');
     if (regRes) {
       [this.data.type] = regRes;
     }

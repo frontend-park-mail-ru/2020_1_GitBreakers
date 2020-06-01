@@ -7,7 +7,6 @@ import { UPLOAD, COMMITSPAGE } from 'Modules/events';
  * @extends RepositoryBaseView
  */
 export default class RepCommitsView extends RepositoryBaseView {
-
   /**
    * Initialize template for commits page view.
    * @param {HTMLElement} root.
@@ -35,12 +34,11 @@ export default class RepCommitsView extends RepositoryBaseView {
 
     const branch = document.getElementById('branchName');
     if (branch) {
-
       const func = () => {
         const branchName = branch.value;
         const path = `/${data.author}/${data.repName}/commits/${branchName}`;
         this.eventBus.emit(UPLOAD.changePath, path);
-      }
+      };
 
       branch.addEventListener('change', func);
       this.eventCollector.addEvent(branch, 'change', func);

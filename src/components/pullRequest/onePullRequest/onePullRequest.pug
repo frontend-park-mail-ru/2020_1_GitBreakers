@@ -1,0 +1,44 @@
+div.section
+    div.card
+        div.section__title
+            h2.title.request__title #{RequestInfo.title}
+            div
+                div.request__title_data Репозиторий: &nbsp
+                    a.route.request_link-none(href='#' data-section=`/${RequestInfo.from_author_login}/${RequestInfo.from_repo_name}`) #{RequestInfo.from_author_login}/#{RequestInfo.from_repo_name}
+                - let updated = new Date(RequestInfo.created_at)
+                div.request__title_data Дата создания: !{updated.toLocaleDateString()}
+
+
+        div.section__main
+            a.route.request_link.request_link-light(href='#' data-section=`/user/${RequestInfo.author_name}/pull_requests`) Вернуться к списку
+            hr.line-separator.line-separator_thin
+
+            if RequestState === 'error'
+                div.request__border.request__border-error
+                    div.request__border_text.request__border_text-error
+                        div.request__border_text-error-bold Ошибка
+                        div #{RequestInfo.StateMessage}
+
+            if RequestState === 'opened'
+                div.request__state
+                    div.request__status.request__status-green
+                        div.request__status_text.request__status_text-green Открыт
+
+            if RequestState === 'deleted' || RequestState === 'accepted'
+                div.request__state
+                    div.request__status.request__status-grey
+                        div.request__status_text.request__status_text-grey Закрыт
+
+            div.repository
+                    input#infoLink.repository__top__menu_link(type="radio" name = "requestLink" "checked")
+                    label.repository__top__menu_label(for="infoLink") Информация
+                    input#diffLink.repository__top__menu_link(type="radio" name = "requestLink")
+
+
+                    if RequestInfo.RequestState !== 'error'
+                        label.repository__top__menu_label(for="diffLink") Изменения
+                        span#requestMessage.issue_info_message #{successMsg}
+
+                    hr.line-separator.line-separator_extra-thin(style="margin-top: 4px")
+                    div#requestPage.requestPage
+            hr.line-separator.line-separator_thin

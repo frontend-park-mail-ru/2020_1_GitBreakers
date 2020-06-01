@@ -1,5 +1,5 @@
 import authUser from 'Modules/authUser';
-import Controller from 'Modules/controller';
+import Controller from 'Modules/controller.ts';
 // import SignInView from 'Views/signInView';
 import AuthModel from 'Models/authModel';
 import { SIGNIN, HEADER, ACTIONS } from 'Modules/events';
@@ -10,7 +10,6 @@ import SignInView from 'Views/signInView';
  * @extends Controller
  */
 export default class SignInController extends Controller {
-
   /**
    * Initialize view for sign in page.
    * @param {HTMLElement} root.
@@ -32,7 +31,7 @@ export default class SignInController extends Controller {
       this.onFinishLoadWhoAmI();
     } else {
       // this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+      this.eventBusCollector.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
   }
 
@@ -79,8 +78,6 @@ export default class SignInController extends Controller {
     } else {
       super.open();
     }
-    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    // this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
   }
-
-
 }

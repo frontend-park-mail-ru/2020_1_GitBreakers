@@ -100,11 +100,15 @@ a:hover {
 .error-msg {
   color: red;
   font-weight: bold;
-  font-size: 150%;
+  font-size: 110%;
 }
 
 .success-msg {
   color: rgb(106, 202, 68);
   font-weight: bold;
-  font-size: 150%;
+  font-size: 110%;
+}
+
+textarea {
+  resize: none
 }

@@ -1,16 +1,18 @@
-/* eslint-disable no-undef */
+/* eslint-disable import/order */
+/* eslint-disable no-empty */
 import { FILEVIEW } from 'Modules/events';
 import CodeTheme from 'Modules/codeTheme';
-import 'Modules/prettify/prettify';
+import hljs from 'highlight.js';
 import RepositoryBaseView from './repositoryBaseView';
 import template from '../components/fileView/fileView.pug';
+import 'highlight.js/styles/vs.css';
+import { Remarkable } from 'remarkable';
 
 /**
  * Class representing a file view.
  * @extends RepositoryBaseView
  */
 export default class FileView extends RepositoryBaseView {
-
   /**
    * Initialize code theme and template for file page view.
    * @param {HTMLElement} root.
@@ -37,10 +39,37 @@ export default class FileView extends RepositoryBaseView {
    */
   _onRender(data) {
     const dataTmp = data;
+    if ((data.fileType !== 'fileForLoad') && (data.type !== 'md')) {
+      try {
+        dataTmp.fileContent = hljs.highlight(data.type, data.fileContent, true).value;
+      } catch (error) {
+        console.log('File path error!');
+      }
+    } else if (data.type === 'md') {
+      const md = new Remarkable({
+        highlight(str, lang) {
+          if (lang && hljs.getLanguage(lang)) {
+            try {
+              return hljs.highlight(lang, str).value;
+            } catch (err) { }
+          }
+
+          try {
+            return hljs.highlightAuto(str).value;
+          } catch (err) { }
+
+          return ''; // use external default escaping
+        }
+      });
+      dataTmp.fileContent = md.render(data.fileContent);
+    }
+
+
     super.render(dataTmp);
-    prettyPrint();
+
 
     const theme = document.getElementById('themeStyle');
+    if (!theme) return;
     theme.innerText = 'Тёмная тема';
     this.codeTheme.createCodeTheme(dataTmp.themeStyle);
 
@@ -48,14 +77,14 @@ export default class FileView extends RepositoryBaseView {
       event.preventDefault();
 
       if (dataTmp.themeStyle === 'Light') {
-        theme.innerText = `Светлая тема`;
+        theme.innerText = 'Светлая тема';
         dataTmp.themeStyle = 'Dark';
       } else {
-        theme.innerText = `Тёмная тема`;
+        theme.innerText = 'Тёмная тема';
         dataTmp.themeStyle = 'Light';
       }
       this.codeTheme.createCodeTheme(dataTmp.themeStyle);
-    }
+    };
 
     theme.addEventListener('click', func);
     this.eventCollector.addEvent(theme, 'click', func);

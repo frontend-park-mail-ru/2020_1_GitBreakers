@@ -11,12 +11,18 @@
   &__stars {
     border: 1px solid black;
 
-    &__text {
-    }
-
     &__counter {
     }
   }
+}
+
+.form__item-repName {
+  font-weight: bold;
+  margin: 10px 0 10px 0;
+}
+
+.form__item-request {
+  margin: 20px 0 20px 10px;
 }
 
 .other__container {

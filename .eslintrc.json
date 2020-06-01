@@ -11,14 +11,19 @@
   },
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module"
+    "sourceType": "module",
+    // Движку нужен проект TS для правил с типами
+    "project": "./tsconfig.json"
   },
   "rules": {
     "no-underscore-dangle": "off",
     "no-console": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off"
   },
   "settings": {
+    "import/extensions": [".js", ".ts"],
     "import/resolver": {
       "alias": {
         "map": [
@@ -31,5 +36,33 @@
         ]
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "import/no-named-as-default": "off",
+        "import/no-named-as-default-member": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/prefer-regexp-exec": "off"
+      },
+      "extends": [
+        // Базовый набор правил eslint
+        "eslint:recommended",
+        // Отключаем правила из базового набора
+        "plugin:@typescript-eslint/eslint-recommended",
+        // Базовые правила для TypeScript
+        "plugin:@typescript-eslint/recommended",
+        // Правила TS, требующие инфо о типах
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+
+        "prettier/@typescript-eslint"
+      ]
+    }
+  ]
 }

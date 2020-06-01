@@ -1,16 +1,49 @@
-extends ../repository/repository.pug
-block content
-    input#openedLink.repository__top__menu_link(type="radio" name = "requestLink" "checked")
-    label.repository__top__menu_label(for="openedLink") Открытые
-    input#closedLink.repository__top__menu_link(type="radio" name = "requestLink")
-    label.repository__top__menu_label(for="closedLink") Закрытые
-    span#requestMessage.issue_info_message #{successMsg}
+div.section
+    div.card
+        div.section__title
+            .section__title__item
+                h2.title
+                    span
+                        a.route(href='#' data-section=`/user/${author}/pull_requests`) Пулл реквесты
+                    span
 
-    hr.line-separator.line-separator_extra-thin(style="margin-top: 4px")
-    div#repository__list__requests
-        hr.line-separator.line-separator_extra-thin
+        div.section__main
+            hr.line-separator.line-separator_thin
+            div.repository
+                if reqList
+                    form.form-horizontal(action='#' name="selectRep")
+                        div.form-horizontal__item(style="margin-left: -1px")
+                            label.form-horizontal__item__label(for="repName")
+                            select#repName.form__item__input(name="repName")
+                                if !dir
+                                    option(selected value='all') Все
+                                else
+                                    option(value='all') Все
+                                if dir === 'to'
+                                    option(selected value='to') Принимаемые
+                                else
+                                    option(value='to') Принимаемые
+                                if dir === 'from'
+                                    option(selected value='from') Созданные
+                                else
+                                    option(value='from') Созданные
 
-block button
-    div.repository__top_button
-        button#newRequest.button.button-small(type="submit") Создать пулл реквест
-    span#successMessage.success-msg
+
+                    hr.line-separator.line-separator_extra-thin(style="margin-bottom: 15px")
+
+                    input#openedLink.repository__top__menu_link(type="radio" name = "requestLink" "checked")
+                    label.repository__top__menu_label(for="openedLink") Открытые
+                    input#acceptedLink.repository__top__menu_link(type="radio" name = "requestLink")
+                    label.repository__top__menu_label(for="acceptedLink") Принятые
+                    input#deletedLink.repository__top__menu_link(type="radio" name = "requestLink")
+                    label.repository__top__menu_label(for="deletedLink") Удалённые
+                    span#requestMessage.issue_info_message #{successMsg}
+
+                    span#requestMessage.request_info_message #{message}
+
+                    hr.line-separator.line-separator_extra-thin(style="margin-top: 4px")
+                    div#repository__list__requests
+                else
+                    span.repository__list__item_info У вас пока нет пулл реквестов
+            hr.line-separator.line-separator_thin
+

@@ -3,14 +3,13 @@ import template from 'Components/issues/issues.pug';
 import oneIssuetemplate from 'Components/issues/oneIssue/oneIssue.pug';
 import { ISSUES, REPOSITORY } from 'Modules/events';
 import authUser from 'Modules/authUser';
-import issue from 'Components/issues/listOfIssues.pug'
+import issue from 'Components/issues/listOfIssues.pug';
 
 /**
  * Class representing a issues page view.
  * @extends RepositoryBaseView
  */
 export default class RepIssuesView extends RepositoryBaseView {
-
   /**
    * Initialize template for issues page view.
    * @param {HTMLElement} root.
@@ -46,7 +45,6 @@ export default class RepIssuesView extends RepositoryBaseView {
    * @private
    */
   static _successMessage(data) {
-    console.log(data);
     const successMessage = document.getElementById('successMessage');
     successMessage.innerText = data.message;
   }
@@ -73,7 +71,6 @@ export default class RepIssuesView extends RepositoryBaseView {
 
     const menu = document.getElementsByClassName('repository__top__menu_link');
     for (let i = 0; i < menu.length; i += 1) {
-
       const func = (event) => {
         const { target } = event;
         if (target.id === 'openedLink') {
@@ -84,7 +81,7 @@ export default class RepIssuesView extends RepositoryBaseView {
           dataTmp.tab = 'resolved';
         }
         this.setLinkListener(dataTmp);
-      }
+      };
 
       menu[i].addEventListener('change', func);
       this.eventCollector.addEvent(menu[i], 'change', func);
@@ -107,13 +104,12 @@ export default class RepIssuesView extends RepositoryBaseView {
       }
       newIssueButton.dataset.active = dataTmp.newIssueForm;
       newIssueButton.dataset.section = window.location.pathname;
-    }
+    };
 
     newIssueButton.addEventListener('click', func);
     this.eventCollector.addEvent(newIssueButton, 'click', func);
 
     this._createNewIssueListener(dataTmp);
-
   }
 
   /**
@@ -123,7 +119,6 @@ export default class RepIssuesView extends RepositoryBaseView {
   setLinkListener(data) {
     const issueLinkList = document.getElementsByClassName('issueLink');
     for (let i = 0; i < issueLinkList.length; i += 1) {
-
       const func = (event) => {
         const { target } = event;
         const msgElement = document.getElementById(`issuemsg_${target.dataset.id}`);
@@ -133,8 +128,8 @@ export default class RepIssuesView extends RepositoryBaseView {
           msgElement.innerHTML = data[data.tab][target.dataset.id].message;
           msgElement.dataset.opened = 'true';
 
-          if (data.tab === 'unresolved' &&
-            (authUser.getUserId === data[data.tab][target.dataset.id].author_id
+          if (data.tab === 'unresolved'
+            && (authUser.getUserId === data[data.tab][target.dataset.id].author_id
               || authUser.getUser === data.author)) {
             this.addButtons(buttonElement, target.dataset.id, data);
           }
@@ -143,7 +138,7 @@ export default class RepIssuesView extends RepositoryBaseView {
           buttonElement.innerHTML = '';
           msgElement.dataset.opened = 'false';
         }
-      }
+      };
 
       issueLinkList[i].addEventListener('click', func);
       this.eventCollector.addEvent(issueLinkList[i], 'click', func);
@@ -161,8 +156,7 @@ export default class RepIssuesView extends RepositoryBaseView {
     Object.entries(itemList).forEach((item) => {
       const value = item[1];
       htmlStr += issue({ item: value });
-
-    })
+    });
 
     return htmlStr;
   }
@@ -193,19 +187,18 @@ export default class RepIssuesView extends RepositoryBaseView {
       item.innerHTML = oneIssuetemplate({
         oldTitle: data[data.tab][id].title,
         oldMsg: data[data.tab][id].message,
-        oldLabel: data[data.tab][id].label,
+
       });
       this._createUpdateIssueListener(data, id);
-    }
+    };
 
     buttonUpdate.addEventListener('click', updateFunc);
-    this.eventCollector.addEvent(buttonUpdate, 'click', updateFunc)
+    this.eventCollector.addEvent(buttonUpdate, 'click', updateFunc);
 
     const closeFunc = (event) => {
       event.preventDefault();
-      this.eventBus.emit(ISSUES.deleteIssue, { id: (Number.parseInt(id, 10)), });
-
-    }
+      this.eventBus.emit(ISSUES.deleteIssue, { id: (Number.parseInt(id, 10)) });
+    };
     buttonClose.addEventListener('click', closeFunc);
     this.eventCollector.addEvent(buttonClose, 'click', closeFunc);
   }
@@ -229,11 +222,10 @@ export default class RepIssuesView extends RepositoryBaseView {
         repo_id: data.repId,
         title: newIssueForm.issueTitle.value,
         message: newIssueForm.issueMsg.value,
-        label: newIssueForm.issueLabel.value,
         is_closed: false,
-      }
+      };
       this.eventBus.emit(ISSUES.submitNewIssue, { formData, msg: 'Задача успешно создана!' });
-    }
+    };
 
     createIssue.addEventListener('click', func);
     this.eventCollector.addEvent(createIssue, 'click', func);
@@ -259,7 +251,7 @@ export default class RepIssuesView extends RepositoryBaseView {
         id: (Number.parseInt(id, 10)),
       };
       this.eventBus.emit(ISSUES.submitUpdateIssue, { formData, msg: 'Задача успешно изменена!' });
-    }
+    };
 
     createIssue.addEventListener('click', func);
     this.eventCollector.addEvent(createIssue, 'click', func);

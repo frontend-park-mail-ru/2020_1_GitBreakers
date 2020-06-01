@@ -1,4 +1,4 @@
-import View from 'Modules/view';
+import View from 'Modules/view.ts';
 import template from 'Components/newRepository/newRepository.pug';
 import { NEWREPOSITORY } from 'Modules/events';
 import errorMessage from 'Modules/errorMessage';
@@ -10,7 +10,6 @@ import { repNameValidityChecks } from 'Modules/validation/validationParams';
  * @extends View
  */
 export default class newRepositoryView extends View {
-
   /**
    * Initialize template for new repository page view.
    * @param {HTMLElement} root.
@@ -49,14 +48,14 @@ export default class newRepositoryView extends View {
     const submitFunc = (e) => {
       validate();
       e.preventDefault();
-      const descriptionInputValue = form['rep-description'].value;  
+      const descriptionInputValue = form['rep-description'].value;
       const isPublicInputValue = form['rep-status'].value;
       this.eventBus.emit(NEWREPOSITORY.submit, {
         name: nameInput.value,
         description: descriptionInputValue,
         is_public: (isPublicInputValue === 'public'),
       });
-    }
+    };
 
     document.forms.newRepository.addEventListener('submit', submitFunc, false);
     this.eventCollector.addEvent(document.forms.newRepository, 'submit', submitFunc, false);

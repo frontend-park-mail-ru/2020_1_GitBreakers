@@ -2,8 +2,10 @@ extends ../repository/repository.pug
 block content
     div.repository__top
         div.repository__top_path #{repName}/#{branchName}/#{repPath}
-        div.repository__top_button
-            //button.add.button.button-extra-small.button-colored(type='submit') Add file
+        if branchList && auth
+            div.repository__top_button
+                button#newRequest.route.button.button-extra-small.button-colored(type='submit') Новый пулл реквест
+
 
     if branchList
         table.repository__tree
@@ -13,8 +15,7 @@ block content
                     td.column-thin
                         img.repository__tree__item_icon(src="/img/folder.png")
                         a.route.repository__tree__item_title.folder(name=folder.name) #{folder.name}
-                    td.column-thick
-                       // div.repository__tree__item_commit #{folder.commit} commit_info
+
                     td.column-very-thin
                         //div.repository__tree__item_info #{folder.update} yesterday
                         div.repository__tree__item_info #{folder.update} папка
@@ -24,14 +25,30 @@ block content
                     td.column-thin
                         img.repository__tree__item_icon(src="/img/file.png")
                         a.route.repository__tree__item_title.file(name=file.name) #{file.name}
-                    td.column-thick
-                        // div.repository__tree__item_commit #{file.commit} commit_info
+
                     td.column-very-thin
                         //div.repository__tree__item_info #{file.update} yesterday
                         div.repository__tree__item_info #{file.update} файл
 
     else
         div
-            span В этом репозитории пока что ничего нет.
+            hr.line-separator.line-separator_extra-thin(style="margin-bottom: 20px")
+            //- span В этом репозитории пока что ничего нет.
             // span Вы можете создать новую ветку &nbsp
             // a.bright__link(href = '/'+author+'/'+repName+'/branches') здесь
+            div.repository__list__item_info Создайте новый репозиторий в командной строке
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | echo "# !{repName}" >> README.md
+                    | git init
+                    | git add README.md
+                    | git commit -m "first commit"
+                    | git remote add origin https://code-hub.space/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin
+            div.repository__list__item_info Или запуште репозиторий через командную строку
+                pre
+                    hr.line-separator.line-separator_extra-thin
+                    | git remote add origin https://code-hub.space/!{author}/!{repName}.git
+                    | git push -u origin master
+                    hr.line-separator.line-separator_extra-thin

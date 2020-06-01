@@ -1,10 +1,15 @@
 div.repository__list
     hr.line-separator.line-separator_extra-thin
     div.repository__list__item
-        a.route.branchLink.repository__list__item_title #{item.title}
+        h3
+            a.route.requestLink.repository__list__item_title(id = item.id data-section=`/user/${author}/pull_request/${item.id}`) #{item.title}
         div.repository__list__item_info открыт: #{item.date}
-        div.repository__list__item_info #{item.branch_from} -> #{item.branch_to}
-    div.repository__list__item_info-label Метка: #{item.label}
-    div.repository__list__item_message(id=`issuemsg_${item.message}`) #{item.message}
+        div.repository__list__item_info
+            span #{item.from_author_login}/#{item.from_repo_name} &nbsp
+            span(style='font-weight: bold') #{item.branch_from} &nbsp
+            span -> #{item.to_author_login}/#{item.to_repo_name} &nbsp
+            span(style='font-weight: bold') #{item.branch_to}
+
+    div.repository__list__item_message(id=`msg_${item.message}`) #{item.message}
 
     div.repository__list__item__buttonField(id=`button_${item.id}`)

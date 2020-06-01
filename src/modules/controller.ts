@@ -1,28 +1,27 @@
-import { IEventBus } from "./eventBus";
-import { IRouter } from "../modules/router";
-import { IEventBusCollector } from "../modules/eventBusCollector";
-import EventBusCollector from "../modules/eventBusCollector";
-
-export interface IController {
-  open(data?: object): void;
-  close(): void;
-  redirect(): void;
-}
+import View from 'Modules/view.ts';
+import { EventBus } from 'Modules/eventBus.ts';
+// import Router from 'Modules/router.ts';
+import EventBusCollector from 'Modules/eventBusCollector.ts';
 
 /** Base controller class */
 export default class Controller {
   root: HTMLElement;
-  eventBus: IEventBus;
-  router: IRouter;
-  eventBusCollector: IEventBusCollector;
-  view: any;
+
+  eventBus: EventBus;
+
+  router: any;
+
+  eventBusCollector: EventBusCollector;
+
+  view: View;
+
   /**
    *
    * @param {HTMLDivElement} root - tag where all content will be inserted
    * @param {EventBus} eventBus.
    * @param {Router} router.
    */
-  constructor(root: HTMLElement, eventBus: IEventBus, router: IRouter) {
+  constructor(root: HTMLElement, eventBus: EventBus, router: any) {
     this.root = root;
     this.eventBus = eventBus;
     this.router = router;
@@ -34,17 +33,17 @@ export default class Controller {
    *
    * @param {object} param0 - contains the path
    */
-  redirect({ path = "/", replace = false } = {}) {
+  redirect({ path = '/', replace = false } = {}): void {
     this.router.go(path, {}, replace);
   }
 
   /** Open view */
-  open(data = {}) {
+  open(data = {}): void {
     this.view.render(data);
   }
 
   /** Close view и remove all subscriptions from eventBus. */
-  close() {
+  close(): void {
     this.view.hide();
     this.eventBusCollector.clean();
   }

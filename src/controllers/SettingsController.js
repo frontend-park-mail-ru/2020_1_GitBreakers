@@ -1,4 +1,4 @@
-import Controller from 'Modules/controller';
+import Controller from 'Modules/controller.ts';
 import SettingsView from 'Views/settingsView';
 import { SETTINGS, ACTIONS } from 'Modules/events';
 import ProfileModel from 'Models/profileModel';
@@ -10,7 +10,6 @@ import AuthModel from 'Models/authModel';
  * @extends Controller
  */
 export default class SettingsController extends Controller {
-
   /**
    * Initialize view for settings page.
    * @param {HTMLElement} root.
@@ -36,7 +35,7 @@ export default class SettingsController extends Controller {
       this.onFinishLoadWhoAmI();
     } else {
       // this.view.renderLoader();
-      this.eventBus.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+      this.eventBusCollector.on(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
     }
   }
 
@@ -58,12 +57,14 @@ export default class SettingsController extends Controller {
       case 401:
         this.redirect({ path: '/signin', replace: true });
         break;
+      case 413:
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Файл больше 6 мб!' });
+        break;
       case 400:
         this.eventBus.emit(SETTINGS.avatarFail, { message: 'Файл неподходящего формата или больше 6MB!' });
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
-
     }
   }
 
@@ -87,7 +88,7 @@ export default class SettingsController extends Controller {
         this.eventBus.emit(SETTINGS.profileFail, { message: 'Неверные данные!' });
         break;
       case 409:
-        this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким имененм уже существует!' });
+        this.eventBus.emit(SETTINGS.profileFail, { message: 'Пользователь с таким именем уже существует!' });
         break;
       default:
         this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
@@ -144,6 +145,6 @@ export default class SettingsController extends Controller {
     } else {
       super.open();
     }
-    this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
+    // this.eventBus.off(ACTIONS.loadWhoAmIFinish, this.onFinishLoadWhoAmI.bind(this));
   }
 }

@@ -1,5 +1,7 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import { ISSUES, REPOSITORY, UPLOAD, ACTIONS } from 'Modules/events';
+import {
+  ISSUES, REPOSITORY, UPLOAD, ACTIONS,
+} from 'Modules/events';
 import RepIssuesView from 'Views/repIssues';
 
 import RepositoryModel from 'Models/repositoryModel';
@@ -9,7 +11,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class IssuesController extends RepositoryController {
-
   /**
    * Initialize view for issues page.
    * @param {HTMLElement} root.
@@ -19,7 +20,6 @@ export default class IssuesController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepIssuesView(root, eventBus);
-
   }
 
   /**
@@ -43,7 +43,7 @@ export default class IssuesController extends RepositoryController {
    * @private
    */
   async _getRepository() {
-    this.setRepository();
+    await this.setRepository();
 
     await this._setStars();
 
@@ -52,7 +52,8 @@ export default class IssuesController extends RepositoryController {
     this.data.defaultBranch = this.defaultBranch;
 
     const data = {
-      repName: this.repositoryName,
+      repName: this.repository,
+      author: this.author,
     };
 
     const result = await RepositoryModel.loadRepository(data);
@@ -89,7 +90,6 @@ export default class IssuesController extends RepositoryController {
     const result = await RepositoryModel.loadIssueList(data);
 
     if (result.success) {
-
       await this._loadIssueList(await result.body);
       this.eventBus.emit(ISSUES.render, this.data);
     } else { // нормально пройтись по ошибкам
@@ -121,7 +121,7 @@ export default class IssuesController extends RepositoryController {
       issueList.forEach((item) => {
         const modItem = item;
         const date = new Date(modItem.created_at);
-        modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+        modItem.createdDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
         if (modItem.is_closed) {
           resolved[modItem.id] = modItem;
@@ -135,7 +135,7 @@ export default class IssuesController extends RepositoryController {
     this.data.repId = this.repId;
     this.data.resolved = resolved;
     this.data.unresolved = unresolved;
-    this.data.tab = "unresolved";
+    this.data.tab = 'unresolved';
   }
 
   /**
@@ -145,7 +145,6 @@ export default class IssuesController extends RepositoryController {
    * @private
    */
   async _createIssue(body) {
-
     if (body.formData.title.length === 0) {
       this.eventBus.emit(ISSUES.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
       return;
@@ -159,7 +158,7 @@ export default class IssuesController extends RepositoryController {
     });
 
     if (result.success) {
-      this.open({ active: "false", msg: body.msg });
+      this.open({ active: 'false', msg: body.msg });
       return;
     }
     // TODO: 403 и 401
@@ -191,7 +190,6 @@ export default class IssuesController extends RepositoryController {
    * @private
    */
   async _updateIssue(body) {
-
     if (body.formData.title.length === 0) {
       this.eventBus.emit(ISSUES.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
       return;
@@ -204,7 +202,7 @@ export default class IssuesController extends RepositoryController {
     });
 
     if (result.success) {
-      this.open({ active: "false", msg: body.msg });
+      this.open({ active: 'false', msg: body.msg });
       return;
     }
     // TODO: 403 и 401
@@ -235,7 +233,6 @@ export default class IssuesController extends RepositoryController {
    * @private
    */
   async _deleteIssue(body) {
-
     const result = await RepositoryModel.deleteIssue({
       data: {
         repId: this.repId,
@@ -244,7 +241,7 @@ export default class IssuesController extends RepositoryController {
     });
 
     if (result.success) {
-      this.open({ active: "false", msg: "Задача закрыта" });
+      this.open({ active: 'false', msg: 'Задача закрыта' });
       return;
     }
 
@@ -266,5 +263,4 @@ export default class IssuesController extends RepositoryController {
         this.eventBus.emit(ISSUES.showMessage, { message: 'Неизвестная ошибка!' });
     }
   }
-
 }

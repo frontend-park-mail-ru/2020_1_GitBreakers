@@ -1,15 +1,15 @@
+/* eslint-disable import/named */
 import AuthModel from 'Models/authModel';
 import authUser from 'Modules/authUser';
-import Controller from '../modules/controller';
 import HeaderView from 'Views/headerView';
 import { HEADER } from 'Modules/events';
+import Controller from 'Modules/controller.ts';
 
 /**
  * Class representing a header controller.
  * @extends Controller
  */
 export default class HeadetController extends Controller {
-
   /**
    * Initialize view for header.
    * @param {HTMLElement} root.
@@ -51,6 +51,6 @@ export default class HeadetController extends Controller {
         user: authUser.getUser,
         image: authUser.getImage,
       });
-    })
+    });
   }
 }

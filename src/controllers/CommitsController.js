@@ -9,7 +9,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class CommitsController extends RepositoryController {
-
   /**
    * Initialize view for commits page.
    * @param {HTMLElement} root.
@@ -19,7 +18,6 @@ export default class CommitsController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepCommitsView(root, eventBus);
-
   }
 
   /**
@@ -38,7 +36,6 @@ export default class CommitsController extends RepositoryController {
    * @private
    */
   async _getBranchList() {
-
     this.setRepository();
 
     await this._setStars();

@@ -1,5 +1,5 @@
 import { SIGNIN } from 'Modules/events';
-import View from 'Modules/view';
+import View from 'Modules/view.ts';
 import errorMessage from 'Modules/errorMessage';
 import template from 'Components/signIn/signIn.pug';
 
@@ -8,7 +8,6 @@ import template from 'Components/signIn/signIn.pug';
  * @extends View
  */
 export default class SignInView extends View {
-
   /**
    * Initialize template for sing in page view.
    * @param {HTMLElement} root.
@@ -35,7 +34,7 @@ export default class SignInView extends View {
         login: usernameInput.value,
         password: passwordInput.value,
       });
-    }
+    };
 
     document.forms.SignIn.addEventListener('submit', func, false);
     this.eventCollector.addEvent(document.forms.SignIn, 'submit', func, false);

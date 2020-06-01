@@ -4,18 +4,23 @@ block content
         div.repository__top_path #{repName}/#{branchName}/#{filePath}
     if fileType === "fileForLoad"
         //- div.fileField  #{fileContent}
-        div.fileField__message  #{message} 
+        div.fileField__message  #{message}
         div.fileField__message__link
             a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
     else
         if fileType === "code"
             a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
-            pre.prettyprint.linenums #{fileContent}
+            //- pre.prettyprint.linenums #{fileContent}
+            pre.prettyprint
+                code !{fileContent}
         else
             a#fileLink.loadFile.fileField__link(href = fileUrl download=fileName) Скачать
-            div.fileField
-                //- div.fileField__content
-                pre.fileField__content #{fileContent}
+            //- div.fileField
+            //-     //- div.fileField__content
+            //-     pre.fileField__content #{fileContent}
+            pre.prettyprint
+                code !{fileContent}
 block button
     div.fileField__top.fileField__link
-        a#themeStyle
+        if fileType !== "fileForLoad"
+            a#themeStyle

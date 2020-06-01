@@ -1,35 +1,48 @@
-mixin newPullRequest()
-    div#message.error-msg
-    form.form_large.requestForm(action='#' name='newRequest')
-        div.form__item
-            label.form_large__item__label(for="requestTitle")
-                span.form__item__span Заголовок
-                input#requestTitle.form__item__input.issueForm_input(type="text" name="requestTitle" required)
+div.section
+    div.card
+        div.section__title
+            .section__title__item
+                h2.title Новый пулл реквест
 
-        div.form__item
-            label.form-horizontal__item__label(for="branchName")
-                select#branchNameFrom.form__item__input(name="branchNameFrom" required)
-                    each branch in branchList
-                        option(value=branch.name) #{branch.name}
+        div.section__main
+            hr.line-separator.line-separator_thin
 
-            label.form-horizontal__item__label(for="branchName") -> основная ветка: &nbsp&nbsp
-                select#branchNameTo.form__item__input(name="branchNameTo" required)
-                    each branch in branchList
-                        option(value=branch.name) #{branch.name}
+            div.repository
+                div#message.error-msg
+
+                form.form_large.requestForm(action='#' name='newRequest')
+                    div.form__item
+                        label.form_large__item__label(for="requestTitle")
+                            span.form__item__span Заголовок
+                            input#requestTitle.form__item__input.issueForm_input(type="text" name="requestTitle")
+
+                    if is_fork
+                        div.form__item
+                            div
+                                label.form-horizontal__item__label(for="repNameTo") основная ветка:
+                                    select#repNameTo.form__item__input(name="repNameTo" required style="margin-left : 10px")
+                                    select#branchNameTo.form__item__input(name="branchNameTo" required style="margin-left : 10px")
+                            div <— #{author}/#{thisRepName}
+                                select#branchNameFrom.form__item__input(name="branchNameFrom" required style="margin-left : 10px")
+
+                    else
+                        div.form__item.form__item-request
+                            div.form__item-repName Репозиторий: #{repName}
+                            div
+                                label.form-horizontal__item__label(for="branchNameTo") основная ветка: &nbsp&nbsp
+                                    select#branchNameTo.form__item__input(name="branchNameTo" required)
+
+                                label.form-horizontal__item__label(for="branchNameFrom") <— &nbsp&nbsp
+                                    select#branchNameFrom.form__item__input(name="branchNameFrom" required)
 
 
 
-        div.form__item
-            label.form_large__item__label(for="requestMsg") Текст
-            textarea#requestMsg.form__item__input_long.issueForm_input-text(name="requestMsg")
+                    div.form__item
+                        label.form_large__item__label(for="requestMsg") Текст
+                        textarea#requestMsg.form__item__input_long.issueForm_input-text(name="requestMsg")
 
 
-        div.form__item
-            label.form_large__item__label(for="issueLabel")
-                span.form__item__span Метка
-                input#requestLabel.form__item__input.issueForm_input(type="text" name="requestLabel")
+                    button#CreateRequest.button.button-colored.button-small.issueButton Сохранить
+                    hr.line-separator.line-separator
 
-        button#CreateRequest.button.button-colored.button-small.issueButton Сохранить
-        hr.line-separator.line-separator
-
-+ newPullRequest()
+            hr.line-separator.line-separator_thin

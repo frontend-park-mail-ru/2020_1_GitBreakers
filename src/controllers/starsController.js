@@ -1,4 +1,4 @@
-import Controller from 'Modules/controller';
+import Controller from 'Modules/controller.ts';
 import ProfileModel from 'Models/profileModel';
 import StarsModels from 'Models/starsModel';
 import StarsView from 'Views/starsView';
@@ -9,7 +9,6 @@ import { STARS, ACTIONS } from 'Modules/events';
  * @extends Controller
  */
 export default class StarsController extends Controller {
-
   /**
    * Initialize view for stars.
    * @param {HTMLElement} root.
@@ -50,7 +49,6 @@ export default class StarsController extends Controller {
     if (profileRes.status === 404) {
       this.redirect({ path: '/404' });
     }
-
   }
 
   /**
@@ -66,7 +64,7 @@ export default class StarsController extends Controller {
     const deleteStarRes = await StarsModels.updateOrDeleterepoStar({
       body,
       repositoryId,
-    })
+    });
     if (deleteStarRes.success) {
       this.eventBus.emit(STARS.deleteStarSuccess, { repositoryId });
     }
@@ -81,5 +79,4 @@ export default class StarsController extends Controller {
         this.eventBus.emit(ACTIONS.offline, {});
     }
   }
-
 }

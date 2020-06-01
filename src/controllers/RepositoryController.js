@@ -1,9 +1,9 @@
-import Controller from 'Modules/controller';
-import {UPLOAD, REPOSITORY, ACTIONS, BRANCHESPAGE} from 'Modules/events';
+import Controller from 'Modules/controller.ts';
+import { UPLOAD, REPOSITORY, ACTIONS } from 'Modules/events';
 import authUser from 'Modules/authUser';
 import RepositoryModel from 'Models/repositoryModel';
+import ForkModel from 'Models/forkModel.ts';
 import StarsModel from '../models/starsModel';
-import ForkModel from '../models/forkModel';
 
 
 /**
@@ -86,7 +86,7 @@ export default class RepositoryController extends Controller {
 
 
       this.data.vote = 'send';
-      await authUser.loadWhoAmI()
+      await authUser.loadWhoAmI();
       const listOfRepoRes = await StarsModel.getListOfUserStars({ profile: authUser.getUser });
       if (listOfRepoRes.success) {
         const listOfRepo = await listOfRepoRes.body;
@@ -95,7 +95,7 @@ export default class RepositoryController extends Controller {
             if (item.name === this.repository) {
               this.data.vote = 'delete';
             }
-          })
+          });
         }
       }
     }
@@ -109,7 +109,7 @@ export default class RepositoryController extends Controller {
     const name = path.match(/(?<=\/(branch|commits|file)\/)[\w-_]+/);
 
     if (name) {
-      this.branchName = name[0];
+      [this.branchName] = name;
     } else {
       this.branchName = this.defaultBranch;
     }
@@ -159,13 +159,14 @@ export default class RepositoryController extends Controller {
     if (result.success) {
       const res = await result.body.commit.commit_hash;
       this.defaultBranch = res;
-      return;
+      return true;
     }
+    console.log('def branch = ', this.defaultBranch);
 
     switch (result.status) {
       case 204:
         this.branchName = null;
-        console.log("no branches yet");
+        console.log('no branches yet');
         break;
       case 404:
         this.eventBus.emit(UPLOAD.changePath, '/404');
@@ -197,7 +198,7 @@ export default class RepositoryController extends Controller {
         vote,
       },
       repositoryId: id,
-    }
+    };
     const updateRes = await StarsModel.updateOrDeleterepoStar(data);
     if (updateRes.success) {
       const repoRes = await RepositoryModel.getRepository({ repository, profile: author });
@@ -244,8 +245,15 @@ export default class RepositoryController extends Controller {
     const reg = /[\w_]+/g;
 
     const [author, repository] = path.match(reg);
-    num += 1;
-    const newRepository = `${repository}_${num}`;
+    let numItem = num;
+    let newRepository;
+    if (numItem === 0) {
+      newRepository = repository;
+    } else {
+      newRepository = `${repository}_${numItem}`;
+    }
+    numItem += 1;
+
 
     const res = await ForkModel.fork({
       from_author_name: author,
@@ -263,11 +271,10 @@ export default class RepositoryController extends Controller {
         this.redirect({ path: '/signin' });
         break;
       case 409:
-        this.fork({ num });
-        break
+        this.fork({ num: numItem });
+        break;
       default:
         this.eventBus.emit(ACTIONS.offline, {});
     }
   }
-
 }

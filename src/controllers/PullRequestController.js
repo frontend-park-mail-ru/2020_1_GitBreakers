@@ -1,5 +1,7 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import {PULLREQUEST, UPLOAD, ACTIONS, REPOSITORY} from 'Modules/events';
+import {
+  PULLREQUEST, UPLOAD, ACTIONS,
+} from 'Modules/events';
 import RepPullRequestsView from 'Views/pullRequest';
 
 import RepositoryModel from 'Models/repositoryModel';
@@ -9,7 +11,6 @@ import RepositoryModel from 'Models/repositoryModel';
  * @extends RepositoryController
  */
 export default class PullRequestController extends RepositoryController {
-
   /**
    * Initialize view for pull request page.
    * @param {HTMLElement} root.
@@ -19,103 +20,16 @@ export default class PullRequestController extends RepositoryController {
   constructor(root, eventBus, router) {
     super(root, eventBus, router);
     this.view = new RepPullRequestsView(root, eventBus);
-
   }
 
   /**
    * Open page view.
    */
-  open(data) {
-    this.eventBusCollector.on(REPOSITORY.getInfo, this._getRepository.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.getBranchList, this._getBranchList.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.getRequestsList, this._getRequestsList.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.submitNewRequest, this._createRequest.bind(this));
-
-    this.eventBusCollector.on(PULLREQUEST.delete, this._deleteRequest.bind(this));
-    this.eventBusCollector.on(PULLREQUEST.accept, this._acceptRequest.bind(this));
+  open() {
+    this.eventBusCollector.on(PULLREQUEST.getRepList, this._getRequestsList.bind(this));
 
     super.open();
   }
-
-  /**
-   * Get information about this repository.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _getRepository() {
-
-    this.setRepository();
-    await this._setStars();
-
-    this.data.author = this.author;
-    this.data.repName = this.repository;
-    this.data.defaultBranch = this.defaultBranch;
-
-    const data = {
-      repName: this.repositoryName,
-    };
-
-    const result = await RepositoryModel.loadRepository(data);
-
-    if (result.success) {
-      this.repId = result.body.id;
-      this.eventBus.emit(PULLREQUEST.getBranchList, {});
-    } else {
-      switch (result.status) {
-        case 404:
-          this.eventBus.emit(UPLOAD.changePath, '/404');
-          break;
-        case 403:
-          alert('Это приватный репозиторий!');
-          break;
-        default:
-          this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
-          break;
-      }
-    }
-  }
-
-
-
-
-  /**
-   * Get list of this repository branches.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _getBranchList() {
-
-    const data = {
-      repName: this.repositoryName,
-    };
-
-    const result = await RepositoryModel.loadBranchList(data);
-
-    if (result.success) {
-      this.data.branchList = await result.body;
-
-      if (!this.data.branchList || Object.keys(this.data.branchList).length === 0) {
-        this.data.branchList = null;
-      }
-      this.eventBus.emit(PULLREQUEST.getRequestsList, {});
-    } else {
-      switch (result.status) {
-        case 404:
-          this.eventBus.emit(UPLOAD.changePath, '/404');
-          break;
-        case 403:
-          alert('Это приватный репозиторий!');
-          break;
-        default:
-          console.log('Неизвестная ошибка ', result.status);
-          break;
-      }
-    }
-  }
-
-
-
-
 
 
   /**
@@ -125,19 +39,10 @@ export default class PullRequestController extends RepositoryController {
    */
   async _getRequestsList() {
 
-    const data = {
-      repId: this.repId,
-    };
-
-    const result = await RepositoryModel.loadRequestsList(data);
+    const result = await RepositoryModel.loadAllRequestsList();
 
     if (result.success) {
-
-      this.data.author = this.author;
-      this.data.repName = this.repository;
-
       await this._loadRequestList(await result.body);
-
       this.eventBus.emit(PULLREQUEST.render, this.data);
     } else {
       switch (result.status) {
@@ -157,6 +62,7 @@ export default class PullRequestController extends RepositoryController {
     }
   }
 
+
   /**
    * Process data from pull requests list to get information about opened and closed ones.
    * @param requestList
@@ -164,142 +70,55 @@ export default class PullRequestController extends RepositoryController {
    * @private
    */
   async _loadRequestList(requestList) {
-    const resolved = {};
-    const unresolved = {};
+    const opened = {};
+    const accepted = {};
+    const deleted = {};
 
-    if (requestList) {
-      requestList.forEach((item) => {
-        const modItem = item;
-        const date = new Date(modItem.created_at);
-        modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
+    const dir = window.location.pathname.split('/pull_requests/')[1];
+    const user = window.location.pathname.split('/')[2];
+    this.data.author = user;
+    if (!requestList) return;
+    if (dir) {
+      const newRequestList = [];
 
-        if (modItem.is_closed) {
-          resolved[modItem.id] = modItem;
-        } else {
-          unresolved[modItem.id] = modItem;
-        }
-      });
+      if (dir === 'to') {
+        requestList.forEach((item) => {
+          if (item.to_author_login === user)
+          {
+            newRequestList.push(item);
+          }
+        })
+      } else {
+        requestList.forEach((item) => {
+          if (item.to_author_login !== user)
+          {
+            newRequestList.push(item);
+          }
+        })
+      }
+      // eslint-disable-next-line no-param-reassign
+      requestList = newRequestList;
     }
 
-    this.data.repId = this.repId;
-    this.data.resolved = resolved;
-    this.data.unresolved = unresolved;
-    this.data.tab = "unresolved";
-  }
+    requestList.forEach((item) => {
+      const modItem = item;
+      const date = new Date(modItem.created_at);
+      modItem.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString().slice(0, -3)}`;
 
-
-
-  /**
-   * Validate information about new pull request.
-   * @param {Object} body.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _createRequest(body) {
-
-    if (body.formData.title.length === 0) {
-      this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Необходимо заполнить поле заголовка!' });
-      return;
-    }
-
-    const result = await RepositoryModel.createRequest({
-      body: body.formData,
+      if (!modItem.is_closed) {
+        opened[modItem.id] = modItem;
+      } else if (modItem.is_accepted) {
+        accepted[modItem.id] = modItem;
+      } else {
+        deleted[modItem.id] = modItem;
+      }
     });
 
-    if (result.success) {
-      this.open();
-      console.log("created successfully");
-      return;
-    }
-
-    switch (result.status) {
-      case 401:
-        this.redirect({ path: '/signin' });
-        break;
-      case 400:
-        alert('Ошибка: неверные данные!');
-        break;
-      case 404:
-        this.eventBus.emit(UPLOAD.changePath, '/404');
-        break;
-      case 403:
-        this.redirect({ path: '/signin' });
-        // alert('Это приватный репозиторий!');
-        break;
-      default:
-        this.eventBus.emit(ACTIONS.offline, { message: 'Неизвестная ошибка!' });
-    }
-  }
-
-
-  /**
-   * Detele one request.
-   * @param {Object} body.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _deleteRequest(body) {
-
-    const result = await RepositoryModel.deleteRequest({body});
-
-    if (result.success) {
-      this.open();
-      console.log('delete ok');
-      return;
-    }
-
-    switch (result.status) {
-      case 401:
-        this.redirect({ path: '/signin' });
-        break;
-      case 400:
-        alert('Ошибка: неверные данные!');
-        break;
-      case 404:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Ошибка: Пулл реквест не найден' });
-        break;
-      case 403:
-        this.redirect({ path: '/signin' });
-        // alert('Это приватный репозиторий!');
-        break;
-      default:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Неизвестная ошибка!' });
-    }
-  }
-
-
-  /**
-   * Accept one request.
-   * @param {Object} body.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _acceptRequest(body) {
-
-    const result = await RepositoryModel.acceptRequest({body});
-
-    if (result.success) {
-      this.open({ active: "false", msg: " Пулл реквест принят" });
-      console.log('accept ok');
-      return;
-    }
-
-    switch (result.status) {
-      case 401:
-        this.redirect({ path: '/signin' });
-        break;
-      case 400:
-        alert('Ошибка: неверные данные!');
-        break;
-      case 404:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Ошибка: Пулл реквест не найден' });
-        break;
-      case 403:
-        this.redirect({ path: '/signin' });
-        // alert('Это приватный репозиторий!');
-        break;
-      default:
-        this.eventBus.emit(PULLREQUEST.showMessage, { message: 'Неизвестная ошибка!' });
-    }
+    this.data.opened = opened;
+    this.data.accepted = accepted;
+    this.data.deleted = deleted;
+    this.data.reqList = requestList;
+    this.data.tab = "opened";
+    this.data.dir = dir;
   }
 }

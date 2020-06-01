@@ -1,17 +1,18 @@
 import constants from 'Modules/constants';
 import Api from 'Modules/api';
-import { NEWBRANCH } from 'Modules/events';
+import { NEWBRANCH, ACTIONS } from 'Modules/events';
+import eventBus from 'Modules/eventBus.ts';
+
 
 /** class for working with the repository */
 export default class RepositoryModel {
-
   /**
    * Return repository infomation
    * @param {object} data - request body
    * @return {Promise}
    */
   static loadRepository(data) {
-    const path = `${constants.HOST}/repo/${data.repName}`;
+    const path = `${constants.HOST}/repo/${data.author}/${data.repName}`;
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
@@ -30,6 +31,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getRepository: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -61,6 +64,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getFileList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -117,6 +122,8 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getCommitList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
         return {};
       });
   }
@@ -167,6 +174,8 @@ export default class RepositoryModel {
         if (res.statusCode === 200) {
           console.log('Deleted success');
         }
+      }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
       });
   }
 
@@ -195,6 +204,7 @@ export default class RepositoryModel {
     })
       .catch(() => {
         console.log('Model: getFile: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
         return {};
       });
   }
@@ -248,6 +258,7 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: New Issue Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
       return {};
     });
   }
@@ -264,16 +275,18 @@ export default class RepositoryModel {
           return {
             success: true,
             body: res.json(),
-          }
+          };
         }
         return {
           success: false,
           status: res.status,
-        }
+        };
       }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
         return {
           success: false,
-        }
+        };
       });
   }
 
@@ -283,7 +296,6 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static updateIssue(data) {
-    console.log("body = ", data.body);
     const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
     return Api.put(path, data.body).then((res) => {
       if (res.ok) {
@@ -297,6 +309,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Update Issue Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -308,7 +322,6 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static deleteIssue(data) {
-    console.log("delete body = ", data.body);
     const path = `${constants.HOST}/func/repo/${data.data.repId}/issues`;
     return Api.delete(path, data.body).then((res) => {
       if (res.ok) {
@@ -322,6 +335,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Delete Issue Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -336,49 +351,81 @@ export default class RepositoryModel {
     return Api.get(path).then((res) => {
       if (res.ok) {
         return res.json()
-            .then((result) => ({
-              success: true,
-              body: result,
-            }), () => ({
-              success: false,
-              status: 'Something wrong with json',
-            }));
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
       }
       return {
         success: false,
         status: res.status,
       };
     })
-        .catch(() => {
-          console.log('Model: getDefaultBranch: something goes wrong');
-          return {};
-        });
+      .catch(() => {
+        console.log('Model: getDefaultBranch: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
   }
 
-  static loadRequestsList(data) {
-      const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=10&offset=0`;
-      console.log(path);
-      return Api.get(path).then((res) => {
-        if (res.ok) {
-          return res.json()
-              .then((result) => ({
-                success: true,
-                body: result,
-              }), () => ({
-                success: false,
-                status: 'Something wrong with json',
-              }));
-        }
-        return {
-          success: false,
-          status: res.status,
-        };
-      })
-          .catch(() => {
-            console.log('Model: getPullRequestsList: something goes wrong');
-            return {};
-          });
-    }
+  static loadRepRequestsList(data) {
+    const path = `${constants.HOST}/func/repo/${data.repId}/pullrequests/in?limit=50&offset=0`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getRepositoryPullRequestsList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
+  }
+
+
+
+
+  static loadAllRequestsList() {
+    const path = `${constants.HOST}/user/pullrequests?limit=50&offset=0`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getAllPullRequestsList: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
+  }
 
 
 
@@ -391,9 +438,14 @@ export default class RepositoryModel {
     const path = `${constants.HOST}/func/repo/pullrequests`;
     return Api.post(path, data.body).then((res) => {
       if (res.ok) {
-        return {
-          success: true,
-        };
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
       }
       return {
         success: false,
@@ -401,6 +453,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: New  Pull Request Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -413,7 +467,6 @@ export default class RepositoryModel {
    */
   static deleteRequest(data) {
     const path = `${constants.HOST}/func/repo/pullrequests`;
-    console.log(path, data.body);
     return Api.delete(path, data.body).then((res) => {
       if (res.ok) {
         return {
@@ -426,6 +479,8 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Delete Pull Request Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
   }
@@ -437,7 +492,6 @@ export default class RepositoryModel {
    * @returns {Promise}
    */
   static acceptRequest(data) {
-    console.log("body = ", data.body);
     const path = `${constants.HOST}/func/repo/pullrequests`;
     return Api.put(path, data.body).then((res) => {
       if (res.ok) {
@@ -451,7 +505,94 @@ export default class RepositoryModel {
       };
     }).catch((err) => {
       console.log('Model: Update (accept) Pull Request Erorr!', err);
+      eventBus.emit(ACTIONS.offline, {});
+
       return {};
     });
+  }
+
+
+
+
+
+  static loadPullRequestInfo(data) {
+    const path = `${constants.HOST}/func/repo/pullrequest/${data.RequestId}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsListInfo: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
+  }
+
+
+  static loadPullRequestDiff(data) {
+    const path = `${constants.HOST}/func/repo/pullrequest/${data.RequestId}/diff`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsListDiff: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
+  }
+
+
+  static loadBranchByName(data) {
+    const path = `${constants.HOST}/repo/${data.author}/${data.repName}/branch/${data.branchName}`;
+    return Api.get(path).then((res) => {
+      if (res.ok) {
+        return res.json()
+          .then((result) => ({
+            success: true,
+            body: result,
+          }), () => ({
+            success: false,
+            status: 'Something wrong with json',
+          }));
+      }
+      return {
+        success: false,
+        status: res.status,
+      };
+    })
+      .catch(() => {
+        console.log('Model: getPullRequestsListInfo: something goes wrong');
+        eventBus.emit(ACTIONS.offline, {});
+
+        return {};
+      });
   }
 }

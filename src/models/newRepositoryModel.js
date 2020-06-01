@@ -1,5 +1,7 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
+import eventBus from 'Modules/eventBus.ts';
+import { ACTIONS } from 'Modules/events';
 
 /** Class for creating a new repository */
 export default class NewRepositoryModel {
@@ -23,6 +25,7 @@ export default class NewRepositoryModel {
         };
       }).catch((err) => {
         console.log('Model: New Repository Erorr!', err);
+        eventBus.emit(ACTIONS.offline, {});
         return {};
       });
   }

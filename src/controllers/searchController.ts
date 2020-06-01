@@ -1,25 +1,44 @@
-import Controller from "../modules/controller";
-import { IEventBus } from "../modules/eventBus";
-import Router from "../modules/router";
-import SearchModel from "../models/searchModel";
-import { SEARCH, HEADER } from "../modules/events";
-import SearchView from "../views/searchView";
+import View from 'Modules/view.ts';
+import Controller from 'Modules/controller.ts';
+import { EventBus } from 'Modules/eventBus.ts';
+import Router from 'Modules/router.ts';
+import SearchModel from 'Models/searchModel.ts';
+import { SEARCH } from 'Modules/events';
+import SearchView from 'Views/searchView.ts';
 
-export default class searchController extends Controller {
+/**
+ *  Class representing a search controller.
+ * @extends Controller
+ */
+export default class SearchController extends Controller {
+  view: View;
+
   data: object;
+
   reload: boolean;
-  constructor(root: HTMLElement, eventBus: IEventBus, router: Router) {
+
+  /**
+   * @constructor
+   * @param root - target
+   * @param eventBus - evetnBus
+   * @param router - router
+   */
+  constructor(root: HTMLElement, eventBus: EventBus, router: Router) {
     super(root, eventBus, router);
     this.view = new SearchView(root, eventBus);
     this.reload = false;
   }
 
-  open(data = {}) {
+  /**
+   * Open page
+   * @param data - page data
+   */
+  open(data = {}): void {
     this.eventBusCollector.on(SEARCH.loadPage, this.searchAll.bind(this));
     this.eventBusCollector.on(SEARCH.reload, this.setReload.bind(this));
     if (this.reload) {
       this.reload = false;
-      const param = this.getQueryAndParam()[1];
+      const param = SearchController.getQueryAndParam()[1];
       this.eventBus.emit(SEARCH.loadPageSuccess, { ...this.data, mode: param });
     } else {
       super.open(data);
@@ -27,35 +46,48 @@ export default class searchController extends Controller {
     // this.eventBusCollector.on();
   }
 
-  setReload() {
+  /**
+   * set reload status
+   */
+  setReload(): void {
     this.reload = true;
   }
 
-  getQueryAndParam() {
+  /**
+   * Get query params
+   * @returns - array of params
+   */
+  static getQueryAndParam(): string[] {
     const path = window.location.pathname;
     const reg = /[\w_]+/g;
 
     const pathArr = path.match(reg);
 
-    let query = pathArr.length > 1 ? pathArr[1] : "";
-    let param = pathArr.length > 2 ? pathArr[2] : "all";
+    const query = pathArr.length > 1 ? pathArr[1] : '';
+    const param = pathArr.length > 2 ? pathArr[2] : 'all';
     return [query, param];
   }
 
-  close() {
+  /**
+   * Close page
+   */
+  close(): void {
     if (!this.reload) {
       this.data = {};
     }
     super.close();
   }
 
-  async searchAll(data = {}) {
-    const [query, param] = await this.getQueryAndParam();
+  /**
+   * Search information
+   */
+  async searchAll(): Promise<void> {
+    const [query, param] = SearchController.getQueryAndParam();
 
-    let allUsersRes = await SearchModel.search("allusers", query);
-    let myRepoRes = await SearchModel.search("myrepo", query);
-    let allRepoRes = await SearchModel.search("allrepo", query);
-    let starredRepoRes = await SearchModel.search("starredrepo", query);
+    const allUsersRes = await SearchModel.search('allusers', query);
+    const myRepoRes = await SearchModel.search('myrepo', query);
+    const allRepoRes = await SearchModel.search('allrepo', query);
+    const starredRepoRes = await SearchModel.search('starredrepo', query);
 
     if (
       allUsersRes.success &&
@@ -63,7 +95,7 @@ export default class searchController extends Controller {
       allRepoRes.success &&
       starredRepoRes.success
     ) {
-      let returnSearchInfo = {
+      const returnSearchInfo = {
         allUsers: await allUsersRes.body,
         mode: param,
         query,
@@ -73,8 +105,9 @@ export default class searchController extends Controller {
       };
 
       returnSearchInfo.allUsers = returnSearchInfo.allUsers.map((item) => {
-        item.isUser = true;
-        return item;
+        const newItem = item;
+        newItem.isUser = true;
+        return newItem;
       });
 
       this.data = returnSearchInfo;

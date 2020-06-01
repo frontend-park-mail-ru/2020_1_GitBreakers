@@ -1,9 +1,10 @@
 import Api from 'Modules/api';
 import constants from 'Modules/constants';
+import eventBus from 'Modules/eventBus.ts';
+import { ACTIONS } from 'Modules/events';
 
 /** Class for working with stars */
 export default class StarsModel {
-
   /**
    *  Signs or unsubscribes a user from the repository.
    * @param {object} param0 - request data
@@ -23,9 +24,11 @@ export default class StarsModel {
         };
       })
       .catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
         return {
           success: false,
-        };
+        }
       });
   }
 
@@ -48,9 +51,11 @@ export default class StarsModel {
           status: res.status,
         };
       }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
         return {
           success: false,
-        };
+        }
       });
   }
 
@@ -70,17 +75,18 @@ export default class StarsModel {
           return {
             success: true,
             body: res.json(),
-          }
+          };
         }
         return {
           success: false,
           status: res.status,
-        }
+        };
       }).catch(() => {
+        eventBus.emit(ACTIONS.offline, {});
+
         return {
           success: false,
         }
       });
   }
-
 }

@@ -1,4 +1,4 @@
-import View from 'Modules/view';
+import View from 'Modules/view.ts';
 import template from 'Components/profileStars/profileStars.pug';
 import { STARS } from 'Modules/events';
 import authUser from 'Modules/authUser';
@@ -8,7 +8,6 @@ import authUser from 'Modules/authUser';
  * @extends View
  */
 export default class ProfileStarsView extends View {
-
   /**
    * Initialize template for profile stars view.
    * @param {HTMLElement} root.
@@ -16,7 +15,6 @@ export default class ProfileStarsView extends View {
    */
   constructor(root, eventBus) {
     super(root, template, eventBus);
-
   }
 
   /**

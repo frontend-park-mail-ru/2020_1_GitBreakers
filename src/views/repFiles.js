@@ -7,7 +7,6 @@ import { TREEPAGE } from 'Modules/events';
  * @extends RepositoryBaseView
  */
 export default class RepBranchesView extends RepositoryBaseView {
-
   /**
    * Initialize template for branches page view.
    * @param {HTMLElement} root.
@@ -36,7 +35,6 @@ export default class RepBranchesView extends RepositoryBaseView {
 
     const folderLinkList = document.getElementsByClassName('folder');
     for (let i = 0; i < folderLinkList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
         const { target } = event;
@@ -49,7 +47,7 @@ export default class RepBranchesView extends RepositoryBaseView {
           folderPath += `/${folderName}`;
         }
         folderLinkList[i].dataset.section = folderPath;
-      }
+      };
 
       folderLinkList[i].addEventListener('click', func);
       this.eventCollector.addEvent(folderLinkList[i], 'click', func);
@@ -58,7 +56,6 @@ export default class RepBranchesView extends RepositoryBaseView {
 
     const fileLinkList = document.getElementsByClassName('file');
     for (let i = 0; i < fileLinkList.length; i += 1) {
-
       const func = (event) => {
         event.preventDefault();
         const { target } = event;
@@ -71,10 +68,20 @@ export default class RepBranchesView extends RepositoryBaseView {
           filePath += `/${fileName}`;
         }
         fileLinkList[i].dataset.section = filePath;
-      }
+      };
 
       fileLinkList[i].addEventListener('click', func);
       this.eventCollector.addEvent(fileLinkList[i], 'click', func);
+    }
+
+    const buttonNewRequest = document.getElementById('newRequest');
+    if (buttonNewRequest) {
+      const func = (event) => {
+        event.preventDefault();
+        buttonNewRequest.dataset.section = `/user/${data.author}/pull_requests/repository/${data.repName}/new`;
+      }
+      buttonNewRequest.addEventListener('click', func);
+      this.eventCollector.addEvent(buttonNewRequest, 'click', func);
     }
   }
 }

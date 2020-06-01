@@ -1,7 +1,7 @@
 import RepositoryController from 'Controllers/RepositoryController';
-import RepositoryModel from "Models/repositoryModel";
-import { NEWS, UPLOAD, ACTIONS } from "Modules/events";
-import RepNewsView from "Views/repNews";
+import RepositoryModel from 'Models/repositoryModel';
+import { NEWS, UPLOAD, ACTIONS } from 'Modules/events';
+import RepNewsView from 'Views/repNews';
 import NewsModel from 'Models/newsModel';
 
 /**
@@ -9,7 +9,6 @@ import NewsModel from 'Models/newsModel';
  * @extends RepositoryController
  */
 export default class NewsController extends RepositoryController {
-
   /**
    * Initialize view for news page.
    * @param {HTMLElement} root.
@@ -45,8 +44,8 @@ export default class NewsController extends RepositoryController {
     this.data.repName = this.repository;
     this.data.defaultBranch = this.defaultBranch;
 
-    const result = await RepositoryModel.loadRepository({ repName: this.repositoryName, });
-    console.log("2. repa", result);
+    const result = await RepositoryModel.loadRepository({ repName: this.repository, author: this.author });
+    console.log('2. repa', result);
 
     if (result.success) {
       this.repId = result.body.id;
@@ -81,13 +80,12 @@ export default class NewsController extends RepositoryController {
     const result = await NewsModel.getRepositoryNews({ data });
 
     if (result.success) {
-
       await this._loadNewsList(await result.body);
       this.eventBus.emit(NEWS.render, this.data);
     } else {
       switch (result.status) {
         case 400:
-          alert('Неверные данные!')
+          alert('Неверные данные!');
           break;
         case 401:
           this.redirect({ path: '/signin', replace: true });
@@ -129,7 +127,6 @@ export default class NewsController extends RepositoryController {
         //   newItem.author = null;
         // }
         return newItem;
-
       });
     }
     this.data.author = this.author;

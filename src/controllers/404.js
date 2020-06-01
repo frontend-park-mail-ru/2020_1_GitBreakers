@@ -1,6 +1,5 @@
 /** Class representing a 404-page. */
 export default class Create404Page {
-
   /**
    * Output text "Page not found" to the page.
    */
