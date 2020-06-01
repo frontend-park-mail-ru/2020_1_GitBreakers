@@ -43,7 +43,7 @@ export default class NewRepPullRequestsView extends View {
     //---------------------------------------------------------------
     const branchNameFrom = document.getElementById('branchNameFrom');
     const branchNameTo = document.getElementById('branchNameTo');
-    const repNameFrom = dataTmp.thisRepName;
+    // const repNameFrom = dataTmp.thisRepName;
     const repNameTo = document.getElementById('repNameTo');
 
     if (!dataTmp.is_fork) {
